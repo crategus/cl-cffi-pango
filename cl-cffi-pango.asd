@@ -1,7 +1,7 @@
 ;;; ----------------------------------------------------------------------------
 ;;; cl-cffi-pango.asd
 ;;;
-;;; Copyright (C) 2011 - 2022 Dieter Kaiser
+;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
 ;;; This program is free software: you can redistribute it and/or modify
 ;;; it under the terms of the GNU Lesser General Public License for Lisp
@@ -23,7 +23,7 @@
 
 (defsystem :cl-cffi-pango
   :name "cl-cffi-gtk-pango"
-  :version "1.46"                              ; Version of Pango Library
+  :version "0.1.0"                              ; Version of Pango Library
   :author "Dieter Kaiser"
   :license "LLGPL"
   :components
@@ -88,5 +88,27 @@
      (:file "rtest-pango-cairo-rendering")
 ;     (:file "pango.markup")
     ))))
+
+;; Examples for the Pango library
+
+(asdf:defsystem :cl-cffi-pango/example
+  :name "cl-cffi-pango/example"
+  :author "Dieter Kaiser"
+  :license "LLGPL"
+  :pathname "example/"
+  :serial t
+  :depends-on (:cl-cffi-pango :cl-cffi-cairo)
+  :components ((:file "pango-example")
+
+               (:file "png-image-draw")
+               (:file "svg-draw")
+
+               (:file "text-centered")
+               (:file "text-soulmate")
+               (:file "text-metrics")
+
+               (:file "cairo-rendering")
+
+               ))
 
 ;;; --- End of file cl-cffi-pango.asd ------------------------------------------
