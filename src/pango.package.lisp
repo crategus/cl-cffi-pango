@@ -616,7 +616,6 @@
     @end{subsection}
     @begin[Vertical Text]{subsection}
       Laying text out in vertical directions.
-
       @about-symbol{gravity}
       @about-symbol{gravity-hint}
       @about-function{PANGO_GRAVITY_IS_IMPROPER}
@@ -629,8 +628,76 @@
   @end{section}
   @begin[Rendering with Pango]{section}
     @begin[Cairo Rendering]{subsection}
-      Font handling and rendering with Cairo.
+      The Cairo library is a vector graphics library with a powerful rendering
+      model. It has such features as anti-aliased primitives, alpha-compositing,
+      and gradients. Multiple backends for Cairo are available, to allow
+      rendering to images, to PDF files, and to the screen on X and on other
+      windowing systems. The functions in this section allow using Pango to
+      render to Cairo surfaces.
 
+      Using Pango with Cairo is straightforward. A @class{pango:context} object
+      created with the @fun{pango:cairo-font-map-create-context} function can
+      be used on any @symbol{cairo:contex-t} Cairo context, but needs to be
+      updated to match the current transformation matrix and target surface of
+      the Cairo context using the @fun{pango:cairo-update-context} function.
+      The convenience @fun{pango:cairo-create-layout} and
+      @fun{pango:cairo-update-layout} functions handle the common case where
+      the program does not need to manipulate the properties of the
+      @class{pango:context} object.
+
+      When you get the metrics of a layout or of a piece of a layout using
+      functions such as the @fun{pango:layout-extents} function, the reported
+      metrics are in user-space coordinates. If a piece of text is 10 units
+      long, and you call @code{(cairo:scale cr 2.0)}, it still is more-or-less
+      10 units long. However, the results will be affected by hinting (that is,
+      the process of adjusting the text to look good on the pixel grid), so you
+      should not assume they are completely independent of the current
+      transformation matrix. Note that the basic metrics functions in Pango
+      report results in integer Pango units. To get to the floating point units
+      used in Cairo divide by @variable{+pango-scale+}.
+      @begin[Example]{dictionary}
+        Using Pango with Cairo
+        @begin{pre}
+(defun draw-cairo-rendering (cr width height)
+  (let ((radius (- (/ (min width height) 2) 20))
+        (circle 260)
+        (n-words 12)
+        (font \"Sans Bold 16\"))
+    ;; Set up a transformation matrix so that the user space
+    ;; coordinates for where we are drawing are [-RADIUS, RADIUS],
+    ;; [-RADIUS, RADIUS] We first center, then change the scale
+    (cairo:translate cr (+ radius (/ (- width (* 2 radius)) 2))
+                        (+ radius (/ (- height (* 2 radius)) 2)))
+    (cairo:scale cr (/ radius circle) (/ radius circle))
+    ;; Clear surface
+    (cairo:set-source-rgb cr 1.0 1.0 1.0)
+    (cairo:paint cr)
+    ;; Create a PangoLayout, set the font and text
+    (let ((layout (pango:cairo-create-layout cr))
+          (desc (pango:font-description-from-string font)))
+      (setf (pango:layout-text layout) \"Crategus\")
+      (setf (pango:layout-font-description layout) desc)
+      ;; Draw the layout n-words times in a circle
+      (do* ((i 0 (+ i 1))
+            (angle 0 (/ (* 360 i) n-words))
+            ;; Gradient color
+            (color (/ (+ 1 (cos (* (/ pi 180) (- angle 60)))) 2)
+                   (/ (+ 1 (cos (* (/ pi 180) (- angle 60)))) 2)))
+           ((>= i n-words))
+           (cairo:save cr)
+           (cairo:set-source-rgb cr (/ #xFF 255) (/ #x99 255) color)
+           (cairo:rotate cr (/ (* angle pi) 180))
+           ;; Inform Pango to re-layout the text with the new
+           ;; transformation matrix
+           (pango:cairo-update-layout cr layout)
+           (multiple-value-bind (width height)
+               (pango:layout-size layout)
+             (declare (ignore height))
+             (cairo:move-to cr (- (/ width 2 +pango-scale+)) (- circle)))
+             (pango:cairo-show-layout cr layout)
+             (cairo:restore cr)))))
+        @end{pre}
+      @end{dictionary}
       @about-class{cairo-font}
       @about-class{cairo-font-map}
       @about-function{cairo-font-map-default}
@@ -642,7 +709,7 @@
       @about-function{cairo-font-scaled-font}
       @about-function{cairo-context-resolution}
       @about-function{cairo-context-font-options}
-      @about-symbol{PangoCairoShapeRendererFunc}
+      @about-symbol{cairo-shape-renderer-func}
       @about-function{cairo-context-shape-renderer}
       @about-function{cairo-create-context}
       @about-function{cairo-update-context}
