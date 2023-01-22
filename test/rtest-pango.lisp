@@ -75,7 +75,12 @@
 (def-suite pango-suite)
 (in-suite pango-suite)
 
+#-windows
 (test version
   (is (string= "1.50.6" (pango:version-string))))
+
+#+windows
+(test version
+  (is (string= "1.50.7" (pango:version-string))))
 
 ;;; --- 2023-1-3 ---------------------------------------------------------------

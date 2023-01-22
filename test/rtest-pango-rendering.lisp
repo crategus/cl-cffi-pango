@@ -19,57 +19,52 @@
 
 ;;;     pango_itemize
 
+;; TODO: Create an example with the ATTRS, ITER arguments different from nil
+
+(test itemize.1
+  (let ((context (pango:font-map-create-context (pango:cairo-font-map-default))))
+    (is (every (lambda (x) (typep x 'pango:item))
+               (pango:itemize context "text" 0 (length "text") nil nil)))))
+
 #+nil
-(test itemize
-  (let* ((label (make-instance 'gtk-label :label "Text"))
-;         (string "text text text")
-         (context (gtk-widget-pango-context label)))
+(test itemize.2
+  (let ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
+        (attrs (pango:attr-list-new)))
 
-    (is (typep context 'context))
-
-    (is (typep (context-font-map context) 'font-map))
-    (is (typep (context-font-description context) 'font-description))
-    (is (typep (context-language context) 'language))
-    (is (eq :ltr (context-base-dir context)))
-    (is (eq :south (context-base-gravity context)))
-    (is (eq :south (context-gravity context)))
-
-    (is (eq :natural (context-gravity-hint context)))
-
-
-
-;    (is-false (itemize context string 0 (length string) nil nil))
-;    (is (every (lambda (x) (typep x 'item))
-;               (itemize context string 0 (length string) nil nil)))
-))
+    (is-false (pango:attr-list-insert attrs
+                                      (pango:attr-language-new
+                                          (pango:language-default))))
+    (is-false (pango:attr-list-insert attrs
+                                      (pango:attr-family-new "Sans")))
+    ;; TODO: Find a more interesting example
+    (is (every (lambda (x) (typep x 'pango:item))
+               (pango:itemize context "text" 0 (length "text")
+                              attrs
+                              (pango:attr-list-iterator attrs))))
+               ))
 
 ;;;     pango_itemize_with_base_dir
 
-#+nil
-(test pango-itemize-with-base-dir
-  (let* ((label (make-instance 'gtk-label))
-         (string "text text text")
-         (context (gtk-widget-pango-context label))
-         (attrs (pango::%attr-list-new)))
-    (is (typep context 'context))
-    (is (every (lambda (x) (typep x 'item))
-               (itemize-with-base-dir context
+;; TODO: Create an example with the ATTRS, ITER arguments different from nil
+
+(test itemize-with-base-dir
+  (let ((context (pango:font-map-create-context (pango:cairo-font-map-default))))
+    (is (every (lambda (x) (typep x 'pango:item))
+               (pango:itemize-with-base-dir context
                                             :ltr
-                                            string
-                                            0 (length string) attrs nil)))
-))
+                                            "text" 0 (length "text") nil nil)))))
+
+;;;     pango_item_new
+;;;     pango_item_copy
+
+(test item-new/copy/free
+  (let ((item (pango:item-new)))
+    (is (typep item 'pango:item))
+    (is (typep (pango:item-copy item) 'pango:item))))
 
 ;;;     pango_item_free
 
-;;;     pango_item_copy
-
-(test item-copy
-  (is (typep (pango:item-copy (pango:item-new)) 'pango:item)))
-
-;;;     pango_item_new
-
-(test item-new
-  (is (typep (pango:item-new) 'pango:item)))
+;; not exported
 
 ;;;     pango_item_split
 
@@ -78,7 +73,7 @@
   (let* ((label (make-instance 'gtk-label))
          (string "this is the text to split")
          (context (gtk-widget-context label))
-         (items (itemize context string 0 (length string) nil nil)))
+         (items (itemize context string 5 0 nil nil)))
 
     (is-false items)
 ;    (is-false (item-split item 12 0))
@@ -86,6 +81,15 @@
 
 ))
 
+
+(test itemize-split
+  (let* ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
+         (str "this is the text to split.")
+         (items (pango:itemize context str 5 0 nil nil)))
+
+    (is-false items)
+
+))
 
 ;;;     pango_item_apply_attrs
 

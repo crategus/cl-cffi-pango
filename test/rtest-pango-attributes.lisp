@@ -52,13 +52,11 @@
                "PANGO_ATTR_ABSOLUTE_LINE_HEIGHT" "PANGO_ATTR_TEXT_TRANSFORM"
                "PANGO_ATTR_WORD" "PANGO_ATTR_SENTENCE"
                "PANGO_ATTR_BASELINE_SHIFT" "PANGO_ATTR_FONT_SCALE")
-             (mapcar #'gobject:enum-item-name
-                     (gobject:get-enum-items "PangoAttrType"))))
+             (list-enum-item-name "PangoAttrType")))
   ;; Check the values
   (is (equal '(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
                25 26 27 28 29 30 31 32 33 34 35 36 37)
-             (mapcar #'gobject:enum-item-value
-                     (gobject:get-enum-items "PangoAttrType"))))
+             (list-enum-item-value "PangoAttrType")))
   ;; Check the nick names
   (is (equal '("invalid" "language" "family" "style" "weight" "variant"
                "stretch" "size" "font-desc" "foreground" "background"
@@ -69,8 +67,7 @@
                "insert-hyphens" "overline" "overline-color" "line-height"
                "absolute-line-height" "text-transform" "word" "sentence"
                "baseline-shift" "font-scale")
-             (mapcar #'gobject:enum-item-nick
-                     (gobject:get-enum-items "PangoAttrType"))))
+             (list-enum-item-nick "PangoAttrType")))
   ;; Check the enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoAttrType"
                              PANGO-ATTR-TYPE
@@ -132,17 +129,14 @@
                "PANGO_UNDERLINE_DOUBLE" "PANGO_UNDERLINE_LOW"
                "PANGO_UNDERLINE_ERROR" "PANGO_UNDERLINE_SINGLE_LINE"
                "PANGO_UNDERLINE_DOUBLE_LINE" "PANGO_UNDERLINE_ERROR_LINE")
-             (mapcar #'gobject:enum-item-name
-                     (gobject:get-enum-items "PangoUnderline"))))
+             (list-enum-item-name "PangoUnderline")))
   ;; Check the values
   (is (equal '(0 1 2 3 4 5 6 7)
-             (mapcar #'gobject:enum-item-value
-                     (gobject:get-enum-items "PangoUnderline"))))
+             (list-enum-item-value "PangoUnderline")))
   ;; Check the nick names
   (is (equal '("none" "single" "double" "low" "error" "single-line"
                "double-line" "error-line")
-             (mapcar #'gobject:enum-item-nick
-                     (gobject:get-enum-items "PangoUnderline"))))
+             (list-enum-item-nick "PangoUnderline")))
   ;; Check the enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoUnderline"
                              PANGO-UNDERLINE
@@ -233,7 +227,8 @@
   (is (g:type-is-enum "PangoTextTransform"))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoTextTransform")
-          (g:gtype (cffi:foreign-funcall "pango_text_transform_get_type" :size))))
+          (g:gtype (cffi:foreign-funcall "pango_text_transform_get_type"
+                                         :size))))
   ;; Check the registered name
   (is (eq 'pango:text-transform
           (gobject:symbol-for-gtype "PangoTextTransform")))
@@ -269,7 +264,8 @@
   (is (g:type-is-enum "PangoBaselineShift"))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoBaselineShift")
-          (g:gtype (cffi:foreign-funcall "pango_baseline_shift_get_type" :size))))
+          (g:gtype (cffi:foreign-funcall "pango_baseline_shift_get_type"
+                                         :size))))
   ;; Check the registered name
   (is (eq 'pango:baseline-shift
           (gobject:symbol-for-gtype "PangoBaselineShift")))
@@ -331,6 +327,55 @@
                              (:SMALL-CAPS 3))
              (gobject:get-g-type-definition "PangoFontScale"))))
 
+;;;     PangoColor
+
+(test color
+  ;; Type check
+  (is (g:type-is-a (g:gtype "PangoColor") +g-type-boxed+))
+  ;; Check the type initializer
+  (is (eq (g:gtype "PangoColor")
+          (g:gtype (cffi:foreign-funcall "pango_color_get_type" :size)))))
+
+;;;     pango:color-new
+;;;     pango_color_copy
+;;;     pango:color-red
+;;;     pango:color-green
+;;;     pango:color-blue
+
+(test color-new/copy
+  (let ((color (pango:color-new :red 1 :green 2 :blue 3)))
+    (is (typep color 'pango:color))
+    (is (= 1 (pango:color-red color)))
+    (is (= 2 (pango:color-green color)))
+    (is (= 3 (pango:color-blue color)))
+    (is (typep (pango:color-copy color) 'pango:color))
+    (is (= 4 (setf (pango:color-red color) 4)))
+    (is (= 4 (pango:color-red (pango:color-copy color))))
+    (is (= 5 (setf (pango:color-green color) 5)))
+    (is (= 5 (pango:color-green (pango:color-copy color))))
+    (is (= 6 (setf (pango:color-blue color) 6)))
+    (is (= 6 (pango:color-blue (pango:color-copy color))))))
+
+;;;     pango_color_parse
+;;;     pango_color_to_string
+
+(test color-parse/to-string
+  (let ((color (pango:color-parse "red")))
+    (is (= 65535 (pango:color-red color)))
+    (is (= 0 (pango:color-green color)))
+    (is (= 0 (pango:color-blue color)))
+    (is (string= "#ffff00000000" (pango:color-to-string color)))))
+
+;;;     pango_color_parse_with_alpha
+
+(test color-parse-with-alpha
+  (multiple-value-bind (color alpha)
+      (pango:color-parse-with-alpha "red")
+    (is (string= "#ffff00000000" (pango:color-to-string color)))
+    (is (= 65535 alpha))))
+
+;;;     pango_color_free
+
 ;;;     PangoAttrClass
 
 ;;;     PangoAttribute
@@ -342,8 +387,39 @@
   (is (eq (g:gtype "PangoAttribute")
           (g:gtype (cffi:foreign-funcall "pango_attribute_get_type" :size)))))
 
-;;;     PANGO_ATTR_INDEX_FROM_TEXT_BEGINNING
-;;;     PANGO_ATTR_INDEX_TO_TEXT_END
+(test make-attribute
+  (let ((attr (pango:make-attribute)))
+    (is-false (pango:attribute-klass attr))
+    (is-false (pango:attribute-start-index attr))
+    (is-false (pango:attribute-end-index attr))))
+
+(test attribute-slots
+  (let ((attr (pango:attr-size-new 99)))
+    (is (cffi:pointerp (pango:attribute-klass attr)))
+    (is (eq :size (pango:attribute-type attr)))
+    (is (= 0 (pango:attribute-start-index attr)))
+    (is (= 4294967295 (pango:attribute-end-index attr)))))
+
+;;;     pango_attribute_init
+
+;;;     pango_attribute_copy
+;;;     pango_attribute_equal
+
+(test attribute-copy/equal
+  (let* ((attr1 (pango:attr-size-new 99))
+         (attr2 (pango:attribute-copy attr1)))
+
+    (is (eq :size (pango:attribute-type attr1)))
+    (is (= 0 (pango:attribute-start-index attr1)))
+    (is (= 4294967295 (pango:attribute-end-index attr1)))
+
+    (is (eq :size (pango:attribute-type attr2)))
+    (is (= 0 (pango:attribute-start-index attr2)))
+    (is (= 4294967295 (pango:attribute-end-index attr2)))
+
+    (is (pango:attribute-equal attr1 attr2))))
+
+;;;     pango_attribute_destroy
 
 ;;;     PangoAttrString
 ;;;     PangoAttrLanguage
@@ -354,15 +430,6 @@
 ;;;     PangoAttrShape
 ;;;     PangoAttrSize
 ;;;     PangoAttrFontFeatures
-
-;;;     PangoColor
-
-(test color
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoColor") +g-type-boxed+))
-  ;; Check the type initializer
-  (is (eq (g:gtype "PangoColor")
-          (g:gtype (cffi:foreign-funcall "pango_color_get_type" :size)))))
 
 ;;;     PangoAttrList
 
@@ -383,17 +450,45 @@
           (g:gtype (cffi:foreign-funcall "pango_attr_iterator_get_type" :size)))))
 
 ;;; --- Functions --------------------------------------------------------------
-;;;
+
 ;;;     pango_attr_type_register
 ;;;     pango_attr_type_get_name
-;;;     pango_attribute_init
-;;;     pango_attribute_copy
-;;;     pango_attribute_equal
-;;;     pango_attribute_destroy
-;;;
+
+(test attr-type-register
+  (let (id1 id2)
+    (is (integerp (setf id1 (pango:attr-type-register "newtype1"))))
+    (is (string= "newtype1" (pango:attr-type-name id1)))
+    (is (integerp (setf id2 (pango:attr-type-register "newtype2"))))
+    (is (string= "newtype2" (pango:attr-type-name id2)))
+    (is (not (= id1 id2)))))
+
 ;;;     pango_attr_language_new
+
+(test attr-language-new
+  (let ((attr (pango:attr-language-new (pango:language-default))))
+    (is (typep attr 'pango:attribute))
+    (is (eq :language (pango:attribute-type attr)))
+    (is (= 0 (pango:attribute-start-index attr)))
+    (is (= 4294967295 (pango:attribute-end-index attr)))))
+
 ;;;     pango_attr_family_new
+
+(test attr-familiy-new
+  (let ((attr (pango:attr-family-new "Sans")))
+    (is (typep attr 'pango:attribute))
+    (is (eq :family (pango:attribute-type attr)))
+    (is (= 0 (pango:attribute-start-index attr)))
+    (is (= 4294967295 (pango:attribute-end-index attr)))))
+
 ;;;     pango_attr_style_new
+
+(test attr-style-new
+  (let ((attr (pango:attr-style-new :normal)))
+    (is (typep attr 'pango:attribute))
+    (is (eq :style (pango:attribute-type attr)))
+    (is (= 0 (pango:attribute-start-index attr)))
+    (is (= 4294967295 (pango:attribute-end-index attr)))))
+
 ;;;     pango_attr_variant_new
 ;;;     pango_attr_stretch_new
 ;;;     pango_attr_weight_new
@@ -426,20 +521,63 @@
 ;;;     pango_attr_allow_breaks_new
 ;;;     pango_attr_insert_hyphens_new
 ;;;     pango_attr_show_new
-;;;
-;;;     pango_color_parse
-;;;     pango_color_parse_with_alpha
-;;;     pango_color_copy
-;;;     pango_color_free
-;;;     pango_color_to_string
-;;;
+
 ;;;     pango_attr_list_new
+
+(test attr-list-new
+  (let ((attrs (pango:attr-list-new)))
+    (is (typep attrs 'pango:attr-list))))
+
 ;;;     pango_attr_list_ref
 ;;;     pango_attr_list_unref
 ;;;     pango_attr_list_copy
+
 ;;;     pango_attr_list_insert
+
+;; TODO: Inseration of an attribute does not work as expected.
+
+#+nil
+(test attr-list-insert
+  (let ((attrs (pango:attr-list-new)))
+
+    (is (typep attrs 'pango:attr-list))
+
+    (is-false (pango:attr-list-insert attrs (pango:attr-size-new 99)))
+    (is-false (pango:attr-list-to-string (pango:attr-list-new)))
+;    (is-false (pango:attr-list-attributes attrs))
+))
+
+
 ;;;     pango_attr_list_insert_before
+
 ;;;     pango_attr_list_change
+
+;; TODO: Inseration of an attribute does not work as expected. What is wrong?
+
+;; --------------------------------
+;;  ATTR-LIST-CHANGE in PANGO-ATTRIBUTES []:
+;;       Unexpected Error: #<SB-SYS:MEMORY-FAULT-ERROR {100433AF53}>
+;; Unhandled memory fault at #x10..
+;; --------------------------------
+
+#+nil
+(test attr-list-change
+  (trace pango:attr-list-change)
+  (trace pango:attr-list-to-string)
+  (trace pango:attr-list-new)
+  (let ((attrs (pango:attr-list-new))
+        (attr (pango:attr-size-new 99)))
+    (is (typep attrs 'pango:attr-list))
+    (is (string= "" (pango:attr-list-to-string attrs)))
+    (is-false (pango:attr-list-change attrs attr))
+    ;; TODO: The following test generates the memory fault.
+    (is-false (pango:attr-list-to-string attrs))
+;    (is-false (pango:attr-list-attributes attrs))
+)
+  (untrace pango:attr-list-change)
+  (untrace pango:attr-list-to-string)
+  (untrace pango:attr-list-new))
+
 ;;;     pango_attr_list_splice
 ;;;     pango_attr_list_filter
 ;;;     pango_attr_list_update
@@ -447,23 +585,21 @@
 ;;;     PangoAttrFilterFunc
 ;;;
 ;;;     pango_attr_list_get_attributes
-
-#+nil
-(test pango-attr-list-attributes
-  (let* ((label (make-instance 'gtk-label :text
-                                          "<span foreground='blue' ~
-                                                 size='x-large'> ~
-                                           Blue text</span> is <i>cool</i>!"
-                                          :use-markup t))
-         (attributes (pango-layout-attributes (gtk-label-layout label))))
-
-    (is (typep attributes 'pango-attr-list))
-    (is (every (lambda (x) (typep x 'pango-attribute))
-               (pango-attr-list-attributes attributes)))
-))
-
 ;;;     pango_attr_list_equal
+
+;;;     pango_attr_list_from_string
+;;;     pango_attr_list_to_string
+
 ;;;     pango_attr_list_get_iterator
+
+(test attr-list-iterator
+  (let ((attrs (pango:attr-list-new)))
+
+    (is (typep (pango:attr-list-iterator attrs) 'pango:attr-iterator))
+    (is-false (pango:attr-list-insert attrs
+                                      (pango:attr-family-new "Sans")))
+    (is (typep (pango:attr-list-iterator attrs) 'pango:attr-iterator))))
+
 ;;;     pango_attr_iterator_copy
 ;;;     pango_attr_iterator_next
 ;;;     pango_attr_iterator_range
@@ -472,4 +608,4 @@
 ;;;     pango_attr_iterator_get_attrs
 ;;;     pango_attr_iterator_destroy
 
-;;; --- 2023-1-3 ---------------------------------------------------------------
+;;; --- 2023-1-18 --------------------------------------------------------------

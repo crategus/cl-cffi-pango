@@ -70,7 +70,10 @@
 (test cairo-font-map-new-for-font-type
   (is-false (pango:cairo-font-map-new-for-font-type :toy))
   (is-true  (pango:cairo-font-map-new-for-font-type :ft))
+  #-windows
   (is-false (pango:cairo-font-map-new-for-font-type :win32))
+  #+windows
+  (is-true  (pango:cairo-font-map-new-for-font-type :win32))
   (is-false (pango:cairo-font-map-new-for-font-type :quartz))
   (is-false (pango:cairo-font-map-new-for-font-type :user))
 
@@ -78,10 +81,17 @@
 
 ;;;     pango_cairo_font_map_get_font_type
 
+#-windows
 (test cairo-font-map-font-type
   (is (eq :ft (pango:cairo-font-map-font-type (pango:cairo-font-map-default))))
   (is (eq :ft (pango:cairo-font-map-font-type (pango:cairo-font-map-new))))
   (is (eq :ft (pango:cairo-font-map-font-type (pango:cairo-font-map-default)))))
+
+#+windows
+(test cairo-font-map-font-type
+  (is (eq :win32 (pango:cairo-font-map-font-type (pango:cairo-font-map-default))))
+  (is (eq :win32 (pango:cairo-font-map-font-type (pango:cairo-font-map-new))))
+  (is (eq :win32 (pango:cairo-font-map-font-type (pango:cairo-font-map-default)))))
 
 ;;;     pango_cairo_font_map_set_resolution
 ;;;     pango_cairo_font_map_get_resolution
@@ -174,4 +184,4 @@
 ;;;     pango_cairo_layout_path
 ;;;     pango_cairo_error_underline_path
 
-;;; --- 2023-1-17 --------------------------------------------------------------
+;;; --- 2023-1-18 --------------------------------------------------------------
