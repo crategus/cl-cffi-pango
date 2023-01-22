@@ -33,24 +33,19 @@
     ((:file "pango.package")
      (:file "pango.init")
      (:file "pango.version")
-     (:file "pango.attributes")
-     (:file "pango.tab-array")
      (:file "pango.script")
-     (:file "pango.bidirectional")
-     (:file "pango.renderer")
-
      (:file "pango.glyph")
-     (:file "pango.rendering")
-
-     (:file "pango.coverage")
      (:file "pango.vertical-text")
      (:file "pango.font")
-
+     (:file "pango.attributes")
+     (:file "pango.tab-array")
+     (:file "pango.bidirectional")
+     (:file "pango.renderer")
+     (:file "pango.rendering")
+     (:file "pango.coverage")
      (:file "pango.context")
-
      (:file "pango.layout")
      (:file "pango.cairo-rendering")
-
      (:file "pango.markup")
     )))
   :in-order-to ((asdf:test-op (test-op "cl-cffi-pango/test")))
