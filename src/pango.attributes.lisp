@@ -7,7 +7,7 @@
 ;;; available from <http://www.crategus.com/books/cl-cffi-gtk/>.
 ;;;
 ;;; Copyright (C) 2009 - 2011 Kalyanov Dmitry
-;;; Copyright (C) 2011 - 2022 Dieter Kaiser
+;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
 ;;; This program is free software: you can redistribute it and/or modify
 ;;; it under the terms of the GNU Lesser General Public License for Lisp
@@ -133,6 +133,7 @@
 ;;;
 ;;;     pango_attr_list_get_attributes
 ;;;     pango_attr_list_equal
+;;;
 ;;;     pango_attr_list_get_iterator
 ;;;     pango_attr_iterator_copy
 ;;;     pango_attr_iterator_next
@@ -181,7 +182,7 @@
 
 (defconstant +pango-scale-xx-small+ #.(/ 1.0d0 (* 1.2d0 1.2d0 1.2d0))
  #+liber-documentation
- "@version{2022-12-4}
+ "@version{2023-1-18}
   @variable-value{@code{(/ 1.0d0 (* 1.2d0 1.2d0 1.2d0))}}
   @begin{short}
     The scale factor for three shrinking steps.
@@ -198,7 +199,7 @@
 
 (defconstant +pango-scale-x-small+ #.(/ 1.0d0 (* 1.2d0 1.2d0))
  #+liber-documentation
- "@version{2022-12-4}
+ "@version{2023-1-18}
   @variable-value{@code{(/ 1.0d0 (* 1.2d0 1.2d0))}}
   @begin{short}
     The scale factor for two shrinking steps.
@@ -215,7 +216,7 @@
 
 (defconstant +pango-scale-small+ #.(/ 1.0d0 1.2d0)
  #+liber-documentation
- "@version{2022-12-4}
+ "@version{2023-1-18}
   @variable-value{@code{(/ 1.0d0 1.2d0)}}
   @begin{short}
     The scale factor for one shrinking step.
@@ -232,7 +233,7 @@
 
 (defconstant +pango-scale-medium+ 1.0d0
  #+liber-documentation
- "@version{2022-12-4}
+ "@version{2023-1-18}
   @variable-value{@code{1.0d0}}
   @begin{short}
     The scale factor for normal size.
@@ -249,7 +250,7 @@
 
 (defconstant +pango-scale-large+ 1.2d0
  #+liber-documentation
- "@version{2022-12-4}
+ "@version{2023-1-18}
   @variable-value{@code{1.2d0}}
   @begin{short}
     The scale factor for one magnification step.
@@ -266,7 +267,7 @@
 
 (defconstant +pango-scale-x-large+ (* 1.2d0 1.2d0)
  #+liber-documentation
- "@version{2022-12-4}
+ "@version{2023-1-18}
   @variable-value{@code{(* 1.2d0 1.2d0)}}
   @begin{short}
     The scale factor for two magnification steps.
@@ -283,7 +284,7 @@
 
 (defconstant +pango-scale-xx-large+ #.(* 1.2d0 1.2d0 1.2d0)
  #+liber-documentation
- "@version{2022-12-4}
+ "@version{2023-1-18}
   @variable-value{@code{(* 1.2d0 1.2d0 1.2d0)}}
   @begin{short}
     The scale factor for three magnification steps.
@@ -297,6 +298,7 @@
 
 (define-g-enum "PangoAttrType" attr-type
   (:export t
+   :allow-undeclared-values t
    :type-initializer "pango_attr_type_get_type")
   (:invalid 0)
   (:language 1)
@@ -354,7 +356,7 @@
 (setf (liber:alias-for-symbol 'attr-type)
       "GEnum"
       (liber:symbol-documentation 'attr-type)
- "@version{2022-12-4}
+ "@version{2023-1-19}
   @begin{short}
     The @sym{pango:attr-type} enumeration distinguishes between different types
     of attributes.
@@ -366,6 +368,7 @@
   @begin{pre}
 (define-g-enum \"PangoAttrType\" attr-type
   (:export t
+   :allow-undeclared-values t
    :type-initializer \"pango_attr_type_get_type\")
   (:invalid 0)
   (:language 1)
@@ -408,49 +411,61 @@
   @end{pre}
   @begin[code]{table}
     @entry[:invalid]{Does not happen.}
-    @entry[:language]{Language (PangoAttrLanguage).}
-    @entry[:family]{Font family name list (PangoAttrString).}
-    @entry[:style]{Font slant style (PangoAttrInt).}
-    @entry[:weight]{Font weight (PangoAttrInt).}
-    @entry[:variant]{Font variant (normal or small caps) (PangoAttrInt).}
-    @entry[:stretch]{Font stretch (PangoAttrInt).}
+    @entry[:language]{Language (@symbol{pango:attr-language}).}
+    @entry[:family]{Font family name list (@symbol{pango:attr-string}).}
+    @entry[:style]{Font slant style (@symbol{pango:attr-string}).}
+    @entry[:weight]{Font weight (@symbol{pango:attr-int}).}
+    @entry[:variant]{Font variant, normal or small caps
+      (@symbol{pango:attr-int}).}
+    @entry[:stretch]{Font stretch (@symbol{pango:attr-int}).}
     @entry[:size]{Font size in points scaled by @var{+pango-scale+}
-      (PangoAttrInt).}
-    @entry[:font-desc]{Font description (PangoAttrFontDesc).}
-    @entry[:foreground]{Foreground color (PangoAttrColor).}
-    @entry[:background]{Background color (PangoAttrColor).}
-    @entry[:underline]{Whether the text has an underline (PangoAttrInt).}
-    @entry[:strikethrough]{Whether the text is struck-through (PangoAttrInt).}
-    @entry[:rise]{Baseline displacement (PangoAttrInt).}
-    @entry[:shape]{Shape (PangoAttrShape).}
-    @entry[:scale]{Font size scale factor (PangoAttrFloat).}
-    @entry[:fallback]{Whether fallback is enabled (PangoAttrInt).}
-    @entry[:letter-spacing]{Letter spacing (PangoAttrInt).}
-    @entry[:underline-color]{Underline color (PangoAttrColor).}
-    @entry[:strikethrough-color]{Strikethrough color (PangoAttrColor).}
+      (@symbol{pango:attr-int}).}
+    @entry[:font-desc]{Font description (@symbol{pango:attr-font-desc}).}
+    @entry[:foreground]{Foreground color (@symbol{pango:attr-color}).}
+    @entry[:background]{Background color (@symbol{pango:attr-color}).}
+    @entry[:underline]{Whether the text has an underline
+      (@symbol{pango:attr-int}).}
+    @entry[:strikethrough]{Whether the text is struck-through
+      (@symbol{pango:attr-int}).}
+    @entry[:rise]{Baseline displacement (@symbol{pango:attr-int}).}
+    @entry[:shape]{Shape (@symbol{pango:attr-shape}).}
+    @entry[:scale]{Font size scale factor (@symbol{pango:attr-float}).}
+    @entry[:fallback]{Whether fallback is enabled (@symbol{pango:attr-int}).}
+    @entry[:letter-spacing]{Letter spacing (@symbol{pango:attr-int}).}
+    @entry[:underline-color]{Underline color (@symbol{pango:attr-color}).}
+    @entry[:strikethrough-color]{Strikethrough color
+      (@symbol{pango:attr-color}).}
     @entry[:absolute-size]{Font size in pixels scaled by @var{+pango-scale+}
-      (PangoAttrInt).}
-    @entry[:gravity]{Base text gravity (PangoAttrInt).}
-    @entry[:gravity-hint]{Gravity hint (PangoAttrInt).}
-    @entry[:font-features]{OpenType font features (PangoAttrString).}
-    @entry[:foreground-alpha]{Foreground alpha (PangoAttrInt).}
-    @entry[:background-alpha]{Background alpha (PangoAttrInt).}
-    @entry[:allow-breaks]{Whether breaks are allowed (PangoAttrInt). Since 1.44}
-    @entry[:show]{How to render invisible characters (PangoAttrInt). Since 1.44}
+      (@symbol{pango:attr-int}).}
+    @entry[:gravity]{Base text gravity (@symbol{pango:attr-int}).}
+    @entry[:gravity-hint]{Gravity hint (@symbol{pango:attr-int}).}
+    @entry[:font-features]{OpenType font features (@symbol{pango:attr-string}).}
+    @entry[:foreground-alpha]{Foreground alpha (@symbol{pango:attr-int}).}
+    @entry[:background-alpha]{Background alpha (@symbol{pango:attr-int}).}
+    @entry[:allow-breaks]{Whether breaks are allowed (@symbol{pango:attr-int}).
+      Since 1.44}
+    @entry[:show]{How to render invisible characters (@symbol{pango:attr-int}).
+      Since 1.44}
     @entry[:insert-hyphens]{Whether to insert hyphens at intra-word line breaks
-      (PangoAttrInt). Since 1.44}
-    @entry[:overline]{Whether the text has an overline (PangoAttrInt).
+      (@symbol{pango:attr-int}). Since 1.44}
+    @entry[:overline]{Whether the text has an overline
+      (@symbol{pango:attr-int}). Since 1.46}
+    @entry[:overline-color]{Overline color (@symbol{pango:attr-color}).
       Since 1.46}
-    @entry[:overline-color]{Overline color (PangoAttrColor). Since 1.46}
-    @entry[:line-height]{Line height factor (PangoAttrFloat). Since 1.50}
-    @entry[:absolute-line-height]{Line height (PangoAttrInt). Since 1.50}
-    @entry[:text-transform]{No description available. Since 1.50}
+    @entry[:line-height]{Line height factor (@symbol{pango:attr-float}).
+      Since 1.50}
+    @entry[:absolute-line-height]{Line height (@symbol{pango:attr-int}).
+      Since 1.50}
+    @entry[:text-transform]{How Pango treats characters during shaping
+      (@symbol{pango:attr-int}). Since 1.50}
     @entry[:word]{Override segmentation to classify the range of the attribute
-      as a single word (PangoAttrInt). Since 1.50}
+      as a single word (@symbol{pango:attr-int}). Since 1.50}
     @entry[:sentence]{Override segmentation to classify the range of the
-      attribute as a single sentence (PangoAttrInt). Since 1.50}
-    @entry[:baseline-shift]{Baseline displacement (PangoAttrInt). Since 1.50}
-    @entry[:font-scale]{Font-relative size change (PangoAttrInt). Since 1.50}
+      attribute as a single sentence (@symbol{pango:attr-int}). Since 1.50}
+    @entry[:baseline-shift]{Baseline displacement (@symbol{pango:attr-int}).
+      Since 1.50}
+    @entry[:font-scale]{Font-relative size change (@symbol{pango:attr-int}).
+      Since 1.50}
   @end{table}
   @see-class{pango:attribute}
   @see-class{pango:attr-list}
@@ -480,7 +495,7 @@
 (setf (liber:alias-for-symbol 'underline)
       "GEnum"
       (liber:symbol-documentation 'underline)
- "@version{2022-12-4}
+ "@version{2023-1-19}
   @begin{short}
     The @sym{pango:underline} enumeration is used to specify whether text
     should be underlined, and if so, the type of underlining.
@@ -533,7 +548,7 @@
 (setf (liber:alias-for-symbol 'overline)
       "GEnum"
       (liber:symbol-documentation 'overline)
- "@version{2022-12-4}
+ "@version{2023-1-19}
   @begin{short}
     The @sym{pango:overline} enumeration is used to specify whether text should
     be overlined, and if so, the type of line.
@@ -569,7 +584,7 @@
 (setf (liber:alias-for-symbol 'show-flags)
       "GFlags"
       (liber:symbol-documentation 'show-flags)
- "@version{2022-12-4}
+ "@version{2023-1-19}
   @begin{short}
     These flags affect how Pango treats characters that are normally not
     visible in the output.
@@ -607,7 +622,7 @@
 (setf (liber:alias-for-symbol 'text-transform)
       "GEnum"
       (liber:symbol-documentation 'text-transform)
- "@version{2022-12-4}
+ "@version{2023-1-19}
   @begin{short}
     An enumeration that affects how Pango treats characters during shaping.
   @end{short}
@@ -643,7 +658,7 @@
 (setf (liber:alias-for-symbol 'baseline-shift)
       "GEnum"
       (liber:symbol-documentation 'baseline-shift)
- "@version{2022-12-4}
+ "@version{2023-1-19}
   @begin{short}
     An enumeration that affects baseline shifts between runs.
   @end{short}
@@ -680,7 +695,7 @@
 (setf (liber:alias-for-symbol 'font-scale)
       "GEnum"
       (liber:symbol-documentation 'font-scale)
- "@version{2022-12-4}
+ "@version{2023-1-19}
   @begin{short}
     An enumeration that affects font sizes for superscript and subscript
     positioning and for (emulated) Small Caps.
@@ -701,6 +716,238 @@
     @entry[:subscript]{Change the font to a size suitable for subscripts.}
     @entry[:small-caps]{Change the font to a size suitable for Small Caps.}
   @end{table}")
+
+;;; ----------------------------------------------------------------------------
+;;; struct PangoColor
+;;; ----------------------------------------------------------------------------
+
+(glib-init:at-init ()
+  (cffi:foreign-funcall "pango_color_get_type" :size))
+
+(define-g-boxed-cstruct color "PangoColor"
+  (red :uint16 :initform 0)
+  (green :uint16 :initform 0)
+  (blue :uint16 :initform 0))
+
+#+liber-documentation
+(setf (liber:alias-for-class 'color)
+      "GBoxed"
+      (documentation 'color 'type)
+ "@version{2023-1-19}
+  @begin{short}
+    The @sym{pango:color} structure is used to represent a color in an
+    uncalibrated RGB color-space.
+  @end{short}
+  @begin{pre}
+(define-g-boxed-cstruct color \"PangoColor\"
+  (red :uint16 :initform 0)
+  (green :uint16 :initform 0)
+  (blue :uint16 :initform 0))
+  @end{pre}")
+
+(export (boxed-related-symbols 'color))
+
+;;; --- color-red --------------------------------------------------------------
+
+#+liber-documentation
+(setf (liber:alias-for-function 'color-red)
+      "Accessor"
+      (documentation 'color-red 'function)
+ "@version{2023-1-19}
+  @syntax[]{(pago:color-red instance) => red}
+  @syntax[]{(setf (pango:color-red instance) red)}
+  @begin{short}
+    Accessor of the @code{red} slot of the @class{pango:color} color.
+  @end{short}
+  The red component of the color. This is a value between 0 and 65535, with
+  65535 indicating full intensity.
+  @see-class{pango:color}")
+
+;;; --- color-green ------------------------------------------------------------
+
+#+liber-documentation
+(setf (liber:alias-for-function 'color-green)
+      "Accessor"
+      (documentation 'color-green 'function)
+ "@version{2023-1-19}
+  @syntax[]{(pago:color-green instance) => green}
+  @syntax[]{(setf (pango:color-green instance) green)}
+  @begin{short}
+    Accessor of the @code{green} slot of the @class{pango:color} color.
+  @end{short}
+  The green component of the color. This is a value between 0 and 65535, with
+  65535 indicating full intensity.
+  @see-class{pango:color}")
+
+;;; --- color-blue -------------------------------------------------------------
+
+#+liber-documentation
+(setf (liber:alias-for-function 'color-blue)
+      "Accessor"
+      (documentation 'color-blue 'function)
+ "@version{2023-1-19}
+  @syntax[]{(pago:color-blue instance) => blue}
+  @syntax[]{(setf (pango:color-blue instance) blue)}
+  @begin{short}
+    Accessor of the @code{blue} slot of the @class{pango:color} color.
+  @end{short}
+  The blue component of the color. This is a value between 0 and 65535, with
+  65535 indicating full intensity.
+  @see-class{pango:color}")
+
+;;; ----------------------------------------------------------------------------
+;;; pango:color-new
+;;; ----------------------------------------------------------------------------
+
+(declaim (inline color-new))
+
+(defun color-new (&key (red 0) (green 0) (blue 0))
+ #+liber-documentation
+ "@version{2023-1-19}
+  @argument[red]{an unsigned integer with the red component of the color, this
+    is a value between 0 and 65535, with 65535 indicating full intensity}
+  @argument[green]{an unsigned integer with the green component of the color}
+  @argument[blue]{an unsigned integer with the blue component of the color}
+  @begin{short}
+    Creates a new @class{pango:color} color.
+  @end{short}
+  @see-class{pango:color}
+  @see-function{pango:color-copy}"
+  (make-color :red red :green green :blue blue))
+
+(export 'color-new)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_color_copy ()
+;;; ----------------------------------------------------------------------------
+
+(declaim (inline color-copy))
+
+(defun color-copy (color)
+ #+liber-documentation
+ "@version{2023-1-19}
+  @argument[color]{a @symbol{pango:color} instance}
+  @return{The newly created @class{pango:color} instance.}
+  @begin{short}
+    Creates a copy of @arg{color}.
+  @end{short}
+  @see-class{pango:color}
+  @see-function{pango:color-new}"
+  (copy-color color))
+
+(export 'color-copy)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_color_parse ()
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_color_parse" %color-parse) :boolean
+  (color (g:boxed color))
+  (spec :string))
+
+(defun color-parse (spec)
+ #+liber-documentation
+ "@version{2023-1-19}
+  @argument[spec]{a string specifying a color}
+  @return{A @class{pango:color} instance with the result, or @code{nil}.}
+  @begin{short}
+    Fill in the fields of a color from a string specification.
+  @end{short}
+  The string can either one of a large set of standard names, taken from the
+  X11 rgb.txt file, or it can be a hex value in the form '#rgb' '#rrggbb'
+  '#rrrgggbbb' or '#rrrrggggbbbb' where 'r', 'g' and 'b' are hex digits of the
+  red, green, and blue components of the color, respectively. White in the four
+  forms is '#fff' '#ffffff' '#fffffffff' and '#ffffffffffff'.
+  @begin[Examples]{dictionary}
+    @begin{pre}
+(pango:color-parse \"blue\")
+=> #S(PANGO:COLOR :RED 0 :GREEN 0 :BLUE 65535)
+(pango:color-to-string *)
+=> \"#00000000ffff\"
+
+(pango:color-parse \"white\")
+=> #S(PANGO:COLOR :RED 65535 :GREEN 65535 :BLUE 65535)
+(pango:color-to-string *)
+=> \"#ffffffffffff\"
+    @end{pre}
+  @end{dictionary}
+  @see-class{pango:color}
+  @see-function{pango:color-to-string}"
+  (let ((color (color-new)))
+    (when (%color-parse color spec)
+      color)))
+
+(export 'color-parse)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_color_parse_with_alpha ()
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_color_parse_with_alpha" %color-parse-with-alpha) :boolean
+  (color (g:boxed color))
+  (alpha (:pointer :uint16))
+  (spec :string))
+
+(defun color-parse-with-alpha (spec)
+ #+liber-documentation
+ "@version{2023-1-19}
+  @syntax[]{(pango:color-parse-with-alpha spec) => color, alpha}
+  @argument[spec]{a string specifying a color}
+  @argument[color]{a @class{pango:color} instance with the result, or
+    @code{nil}}
+  @argument[alpha]{an unsigned integer with the alpha value}
+  @begin{short}
+    Fill in the fields of a color from a string specification.
+  @end{short}
+  The string can either one of a large set of standard names, taken from the
+  CSS specification, or it can be a hexadecimal value in the form '#rgb'
+  '#rrggbb' '#rrrgggbbb' or '#rrrrggggbbbb' where 'r', 'g' and 'b' are hex
+  digits of the red, green, and blue components of the color, respectively.
+  White in the four forms is '#fff' '#ffffff' '#fffffffff' and '#ffffffffffff'.
+
+  Additionally, parse strings of the form '#rgba', '#rrggbbaa',
+  '#rrrrggggbbbbaaaa', and set alpha to the value specified by the hex digits
+  for 'a'. If no alpha component is found in @arg{spec}, alpha is set to 0xffff,
+  for a solid color.
+  @see-class{pango:color}
+  @see-function{pango:color-parse}"
+  (let ((color (make-color)))
+    (with-foreign-object (alpha :uint16)
+      (when (%color-parse-with-alpha color alpha spec)
+        (values color (cffi:mem-ref alpha :uint16))))))
+
+(export 'color-parse-with-alpha)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_color_free ()
+;;;
+;;; void pango_color_free (PangoColor *color);
+;;;
+;;; Frees a color allocated by pango_color_copy().
+;;;
+;;; color :
+;;;     an allocated PangoColor, may be NULL
+;;; ----------------------------------------------------------------------------
+
+;;; ----------------------------------------------------------------------------
+;;; pango_color_to_string ()
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_color_to_string" color-to-string) :string
+ #+liber-documentation
+ "@version{2023-1-19}
+  @argument[color]{a @class{pango:color} instance}
+  @return{A string with the hexadecimal form of @arg{color}.}
+  @begin{short}
+    Returns a textual specification of @arg{color} in the hexadecimal form
+    #rrrrggggbbbb, where r, g and b are hex digits representing the red, green,
+    and blue components respectively.
+  @end{short}
+  @see-class{pango:color}
+  @see-function{pango:color-parse}"
+  (color (g:boxed color)))
+
+(export 'color-to-string)
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoAttrClass
@@ -729,7 +976,11 @@
 ;;;     (see pango_attribute_equal())
 ;;; ----------------------------------------------------------------------------
 
-(defcstruct attr-class)
+(defcstruct attr-class
+  (type attr-type)
+  (copy :pointer)
+  (destroy :pointer)
+  (equal :pointer))
 
 #+liber-documentation
 (setf (liber:alias-for-symbol 'attr-class)
@@ -771,12 +1022,16 @@
 (glib-init:at-init ()
   (cffi:foreign-funcall "pango_attribute_get_type" :size))
 
-(define-g-boxed-opaque attribute "PangoAttribute"
-  :alloc (error "PangoAttribute cannot be created from the Lisp side."))
+(define-g-boxed-cstruct attribute "PangoAttribute"
+  (klass (:pointer (:struct attr-class)))
+  (start-index :uint)
+  (end-index :uint))
+
+;  :alloc (error "PangoAttribute cannot be created from the Lisp side."))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'attribute)
-      "Boxed CStruct"
+      "GBoxed"
       (documentation 'attribute 'type)
  "@version{#2021-1-17}
   @begin{short}
@@ -786,11 +1041,18 @@
   Particular types of attributes include this structure as their initial
   portion. The common portion of the attribute holds the range to which the
   value in the type-specific part of the attribute applies and should be
-  initialized using the function @fun{pango:attribute-init}. By default an#
+  initialized using the function @fun{pango:attribute-init}. By default an
   attribute will have an all-inclusive range of [0,G_MAXUINT].
   @see-symbol{pango:attr-type}")
 
 (export (boxed-related-symbols 'attribute))
+
+;;; --- attribute-type ---------------------------------------------------------
+
+(defun attribute-type (attr)
+  (cffi:foreign-slot-value (attribute-klass attr) '(:struct attr-class) 'type))
+
+(export 'attribute-type)
 
 ;;; ----------------------------------------------------------------------------
 ;;; PANGO_ATTR_INDEX_FROM_TEXT_BEGINNING
@@ -1112,36 +1374,6 @@
 (export 'attr-font-features)
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoColor
-;;; ----------------------------------------------------------------------------
-
-(glib-init:at-init ()
-  (cffi:foreign-funcall "pango_color_get_type" :size))
-
-(define-g-boxed-cstruct color "PangoColor"
-  (red :uint16 :initform 0)
-  (green :uint16 :initform 0)
-  (blue :uint16 :initform 0))
-
-#+liber-documentation
-(setf (liber:alias-for-class 'color)
-      "CStruct"
-      (documentation 'color 'type)
- "@version{#2021-1-17}
-  @begin{short}
-    The @sym{pango:color} structure is used to represent a color in an
-    uncalibrated RGB color-space.
-  @end{short}
-  @begin{pre}
-(define-g-boxed-cstruct color \"PangoColor\"
-  (red :uint16 :initform 0)
-  (green :uint16 :initform 0)
-  (blue :uint16 :initform 0))
-  @end{pre}")
-
-(export 'color)
-
-;;; ----------------------------------------------------------------------------
 ;;; PangoAttrList
 ;;; ----------------------------------------------------------------------------
 
@@ -1219,6 +1451,11 @@
 ;;;     the new type ID
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_type_register" attr-type-register) attr-type
+  (name (:string :free-to-foreign nil)))
+
+(export 'attr-type-register)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_type_get_name ()
 ;;;
@@ -1239,6 +1476,12 @@
 ;;;
 ;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_type_get_name" attr-type-name)
+    (:string :free-from-foreign nil)
+  (type attr-type))
+
+(export 'attr-type-name)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attribute_init ()
@@ -1275,6 +1518,11 @@
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attribute_copy" attribute-copy) (g:boxed attribute :return)
+  (attr (g:boxed attribute)))
+
+(export 'attribute-copy)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attribute_equal ()
 ;;;
@@ -1294,6 +1542,12 @@
 ;;;     TRUE if the two attributes have the same value
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attribute_equal" attribute-equal) :boolean
+  (attr1 (g:boxed attribute))
+  (attr2 (g:boxed attribute)))
+
+(export 'attribute-equal)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attribute_destroy ()
 ;;;
@@ -1304,6 +1558,14 @@
 ;;; attr :
 ;;;     a PangoAttribute
 ;;; ----------------------------------------------------------------------------
+
+;; TODO: pango:attribute is an opaque GBoxed type. How is the memory management
+;; organized. Do we need a destroy function?
+
+(defcfun ("pango_attribute_destroy" attribute-destroy) :void
+  (attr (g:boxed attribute)))
+
+(export 'attribute-destroy)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_language_new ()
@@ -1320,6 +1582,12 @@
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_language_new" attr-language-new)
+    (g:boxed attribute :return)
+  (lang (g:boxed language)))
+
+(export 'attr-language-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_family_new ()
 ;;;
@@ -1334,6 +1602,11 @@
 ;;;     the newly allocated PangoAttribute, which should be freed with
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_family_new" attr-family-new) (g:boxed attribute :return)
+  (family :string))
+
+(export 'attr-family-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_style_new ()
@@ -1350,6 +1623,11 @@
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_style_new" attr-style-new) (g:boxed attribute :return)
+  (style style))
+
+(export 'attr-style-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_variant_new ()
 ;;;
@@ -1364,6 +1642,11 @@
 ;;;     the newly allocated PangoAttribute, which should be freed with
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_variant_new" attr-variant-new) (g:boxed attribute :return)
+  (variant variant))
+
+(export 'attr-variant-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_stretch_new ()
@@ -1380,6 +1663,11 @@
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_stretch_new" attr-stretch-new) (g:boxed attribute :return)
+  (stretch stretch))
+
+(export 'attr-stretch-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_weight_new ()
 ;;;
@@ -1395,6 +1683,11 @@
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_weight_new" attr-weight-new) (g:boxed attribute :return)
+  (weight weight))
+
+(export 'attr-weight-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_size_new ()
 ;;;
@@ -1409,6 +1702,11 @@
 ;;;     the newly allocated PangoAttribute, which should be freed with
 ;;;     pango_attribute_destroy().
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_size_new" attr-size-new) (g:boxed attribute :return)
+  (size :int))
+
+(export 'attr-size-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_size_new_absolute ()
@@ -1427,6 +1725,12 @@
 ;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_size_new_absolute" attr-size-new-absolute)
+    (g:boxed attribute :return)
+  (size :int))
+
+(export 'attr-size-new-absolute)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_font_desc_new ()
 ;;;
@@ -1442,6 +1746,12 @@
 ;;;     the newly allocated PangoAttribute, which should be freed with
 ;;;     pango_attribute_destroy().
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_font_desc_new" attr-font-desc-new)
+    (g:boxed attribute :return)
+  (desc (g:boxed font-description)))
+
+(export 'attr-font-desc-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_foreground_new ()
@@ -1466,6 +1776,14 @@
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_foreground_new" attr-foreground-new)
+    (g:boxed attribute :return)
+  (red :uint16)
+  (green :uint16)
+  (blue :uint16))
+
+(export 'attr-foreground-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_background_new ()
 ;;;
@@ -1489,6 +1807,14 @@
 ;;;     pango_attribute_destroy().
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_background_new" attr-background-new)
+    (g:boxed attribute :return)
+  (red :uint16)
+  (green :uint16)
+  (blue :uint16))
+
+(export 'attr-background-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_strikethrough_new ()
 ;;;
@@ -1503,6 +1829,12 @@
 ;;;     the newly allocated PangoAttribute, which should be freed with
 ;;;     pango_attribute_destroy().
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_strikethrough_new" attr-strikethrough-new)
+    (g:boxed attribute :return)
+  (strikethrough :boolean))
+
+(export 'attr-strikethrough-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_strikethrough_color_new ()
@@ -1527,9 +1859,15 @@
 ;;; Returns :
 ;;;     the newly allocated PangoAttribute, which should be freed with
 ;;;     pango_attribute_destroy()
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_strikethrough_color_new" attr-strikethrough-color-new)
+    (g:boxed attribute :return)
+  (red :uint16)
+  (green :uint16)
+  (blue :uint16))
+
+(export 'attr-strikethrough-color-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_underline_new ()
@@ -1545,6 +1883,12 @@
 ;;;     the newly allocated PangoAttribute, which should be freed with
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_underline_new" attr-underline-new)
+    (g:boxed attribute :return)
+  (underline underline))
+
+(export 'attr-underline-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_underline_color_new ()
@@ -1572,6 +1916,14 @@
 ;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_underline_color_new" attr-underline-color-new)
+    (g:boxed attribute :return)
+  (red :uint16)
+  (green :uint16)
+  (blue :uint16))
+
+(export 'attr-underline-color-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_overline_new ()
 ;;;
@@ -1589,6 +1941,12 @@
 ;;;
 ;;; Since 1.46
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_overline_new" attr-overline-new)
+    (g:boxed attribute :return)
+  (underline underline))
+
+(export 'attr-overline-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_overline_color_new ()
@@ -1617,6 +1975,14 @@
 ;;; Since 1.46
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_overline_color_new" attr-overline-color-new)
+    (g:boxed attribute :return)
+  (red :uint16)
+  (green :uint16)
+  (blue :uint16))
+
+(export 'attr-overline-color-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_shape_new ()
 ;;;
@@ -1638,6 +2004,12 @@
 ;;;     the newly allocated PangoAttribute, which should be freed with
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_shape_new" attr-shape-new) (g:boxed attribute :return)
+  (ink-rect (:pointer (:struct rectangle)))
+  (logical-rect (:pointer (:struct rectangle))))
+
+(export 'attr-shape-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_shape_new_with_data ()
@@ -1705,6 +2077,11 @@
 ;;;     pango_attribute_destroy()
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_scale_new" attr-scale-new) (g:boxed attribute :return)
+  (scale-factor :double))
+
+(export 'attr-scale-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_rise_new ()
 ;;;
@@ -1720,6 +2097,11 @@
 ;;;     the newly allocated PangoAttribute, which should be freed with
 ;;;     pango_attribute_destroy().
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_rise_new" attr-rise-new) (g:boxed attribute :return)
+  (rise :int))
+
+(export 'attr-rise-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_letter_spacing_new ()
@@ -1738,6 +2120,12 @@
 ;;;
 ;;; Since 1.6
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_letter_spacing_new" attr-letter-spacing-new)
+    (g:boxed attribute :return)
+  (spacing :int))
+
+(export 'attr-letter-spacing-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_fallback_new ()
@@ -1761,6 +2149,12 @@
 ;;; Since 1.4
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_fallback_new" attr-fallback-new)
+    (g:boxed attribute :return)
+  (enable :boolean))
+
+(export 'attr-fallback-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_gravity_new ()
 ;;;
@@ -1778,6 +2172,11 @@
 ;;; Since 1.16
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_gravity_new" attr-gravity-new) (g:boxed attribute :return)
+  (gravity gravity))
+
+(export 'attr-gravity-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_gravity_hint_new ()
 ;;;
@@ -1794,6 +2193,12 @@
 ;;;
 ;;; Since 1.16
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_gravity_hint_new" attr-gravity-hint-new)
+    (g:boxed attribute :return)
+  (hint gravity-hint))
+
+(export 'attr-gravity-hint-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_font_features_new ()
@@ -1813,6 +2218,12 @@
 ;;; Since 1.38
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_font_features_new" attr-font-features-new)
+    (g:object attribute :return)
+  (features :string))
+
+(export 'attr-font-features-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_foreground_alpha_new ()
 ;;;
@@ -1831,6 +2242,12 @@
 ;;; Since 1.38
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_foreground_alpha_new" attr-foreground-alpha-new)
+    (g:boxed attribute :return)
+  (alpha :uint16))
+
+(export 'attr-foreground-alpha-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_background_alpha_new ()
 ;;;
@@ -1848,6 +2265,12 @@
 ;;;
 ;;; Since 1.38
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_background_alpha_new" attr-background-alpha-new)
+    (g:boxed attribute :return)
+  (alpha :uint16))
+
+(export 'attr-background-alpha-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_allow_breaks_new ()
@@ -1870,6 +2293,12 @@
 ;;; Since 1.44
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_allow_breaks_new" attr-allow-breaks-new)
+    (g:boxed attribute :return)
+  (allow :boolean))
+
+(export 'attr-allow-breaks-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_insert_hyphens_new ()
 ;;;
@@ -1891,6 +2320,12 @@
 ;;; Since 1.44
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_attr_insert_hyphens_new" attr-insert-hyphens-new)
+    (g:boxed attribute :return)
+  (insert :boolean))
+
+(export 'attr-insert-hyphens)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_show_new ()
 ;;;
@@ -1910,109 +2345,10 @@
 ;;; Since 1.44
 ;;; ----------------------------------------------------------------------------
 
-;;; ----------------------------------------------------------------------------
-;;; pango_color_parse ()
-;;;
-;;; gboolean pango_color_parse (PangoColor *color, const char *spec);
-;;;
-;;; Fill in the fields of a color from a string specification. The string can
-;;; either one of a large set of standard names. (Taken from the X11 rgb.txt
-;;; file), or it can be a hex value in the form '#rgb' '#rrggbb' '#rrrgggbbb'
-;;; or '#rrrrggggbbbb' where 'r', 'g' and 'b' are hex digits of the red, green,
-;;; and blue components of the color, respectively. (White in the four forms is
-;;; '#fff' '#ffffff' '#fffffffff' and '#ffffffffffff')
-;;;
-;;; color :
-;;;     a PangoColor structure in which to store the result, or NULL
-;;;
-;;; spec :
-;;;     a string specifying the new color
-;;;
-;;; Returns :
-;;;     TRUE if parsing of the specifier succeeded, otherwise false
-;;; ----------------------------------------------------------------------------
+(defcfun ("pango_attr_show_new" attr-show-new) (g:boxed attribute :return)
+  (flags show-flags))
 
-;;; ----------------------------------------------------------------------------
-;;; pango_color_parse_with_alpha ()
-;;;
-;;; gboolean
-;;; pango_color_parse_with_alpha (PangoColor *color,
-;;;                               guint16 *alpha,
-;;;                               const char *spec);
-;;;
-;;; Fill in the fields of a color from a string specification. The string can
-;;; either one of a large set of standard names. (Taken from the CSS
-;;; specification), or it can be a hexadecimal value in the form '#rgb'
-;;; '#rrggbb' '#rrrgggbbb' or '#rrrrggggbbbb' where 'r', 'g' and 'b' are hex
-;;; digits of the red, green, and blue components of the color, respectively.
-;;; (White in the four forms is '#fff' '#ffffff' '#fffffffff' and
-;;; '#ffffffffffff')
-;;;
-;;; Additionally, parse strings of the form '#rgba', '#rrggbbaa',
-;;; '#rrrrggggbbbbaaaa', if alpha is not NULL, and set alpha to the value
-;;; specified by the hex digits for 'a'. If no alpha component is found in
-;;; spec , alpha is set to 0xffff (for a solid color).
-;;;
-;;; color :
-;;;     a PangoColor structure in which to store the result, or NULL.
-;;;
-;;; alpha :
-;;;     return location for alpha, or NULL.
-;;;
-;;; spec :
-;;;     a string specifying the new color
-;;;
-;;; Returns :
-;;;     TRUE if parsing of the specifier succeeded, otherwise false.
-;;;
-;;; Since 1.46
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_color_copy ()
-;;;
-;;; PangoColor * pango_color_copy (const PangoColor *src);
-;;;
-;;; Creates a copy of src, which should be freed with pango_color_free().
-;;; Primarily used by language bindings, not that useful otherwise (since colors
-;;; can just be copied by assignment in C).
-;;;
-;;; src :
-;;;     color to copy, may be NULL
-;;;
-;;; Returns :
-;;;     the newly allocated PangoColor, which should be freed with
-;;;     pango_color_free(), or NULL if src was NULL
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_color_free ()
-;;;
-;;; void pango_color_free (PangoColor *color);
-;;;
-;;; Frees a color allocated by pango_color_copy().
-;;;
-;;; color :
-;;;     an allocated PangoColor, may be NULL
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_color_to_string ()
-;;;
-;;; gchar * pango_color_to_string (const PangoColor *color);
-;;;
-;;; Returns a textual specification of color in the hexadecimal form
-;;; #rrrrggggbbbb, where r, g and b are hex digits representing the red, green,
-;;; and blue components respectively.
-;;;
-;;; color :
-;;;     a PangoColor
-;;;
-;;; Returns :
-;;;     a newly-allocated text string that must be freed with g_free()
-;;;
-;;; Since 1.16
-;;; ----------------------------------------------------------------------------
+(export 'attr-show-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_list_new ()
@@ -2021,7 +2357,7 @@
 (defcfun ("pango_attr_list_new" %attr-list-new) :pointer)
 
 (defcfun ("pango_attr_list_new" attr-list-new)
-    (g:boxed attr-list)
+    (g:boxed attr-list :return)
  #+liber-documentation
  "@version{#2021-1-17}
   @begin{return}
@@ -2068,7 +2404,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("pango_attr_list_copy" attr-list-copy)
-    (g:boxed attr-list)
+    (g:boxed attr-list :return)
  #+liber-documentation
  "@version{#2021-1-17}
   @argument[attr-list]{a @class{pango:attr-list} instance, may be @code{nil}}
@@ -2098,6 +2434,12 @@
 ;;; attr :
 ;;;     the attribute to insert. Ownership of this value is assumed by the list
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_list_insert" attr-list-insert) :void
+  (lst (g:boxed attr-list))
+  (attr (g:boxed attribute)))
+
+(export 'attr-list-insert)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_list_insert_before ()
@@ -2135,6 +2477,15 @@
 ;;; attr :
 ;;;     the attribute to insert. Ownership of this value is assumed by the list
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_list_change" %attr-list-change) :void
+  (attrs :pointer)
+  (attr (g:boxed attribute)))
+
+(defun attr-list-change (attrs attr)
+  (%attr-list-change (gobject::boxed-opaque-pointer attrs) attr))
+
+(export 'attr-list-change)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_list_splice ()
@@ -2259,21 +2610,21 @@
 
 #+pango-1-44
 (defcfun ("pango_attr_list_get_attributes" attr-list-attributes)
-    (g:slist-t (g:boxed attribute))
+    (g:slist-t (g:boxed attribute :return))
  #+liber-documentation
- "@version{#2021-1-17}
-  @argument[attr-list]{a @class{pango:attr-list} instance}
+ "@version{#2023-1-18}
+  @argument[attrs]{a @class{pango:attr-list} instance}
   @begin{return}
-    A list of all attributes in @arg{attr-list}.
+    A list of all @class{pango:attributes} attributes in @arg{attrs}.
   @end{return}
   @begin{short}
-    Gets a list of all attributes in @arg{attr-list}.
+    Gets a list of all attributes in @arg{attrs}.
   @end{short}
 
   Since 1.44
   @see-class{pango:attr-list}
   @see-class{pango:attribute}"
-  (attr-list (g:boxed attr-list)))
+  (attrs (g:boxed attr-list)))
 
 #+pango-1-44
 (export 'attr-list-attributes)
@@ -2302,6 +2653,117 @@
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
+;;;Function
+;;;Pango
+;;;AttrList
+;;;from_string
+;;;since: 1.50
+
+;;;[−]
+;;;Declaration
+;;;[src]
+;;;PangoAttrList*
+;;;pango_attr_list_from_string (
+;;;  const char* text
+;;;)
+
+;;;[−]
+;;;Description
+;;;[src]
+;;;Deserializes a PangoAttrList from a string.
+
+;;;This is the counterpart to pango_attr_list_to_string(). See that functions for details about the format.
+
+;;;Available since: 1.50
+
+;;;[−]
+;;;Parameters
+;;;text
+;;;Type: const char*
+
+;;;A string.
+
+;;;The data is owned by the caller of the function.
+;;;The value is a NUL terminated UTF-8 string.
+;;;[−]
+;;;Return value
+;;;Type: PangoAttrList
+
+;;;A new PangoAttrList
+
+;;;The caller of the function takes ownership of the data, and is responsible for freeing it.
+;;;The return value can be NULL.
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_list_from_string" attr-list-from-string)
+    (g:boxed attr-list :return)
+  (text :string))
+
+(export 'attr-list-from-string)
+
+;;; ----------------------------------------------------------------------------
+;;;Method
+;;;Pango
+;;;AttrList
+;;;to_string
+;;;since: 1.50
+
+;;;[−]
+;;;Declaration
+;;;[src]
+;;;char*
+;;;pango_attr_list_to_string (
+;;;  PangoAttrList* list
+;;;)
+
+;;;[−]
+;;;Description
+;;;[src]
+;;;Serializes a PangoAttrList to a string.
+
+;;;In the resulting string, serialized attributes are separated by newlines or commas. Individual attributes are serialized to a string of the form
+
+;;;START END TYPE VALUE
+
+;;;Where START and END are the indices (with -1 being accepted in place of MAXUINT), TYPE is the nickname of the attribute value type, e.g. weight or stretch, and the value is serialized according to its type:
+
+;;;enum values as nick or numeric value
+;;;boolean values as true or false
+;;;integers and floats as numbers
+;;;strings as string, optionally quoted
+;;;font features as quoted string
+;;;PangoLanguage as string
+;;;PangoFontDescription as serialized by pango_font_description_to_string(), quoted
+;;;PangoColor as serialized by pango_color_to_string()
+;;;Examples:
+
+;;;0 10 foreground red, 5 15 weight bold, 0 200 font-desc "Sans 10"
+;;;Copy
+;;;0 -1 weight 700
+;;;0 100 family Times
+;;;Copy
+;;;To parse the returned value, use pango_attr_list_from_string().
+
+;;;Note that shape attributes can not be serialized.
+
+;;;Available since: 1.50
+
+;;;[−]
+;;;Return value
+;;;Type: char*
+
+;;;A newly allocated string.
+
+;;;The caller of the method takes ownership of the data, and is responsible for freeing it.
+;;;The value is a NUL terminated UTF-8 string.
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_list_to_string" attr-list-to-string) :string
+  (attrs (g:boxed attr-list)))
+
+(export 'attr-list-to-string)
+
+;;; ----------------------------------------------------------------------------
 ;;; pango_attr_list_get_iterator ()
 ;;;
 ;;; PangoAttrIterator * pango_attr_list_get_iterator (PangoAttrList *list);
@@ -2316,6 +2778,12 @@
 ;;;     the newly allocated PangoAttrIterator, which should be freed with
 ;;;     pango_attr_iterator_destroy()
 ;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_attr_list_get_iterator" attr-list-iterator)
+    (g:boxed attr-iterator :return)
+  (lst (g:boxed attr-list)))
+
+(export 'attr-list-iterator)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_iterator_copy ()
