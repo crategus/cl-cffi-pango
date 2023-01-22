@@ -28,7 +28,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defpackage :pango
-  (:use :common-lisp :iterate)
+  (:use :common-lisp)
   (:import-from :cffi     #:defcfun
                           #:defctype
                           #:defcstruct
@@ -66,13 +66,13 @@
       converts it into glyphs. The functions described in this section
       accomplish various steps of this process.
 
+      @about-symbol{shape-flags}
       @about-struct{item}
       @about-symbol{analysis}
       @about-symbol{PANGO_ANALYSIS_FLAG_CENTERED_BASELINE}
       @about-symbol{PANGO_ANALYSIS_FLAG_IS_ELLIPSIS}
       @about-symbol{PANGO_ANALYSIS_FLAG_NEED_HYPHEN}
       @about-symbol{log-attr}
-      @about-symbol{shape-flags}
       @about-function{itemize}
       @about-function{itemize-with-base-dir}
       @about-function{item-free}
@@ -259,8 +259,6 @@
       @about-function{glyph-item-iter-prev-cluster}
     @end{subsection}
     @begin[Text Attributes]{subsection}
-      Font and other attributes for annotating text.
-
       Attributed text is used in a number of places in Pango. It is used as the
       input to the itemization process and also when creating a Pango layout.
       The data types and functions in this section are used to represent and
@@ -279,10 +277,21 @@
       @about-symbol{text-transform}
       @about-symbol{baseline-shift}
       @about-symbol{font-scale}
-      @about-symbol{PANGO_ATTR_INDEX_FROM_TEXT_BEGINNING}
-      @about-symbol{PANGO_ATTR_INDEX_TO_TEXT_END}
+      @about-struct{color}
+      @about-function{color-red}
+      @about-function{color-green}
+      @about-function{color-blue}
+      @about-function{color-new}
+      @about-function{color-copy}
+      @about-function{color-parse}
+      @about-function{color-parse-with-alpha}
+      @about-function{color-free}
+      @about-function{color-to-string}
+
       @about-symbol{attr-class}
       @about-class{attribute}
+
+
       @about-symbol{attr-string}
       @about-symbol{attr-language}
       @about-symbol{attr-color}
@@ -292,7 +301,7 @@
       @about-symbol{attr-shape}
       @about-symbol{attr-size}
       @about-symbol{attr-font-features}
-      @about-class{color}
+
       @about-class{attr-list}
       @about-class{attr-iterator}
       @about-function{attr-type-register}
@@ -333,11 +342,7 @@
       @about-function{attr-allow-breaks-new}
       @about-function{attr-insert-hyphens-new}
       @about-function{attr-show-new}
-      @about-function{color-parse}
-      @about-function{color-parse-with-alpha}
-      @about-function{color-copy}
-      @about-function{color-free}
-      @about-function{color-to-string}
+
       @about-function{attr-list-new}
       @about-function{attr-list-ref}
       @about-function{attr-list-unref}

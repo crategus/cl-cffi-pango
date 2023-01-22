@@ -711,9 +711,9 @@
 
 #+liber-documentation
 (setf (liber:alias-for-class 'language)
-      "CStruct"
+      "GBoxed"
       (documentation 'language 'type)
- "@version{#2020-12-4}
+ "@version{#2023-1-18}
   @begin{short}
     The @sym{pango:language} structure is used to represent a language.
   @end{short}

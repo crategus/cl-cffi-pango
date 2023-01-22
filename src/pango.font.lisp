@@ -190,14 +190,15 @@
 
 #+liber-documentation
 (setf (liber:alias-for-class 'font-description)
-      "CStruct"
+      "GBoxed"
       (documentation 'font-description 'type)
- "@version{#2021-1-6}
+ "@version{#2023-1-18}
   @begin{short}
     The @sym{pango:font-description} structure represents the description of an
-    ideal font. These structures are used both to list what fonts are available
-    on the system and also for specifying the characteristics of a font to load.
+    ideal font.
   @end{short}
+  These structures are used both to list what fonts are available on the system
+  and also for specifying the characteristics of a font to load.
   @begin{pre}
 (define-g-boxed-opaque font-description \"PangoFontDescription\"
   :alloc (error \"PangoFontDescription cannot be created from the Lisp side.\"))
