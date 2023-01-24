@@ -707,6 +707,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (define-g-boxed-opaque language "PangoLanguage"
+  :type-initializer "pango_language_get_type"
   :alloc (error "PangoLanguage cannot be created from the Lisp side."))
 
 #+liber-documentation
@@ -873,7 +874,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("pango_language_from_string" language-from-string)
-    (g:boxed language)
+    (g:boxed language :return)
  #+liber-documentation
  "@version{#2020-12-4}
   @argument[language]{a string representing a language tag}
@@ -1025,7 +1026,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("pango_language_get_default" language-default)
-    (g:boxed language)
+    (g:boxed language :return)
  #+liber-documentation
  "@version{#2020-4-28}
   @return{The default language as a @class{pango:language} structure.}
