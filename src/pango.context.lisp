@@ -7,7 +7,7 @@
 ;;; available from <http://www.crategus.com/books/cl-cffi-gtk/>.
 ;;;
 ;;; Copyright (C) 2009 - 2011 Kalyanov Dmitry
-;;; Copyright (C) 2011 - 2022 Dieter Kaiser
+;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
 ;;; This program is free software: you can redistribute it and/or modify
 ;;; it under the terms of the GNU Lesser General Public License for Lisp
@@ -260,23 +260,20 @@
                         (g:boxed language) language)
   language)
 
-(defcfun ("pango_context_get_language" context-language)
-    (g:boxed language)
+(defcfun ("pango_context_get_language" context-language) (g:boxed language)
  #+liber-documentation
- "@version{#2021-1-3}
+ "@version{2023-1-24}
   @syntax[]{(pango:context-language context) => language}
   @syntax[]{(setf pango:context-language context) language)}
   @argument[context]{a @class{pango:context} object}
-  @argument[language]{a @class{pango:language} tag}
+  @argument[language]{a @class{pango:language} tag, or @code{nil}}
   @begin{short}
     Accessor of the global language tag of the Pango context.
   @end{short}
-
-  The function @sym{pango:context-language} retrieves the global language tag
-  for the context. The function @sym{(setf pango:context-language)} sets the
-  global language tag for the context. The default language for the locale of
-  the running process can be found using the function
-  @fun{pango:language-default}.
+  The @sym{pango:context-language} function retrieves the global language tag
+  for the context. The @sym{(setf pango:context-language)} function sets the
+  global language. The default language for the locale of the running process
+  can be found using the @fun{pango:language-default} function.
   @see-class{pango:context}
   @see-class{pango:language}
   @see-function{pango:language-default}"

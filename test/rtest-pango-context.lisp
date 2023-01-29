@@ -82,7 +82,9 @@
 
 (test context-language
   (let ((context (pango:context-new)))
-    (is (typep (pango:context-language context) 'pango:language))
+    ;; No default Pango language for the context
+    (is-false (pango:context-language context))
+    ;; Set the default Pango language to the context
     (is (typep (setf (pango:context-language context)
                      (pango:language-default))
                'pango:language))
