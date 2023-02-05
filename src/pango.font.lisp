@@ -186,27 +186,24 @@
 ;;; ----------------------------------------------------------------------------
 
 (define-g-boxed-opaque font-description "PangoFontDescription"
+  :export t
+  :type-initializer "pango_font_description_get_type"
   :alloc (error "PangoFontDescription cannot be created from the Lisp side."))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'font-description)
       "GBoxed"
       (documentation 'font-description 'type)
- "@version{#2023-1-18}
+ "@version{#2023-2-5}
   @begin{short}
     The @sym{pango:font-description} structure represents the description of an
     ideal font.
   @end{short}
-  These structures are used both to list what fonts are available on the system
-  and also for specifying the characteristics of a font to load.
-  @begin{pre}
-(define-g-boxed-opaque font-description \"PangoFontDescription\"
-  :alloc (error \"PangoFontDescription cannot be created from the Lisp side.\"))
-  @end{pre}
+  The @sym{pango:font-description} structure is opaque, and has no user visible
+  fields. These structures are used both to list what fonts are available on the
+  system and also for specifying the characteristics of a font to load.
   @see-class{pango:context}
   @see-class{pango:layout}")
-
-(export (boxed-related-symbols 'font-description))
 
 ;;; ----------------------------------------------------------------------------
 ;;; enum PangoStyle
@@ -450,17 +447,16 @@
 ;;; struct PangoFontMetrics
 ;;; ----------------------------------------------------------------------------
 
-(glib-init:at-init ()
-  (cffi:foreign-funcall "pango_font_metrics_get_type" :size))
-
 (define-g-boxed-opaque font-metrics "PangoFontMetrics"
+  :export t
+  :type-initializer "pango_font_metrics_get_type"
   :alloc (error "PangoFontMetrics cannot be created from the Lisp side."))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'font-metrics)
-      "CStruct"
+      "GBoxed"
       (documentation 'font-metrics 'type)
- "@version{#2021-1-14}
+ "@version{#2023-2-5}
   @begin{short}
     A @sym{pango:font-metrics} structure holds the overall metric information
     for a font, possibly restricted to a script.
@@ -468,10 +464,6 @@
   The fields of this structure are private to implementations of a font backend.
   See the documentation of the corresponding getters for documentation of their
   meaning.
-  @begin{pre}
-(define-g-boxed-opaque font-metrics \"PangoFontMetrics\"
-  :alloc (error \"PangoFontMetrics cannot be created from the Lisp side.\"))
-  @end{pre}
   @see-class{pango:context}
   @see-function{pango:font-metrics-ascent}
   @see-function{pango:font-metrics-descent}
@@ -482,8 +474,6 @@
   @see-function{pango:font-metrics-underline-position}
   @see-function{pango:font-metrics-strikethrough-thickness}
   @see-function{pango:font-metrics-strikethrough-position}")
-
-(export 'font-metrics)
 
 ;;; ----------------------------------------------------------------------------
 ;;; PangoFont

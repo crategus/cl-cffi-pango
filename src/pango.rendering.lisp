@@ -136,6 +136,8 @@
 ;;; ----------------------------------------------------------------------------
 
 (define-g-boxed-cstruct item "PangoItem"
+  (:export t
+   :type-initializer "pango_item_get_type")
   (offset :int :initform 0)
   (length :int :initform 0)
   (num-chars :int :initform 0)
@@ -143,14 +145,16 @@
 
 #+liber-documentation
 (setf (liber:alias-for-class 'item)
-      "Boxed CStruct"
+      "GBoxed"
       (documentation 'item 'type)
- "@version{#2021-1-11}
+ "@version{#2023-2-5}
   @begin{short}
     The @sym{pango:item} structure stores information about a segment of text.
   @end{short}
   @begin{pre}
 (define-g-boxed-cstruct item \"PangoItem\"
+  (:export t
+   :type-initializer \"pango_item_get_type\")
   (offset :int :initform 0)
   (length :int :initform 0)
   (num-chars :int :initform 0)
@@ -162,9 +166,11 @@
     @entry[num-chars]{Number of Unicode characters in the item.}
     @entry[analysis]{Analysis results for the item.}
   @end{table}
+  @see-slot{pango:item-offset}
+  @see-slot{pango:item-length}
+  @see-slot{pango:item-num-chars}
+  @see-slot{pango:item-analysis}
   @see-symbol{pango:analysis}")
-
-(export 'item)
 
 ;;; ----------------------------------------------------------------------------
 ;;; PANGO_ANALYSIS_FLAG_CENTERED_BASELINE

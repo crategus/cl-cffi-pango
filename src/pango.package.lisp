@@ -289,7 +289,7 @@
       @about-function{color-to-string}
 
       @about-symbol{attr-class}
-      @about-class{attribute}
+      @about-struct{attribute}
 
 
       @about-symbol{attr-string}

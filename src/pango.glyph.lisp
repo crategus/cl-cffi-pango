@@ -6,7 +6,7 @@
 ;;; See <http://www.pango.org>. The API documentation of the Lisp binding is
 ;;; available from <http://www.crategus.com/books/cl-cffi-gtk/>.
 ;;;
-;;; Copyright (C) 2011 - 2022 Dieter Kaiser
+;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
 ;;; This program is free software: you can redistribute it and/or modify
 ;;; it under the terms of the GNU Lesser General Public License for Lisp
@@ -210,10 +210,9 @@
 ;;; struct PangoMatrix
 ;;; ----------------------------------------------------------------------------
 
-(glib-init:at-init ()
-  (cffi:foreign-funcall "pango_matrix_get_type" :size))
-
 (define-g-boxed-cstruct matrix "PangoMatrix"
+  (:export t
+   :type-initializer "pango_matrix_get_type")
   (xx :double :initform 0.0d0)
   (xy :double :initform 0.0d0)
   (yx :double :initform 0.0d0)
@@ -223,20 +222,22 @@
 
 #+liber-documentation
 (setf (liber:alias-for-class 'matrix)
-      "CStruct"
+      "GBoxed"
       (documentation 'matrix 'type)
- "@version{#2021-1-4}
+ "@version{2023-2-5}
   @begin{short}
     A structure specifying a transformation between user-space coordinates and
     device coordinates.
   @end{short}
   The transformation is given by
   @begin{pre}
- x-device = x-user * xx + y-user * xy + x0
- y-device = x-user * yx + y-user * yy + y0
+xdevice = xuser * xx + yuser * xy + x0
+ydevice = xuser * yx + yuser * yy + y0
   @end{pre}
   @begin{pre}
 (define-g-boxed-cstruct matrix \"PangoMatrix\"
+  (:export t
+   :type-initializer \"pango_matrix_get_type\")
   (xx :double :initform 0.0d0)
   (xy :double :initform 0.0d0)
   (yx :double :initform 0.0d0)
@@ -252,33 +253,7 @@
     @entry[x0]{x translation.}
     @entry[y0]{y translation.}
   @end{table}
-  @see-function{pango:matrix-init}")
-
-(export 'matrix)
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_MATRIX_INIT
-;;; ----------------------------------------------------------------------------
-
-(defun matrix-init ()
- #+liber-documentation
- "@version{#2021-1-4}
-  @return{A @class{pango:matrix} initialized to the identiy transform.}
-  @begin{short}
-    Constant that can be used to initialize a Pango matrix to the identity
-    transform.
-  @end{short}
-  @begin[Example]{dictionary}
-    @begin{pre}
-(let ((matrix (pango:matrix-init)))
-  (pango:matrix-rotate matrix 45.0d0)
-  ... )
-    @end{pre}
-  @end{dictionary}
-  @see-class{pango:matrix}"
-  (make-matrix :xx 1.0d0 :yy 1.0d0))
-
-(export 'matrix-init)
+  @see-constructor{pango:matrix-init}")
 
 ;;; ----------------------------------------------------------------------------
 ;;; PangoGlyph
@@ -411,29 +386,33 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoGlyphString
+;;;
+;;; struct PangoGlyphString {
+;;;   int num_glyphs;
+;;;   PangoGlyphInfo* glyphs;
+;;;   int* log_clusters;
+;;; }
 ;;; ----------------------------------------------------------------------------
 
+;; TODO: Implement PangoGlyphString as a boxed CStruct
+
 (define-g-boxed-opaque glyph-string "PangoGlyphString"
+  :export t
+  :type-initializer "pango_glyph_string_get_type"
   :alloc (%glyph-string-new))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'glyph-string)
       "GBoxed"
       (documentation 'glyph-string 'type)
- "@version{#2021-4-15}
+ "@version{#2023-2-5}
   @begin{short}
     The @sym{pango:glyph-string} structure is used to store strings of glyphs
     with geometry and visual attribute information.
   @end{short}
   The storage for the glyph information is owned by the structure which
   simplifies memory management.
-  @begin{pre}
-(define-g-boxed-opaque pango:glyph-string \"PangoGlyphString\"
-  :alloc (%glyph-string-new))
-  @end{pre}
   @see-class{pango:glyph-item}")
-
-(export (boxed-related-symbols 'glyph-string))
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoGlyphItem
@@ -444,25 +423,27 @@
 ;;; };
 ;;; ----------------------------------------------------------------------------
 
-;; FIXME: PangoGlyphItem is not a Gboxed type
+;; TODO: Implement PangoGlyphItem as a boxed CStruct
 
 (define-g-boxed-opaque glyph-item "PangoGlyphitem"
+  :export t
+  :type-initializer "pango_glyph_item_get_type"
   :alloc (error "PangoGlyphItem cannot be created from the Lisp side."))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'glyph-item)
-      "CStruct"
+      "GBoxed"
       (documentation 'glyph-item 'type)
- "@version{#2021-4-15}
+ "@version{#2023-2-4}
   @begin{short}
     A @sym{pango:glyph-item} structure is a pair of a @class{pango:item}
-    structure and the glyphs resulting from shaping the text corresponding to
+    instance and the glyphs resulting from shaping the text corresponding to
     an item.
   @end{short}
   As an example of the usage of the @sym{pango:glyph-item} structure, the
   results of shaping text with the @class{pango:layout} class is a list of
   @class{pango:layout-line} objects, each of which contains a list of
-  @sym{pango:glyph-item} structures.
+  @sym{pango:glyph-item} instances.
   @see-class{pango:item}
   @see-class{pango:layout}
   @see-class{pango:layout-line}")
@@ -714,12 +695,55 @@
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
+;;; PANGO_MATRIX_INIT
+;;; ----------------------------------------------------------------------------
+
+(defun matrix-init ()
+ #+liber-documentation
+ "@version{#2023-2-4}
+  @return{A newly allocated @class{pango:matrix} initialized to the identiy
+    transform.}
+  @begin{short}
+    Constant that can be used to initialize a Pango matrix to the identity
+    transform.
+  @end{short}
+  @begin[Example]{dictionary}
+    @begin{pre}
+(let ((matrix (pango:matrix-init)))
+  (pango:matrix-rotate matrix 45.0d0)
+  ... )
+    @end{pre}
+  @end{dictionary}
+  @see-class{pango:matrix}"
+  (make-matrix :xx 1.0d0 :yy 1.0d0))
+
+(export 'matrix-init)
+
+;;; ----------------------------------------------------------------------------
+;;; matrix-new
+;;; ----------------------------------------------------------------------------
+
+#+nil
+(defun matrix-new (&key (xx 0.0d0) (xy 0.0d0) (yx 0.0d0) (yy 0.0d0)
+                        (x0 0.0d0) (y0 0.0d0))
+ #+liber-documentation
+ "@version{2023-2-4}
+  @argument[xx, xy, yx, yy, x0, y0]{numbers corced to double floats with the
+    components of the transformation matrix}
+  @return{The newly allocated @class{pango:matrix} instance.}
+  @short{Creates a new Pango matrix.}
+  @see-class{pango:matrix}"
+  (make-matrix :xx xx :xy xy :yx yx :yy yy :x0 x0 :y0 y0))
+
+(export 'matrix-new)
+
+;;; ----------------------------------------------------------------------------
 ;;; pango_matrix_copy ()
 ;;; ----------------------------------------------------------------------------
 
 (defun matrix-copy (matrix)
  #+liber-documentation
- "@version{#2021-1-4}
+ "@version{2023-2-4}
   @argument[matrix]{a @class{pango:matrix} instance}
   @return{The newly allocated @class{pango:matrix} instance.}
   @short{Copies a Pango matrix.}

@@ -721,10 +721,9 @@
 ;;; struct PangoColor
 ;;; ----------------------------------------------------------------------------
 
-(glib-init:at-init ()
-  (cffi:foreign-funcall "pango_color_get_type" :size))
-
 (define-g-boxed-cstruct color "PangoColor"
+  (:export t
+   :type-initializer "pango_color_get_type")
   (red :uint16 :initform 0)
   (green :uint16 :initform 0)
   (blue :uint16 :initform 0))
@@ -733,19 +732,31 @@
 (setf (liber:alias-for-class 'color)
       "GBoxed"
       (documentation 'color 'type)
- "@version{2023-1-19}
+ "@version{2023-2-5}
   @begin{short}
     The @sym{pango:color} structure is used to represent a color in an
-    uncalibrated RGB color-space.
+    uncalibrated RGB color space.
   @end{short}
   @begin{pre}
 (define-g-boxed-cstruct color \"PangoColor\"
+  (:export t
+   :type-initializer \"pango_color_get_type\")
   (red :uint16 :initform 0)
   (green :uint16 :initform 0)
   (blue :uint16 :initform 0))
-  @end{pre}")
-
-(export (boxed-related-symbols 'color))
+  @end{pre}
+  @begin[code]{table}
+    @entry[red]{An unsigned integer with the red component of the color.}
+    @entry[green]{An unsigned integer with the green component of the color.}
+    @entry[blue]{An unsigned integer with the blue component of the color.}
+  @end{table}
+  @see-constructor{pango:color-new}
+  @see-constructor{pango:color-copy}
+  @see-constructor{pango:color-parse}
+  @see-constructor{pango:color-parse-with-alpha}
+  @see-slot{pango:color-red}
+  @see-slot{pango:color-green}
+  @see-slot{pango:color-red}")
 
 ;;; --- color-red --------------------------------------------------------------
 
@@ -753,8 +764,8 @@
 (setf (liber:alias-for-function 'color-red)
       "Accessor"
       (documentation 'color-red 'function)
- "@version{2023-1-19}
-  @syntax[]{(pago:color-red instance) => red}
+ "@version{2023-2-5}
+  @syntax[]{(pango:color-red instance) => red}
   @syntax[]{(setf (pango:color-red instance) red)}
   @begin{short}
     Accessor of the @code{red} slot of the @class{pango:color} color.
@@ -769,8 +780,8 @@
 (setf (liber:alias-for-function 'color-green)
       "Accessor"
       (documentation 'color-green 'function)
- "@version{2023-1-19}
-  @syntax[]{(pago:color-green instance) => green}
+ "@version{2023-2-5}
+  @syntax[]{(pango:color-green instance) => green}
   @syntax[]{(setf (pango:color-green instance) green)}
   @begin{short}
     Accessor of the @code{green} slot of the @class{pango:color} color.
@@ -785,8 +796,8 @@
 (setf (liber:alias-for-function 'color-blue)
       "Accessor"
       (documentation 'color-blue 'function)
- "@version{2023-1-19}
-  @syntax[]{(pago:color-blue instance) => blue}
+ "@version{2023-2-5}
+  @syntax[]{(pango:color-blue instance) => blue}
   @syntax[]{(setf (pango:color-blue instance) blue)}
   @begin{short}
     Accessor of the @code{blue} slot of the @class{pango:color} color.
@@ -796,21 +807,21 @@
   @see-class{pango:color}")
 
 ;;; ----------------------------------------------------------------------------
-;;; pango:color-new
+;;; color-new
 ;;; ----------------------------------------------------------------------------
 
 (declaim (inline color-new))
 
 (defun color-new (&key (red 0) (green 0) (blue 0))
  #+liber-documentation
- "@version{2023-1-19}
-  @argument[red]{an unsigned integer with the red component of the color, this
-    is a value between 0 and 65535, with 65535 indicating full intensity}
+ "@version{2023-2-5}
+  @argument[red]{an unsigned integer with the red component of the color}
   @argument[green]{an unsigned integer with the green component of the color}
   @argument[blue]{an unsigned integer with the blue component of the color}
   @begin{short}
     Creates a new @class{pango:color} color.
   @end{short}
+  The values are between 0 and 65535, with 65535 indicating full intensity.
   @see-class{pango:color}
   @see-function{pango:color-copy}"
   (make-color :red red :green green :blue blue))
@@ -825,7 +836,7 @@
 
 (defun color-copy (color)
  #+liber-documentation
- "@version{2023-1-19}
+ "@version{2023-2-5}
   @argument[color]{a @symbol{pango:color} instance}
   @return{The newly created @class{pango:color} instance.}
   @begin{short}
@@ -847,24 +858,25 @@
 
 (defun color-parse (spec)
  #+liber-documentation
- "@version{2023-1-19}
+ "@version{2023-2-5}
   @argument[spec]{a string specifying a color}
-  @return{A @class{pango:color} instance with the result, or @code{nil}.}
+  @return{A newly created @class{pango:color} instance with the result, or
+    @code{nil}.}
   @begin{short}
     Fill in the fields of a color from a string specification.
   @end{short}
   The string can either one of a large set of standard names, taken from the
-  X11 rgb.txt file, or it can be a hex value in the form '#rgb' '#rrggbb'
-  '#rrrgggbbb' or '#rrrrggggbbbb' where 'r', 'g' and 'b' are hex digits of the
-  red, green, and blue components of the color, respectively. White in the four
-  forms is '#fff' '#ffffff' '#fffffffff' and '#ffffffffffff'.
+  X11 @file{rgb.txt} file, or it can be a hex value in the form @code{#rgb},
+  @code{#rrggbb}, @code{#rrrgggbbb} or @code{#rrrrggggbbbb} where @code{r},
+  @code{g}, and @code{b} are hex digits of the red, green, and blue components
+  of the color, respectively. White in the four forms is @code{#fff},
+  @code{#ffffff}, @code{#fffffffff} and @code{#ffffffffffff}.
   @begin[Examples]{dictionary}
     @begin{pre}
 (pango:color-parse \"blue\")
 => #S(PANGO:COLOR :RED 0 :GREEN 0 :BLUE 65535)
 (pango:color-to-string *)
 => \"#00000000ffff\"
-
 (pango:color-parse \"white\")
 => #S(PANGO:COLOR :RED 65535 :GREEN 65535 :BLUE 65535)
 (pango:color-to-string *)
@@ -890,25 +902,26 @@
 
 (defun color-parse-with-alpha (spec)
  #+liber-documentation
- "@version{2023-1-19}
+ "@version{2023-2-5}
   @syntax[]{(pango:color-parse-with-alpha spec) => color, alpha}
   @argument[spec]{a string specifying a color}
-  @argument[color]{a @class{pango:color} instance with the result, or
-    @code{nil}}
+  @argument[color]{a newly created @class{pango:color} instance with the result,
+    or @code{nil}}
   @argument[alpha]{an unsigned integer with the alpha value}
   @begin{short}
     Fill in the fields of a color from a string specification.
   @end{short}
   The string can either one of a large set of standard names, taken from the
-  CSS specification, or it can be a hexadecimal value in the form '#rgb'
-  '#rrggbb' '#rrrgggbbb' or '#rrrrggggbbbb' where 'r', 'g' and 'b' are hex
-  digits of the red, green, and blue components of the color, respectively.
-  White in the four forms is '#fff' '#ffffff' '#fffffffff' and '#ffffffffffff'.
+  CSS specification, or it can be a hexadecimal value in the form @code{#rgb},
+  @code{#rrggbb}, @code{#rrrgggbbb} or @code{#rrrrggggbbbb} where @code{r},
+  @code{g} and @code{b} are hex digits of the red, green, and blue components
+  of the color, respectively. White in the four forms is @code{#fff},
+  @code{#ffffff}, @code{#fffffffff} and @code{#ffffffffffff}.
 
-  Additionally, parse strings of the form '#rgba', '#rrggbbaa',
-  '#rrrrggggbbbbaaaa', and set alpha to the value specified by the hex digits
-  for 'a'. If no alpha component is found in @arg{spec}, alpha is set to 0xffff,
-  for a solid color.
+  Additionally, parse strings of the form @code{#rgba}, @code{#rrggbbaa},
+  @code{#rrrrggggbbbbaaaa}, and set alpha to the value specified by the hex
+  digits for @code{a}. If no alpha component is found in @arg{spec}, alpha is
+  set to @code{0xffff}, for a solid color.
   @see-class{pango:color}
   @see-function{pango:color-parse}"
   (let ((color (make-color)))
@@ -935,13 +948,13 @@
 
 (defcfun ("pango_color_to_string" color-to-string) :string
  #+liber-documentation
- "@version{2023-1-19}
+ "@version{2023-2-5}
   @argument[color]{a @class{pango:color} instance}
   @return{A string with the hexadecimal form of @arg{color}.}
   @begin{short}
     Returns a textual specification of @arg{color} in the hexadecimal form
-    #rrrrggggbbbb, where r, g and b are hex digits representing the red, green,
-    and blue components respectively.
+    @code{#rrrrggggbbbb}, where @code{r}, @code{g} and @code{b} are hex digits
+    representing the red, green, and blue components respectively.
   @end{short}
   @see-class{pango:color}
   @see-function{pango:color-parse}"
@@ -975,6 +988,9 @@
 ;;;     function to check two attributes of this type for equality
 ;;;     (see pango_attribute_equal())
 ;;; ----------------------------------------------------------------------------
+
+;; TODO: The implementation of PangoAttribute is not complet and does not
+;; work as expected. More work is neccessary.
 
 (defcstruct attr-class
   (type attr-type)
@@ -1019,40 +1035,69 @@
 ;;;     included in the range
 ;;; ----------------------------------------------------------------------------
 
-(glib-init:at-init ()
-  (cffi:foreign-funcall "pango_attribute_get_type" :size))
+;; TODO: The implementation of PangoAttribute is not complet and does not
+;; work as expected. More work is neccessary.
 
 (define-g-boxed-cstruct attribute "PangoAttribute"
+  (:export t
+   :type-initializer "pango_attribute_get_type")
   (klass (:pointer (:struct attr-class)))
   (start-index :uint)
   (end-index :uint))
-
-;  :alloc (error "PangoAttribute cannot be created from the Lisp side."))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'attribute)
       "GBoxed"
       (documentation 'attribute 'type)
- "@version{#2021-1-17}
+ "@version{#2023-2-5}
   @begin{short}
     The @sym{pango:attribute} structure represents the common portions of all
     attributes.
   @end{short}
   Particular types of attributes include this structure as their initial
   portion. The common portion of the attribute holds the range to which the
-  value in the type-specific part of the attribute applies and should be
-  initialized using the function @fun{pango:attribute-init}. By default an
-  attribute will have an all-inclusive range of [0,G_MAXUINT].
-  @see-symbol{pango:attr-type}")
-
-(export (boxed-related-symbols 'attribute))
+  value in the type specific part of the attribute applies and should be
+  initialized using the @fun{pango:attribute-init} function. By default an
+  attribute will have an all inclusive range of @code{[0,G_MAXUINT]}.
+  @begin{pre}
+(define-g-boxed-cstruct attribute \"PangoAttribute\"
+  (:export t
+   :type-initializer \"pango_attribute_get_type\")
+  (klass (:pointer (:struct attr-class)))
+  (start-index :uint)
+  (end-index :uint))
+  @end{pre}
+  @begin[code]{table}
+    @entry[klass]{The @symbol{pango:attr-class} class structure holding
+      information about the type of the attribute.}
+    @entry[start-index]{An unsigned integer with the start index of the range
+      (in bytes).}
+    @entry[end-index]{An unsigend integer with the end index of the range (in
+      bytes). The character at this index is not included in the range.}
+  @end{table}
+  @see-slot{pango:attribute-klass}
+  @see-slot{pango:attribute-start-index}
+  @see-slot{pango:attribute-end-index}
+  @see-symbol{pango:attr-type}
+  @see-function{pango:attribute-init}")
 
 ;;; --- attribute-type ---------------------------------------------------------
+
+;; Get the type of the PangoAttribute from the KLASS slot
 
 (defun attribute-type (attr)
   (cffi:foreign-slot-value (attribute-klass attr) '(:struct attr-class) 'type))
 
 (export 'attribute-type)
+
+;;; --- attribute-new ----------------------------------------------------------
+
+(declaim (inline attribute-new))
+
+(defun attribute-new ()
+  (make-instance 'attribute))
+
+(export 'attribute-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; PANGO_ATTR_INDEX_FROM_TEXT_BEGINNING
@@ -1377,25 +1422,24 @@
 ;;; PangoAttrList
 ;;; ----------------------------------------------------------------------------
 
-(glib-init:at-init ()
-  (cffi:foreign-funcall "pango_attr_list_get_type" :size))
-
 (define-g-boxed-opaque attr-list "PangoAttrList"
+  :type-initializer "pango_attr_list_get_type"
   :alloc (%attr-list-new))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'attr-list)
       "GBoxed"
       (documentation 'attr-list 'type)
- "@version{#2021-5-21}
+ "@version{#2023-2-5}
   @begin{short}
     The @sym{pango:attr-list} structure represents a list of attributes that
     apply to a section of text.
   @end{short}
+  The @sym{pango:attr-list} structure is opaque, and has no user visible fields.
   The attributes are, in general, allowed to overlap in an arbitrary fashion,
-  however, if the attributes are manipulated only through the function
-  @fun{pango:attr-list-change}, the overlap between properties will meet
-  stricter criteria.
+  however, if the attributes are manipulated only through the
+  @fun{pango:attr-list-change} function, the overlap between properties will
+  meet stricter criteria.
 
   Since the @sym{pango:attr-list} structure is stored as a linear list, it is
   not suitable for storing attributes for large amounts of text. In general,
@@ -1404,37 +1448,33 @@
   @see-class{pango:attr-iterator}
   @see-function{pango:attr-list-change}")
 
-(export (boxed-related-symbols 'attr-list))
-
 ;;; ----------------------------------------------------------------------------
 ;;; PangoAttrIterator
 ;;; ----------------------------------------------------------------------------
 
-(glib-init:at-init ()
-  (cffi:foreign-funcall "pango_attr_iterator_get_type" :size))
-
 (define-g-boxed-opaque attr-iterator "PangoAttrIterator"
+  :export t
+  :type-initializer "pango_attr_iterator_get_type"
   :alloc (error "PangoAttrIterator cannot be created from the Lisp side."))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'attr-iterator)
-      "Boxed CStruct"
+      "GBoxed"
       (documentation 'attr-iterator 'type)
- "@version{#2021-1-11}
+ "@version{#2023-2-5}
   @begin{short}
     The @sym{pango:attr-iterator} structure is used to represent an iterator
     through a @class{pango:attr-list} structure.
   @end{short}
-  A new iterator is created with the function @fun{pango:attr-list-iterator}.
-  Once the iterator is created, it can be advanced through the style changes in
-  the text using the function @fun{pango:attr-iterator-next}. At each style
-  change, the range of the current style segment and the attributes currently
-  in effect can be queried.
+  The @sym{pango:attr-iterator} structure is opaque, and has no user visible
+  fields. A new iterator is created with the @fun{pango:attr-list-iterator}
+  function. Once the iterator is created, it can be advanced through the style
+  changes in the text using the @fun{pango:attr-iterator-next} function. At
+  each style change, the range of the current style segment and the attributes
+  currently in effect can be queried.
   @see-class{pango:attr-list}
   @see-function{pango:attr-list-iterator}
   @see-function{pango:attr-iterator-next}")
-
-(export (boxed-related-symbols 'attr-iterator))
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_type_register ()

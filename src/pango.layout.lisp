@@ -298,31 +298,26 @@
 ;; TODO: Implement PangoLayoutLine as a Gboxed Cstruct
 
 (define-g-boxed-opaque layout-line "PangoLayoutLine"
+  :export t
+  :type-initializer "pango_layout_line_get_type"
   :alloc (error "Use Pango to create PANGO-LAYOUT-LINEs"))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'layout-line)
-      "CStruct"
+      "GBoxed"
       (documentation 'layout-line 'type)
- "@version{#2021-1-5}
+ "@version{#2023-2-5}
   @begin{short}
     The @sym{pango:layout-line} structure represents one of the lines resulting
     from laying out a paragraph via a @class{pango:layout} object.
   @end{short}
-  @sym{pango:layout-line} structures are obtained by calling the function
-  @fun{pango:layout-line} and are only valid until the text, attributes,
-  or settings of the parent @class{pango:layout} object are modified.
-
-  Routines for rendering @class{pango:layout} objects are provided in code
-  specific to each rendering system.
-  @begin{pre}
-(define-g-boxed-opaque pango:layout-line \"PangoLayoutLine\"
-  :alloc (error \"Use Pango to create PANGO-LAYOUT-LINEs\"))
-  @end{pre}
+  The @sym{pango:layout-line} instances are obtained by calling the
+  @fun{pango:layout-line} function and are only valid until the text,
+  attributes, or settings of the parent @class{pango:layout} object are
+  modified. Routines for rendering @class{pango:layout} objects are provided in
+  code specific to each rendering system.
   @see-class{pango:layout}
   @see-function{pango:layout-line}")
-
-(export (boxed-related-symbols 'layout-line))
 
 ;;; ----------------------------------------------------------------------------
 ;;; PangoLayoutRun
@@ -372,24 +367,21 @@
 ;;; ----------------------------------------------------------------------------
 
 (define-g-boxed-opaque layout-iter "PangoLayoutIter"
+  :export t
+  :type-initializer "pango_layout_iter_get_type"
   :alloc (error "Use Pango to create PANGO-LAYOUT-ITER"))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'layout-iter)
-      "CStruct"
+      "GBoxed"
       (documentation 'layout-iter 'type)
- "@version{#2021-1-5}
+ "@version{#2023-2-5}
   @begin{short}
     A @sym{pango:layout-iter} structure can be used to iterate over the visual
     extents of a @class{pango:layout} object.
   @end{short}
-
   The @sym{pango:layout-iter} structure is opaque, and has no user visible
   fields.
-  @begin{pre}
-(define-g-boxed-opaque layout-iter \"PangoLayoutIter\"
-  :alloc (error \"Use Pango to create PANGO-LAYOUT-ITER\"))
-  @end{pre}
   @see-class{pango:layout}")
 
 (export 'layout-iter)

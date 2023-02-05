@@ -68,22 +68,28 @@
 ;;; PangoTabArray
 ;;; ----------------------------------------------------------------------------
 
+(defcfun ("pango_tab_array_new" %tab-array-new) :pointer
+  (initial-size :int)
+  (positions-in-pixels :boolean))
+
 (define-g-boxed-opaque tab-array "PangoTabArray"
+  :export t
+  :type-initializer "pango_tab_array_get_type"
   :alloc (%tab-array-new 0 nil))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'tab-array)
       "GBoxed"
       (documentation 'tab-array 'type)
- "@version{#2021-4-15}
+ "@version{#2023-2-5}
   @begin{short}
     A @sym{pango:tab-array} structure contains an array of tab stops.
   @end{short}
-  Each tab stop has an alignment and a position.
-  @begin{pre}
-(define-g-boxed-opaque tab-array \"PangoTabArray\"
-  :alloc (%pango:tab-array-new))
-  @end{pre}")
+  The @sym{pango:tab-array} structure is opaque, and has no user visible
+  fields. It can be used to set tab stops in a @class{pango:layout} object.
+  Each tab  stop has an alignment, a position, and optionally a character to
+  use as decimal point.
+  @see-class{pango:layout}")
 
 (export 'tab-array)
 
@@ -128,11 +134,6 @@
 ;;;     the newly allocated PangoTabArray, which should be freed with
 ;;;     pango_tab_array_free().
 ;;; ----------------------------------------------------------------------------
-
-(defcfun ("pango_tab_array_new" %tab-array-new)
-    (g:boxed tab-array)
-  (initial-size :int)
-  (positions-in-pixels :boolean))
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_tab_array_new_with_positions ()

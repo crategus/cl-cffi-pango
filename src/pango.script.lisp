@@ -707,6 +707,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (define-g-boxed-opaque language "PangoLanguage"
+  :export t
   :type-initializer "pango_language_get_type"
   :alloc (error "PangoLanguage cannot be created from the Lisp side."))
 
@@ -714,10 +715,11 @@
 (setf (liber:alias-for-class 'language)
       "GBoxed"
       (documentation 'language 'type)
- "@version{#2023-1-18}
+ "@version{#2023-2-5}
   @begin{short}
     The @sym{pango:language} structure is used to represent a language.
   @end{short}
+  The @sym{pango:language} structure is opaque, and has no user visible fields.
   @see-function{pango:language-default}")
 
 (export (boxed-related-symbols 'language))
