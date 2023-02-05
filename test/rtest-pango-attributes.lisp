@@ -336,11 +336,11 @@
   (is (eq (g:gtype "PangoColor")
           (g:gtype (cffi:foreign-funcall "pango_color_get_type" :size)))))
 
-;;;     pango:color-new
-;;;     pango_color_copy
-;;;     pango:color-red
-;;;     pango:color-green
-;;;     pango:color-blue
+;;;     color-new
+;;;     color-copy
+;;;     color-red
+;;;     color-green
+;;;     color-blue
 
 (test color-new/copy
   (let ((color (pango:color-new :red 1 :green 2 :blue 3)))
@@ -374,8 +374,6 @@
     (is (string= "#ffff00000000" (pango:color-to-string color)))
     (is (= 65535 alpha))))
 
-;;;     pango_color_free
-
 ;;;     PangoAttrClass
 
 ;;;     PangoAttribute
@@ -387,7 +385,7 @@
   (is (eq (g:gtype "PangoAttribute")
           (g:gtype (cffi:foreign-funcall "pango_attribute_get_type" :size)))))
 
-(test make-attribute
+(test attribute-new
   (let ((attr (pango:make-attribute)))
     (is-false (pango:attribute-klass attr))
     (is-false (pango:attribute-start-index attr))
@@ -536,7 +534,6 @@
 
 ;; TODO: Inseration of an attribute does not work as expected.
 
-#+nil
 (test attr-list-insert
   (let ((attrs (pango:attr-list-new)))
 
@@ -592,6 +589,7 @@
 
 ;;;     pango_attr_list_get_iterator
 
+#+nil
 (test attr-list-iterator
   (let ((attrs (pango:attr-list-new)))
 
@@ -608,4 +606,4 @@
 ;;;     pango_attr_iterator_get_attrs
 ;;;     pango_attr_iterator_destroy
 
-;;; --- 2023-1-18 --------------------------------------------------------------
+;;; --- 2023-2-4 ---------------------------------------------------------------

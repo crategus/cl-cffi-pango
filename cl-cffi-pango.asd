@@ -73,7 +73,7 @@
 ;     (:file "pango.script")
 ;     (:file "pango.bidirectional")
 ;     (:file "pango.renderer")
-;     (:file "pango.glyph")
+     (:file "rtest-pango-glyph")
      (:file "rtest-pango-rendering")
 ;     (:file "pango.coverage")
      (:file "rtest-pango-vertical-text")
