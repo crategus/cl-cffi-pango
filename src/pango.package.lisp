@@ -7,7 +7,7 @@
 ;;; is available from <http://www.crategus.com/books/cl-cffi-gtk/>.
 ;;;
 ;;; Copyright (C) 2009 - 2011 Kalyanov Dmitry
-;;; Copyright (C) 2011 - 2022 Dieter Kaiser
+;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
 ;;; This program is free software: you can redistribute it and/or modify
 ;;; it under the terms of the GNU Lesser General Public License for Lisp
@@ -65,7 +65,6 @@
       The Pango rendering pipeline takes a string of Unicode characters and
       converts it into glyphs. The functions described in this section
       accomplish various steps of this process.
-
       @about-symbol{shape-flags}
       @about-struct{item}
       @about-symbol{analysis}
@@ -97,7 +96,6 @@
       @class{pango:font} class represents an abstract
       rendering-system-independent font. Pango provides routines to list
       available fonts, and to load a font of a given description.
-
       @about-class{font-description}
       @about-symbol{style}
       @about-symbol{weight}
@@ -190,7 +188,6 @@
       the function @fun{pango:shape} produces a string of glyphs which can be
       measured or drawn to the screen. The following structures are used to
       store information about glyphs.
-
       @about-variable{+pango-scale+}
       @about-symbol{rectangle}
       @about-function{rectangle-x}
@@ -287,11 +284,8 @@
       @about-function{color-parse-with-alpha}
       @about-function{color-free}
       @about-function{color-to-string}
-
       @about-symbol{attr-class}
       @about-struct{attribute}
-
-
       @about-symbol{attr-string}
       @about-symbol{attr-language}
       @about-symbol{attr-color}
@@ -301,7 +295,6 @@
       @about-symbol{attr-shape}
       @about-symbol{attr-size}
       @about-symbol{attr-font-features}
-
       @about-class{attr-list}
       @about-class{attr-iterator}
       @about-function{attr-type-register}
@@ -342,7 +335,6 @@
       @about-function{attr-allow-breaks-new}
       @about-function{attr-insert-hyphens-new}
       @about-function{attr-show-new}
-
       @about-function{attr-list-new}
       @about-function{attr-list-ref}
       @about-function{attr-list-unref}
@@ -495,14 +487,11 @@
       for formatting entire paragraphs of text at once. This includes
       paragraph-level functionality such as line-breaking, justification,
       alignment and ellipsization.
-
       @about-symbol{wrap-mode}
       @about-symbol{ellipsize-mode}
       @about-symbol{alignment}
-      @about-class{layout-line}
       @about-symbol{layout-run}
       @about-class{layout}
-      @about-class{layout-iter}
       @about-function{layout-new}
       @about-function{layout-copy}
       @about-function{layout-context}
@@ -547,6 +536,7 @@
       @about-function{layout-line-readonly}
       @about-function{layout-lines}
       @about-function{layout-lines-readonly}
+      @about-class{layout-iter}
       @about-function{layout-iter}
       @about-function{layout-iter-copy}
       @about-function{layout-iter-free}
@@ -568,6 +558,7 @@
       @about-function{layout-iter-line-yrange}
       @about-function{layout-iter-line-extents}
       @about-function{layout-iter-layout-extents}
+      @about-struct{layout-line}
       @about-function{layout-line-ref}
       @about-function{layout-line-unref}
       @about-function{layout-line-extents}
@@ -579,7 +570,6 @@
     @end{subsection}
     @begin[Scripts and Languages]{subsection}
       Identifying writing systems and languages.
-
       @about-symbol{script}
       @about-symbol{script-iter}
       @about-function{script-for-unichar}
@@ -611,7 +601,6 @@
       The rest of the facilities in this section are used internally by Pango
       already, and are provided to help applications that need more direct
       control over bidirectional setting of text.
-
       @about-symbol{direction}
       @about-symbol{bidi-type}
       @about-function{unichar-direction}
@@ -746,7 +735,6 @@
   @begin[Low Level Functionality]{section}
     @begin[Contexts]{subsection}
       Global context object.
-
       @about-class{context}
       @about-function{context-new}
       @about-function{context-changed}
@@ -767,7 +755,6 @@
     @end{subsection}
     @begin[Tab Stops]{subsection}
       Structures for storing tab stops.
-
       @about-class{tab-array}
       @about-symbol{tab-align}
       @about-function{tab-array-new}
@@ -783,7 +770,6 @@
     @end{subsection}
     @begin[Coverage Maps]{subsection}
       Unicode character range coverage storage.
-
       @about-symbol{coverage-level}
       @about-symbol{PANGO_TYPE_COVERAGE_LEVEL}
       @about-class{coverage}
@@ -799,7 +785,6 @@
     @end{subsection}
     @begin[PangoRenderer]{subsection}
       Rendering driver base class.
-
       @about-class{renderer}
       @about-symbol{render-part}
       @about-function{type-render-part}
@@ -838,7 +823,6 @@
     @end{subsection}
     @begin[Version Information]{subsection}
       Tools for checking Pango version at compile- and run-time.
-
       @about-function{PANGO_VERSION_ENCODE}
       @about-function{PANGO_VERSION}
       @about-function{PANGO_VERSION_MAJOR}

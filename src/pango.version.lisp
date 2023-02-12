@@ -6,7 +6,7 @@
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk/>.
 ;;;
-;;; Copyright (C) 2011 - 2022 Dieter Kaiser
+;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
 ;;; This program is free software: you can redistribute it and/or modify
 ;;; it under the terms of the GNU Lesser General Public License for Lisp
@@ -140,14 +140,15 @@
 
 (defcfun ("pango_version" version) :int
  #+liber-documentation
- "@version{#2020-12-1}
-  @return{The encoded version of the Pango library available at run time.}
+ "@version{2023-2-11}
+  @return{An integer with the encoded version of the Pango library available at
+    run time.}
   @begin{short}
     Returns the encoded version of Pango available at run-time.
   @end{short}
   @begin[Example]{dictionary}
     @begin{pre}
-(pango:version) => 14602
+(pango:version) => 15006
     @end{pre}
   @end{dictionary}
   @see-function{pango:version-string}")
@@ -160,7 +161,7 @@
 
 (defcfun ("pango_version_string" version-string) :string
  #+liber-documentation
- "@version{#2020-12-1}
+ "@version{2023-2-11}
   @begin{return}
     A string containing the version of the Pango library available at run
     time.
@@ -170,7 +171,7 @@
   @end{short}
   @begin[Example]{dictionary}
     @begin{pre}
-(pango:version-string) => \"1.46.2\"
+(pango:version-string) => \"1.50.6\"
     @end{pre}
   @end{dictionary}
   @see-function{pango:version}")
@@ -183,7 +184,7 @@
 
 (defcfun ("pango_version_check" version-check) :string
  #+liber-documentation
- "@version{#2020-12-1}
+ "@version{2023-2-11}
   @argument[required-major]{an integer with the required major version}
   @argument[required-minor]{an integer with the required minor version}
   @argument[required-micro]{an integer with the required major version}
@@ -194,17 +195,16 @@
   @begin{short}
     Checks that the Pango library in use is compatible with the given version.
   @end{short}
-
   Compatibility is defined by two things: first the version of the running
-  library is newer than the version
-  @arg{required-major}.@arg{required-minor}.@arg{required-micro}. Second the
-  running library must be binary compatible with the version
-  @arg{required-major}.@arg{required-minor}.@arg{required-micro} (same major
-  version.)
+  library is newer than the
+  @arg{required-major}.@arg{required-minor}.@arg{required-micro} version.
+  Second the running library must be binary compatible with the
+  @arg{required-major}.@arg{required-minor}.@arg{required-micro} version
+  (same major version.)
   @begin[Example]{dictionary}
     @begin{pre}
-(pango:version-check 1 46 0) => NIL
-(pango:version-check 1 48 0) => \"Pango version too old (micro mismatch)\"
+(pango:version-check 1 48 0) => NIL
+(pango:version-check 1 52 0) => \"Pango version too old (micro mismatch)\"
     @end{pre}
   @end{dictionary}
   @see-function{pango:version}

@@ -33,7 +33,7 @@
     ((:file "pango.package")
      (:file "pango.init")
      (:file "pango.version")
-     (:file "pango.script")
+     (:file "pango.script")          ; Identifying writing systems and languages
      (:file "pango.glyph")
      (:file "pango.vertical-text")
      (:file "pango.font")
@@ -69,41 +69,20 @@
     :components
     ((:file "rtest-pango")
      (:file "rtest-pango-attributes")
-;     (:file "pango.tab-array")
-;     (:file "pango.script")
-;     (:file "pango.bidirectional")
-;     (:file "pango.renderer")
-     (:file "rtest-pango-glyph")
-     (:file "rtest-pango-rendering")
-;     (:file "pango.coverage")
-     (:file "rtest-pango-vertical-text")
-     (:file "rtest-pango-font")
-     (:file "rtest-pango-context")
-     (:file "rtest-pango-layout")
+;    (:file "pango.bidirectional")
      (:file "rtest-pango-cairo-rendering")
-;     (:file "pango.markup")
+     (:file "rtest-pango-context")
+;    (:file "pango.coverage")
+     (:file "rtest-pango-font")
+     (:file "rtest-pango-glyph")
+     (:file "rtest-pango-layout")
+;    (:file "pango.markup")
+;    (:file "pango.renderer")
+     (:file "rtest-pango-rendering")
+     (:file "rtest-pango-script")
+;    (:file "pango.tab-array")
+     (:file "rtest-pango-version")
+     (:file "rtest-pango-vertical-text")
     ))))
-
-;; Examples for the Pango library
-
-(asdf:defsystem :cl-cffi-pango/example
-  :name "cl-cffi-pango/example"
-  :author "Dieter Kaiser"
-  :license "LLGPL"
-  :pathname "example/"
-  :serial t
-  :depends-on (:cl-cffi-pango :cl-cffi-cairo)
-  :components ((:file "pango-example")
-
-               (:file "png-image-draw")
-               (:file "svg-draw")
-
-               (:file "text-centered")
-               (:file "text-soulmate")
-               (:file "text-metrics")
-
-               (:file "cairo-rendering")
-
-               ))
 
 ;;; --- End of file cl-cffi-pango.asd ------------------------------------------

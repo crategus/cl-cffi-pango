@@ -2,11 +2,11 @@
 ;;; pango.script.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; for Pango 1.48 and modified to document the Lisp binding to the Pango
+;;; for Pango 1.50 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk/>.
 ;;;
-;;; Copyright (C) 2012 - 2020 Dieter Kaiser
+;;; Copyright (C) 2012 - 2023 Dieter Kaiser
 ;;;
 ;;; This program is free software: you can redistribute it and/or modify
 ;;; it under the terms of the GNU Lesser General Public License for Lisp
@@ -694,15 +694,6 @@
   @end{pre}")
 
 ;;; ----------------------------------------------------------------------------
-;;; PangoScriptIter
-;;;
-;;; typedef struct _PangoScriptIter PangoScriptIter;
-;;;
-;;; A PangoScriptIter is used to iterate through a string and identify ranges
-;;; in different scripts.
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
 ;;; PangoLanguage
 ;;; ----------------------------------------------------------------------------
 
@@ -715,14 +706,290 @@
 (setf (liber:alias-for-class 'language)
       "GBoxed"
       (documentation 'language 'type)
- "@version{#2023-2-5}
+ "@version{2023-2-6}
   @begin{short}
     The @sym{pango:language} structure is used to represent a language.
   @end{short}
-  The @sym{pango:language} structure is opaque, and has no user visible fields.
+  It is opaque, and has no user visible fields.
+  @see-constructor{pango:language-from-string}
   @see-function{pango:language-default}")
 
-(export (boxed-related-symbols 'language))
+;;; ----------------------------------------------------------------------------
+;;; pango_language_from_string ()
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_language_from_string" language-from-string)
+    (g:boxed language :return)
+ #+liber-documentation
+ "@version{2023-2-6}
+  @argument[language]{a string representing a language tag}
+  @return{The newly created @class{pango:language} instance.}
+  @begin{short}
+    Takes a RFC-3066 format language tag as a string and convert it to a
+    @class{pango:language} structure that can be efficiently copied and
+    compared with other language tags.
+  @end{short}
+  This function first canonicalizes the string by converting it to lowercase,
+  mapping '_' to '-', and stripping all characters other than letters and '-'.
+
+  Use the @fun{pango:language-default} function if you want to get the
+  @class{pango:language} instance for the current locale of the process.
+  @begin[Examples]{dictionary}
+    @begin{pre}
+(pango:language-from-string \"de-de\") => #<PANGO-LANGUAGE {1006D76393@}>
+(pango:language-to-string *) => \"de-de\"
+    @end{pre}
+  @end{dictionary}
+  @see-class{pango:language}
+  @see-function{pango:language-default}"
+  (language :string))
+
+(export 'language-from-string)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_language_to_string ()
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_language_to_string" language-to-string) :string
+ #+liber-documentation
+ "@version{2023-2-6}
+  @argument[language]{a @class{pango:language} instance}
+  @begin{return}
+    A string representing the Pango language tag.
+  @end{return}
+  @begin{short}
+    Gets the RFC-3066 format string representing the given Pango language tag.
+  @end{short}
+  @see-class{pango:language}"
+  (language (g:boxed language)))
+
+(export 'language-to-string)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_language_matches ()
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_language_matches" language-matches) :boolean
+ #+liber-documentation
+ "@version{2023-2-6}
+  @argument[language]{a @class{pango:language} instance}
+  @argument[range]{a list of language ranges, separated by ';', ':', ',',
+    or space characters, each element must either be '*', or a RFC 3066 language
+    range canonicalized as by the @fun{pango:language-from-string} function}
+  @return{@em{True} if a match was found.}
+  @begin{short}
+    Checks if a language tag matches one of the elements in a list of language
+    ranges.
+  @end{short}
+  A language tag is considered to match a range in the list if the range is '*',
+  the range is exactly the tag, or the range is a prefix of the tag, and the
+  character after it in the tag is '-'.
+  @begin[Examples]{dictionary}
+    @begin{pre}
+(pango:language-matches (pango:language-default) \"de-de en-gb\") => T
+(pango:language-matches (pango:language-default) \"en-gb\") => NIL
+    @end{pre}
+  @end{dictionary}
+  @see-class{pango:language}
+  @see-function{pango:language-from-string}"
+  (language (g:boxed language))
+  (range :string))
+
+(export 'language-matches)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_language_includes_script ()
+;;;
+;;; gboolean pango_language_includes_script (PangoLanguage *language,
+;;;                                          PangoScript script);
+;;;
+;;; Determines if script is one of the scripts used to write language. The
+;;; returned value is conservative; if nothing is known about the language tag
+;;; language, TRUE will be returned, since, as far as Pango knows, script might
+;;; be used to write language.
+;;;
+;;; This routine is used in Pango's itemization process when determining if a
+;;; supplied language tag is relevant to a particular section of text. It
+;;; probably is not useful for applications in most circumstances.
+;;;
+;;; This function uses pango_language_get_scripts() internally.
+;;;
+;;; language :
+;;;     a PangoLanguage, or NULL
+;;;
+;;; script :
+;;;     a PangoScript
+;;;
+;;; Returns :
+;;;     TRUE if script is one of the scripts used to write language or if
+;;;     nothing is known about language (including the case that language is
+;;;     NULL), FALSE otherwise.
+;;;
+;;; Since 1.4
+;;; ----------------------------------------------------------------------------
+
+;;; ----------------------------------------------------------------------------
+;;; pango_language_get_scripts ()
+;;;
+;;; const PangoScript * pango_language_get_scripts (PangoLanguage *language,
+;;;                                                 int *num_scripts);
+;;;
+;;; Determines the scripts used to to write language. If nothing is known about
+;;; the language tag language, or if language is NULL, then NULL is returned.
+;;; The list of scripts returned starts with the script that the language uses
+;;; most and continues to the one it uses least.
+;;;
+;;; The value num_script points at will be set to the number of scripts in the
+;;; returned array (or zero if NULL is returned).
+;;;
+;;; Most languages use only one script for writing, but there are some that use
+;;; two (Latin and Cyrillic for example), and a few use three (Japanese for
+;;; example). Applications should not make any assumptions on the maximum number
+;;; of scripts returned though, except that it is positive if the return value
+;;; is not NULL, and it is a small number.
+;;;
+;;; The pango_language_includes_script() function uses this function internally.
+;;;
+;;; language :
+;;;     a PangoLanguage, or NULL
+;;;
+;;; num_scripts :
+;;;     location to return number of scripts, or NULL
+;;;
+;;; Returns :
+;;;     An array of PangoScript values, with the number of entries in the array
+;;;     stored in num_scripts, or NULL if Pango does not have any information
+;;;     about this particular language tag (also the case if language is NULL).
+;;;     The returned array is owned by Pango and should not be modified or
+;;;     freed.
+;;;
+;;; Since 1.22
+;;; ----------------------------------------------------------------------------
+
+;;; ----------------------------------------------------------------------------
+;;; pango_language_get_default () -> language-default
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_language_get_default" language-default) (g:boxed language)
+ #+liber-documentation
+ "@version{2023-2-6}
+  @return{The default language as a @class{pango:language} instance.}
+  @begin{short}
+    Returns the @class{pango:language} instance for the current locale of the
+    process.
+  @end{short}
+  Note that this can change over the life of an application.
+
+  On Unix systems, this is the return value derived from
+  @code{setlocale(LC_CTYPE, NULL)}, and the user can affect this through the
+  environment variables @code{LC_ALL}, @code{LC_CTYPE} or @code{LANG} (checked
+  in that order). The locale string typically is in the form
+  @code{lang_COUNTRY}, where @code{lang} is an ISO-639 language code, and
+  @code{COUNTRY} is an ISO-3166 country code. For instance, @code{sv_FI} for
+  Swedish as written in Finland or @code{pt_BR} for Portuguese as written in
+  Brazil.
+
+  On Windows, the C library does not use any such environment variables, and
+  setting them will not affect the behavior of functions like @code{ctime()}. 
+  The user sets the locale through the Regional Options in the Control Panel. 
+  The C library, in the @code{setlocale()} function, does not use country and
+  language codes, but country and language names spelled out in English.
+  However, this function does check the above environment variables, and does
+  return a Unix-style locale string based on either said environment variables
+  or the thread's current locale.
+
+  Your application should call @code{setlocale(LC_ALL, \"\");} for the user
+  settings to take effect. GTK does this in its initialization functions
+  automatically by calling @code{gtk_set_locale()}.
+  @begin[Example]{dictionary}
+    @begin{pre}
+(pango:language-default) => #<PANGO-LANGUAGE {10019E6973@}>
+(pango:language-to-string *) => \"de-de\"
+    @end{pre}
+  @end{dictionary}
+  @see-class{pango:language}
+  @see-function{pango:language-sample-string}")
+
+(export 'language-default)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_language_get_preferred () -> language-preferred
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_language_get_preferred" %language-preferred) :pointer)
+
+(defun language-preferred ()
+ #+liber-documentation
+ "@version{2023-2-6}
+  @return{A list of @class{pango:language} instances, or @code{nil}.}
+  @begin{short}
+    Returns the list of languages that the user prefers, as specified by the
+     @code{PANGO_LANGUAGE} or @code{LANGUAGE} environment variables, in order 
+     of preference.
+  @end{short}
+  Note that this list does not necessarily include the language returned by
+  the @fun{pango:language-default} function.
+
+  When choosing language specific resources, such as the sample text returned
+  by the @fun{pango:language-sample-string} function, you should first try the 
+  default language, followed by the languages returned by this function.
+  @see-class{pango:language}
+  @see-function{pango:language-default}
+  @see-function{pango:language-sample-string}"
+  (with-foreign-object (ptr '(g:boxed language))
+    (unless (cffi:null-pointer-p (setf ptr (%language-preferred)))
+      (loop for count from 0
+            for lang = (cffi:mem-aref ptr :pointer count)
+            until (cffi:null-pointer-p lang)
+            collect (cffi:mem-ref lang '(g:boxed language))))))
+
+(export 'language-preferred)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_language_get_sample_string () -> language-sample-string
+;;; ----------------------------------------------------------------------------
+
+(defcfun ("pango_language_get_sample_string" language-sample-string) :string
+ #+liber-documentation
+ "@version{2023-2-6}
+  @argument[language]{a @class{pango:language} instance, or @code{nil}}
+  @begin{return}
+    The sample string.
+  @end{return}
+  @begin{short}
+    Get a string that is representative of the characters needed to render
+    a particular language.
+  @end{short}
+  The sample text may be a pangram, but is not necessarily. It is chosen to
+  be demonstrative of normal text in the language, as well as exposing font
+  feature requirements unique to the language. It is suitable for use as
+  sample text in a font selection dialog.
+
+  If @arg{language} is @code{nil}, the default language as found by the
+  @fun{pango:language-default} function is used.
+
+  If Pango does not have a sample string for @arg{language}, the classic
+  \"The quick brown fox...\" is returned.
+  @begin[Example]{dictionary}
+    @begin{pre}
+(pango:language-sample-string (pango:language-default))
+=> \"Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich.\"
+    @end{pre}
+  @end{dictionary}
+  @see-class{pango:language}
+  @see-function{pango:language-default}"
+  (language (g:boxed language)))
+
+(export 'language-sample-string)
+
+;;; ----------------------------------------------------------------------------
+;;; PangoScriptIter
+;;;
+;;; typedef struct _PangoScriptIter PangoScriptIter;
+;;;
+;;; A PangoScriptIter is used to iterate through a string and identify ranges
+;;; in different scripts.
+;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_script_for_unichar ()
@@ -870,264 +1137,5 @@
 ;;;
 ;;; Since 1.4
 ;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_language_from_string ()
-;;; ----------------------------------------------------------------------------
-
-(defcfun ("pango_language_from_string" language-from-string)
-    (g:boxed language :return)
- #+liber-documentation
- "@version{#2020-12-4}
-  @argument[language]{a string representing a language tag}
-  @return{A @class{pango:language} structure.}
-  @begin{short}
-    Takes a RFC-3066 format language tag as a string and convert it to a
-    @class{pango:language} structure that can be efficiently copied and
-    compared with other language tags.
-  @end{short}
-  This function first canonicalizes the string by converting it to lowercase,
-  mapping '_' to '-', and stripping all characters other than letters and '-'.
-
-  Use the function @fun{pango:language-default} if you want to get the
-  @class{pango:language} structure for the current locale of the process.
-  @begin[Examples]{dictionary}
-    @begin{pre}
-(pango:language-from-string \"de-de\") => #<PANGO-LANGUAGE {1006D76393@}>
-(pango:language-to-string *) => \"de-de\"
-    @end{pre}
-  @end{dictionary}
-  @see-class{pango:language}
-  @see-function{pango:language-default}"
-  (language :string))
-
-(export 'language-from-string)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_language_to_string ()
-;;; ----------------------------------------------------------------------------
-
-(defcfun ("pango_language_to_string" language-to-string) :string
- #+liber-documentation
- "@version{#2020-12-4}
-  @argument[language]{a @class{pango:language} tag}
-  @begin{return}
-    A string representing the Pango language tag.
-  @end{return}
-  @begin{short}
-    Gets the RFC-3066 format string representing the given Pango language tag.
-  @end{short}
-  @see-class{pango:language}"
-  (language (g:boxed language)))
-
-(export 'language-to-string)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_language_matches ()
-;;; ----------------------------------------------------------------------------
-
-(defcfun ("pango_language_matches" language-matches) :boolean
- #+liber-documentation
- "@version{#2020-12-4}
-  @argument[language]{a @class{pango:language} tag}
-  @argument[range-list]{a list of language ranges, separated by ';', ':', ',',
-    or space characters, each element must either be '*', or a RFC 3066 language
-    range canonicalized as by the function @fun{pango:language-from-string}}
-  @return{@em{True} if a match was found.}
-  @begin{short}
-    Checks if a language tag matches one of the elements in a list of language
-    ranges.
-  @end{short}
-  A language tag is considered to match a range in the list if the range is '*',
-  the range is exactly the tag, or the range is a prefix of the tag, and the
-  character after it in the tag is '-'.
-  @begin[Examples]{dictionary}
-    @begin{pre}
-(pango:language-matches (pango:language-default) \"de-de en-gb\") => T
-(pango:language-matches (pango:language-default) \"en-gb\") => NIL
-    @end{pre}
-  @end{dictionary}
-  @see-class{pango:language}
-  @see-function{pango:language-from-string}"
-  (language (g:boxed language))
-  (range-list :string))
-
-(export 'language-matches)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_language_includes_script ()
-;;;
-;;; gboolean pango_language_includes_script (PangoLanguage *language,
-;;;                                          PangoScript script);
-;;;
-;;; Determines if script is one of the scripts used to write language. The
-;;; returned value is conservative; if nothing is known about the language tag
-;;; language, TRUE will be returned, since, as far as Pango knows, script might
-;;; be used to write language.
-;;;
-;;; This routine is used in Pango's itemization process when determining if a
-;;; supplied language tag is relevant to a particular section of text. It
-;;; probably is not useful for applications in most circumstances.
-;;;
-;;; This function uses pango_language_get_scripts() internally.
-;;;
-;;; language :
-;;;     a PangoLanguage, or NULL
-;;;
-;;; script :
-;;;     a PangoScript
-;;;
-;;; Returns :
-;;;     TRUE if script is one of the scripts used to write language or if
-;;;     nothing is known about language (including the case that language is
-;;;     NULL), FALSE otherwise.
-;;;
-;;; Since 1.4
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_language_get_scripts ()
-;;;
-;;; const PangoScript * pango_language_get_scripts (PangoLanguage *language,
-;;;                                                 int *num_scripts);
-;;;
-;;; Determines the scripts used to to write language. If nothing is known about
-;;; the language tag language, or if language is NULL, then NULL is returned.
-;;; The list of scripts returned starts with the script that the language uses
-;;; most and continues to the one it uses least.
-;;;
-;;; The value num_script points at will be set to the number of scripts in the
-;;; returned array (or zero if NULL is returned).
-;;;
-;;; Most languages use only one script for writing, but there are some that use
-;;; two (Latin and Cyrillic for example), and a few use three (Japanese for
-;;; example). Applications should not make any assumptions on the maximum number
-;;; of scripts returned though, except that it is positive if the return value
-;;; is not NULL, and it is a small number.
-;;;
-;;; The pango_language_includes_script() function uses this function internally.
-;;;
-;;; language :
-;;;     a PangoLanguage, or NULL
-;;;
-;;; num_scripts :
-;;;     location to return number of scripts, or NULL
-;;;
-;;; Returns :
-;;;     An array of PangoScript values, with the number of entries in the array
-;;;     stored in num_scripts, or NULL if Pango does not have any information
-;;;     about this particular language tag (also the case if language is NULL).
-;;;     The returned array is owned by Pango and should not be modified or
-;;;     freed.
-;;;
-;;; Since 1.22
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_language_get_default () -> language-default
-;;; ----------------------------------------------------------------------------
-
-(defcfun ("pango_language_get_default" language-default)
-    (g:boxed language :return)
- #+liber-documentation
- "@version{#2020-4-28}
-  @return{The default language as a @class{pango:language} structure.}
-  @begin{short}
-    Returns the @class{pango:language} structure for the current locale of the
-    process.
-  @end{short}
-  Note that this can change over the life of an application.
-
-  On Unix systems, this is the return value derived from
-  @code{setlocale(LC_CTYPE, NULL)}, and the user can affect this through the
-  environment variables @code{LC_ALL}, @code{LC_CTYPE} or @code{LANG} (checked
-  in that order). The locale string typically is in the form
-  @code{lang_COUNTRY}, where @code{lang} is an ISO-639 language code, and
-  @code{COUNTRY} is an ISO-3166 country code. For instance, @code{sv_FI} for
-  Swedish as written in Finland or @code{pt_BR} for Portuguese as written in
-  Brazil.
-
-  On Windows, the C library does not use any such environment variables, and
-  setting them won't affect the behavior of functions like @code{ctime()}. The
-  user sets the locale through the Regional Options in the Control Panel. The
-  C library (in the @code{setlocale()} function) does not use country and
-  language codes, but country and language names spelled out in English.
-  However, this function does check the above environment variables, and does
-  return a Unix-style locale string based on either said environment variables
-  or the thread's current locale.
-
-  Your application should call @code{setlocale(LC_ALL, \"\");} for the user
-  settings to take effect. Gtk+ does this in its initialization functions
-  automatically by calling @code{gtk_set_locale()}. See @code{man setlocale}
-  for more details.
-  @begin[Example]{dictionary}
-    @begin{pre}
-(pango:language-default) => #<PANGO-LANGUAGE {10019E6973@}>
-(pango:language-to-string *) => \"de-de\"
-    @end{pre}
-  @end{dictionary}
-  @see-class{pango:language}
-  @see-function{pango:language-sample-string}")
-
-(export 'language-default)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_language_get_preferred ()
-;;;
-;;; PangoLanguage **
-;;; pango_language_get_preferred (void);
-;;;
-;;; Returns the list of languages that the user prefers, as specified by the
-;;; PANGO_LANGUAGE or LANGUAGE environment variables, in order of preference.
-;;; Note that this list does not necessarily include the language returned by
-;;; pango_language_get_default().
-;;;
-;;; When choosing language-specific resources, such as the sample text returned
-;;; by pango_language_get_sample_string(), you should first try the default
-;;; language, followed by the languages returned by this function.
-;;;
-;;; Returns :
-;;;     a NULL-terminated array of PangoLanguage*.
-;;;
-;;; Since 1.48
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_language_get_sample_string () -> language-sample-string
-;;; ----------------------------------------------------------------------------
-
-(defcfun ("pango_language_get_sample_string" language-sample-string) :string
- #+liber-documentation
- "@version{#2020-4-28}
-  @argument[language]{a @class{pango:language} structure, or @code{nil}}
-  @begin{return}
-    The sample string.
-  @end{return}
-  @begin{short}
-    Get a string that is representative of the characters needed to render
-    a particular language.
-  @end{short}
-
-  The sample text may be a pangram, but is not necessarily. It is chosen to
-  be demonstrative of normal text in the language, as well as exposing font
-  feature requirements unique to the language. It is suitable for use as
-  sample text in a font selection dialog.
-
-  If @arg{language} is @code{nil}, the default language as found by the
-  function @fun{pango:language-default} is used.
-
-  If Pango does not have a sample string for @arg{language}, the classic
-  \"The quick brown fox...\" is returned.
-  @begin[Example]{dictionary}
-    @begin{pre}
-(pango:language-sample-string (pango:language-default))
-=> \"Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich.\"
-    @end{pre}
-  @end{dictionary}
-  @see-class{pango:language}
-  @see-function{pango:language-default}"
-  (language (g:boxed language)))
-
-(export 'language-sample-string)
 
 ;;; --- End of file pango.script.lisp ------------------------------------------

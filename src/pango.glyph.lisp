@@ -189,6 +189,9 @@
 
 ;;; ----------------------------------------------------------------------------
 
+;; It is not a good idea to define the following functions
+
+#|
 (defun rectangle-x (rect)
   (cffi:foreign-slot-value rect '(:struct rectangle) 'x))
 
@@ -205,6 +208,7 @@
 (export 'rectangle-y)
 (export 'rectangle-width)
 (export 'rectangle-height)
+|#
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoMatrix
