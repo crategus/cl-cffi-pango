@@ -8,7 +8,7 @@ Who knows how to love you without being told
 Somebody tell me why I'm on my own
 If there's a soulmate for everyone")
 
-(defun draw-text-soulmate (cr width height)
+(defun pango-draw-text-soulmate (cr width height)
   (let ((layout (pango:cairo-create-layout cr)))
     (cairo:save cr)
     ;; Clear the background
@@ -37,4 +37,4 @@ If there's a soulmate for everyone")
       (pango:cairo-show-layout cr layout))
     (cairo:restore cr)))
 
-;;; --- 2023-1-16 --------------------------------------------------------------
+;;; --- 2023-2-12 --------------------------------------------------------------

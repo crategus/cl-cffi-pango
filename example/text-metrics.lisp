@@ -4,7 +4,7 @@
 "Ägypten
 Ägypten")
 
-(defun draw-text-metrics (cr crwidth crheight)
+(defun pango-draw-text-metrics (cr crwidth crheight)
   (let* ((layout (pango:cairo-create-layout cr))
          (font nil)
          (font-size (truncate (/ crheight 8)))
@@ -231,4 +231,4 @@
       ;; Restore the Cairo context
       (cairo:restore cr))))
 
-;;; --- 2023-1-16 --------------------------------------------------------------
+;;; --- 2023-2-12 --------------------------------------------------------------

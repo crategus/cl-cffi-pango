@@ -1,6 +1,6 @@
 (in-package :pango-example)
 
-(defun draw-cairo-rendering (cr width height)
+(defun pango-draw-cairo-rendering (cr width height)
   (let ((radius (- (/ (min width height) 2) 20))
         (circle 260)
         (n-words 12)
@@ -39,4 +39,4 @@
              (pango:cairo-show-layout cr layout)
              (cairo:restore cr)))))
 
-;;; --- 2023-1-17 --------------------------------------------------------------
+;;; --- 2023-2-12 --------------------------------------------------------------

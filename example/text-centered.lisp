@@ -1,6 +1,6 @@
 (in-package :pango-example)
 
-(defun draw-text-centered (cr width height)
+(defun pango-draw-text-centered (cr width height)
   (let ((layout (pango:cairo-create-layout cr)))
     (cairo:save cr)
     ;; Clear the background
@@ -23,4 +23,4 @@
       (pango:cairo-show-layout cr layout)
       (cairo:restore cr))))
 
-;;; --- 2023-1-16 --------------------------------------------------------------
+;;; --- 2023-2-12 --------------------------------------------------------------
