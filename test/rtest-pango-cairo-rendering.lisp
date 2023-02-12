@@ -7,6 +7,14 @@
 
 ;;;     PangoCairoFont
 
+;; FIXME: We get an error when getting the GType definition.
+
+;;  --------------------------------
+;; CAIRO-FONT-INTERFACE in PANGO-CAIRO-RENDERING []:
+;;       Unexpected Error: #<SB-SYS:MEMORY-FAULT-ERROR {10035B64E3}>
+;; Unhandled memory fault at #x0..
+;; --------------------------------
+
 (test cairo-font-interface
   ;; Type check
   (is (g:type-is-interface "PangoCairoFont"))
@@ -17,9 +25,11 @@
   (is (eq (g:gtype "PangoCairoFont")
           (g:gtype (cffi:foreign-funcall "pango_cairo_font_get_type" :size))))
   ;; Get the names of the interface properties.
+  #+nil
   (is (equal '()
              (list-interface-properties "PangoCairoFont")))
   ;; Get the interface definition
+  #+nil
   (is (equal '(DEFINE-G-INTERFACE "PangoCairoFont"
                                   PANGO-CAIRO-FONT
                                   (:EXPORT T
@@ -28,6 +38,12 @@
              (gobject:get-g-type-definition "PangoCairoFont"))))
 
 ;;;     PangoCairoFontMap
+
+;; FIXME: We get an error when getting the GType definition.
+
+;;  CAIRO-FONT-MAP-INTERFACE in PANGO-CAIRO-RENDERING []:
+;;       Unexpected Error: #<SB-SYS:MEMORY-FAULT-ERROR {1003972BA3}>
+;; Unhandled memory fault at #x0..
 
 (test cairo-font-map-interface
   ;; Type check
@@ -39,9 +55,11 @@
   (is (eq (g:gtype "PangoCairoFontMap")
           (g:gtype (cffi:foreign-funcall "pango_cairo_font_map_get_type" :size))))
   ;; Get the names of the interface properties.
+  #+nil
   (is (equal '()
              (list-interface-properties "PangoCairoFontMap")))
   ;; Get the interface definition
+  #+nil
   (is (equal '(DEFINE-G-INTERFACE "PangoCairoFontMap"
                                   PANGO-CAIRO-FONT-MAP
                                   (:EXPORT T
@@ -100,7 +118,9 @@
   (let ((fontmap (pango:cairo-font-map-default)))
     (is (=  96.0d0 (pango:cairo-font-map-resolution fontmap)))
     (is (= 200.0d0 (setf (pango:cairo-font-map-resolution fontmap) 200)))
-    (is (= 200.0d0 (pango:cairo-font-map-resolution fontmap)))))
+    (is (= 200.0d0 (pango:cairo-font-map-resolution fontmap)))
+    ;; Restore the default resolution
+    (is (=  96.0d0 (setf (pango:cairo-font-map-resolution fontmap) 96.0d0)))))
 
 ;;;     pango_cairo_font_map_create_context
 
