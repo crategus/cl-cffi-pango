@@ -7,7 +7,7 @@
 (defun pango-draw-text-metrics (cr crwidth crheight)
   (let* ((layout (pango:cairo-create-layout cr))
          (font nil)
-         (font-size (truncate (/ crheight 8)))
+         (font-size (truncate (/ crheight 12)))
          (factor 1.5)
          (line-spacing 0)
          (metrics nil)
