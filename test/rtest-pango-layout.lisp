@@ -373,8 +373,7 @@
         (is (= 21504 x))
         (is (=     0 y))
         (is (= 15360 width))
-        (is (= 19456 height)))
-)))
+        (is (= 19456 height))))))
 
 ;;;     pango_layout_index_to_line_x
 
@@ -407,8 +406,8 @@
       (is (equal '(1 0)
                  (multiple-value-list (pango:layout-xy-to-index layout 11264 0))))
       (is (equal '(2 0)
-                 (multiple-value-list (pango:layout-xy-to-index layout 21504 0))))
-)))
+                 (multiple-value-list
+                     (pango:layout-xy-to-index layout 21504 0)))))))
 
 ;;;     pango_layout_get_cursor_pos
 
@@ -423,8 +422,7 @@
       (is (equal '((11264 0 0 19456) (11264 0 0 19456))
                  (multiple-value-list (pango:layout-cursor-pos layout 1))))
       (is (equal '((21504 0 0 19456) (21504 0 0 19456))
-                 (multiple-value-list (pango:layout-cursor-pos layout 2))))
-)))
+                 (multiple-value-list (pango:layout-cursor-pos layout 2)))))))
 
 ;;;     pango_layout_move_cursor_visually
 
@@ -442,8 +440,7 @@
                      (pango:layout-move-cursor-visually layout t 1 0 1))))
       (is (equal '(3 0)
                  (multiple-value-list
-                     (pango:layout-move-cursor-visually layout t 2 0 1))))
-)))
+                     (pango:layout-move-cursor-visually layout t 2 0 1)))))))
 
 ;;;     pango_layout_get_extents
 ;;;     pango_layout_get_pixel_extents
@@ -457,8 +454,7 @@
       (is (equal '((1024 3072 81920 12288) (0 0 81920 19456))
                  (multiple-value-list (pango:layout-extents layout))))
       (is (equal '((1 3 80 12) (0 0 80 19))
-                 (multiple-value-list (pango:layout-pixel-extents layout))))
-)))
+                 (multiple-value-list (pango:layout-pixel-extents layout)))))))
 
 ;;;     pango_layout_get_size
 ;;;     pango_layout_get_pixel_size
@@ -472,8 +468,7 @@
       (is (equal '(81920 19456)
                  (multiple-value-list (pango:layout-size layout))))
       (is (equal '(80 19)
-                 (multiple-value-list (pango:layout-pixel-size layout))))
-)))
+                 (multiple-value-list (pango:layout-pixel-size layout)))))))
 
 ;;;     pango_layout_get_baseline
 ;;;     pango_layout_get_line_count
@@ -485,8 +480,7 @@
       (is (string= *sample-text-1*
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (= 15360 (pango:layout-baseline layout)))
-      (is (= 30 (pango:layout-line-count layout)))
-)))
+      (is (= 30 (pango:layout-line-count layout))))))
 
 ;;;     pango_layout_get_line
 
@@ -502,8 +496,8 @@
       ;; A second run
       (is (= 30 (pango:layout-line-count layout)))
       (loop for count from 0 below (pango:layout-line-count layout)
-            do (is (typep (pango:layout-line layout count) 'pango:layout-line)))
-)))
+            do (is (typep (pango:layout-line layout count)
+                          'pango:layout-line))))))
 
 ;;;     pango_layout_get_line_readonly
 
@@ -521,13 +515,9 @@
       (is (= 30 (pango:layout-line-count layout)))
       (loop for count from 0 below (pango:layout-line-count layout)
             do (is (typep (pango:layout-line-readonly layout count)
-                          'pango:layout-line)))
-)))
+                          'pango:layout-line))))))
 
 ;;;     pango_layout_get_lines
-
-;; TODO: Crashes in the second run
-;; What is wrong???
 
 (test layout-lines
   (with-cairo-context-for-image-surface (cr :rgb24 200 400)
@@ -541,8 +531,7 @@
       ;; A second run
       (is (= 30 (length (pango:layout-lines layout))))
       (is (every (lambda (x) (typep x 'pango:layout-line))
-                 (pango:layout-lines layout)))
-)))
+                 (pango:layout-lines layout))))))
 
 ;;;     pango_layout_get_lines_readonly
 
@@ -558,8 +547,7 @@
       ;; A second run
       (is (= 30 (length (pango:layout-lines-readonly layout))))
       (is (every (lambda (x) (typep x 'pango:layout-line))
-                 (pango:layout-lines-readonly layout)))
-)))
+                 (pango:layout-lines-readonly layout))))))
 
 ;;;     pango_layout_get_iter
 
@@ -570,8 +558,7 @@
       (is (typep (pango:layout-iter layout) 'pango:layout-iter))
       (is (string= "Some text"
                    (setf (pango:layout-text layout) "Some text")))
-      (is (typep (pango:layout-iter layout) 'pango:layout-iter))
-)))
+      (is (typep (pango:layout-iter layout) 'pango:layout-iter)))))
 
 ;;;     pango_layout_iter_copy
 
@@ -583,8 +570,7 @@
       (is (string= "Some text"
                    (setf (pango:layout-text layout) "Some text")))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (typep (pango:layout-iter-copy iter) 'pango:layout-iter))
-)))
+      (is (typep (pango:layout-iter-copy iter) 'pango:layout-iter)))))
 
 ;;;     pango_layout_iter_next_run
 
@@ -598,8 +584,7 @@
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
       (is (= 0 (pango:layout-iter-index iter)))
       (is-true (pango:layout-iter-next-run iter))
-      (is (= 78 (pango:layout-iter-index iter)))
-)))
+      (is (= 78 (pango:layout-iter-index iter))))))
 
 ;;;     pango_layout_iter_next_char
 ;;;     pango_layout_iter_get_index
@@ -618,8 +603,7 @@
       (is-true (pango:layout-iter-next-char iter))
       (is (= 2 (pango:layout-iter-index iter)))
       (is-true (pango:layout-iter-next-char iter))
-      (is (= 3 (pango:layout-iter-index iter)))
-)))
+      (is (= 3 (pango:layout-iter-index iter))))))
 
 ;;;     pango_layout_iter_next_cluster
 
@@ -636,8 +620,7 @@
       (is-true (pango:layout-iter-next-cluster iter))
       (is (= 1 (pango:layout-iter-index iter)))
       (is-true (pango:layout-iter-next-cluster iter))
-      (is (= 2 (pango:layout-iter-index iter)))
-)))
+      (is (= 2 (pango:layout-iter-index iter))))))
 
 ;;;     pango_layout_iter_next_line
 ;;;     pango_layout_iter_at_last_line
@@ -656,8 +639,7 @@
       (is-true (pango:layout-iter-next-line iter))
       (is (= 79 (pango:layout-iter-index iter)))
       (is-false (pango:layout-iter-at-last-line iter))
-      (is (= 34816 (pango:layout-iter-baseline iter)))
-)))
+      (is (= 34816 (pango:layout-iter-baseline iter))))))
 
 ;;;     pango_layout_iter_get_run
 ;;;     pango_layout_iter_get_run_readonly
@@ -671,8 +653,7 @@
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
       (is (typep (pango:layout-iter-run iter) 'pango:glyph-item))
-      (is (typep (pango:layout-iter-run-readonly iter) 'pango:glyph-item))
-)))
+      (is (typep (pango:layout-iter-run-readonly iter) 'pango:glyph-item)))))
 
 ;;;     pango_layout_iter_get_line
 ;;;     pango_layout_iter_get_line_readonly
@@ -686,8 +667,7 @@
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
       (is (typep (pango:layout-iter-line iter) 'pango:layout-line))
-      (is (typep (pango:layout-iter-line-readonly iter) 'pango:layout-line))
-)))
+      (is (typep (pango:layout-iter-line-readonly iter) 'pango:layout-line)))))
 
 ;;;     pango_layout_iter_get_layout
 
@@ -699,8 +679,7 @@
       (is (string= *sample-text-1*
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (eq layout (pango:layout-iter-layout iter)))
-)))
+      (is (eq layout (pango:layout-iter-layout iter))))))
 
 ;;;     pango_layout_iter_get_char_extents
 ;;;     pango_layout_iter_get_cluster_extents
@@ -719,8 +698,7 @@
       (is (equal '((0 3072 17408 12288) (0 0 15360 19456))
                  (multiple-value-list (pango:layout-iter-cluster-extents iter))))
       (is (equal '((0 2048 659456 17408) (0 0 659456 19456))
-                 (multiple-value-list (pango:layout-iter-run-extents iter))))
-)))
+                 (multiple-value-list (pango:layout-iter-run-extents iter)))))))
 
 ;;;     pango_layout_iter_get_line_yrange
 
@@ -733,8 +711,7 @@
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
       (is (equal '(0 19456)
-                 (multiple-value-list (pango:layout-iter-line-yrange iter))))
-)))
+                 (multiple-value-list (pango:layout-iter-line-yrange iter)))))))
 
 ;;;     pango_layout_iter_get_line_extents
 ;;;     pango_layout_iter_get_layout_extents
@@ -750,16 +727,11 @@
       (is (equal '((0 2048 659456 17408) (0 0 659456 19456))
                  (multiple-value-list (pango:layout-iter-line-extents iter))))
       (is (equal '((0 2048 659456 17408) (0 0 659456 19456))
-                 (multiple-value-list (pango:layout-iter-layout-extents iter))))
-)))
+                 (multiple-value-list (pango:layout-iter-layout-extents iter)))))))
 
 ;;;     pango_layout_line_get_extents
 ;;;     pango_layout_line_get_pixel_extents
 
-;; TODO: All functions for pango:layout-line do not work. We get fatal errors
-;; with the following tests.
-
-#+nil
 (test layout-line-extents/pixel-extents
   (with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
@@ -770,18 +742,35 @@
 
       (is (typep (setf line (pango:layout-line layout 0)) 'pango:layout-line))
 
-      (is (equal '((0 2048 659456 17408) (0 0 659456 19456))
+      (is (equal '((0 -13312 659456 17408) (0 -15360 659456 19456))
                  (multiple-value-list (pango:layout-line-extents line))))
 
-;      (is (equal '((0 2048 659456 17408) (0 0 659456 19456))
-;                 (multiple-value-list (pango:layout-line-pixel-extents line))))
-
+      (is (equal '((0 -13 644 17) (0 -15 644 19))
+                 (multiple-value-list (pango:layout-line-pixel-extents line))))
 )))
+
+;;;     pango_layout_line_get_height
+
+(test layout-line-height
+  (with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context))
+           (line nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (typep (setf line (pango:layout-line layout 1)) 'pango:layout-line))
+      (is (typep line 'pango:layout-line))
+      (is (= 19456 (pango:layout-line-height line))))))
+
+;;;     pango_layout_line_get-length
+
+;;;     pango_layout_line_get-resolved-direction
+;;;     pango_layout_line_get-start-index
+;;;     pango_layout_line_get_x_ranges
 
 ;;;     pango_layout_line_index_to_x
 ;;;     pango_layout_line_x_to_index
 
-#+nil
 (test layout-line-index-to-x/x-to-index
   (with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
@@ -791,33 +780,8 @@
                    (setf (pango:layout-text layout) *sample-text-1*)))
 
       (is (typep (setf line (pango:layout-line layout 1)) 'pango:layout-line))
-      (is-false (pango:layout-line-index-to-x line 5 nil))
-)))
+      (is (= 675840 (pango:layout-line-index-to-x line 5 nil))))))
 
-;;;     pango_layout_line_get_x_ranges
+;;;     pango_layout_line_is-paragraph-start
 
-;;;     pango_layout_line_get_height
-
-#+nil
-(test layout-line-height
-  (with-cairo-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context))
-           (line nil))
-      (is (string= *sample-text-1*
-                   (setf (pango:layout-text layout) *sample-text-1*)))
-
-      (trace pango:layout-line)
-      (trace cffi:convert-from-foreign)
-      (trace cffi:translate-from-foreign)
-      (trace cffi:translate-to-foreign)
-      (is (typep (setf line (pango:layout-line layout 1)) 'pango:layout-line))
-      (is (typep line 'pango:layout-line))
-      (is-false (pango:layout-line-height line))
-      (untrace pango:layout-line)
-      (untrace cffi:convert-from-foreign)
-      (untrace cffi:translate-from-foreign)
-      (untrace cffi:translate-to-foreign)
-)))
-
-;;; --- 2023-2-11 --------------------------------------------------------------
+;;; --- 2023-4-1 ---------------------------------------------------------------

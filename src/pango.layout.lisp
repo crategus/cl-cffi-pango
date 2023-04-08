@@ -4,27 +4,27 @@
 ;;; The documentation of this file is taken from the Pango Reference Manual
 ;;; Version 1.50 and modified to document the Lisp binding to the Pango library.
 ;;; See <http://www.pango.org>. The API documentation of the Lisp binding is
-;;; available from <http://www.crategus.com/books/cl-cffi-gtk/>.
+;;; available from <http://www.crategus.com/books/cl-cffi-pango/>.
 ;;;
-;;; Copyright (C) 2009 - 2011 Kalyanov Dmitry
 ;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
-;;; This program is free software: you can redistribute it and/or modify
-;;; it under the terms of the GNU Lesser General Public License for Lisp
-;;; as published by the Free Software Foundation, either version 3 of the
-;;; License, or (at your option) any later version and with a preamble to
-;;; the GNU Lesser General Public License that clarifies the terms for use
-;;; with Lisp programs and is referred as the LLGPL.
+;;; Permission is hereby granted, free of charge, to any person obtaining a
+;;; copy of this software and associated documentation files (the "Software"),
+;;; to deal in the Software without restriction, including without limitation
+;;; the rights to use, copy, modify, merge, publish, distribute, sublicense,
+;;; and/or sell copies of the Software, and to permit persons to whom the
+;;; Software is furnished to do so, subject to the following conditions:
 ;;;
-;;; This program is distributed in the hope that it will be useful,
-;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;;; GNU Lesser General Public License for more details.
+;;; The above copyright notice and this permission notice shall be included in
+;;; all copies or substantial portions of the Software.
 ;;;
-;;; You should have received a copy of the GNU Lesser General Public
-;;; License along with this program and the preamble to the Gnu Lesser
-;;; General Public License.  If not, see <http://www.gnu.org/licenses/>
-;;; and <http://opensource.franz.com/preamble.html>.
+;;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;;; IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;;; FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+;;; THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;;; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;;; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+;;; DEALINGS IN THE SOFTWARE.
 ;;; ----------------------------------------------------------------------------
 ;;;
 ;;; Layout Objects
@@ -129,11 +129,15 @@
 ;;;     pango_layout_line_ref
 ;;;     pango_layout_line_unref
 ;;;     pango_layout_line_get_extents
-;;;     pango_layout_line_get_pixel_extents
-;;;     pango_layout_line_index_to_x
-;;;     pango_layout_line_x_to_index
-;;;     pango_layout_line_get_x_ranges
 ;;;     pango_layout_line_get_height
+;;;     pango_layout_line_get-length
+;;;     pango_layout_line_get_pixel_extents
+;;;     pango_layout_line_get-resolved-direction
+;;;     pango_layout_line_get-start-index
+;;;     pango_layout_line_get_x_ranges
+;;;     pango_layout_line_index_to_x
+;;;     pango_layout_line_is-paragraph-start
+;;;     pango_layout_line_x_to_index
 ;;;
 ;;; Object Hierarchy
 ;;;
@@ -284,6 +288,11 @@
 ;;; struct PangoLayoutLine
 ;;; ----------------------------------------------------------------------------
 
+;; TODO: This implementation does not work. There seems to be a problem, when
+;; the C structure contains bitfields. For this case the implemenation of
+;; define-g-boxed-cstruct does not work.
+
+#+nil
 (define-g-boxed-cstruct layout-line "PangoLayoutLine"
   (:export t
    :type-initializer "pango_layout_line_get_type")
@@ -291,8 +300,13 @@
   (start-index :int)
   (length :int)
   (runs :pointer) ; (g:slist-t (g:boxed glyph-item))
-  (is-paragraph-start :uint)
-  (resolved-dir :uint))
+  (is-paragraph-start :ushort) ; is bitfield : 1
+  (resolved-dir :ushort)) ; is bitfield : 3
+
+(define-g-boxed-opaque layout-line "PangoLayoutLine"
+  :export t
+  :type-initializer "pango_layout_line_get_type"
+  :alloc (error "PANGO:LAYOUT-LINE cannot be created from the Lisp side."))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'layout-line)
@@ -2262,11 +2276,11 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-iter-line-yrange (iter)
  #+liber-documentation
- "@version{2023-2-11}
+ "@version{2023-4-2}
   @argument[iter]{a @class{pango:layout-iter} instance}
   @begin{return}
-    @code{y0} -- an integer with the start of line @br{}
-    @code{y1} -- an integer with the end of line
+    @arg{y0} -- an integer with the start of line @br{}
+    @arg{y1} -- an integer with the end of line
   @end{return}
   @begin{short}
     Divides the vertical space in the Pango layout being iterated over between
@@ -2406,12 +2420,12 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-line-extents (line)
  #+liber-documentation
- "@version{#2023-2-11}
+ "@version{#2023-4-1}
   @syntax[]{(pango:layout-line-extents line) => ink, logical}
-  @argument[iter]{a @class{pango:layout-iter} instance}
+  @argument[line]{a @class{pango:layout-line} instance}
   @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
     values with the ink extents of the glyph string as drawn}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
+  @argument[logical]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
     values with the logical extents of the glyph string as drawn}
   @begin{short}
     Computes the logical and ink extents of a layout line.
@@ -2431,6 +2445,59 @@ baseline2 = baseline1 + factor * height2
       (values values1 values2))))
 
 (export 'layout-line-extents)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_layout_line_get_height () -> layout-line-height
+;;; ----------------------------------------------------------------------------
+
+#+pango-1-44
+(defcfun ("pango_layout_line_get_height" %layout-line-height) :void
+  (line (g:boxed layout-line))
+  (height (:pointer :int)))
+
+#+pango-1-44
+(defun layout-line-height (line)
+ #+liber-documentation
+ "@version{#2023-2-11}
+  @argument[line]{a @class{pango:layout-line} instance}
+  @return{An integer with the line height.}
+  @begin{short}
+    Computes the height of the line, i.e. the distance between this and the
+    previous lines baseline.
+  @end{short}
+
+  Since 1.44
+  @see-class{pango:layout-line}"
+  (with-foreign-object (height :int)
+    (%layout-line-height line height)
+    (unless (cffi:null-pointer-p height)
+      (values (cffi:mem-ref height :int)))))
+
+#+pango-1-44
+(export 'layout-line-height)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_layout_line_get_length () -> layout-line-pixel-length
+;;;
+;;; int
+;;; pango_layout_line_get_length (PangoLayoutLine* line)
+;;;
+;;; Description
+;;;
+;;;     Returns the length of the line, in bytes.
+;;;
+;;;     Since: 1.50
+;;;
+;;; Returns:
+;;;     The length of the line.
+;;; ----------------------------------------------------------------------------
+
+#+pango-1-50
+(defcfun ("pango_layout_line_get_length" layout-line-length) :int
+  (line (g:boxed layout-line)))
+
+#+pango-1-50
+(export 'layout-line-length)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_line_get_pixel_extents () -> layout-line-pixel-extents
@@ -2475,6 +2542,96 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-line-pixel-extents)
 
 ;;; ----------------------------------------------------------------------------
+;;; pango_layout_line_get_resolved_direction ()
+;;;
+;;; PangoDirection
+;;; pango_layout_line_get_resolved_direction (PangoLayoutLine* line)
+;;;
+;;; Description
+;;;
+;;;     Returns the resolved direction of the line.
+;;;
+;;;     Since: 1.50
+;;;
+;;; Returns:
+;;;     The resolved direction of the line.
+;;; ----------------------------------------------------------------------------
+
+#+pango-1-50
+(defcfun ("pango_layout_line_get_resolved_direction"
+           layout-line-resolved-direction) direction
+  (line (g:boxed layout-line)))
+
+#+pango-1-50
+(export 'layout-line-resolved-direction)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_layout_line_start_index ()
+;;;
+;;; int
+;;; pango_layout_line_get_start_index (PangoLayoutLine* line)
+;;;
+;;; Description
+;;;
+;;;     Returns the start index of the line, as byte index into the text of the
+;;;     layout.
+;;;
+;;;     Since: 1.50
+;;;
+;;; Returns:
+;;;     The start index of the line.
+;;; ----------------------------------------------------------------------------
+
+#+pango-1-50
+(defcfun ("pango_layout_line_start_index" layout-line-start-index) :int
+  (line (g:boxed layout-line)))
+
+#+pango-1-50
+(export 'layout-line-start-index)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_layout_line_get_x_ranges () -> layout-line-x-ranges
+;;; ----------------------------------------------------------------------------
+
+;; TODO: Return a Lisp list with the values.
+
+(defcfun ("pango_layout_line_get_x_ranges" layout-line-x-ranges) :void
+ #+liber-documentation
+ "@version{#2023-2-11}
+  @argument[iter]{a @class{pango:layout-iter} instance}
+  @argument[start-index]{an integer with the start byte index of the logical
+    range. If this value is less than the start index for the line, then the
+    first range will extend all the way to the leading edge of the layout.
+    Otherwise it will start at the leading edge of the first character.}
+  @argument[end-index]{an integer with the ending byte index of the logical
+    range. If this value is greater than the end index for the line, then the
+    last range will extend all the way to the trailing edge of the layout.
+    Otherwise, it will end at the trailing edge of the last character.}
+  @begin{return}
+    @code{ranges} -- a pointer to an array of ranges. The array will be of
+    length 2*n_ranges, with each range starting at (*ranges)[2*n] and of
+    width (*ranges)[2*n + 1] - (*ranges)[2*n]. This array must be freed with
+    @fun{glib:free}. The coordinates are relative to the layout and are in
+    Pango units @br{}
+    @code{n-ranges} -- The number of ranges stored in ranges.
+  @end{return}
+  @begin{short}
+    Gets a list of visual ranges corresponding to a given logical range.
+  @end{short}
+  This list is not necessarily minimal - there may be consecutive ranges which
+  are adjacent. The ranges will be sorted from left to right. The ranges are
+  with respect to the left edge of the entire layout, not with respect to the
+  line.
+  @see-class{pango:layout-line}"
+  (line (g:boxed layout-line))
+  (start-index :int)
+  (end-index :int)
+  (ranges :pointer)
+  (n-ranges (:pointer :int)))
+
+(export 'layout-line-x-ranges)
+
+;;; ----------------------------------------------------------------------------
 ;;; pango_layout_line_index_to_x ()
 ;;; ----------------------------------------------------------------------------
 
@@ -2505,6 +2662,30 @@ baseline2 = baseline1 + factor * height2
     (values (cffi:mem-ref xpos :int))))
 
 (export 'layout-line-index-to-x)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_layout_line_is_paragraph_start ()
+;;;
+;;; gboolean
+;;; pango_layout_line_is_paragraph_start (PangoLayoutLine* line)
+;;;
+;;; Description
+;;;
+;;;     Returns whether this is the first line of the paragraph.
+;;;
+;;;     Since: 1.50
+;;;
+;;; Returns:
+;;;     TRUE if this is the first line.
+;;; ----------------------------------------------------------------------------
+
+#+pango-1-50
+(defcfun ("pango_layout_line_is_paragraph_start" layout-line-is-paragraph-start)
+    :boolean
+  (line (g:boxed layout-line)))
+
+#+pango-1-50
+(export 'layout-line-is-paragraph-start)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_line_x_to_index ()
@@ -2551,77 +2732,5 @@ baseline2 = baseline1 + factor * height2
               bool))))
 
 (export 'layout-line-x-to-index)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_layout_line_get_x_ranges () -> layout-line-x-ranges
-;;; ----------------------------------------------------------------------------
-
-;; TODO: Return a Lisp list with the values.
-
-(defcfun ("pango_layout_line_get_x_ranges" layout-line-x-ranges) :void
- #+liber-documentation
- "@version{#2023-2-11}
-  @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[start-index]{an integer with the start byte index of the logical
-    range. If this value is less than the start index for the line, then the
-    first range will extend all the way to the leading edge of the layout.
-    Otherwise it will start at the leading edge of the first character.}
-  @argument[end-index]{an integer with the ending byte index of the logical
-    range. If this value is greater than the end index for the line, then the
-    last range will extend all the way to the trailing edge of the layout.
-    Otherwise, it will end at the trailing edge of the last character.}
-  @begin{return}
-    @code{ranges} -- a pointer to an array of ranges. The array will be of
-    length 2*n_ranges, with each range starting at (*ranges)[2*n] and of
-    width (*ranges)[2*n + 1] - (*ranges)[2*n]. This array must be freed with
-    @fun{glib:free}. The coordinates are relative to the layout and are in
-    Pango units @br{}
-    @code{n-ranges} -- The number of ranges stored in ranges.
-  @end{return}
-  @begin{short}
-    Gets a list of visual ranges corresponding to a given logical range.
-  @end{short}
-  This list is not necessarily minimal - there may be consecutive ranges which
-  are adjacent. The ranges will be sorted from left to right. The ranges are
-  with respect to the left edge of the entire layout, not with respect to the
-  line.
-  @see-class{pango:layout-line}"
-  (line (g:boxed layout-line))
-  (start-index :int)
-  (end-index :int)
-  (ranges :pointer)
-  (n-ranges (:pointer :int)))
-
-(export 'layout-line-x-ranges)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_layout_line_get_height () -> layout-line-height
-;;; ----------------------------------------------------------------------------
-
-#+pango-1-44
-(defcfun ("pango_layout_line_get_height" %layout-line-height) :void
-  (line (g:boxed layout-line))
-  (height (:pointer :int)))
-
-#+pango-1-44
-(defun layout-line-height (line)
- #+liber-documentation
- "@version{#2023-2-11}
-  @argument[line]{a @class{pango:layout-line} instance}
-  @return{An integer with the line height.}
-  @begin{short}
-    Computes the height of the line, i.e. the distance between this and the
-    previous lines baseline.
-  @end{short}
-
-  Since 1.44
-  @see-class{pango:layout-line}"
-  (with-foreign-object (height :int)
-    (%layout-line-height line height)
-    (unless (cffi:null-pointer-p height)
-      (values (cffi:mem-ref height :int)))))
-
-#+pango-1-44
-(export 'layout-line-height)
 
 ;;; --- End of file pango.layout.lisp ------------------------------------------
