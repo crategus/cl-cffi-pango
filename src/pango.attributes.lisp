@@ -721,7 +721,7 @@
 ;;; struct PangoColor
 ;;; ----------------------------------------------------------------------------
 
-(define-g-boxed-cstruct color "PangoColor"
+(glib:define-g-boxed-cstruct color "PangoColor"
   (:export t
    :type-initializer "pango_color_get_type")
   (red :uint16 :initform 0)
@@ -1038,7 +1038,7 @@
 ;; TODO: The implementation of PangoAttribute is not complet and does not
 ;; work as expected. More work is neccessary.
 
-(define-g-boxed-cstruct attribute "PangoAttribute"
+(glib:define-g-boxed-cstruct attribute "PangoAttribute"
   (:export t
    :type-initializer "pango_attribute_get_type")
   (klass (:pointer (:struct attr-class)))
@@ -1422,7 +1422,7 @@
 ;;; PangoAttrList
 ;;; ----------------------------------------------------------------------------
 
-(define-g-boxed-opaque attr-list "PangoAttrList"
+(glib:define-g-boxed-opaque attr-list "PangoAttrList"
   :type-initializer "pango_attr_list_get_type"
   :alloc (%attr-list-new))
 
@@ -1452,7 +1452,7 @@
 ;;; PangoAttrIterator
 ;;; ----------------------------------------------------------------------------
 
-(define-g-boxed-opaque attr-iterator "PangoAttrIterator"
+(glib:define-g-boxed-opaque attr-iterator "PangoAttrIterator"
   :export t
   :type-initializer "pango_attr_iterator_get_type"
   :alloc (error "PangoAttrIterator cannot be created from the Lisp side."))
@@ -2518,12 +2518,14 @@
 ;;;     the attribute to insert. Ownership of this value is assumed by the list
 ;;; ----------------------------------------------------------------------------
 
+;; TODO: Consider to improve the implementation.
+
 (defcfun ("pango_attr_list_change" %attr-list-change) :void
   (attrs :pointer)
   (attr (g:boxed attribute)))
 
 (defun attr-list-change (attrs attr)
-  (%attr-list-change (gobject::boxed-opaque-pointer attrs) attr))
+  (%attr-list-change (glib::boxed-opaque-pointer attrs) attr))
 
 (export 'attr-list-change)
 

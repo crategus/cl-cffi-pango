@@ -72,7 +72,7 @@
   (initial-size :int)
   (positions-in-pixels :boolean))
 
-(define-g-boxed-opaque tab-array "PangoTabArray"
+(glib:define-g-boxed-opaque tab-array "PangoTabArray"
   :export t
   :type-initializer "pango_tab_array_get_type"
   :alloc (%tab-array-new 0 nil))

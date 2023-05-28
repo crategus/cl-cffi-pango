@@ -697,7 +697,7 @@
 ;;; PangoLanguage
 ;;; ----------------------------------------------------------------------------
 
-(define-g-boxed-opaque language "PangoLanguage"
+(glib:define-g-boxed-opaque language "PangoLanguage"
   :export t
   :type-initializer "pango_language_get_type"
   :alloc (error "PangoLanguage cannot be created from the Lisp side."))

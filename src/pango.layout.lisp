@@ -303,7 +303,7 @@
   (is-paragraph-start :ushort) ; is bitfield : 1
   (resolved-dir :ushort)) ; is bitfield : 3
 
-(define-g-boxed-opaque layout-line "PangoLayoutLine"
+(glib:define-g-boxed-opaque layout-line "PangoLayoutLine"
   :export t
   :type-initializer "pango_layout_line_get_type"
   :alloc (error "PANGO:LAYOUT-LINE cannot be created from the Lisp side."))
@@ -351,7 +351,7 @@
 ;;; PangoLayoutIter
 ;;; ----------------------------------------------------------------------------
 
-(define-g-boxed-opaque layout-iter "PangoLayoutIter"
+(glib:define-g-boxed-opaque layout-iter "PangoLayoutIter"
   :export t
   :type-initializer "pango_layout_iter_get_type"
   :alloc (error "PANGO:LAYOUT-ITER cannot be created from the Lisp side."))

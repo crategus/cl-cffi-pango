@@ -135,7 +135,7 @@
 ;;; struct PangoItem
 ;;; ----------------------------------------------------------------------------
 
-(define-g-boxed-cstruct item "PangoItem"
+(glib:define-g-boxed-cstruct item "PangoItem"
   (:export t
    :type-initializer "pango_item_get_type")
   (offset :int :initform 0)

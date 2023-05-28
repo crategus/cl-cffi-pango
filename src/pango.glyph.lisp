@@ -214,7 +214,7 @@
 ;;; struct PangoMatrix
 ;;; ----------------------------------------------------------------------------
 
-(define-g-boxed-cstruct matrix "PangoMatrix"
+(glib:define-g-boxed-cstruct matrix "PangoMatrix"
   (:export t
    :type-initializer "pango_matrix_get_type")
   (xx :double :initform 0.0d0)
@@ -400,7 +400,7 @@ ydevice = xuser * yx + yuser * yy + y0
 
 ;; TODO: Implement PangoGlyphString as a boxed CStruct
 
-(define-g-boxed-opaque glyph-string "PangoGlyphString"
+(glib:define-g-boxed-opaque glyph-string "PangoGlyphString"
   :export t
   :type-initializer "pango_glyph_string_get_type"
   :alloc (%glyph-string-new))
@@ -429,7 +429,7 @@ ydevice = xuser * yx + yuser * yy + y0
 
 ;; TODO: Implement PangoGlyphItem as a boxed CStruct
 
-(define-g-boxed-opaque glyph-item "PangoGlyphitem"
+(glib:define-g-boxed-opaque glyph-item "PangoGlyphitem"
   :export t
   :type-initializer "pango_glyph_item_get_type"
   :alloc (error "PangoGlyphItem cannot be created from the Lisp side."))

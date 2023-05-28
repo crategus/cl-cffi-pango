@@ -185,7 +185,7 @@
 ;;; PangoFontDescription
 ;;; ----------------------------------------------------------------------------
 
-(define-g-boxed-opaque font-description "PangoFontDescription"
+(glib:define-g-boxed-opaque font-description "PangoFontDescription"
   :export t
   :type-initializer "pango_font_description_get_type"
   :alloc (error "PangoFontDescription cannot be created from the Lisp side."))
@@ -447,7 +447,7 @@
 ;;; struct PangoFontMetrics
 ;;; ----------------------------------------------------------------------------
 
-(define-g-boxed-opaque font-metrics "PangoFontMetrics"
+(glib:define-g-boxed-opaque font-metrics "PangoFontMetrics"
   :export t
   :type-initializer "pango_font_metrics_get_type"
   :alloc (error "PangoFontMetrics cannot be created from the Lisp side."))
