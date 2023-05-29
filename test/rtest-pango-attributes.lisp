@@ -33,7 +33,7 @@
           (g:gtype (cffi:foreign-funcall "pango_attr_type_get_type" :size))))
   ;; Check the registered name
   (is (eq 'pango:attr-type
-          (gobject:symbol-for-gtype "PangoAttrType")))
+          (glib:symbol-for-gtype "PangoAttrType")))
   ;; Check the names
   (is (equal '("PANGO_ATTR_INVALID" "PANGO_ATTR_LANGUAGE" "PANGO_ATTR_FAMILY"
                "PANGO_ATTR_STYLE" "PANGO_ATTR_WEIGHT" "PANGO_ATTR_VARIANT"
@@ -123,7 +123,7 @@
           (g:gtype (cffi:foreign-funcall "pango_underline_get_type" :size))))
   ;; Check the registered name
   (is (eq 'pango:underline
-          (gobject:symbol-for-gtype "PangoUnderline")))
+          (glib:symbol-for-gtype "PangoUnderline")))
   ;; Check the names
   (is (equal '("PANGO_UNDERLINE_NONE" "PANGO_UNDERLINE_SINGLE"
                "PANGO_UNDERLINE_DOUBLE" "PANGO_UNDERLINE_LOW"
@@ -162,7 +162,7 @@
           (g:gtype (cffi:foreign-funcall "pango_overline_get_type" :size))))
   ;; Check the registered name
   (is (eq 'pango:overline
-          (gobject:symbol-for-gtype "PangoOverline")))
+          (glib:symbol-for-gtype "PangoOverline")))
   ;; Check the names
   (is (equal '("PANGO_OVERLINE_NONE" "PANGO_OVERLINE_SINGLE")
              (mapcar #'gobject:enum-item-name
@@ -191,11 +191,10 @@
   (is (g:type-is-flags "PangoShowFlags"))
   ;; Check the registered name
   (is (eq 'pango:show-flags
-          (gobject:symbol-for-gtype "PangoShowFlags")))
+          (glib:symbol-for-gtype "PangoShowFlags")))
   ;; Check the type initializer
-  (is (eq (gobject:gtype "PangoShowFlags")
-          (gobject:gtype (cffi:foreign-funcall "pango_show_flags_get_type"
-                                               :size))))
+  (is (eq (g:gtype "PangoShowFlags")
+          (g:gtype (cffi:foreign-funcall "pango_show_flags_get_type" :size))))
   ;; Check the names
   (is (equal '("PANGO_SHOW_NONE" "PANGO_SHOW_SPACES" "PANGO_SHOW_LINE_BREAKS"
                "PANGO_SHOW_IGNORABLES")
@@ -231,7 +230,7 @@
                                          :size))))
   ;; Check the registered name
   (is (eq 'pango:text-transform
-          (gobject:symbol-for-gtype "PangoTextTransform")))
+          (glib:symbol-for-gtype "PangoTextTransform")))
   ;; Check the names
   (is (equal '("PANGO_TEXT_TRANSFORM_NONE" "PANGO_TEXT_TRANSFORM_LOWERCASE"
                "PANGO_TEXT_TRANSFORM_UPPERCASE"
@@ -268,7 +267,7 @@
                                          :size))))
   ;; Check the registered name
   (is (eq 'pango:baseline-shift
-          (gobject:symbol-for-gtype "PangoBaselineShift")))
+          (glib:symbol-for-gtype "PangoBaselineShift")))
   ;; Check the names
   (is (equal '("PANGO_BASELINE_SHIFT_NONE" "PANGO_BASELINE_SHIFT_SUPERSCRIPT"
                "PANGO_BASELINE_SHIFT_SUBSCRIPT")
@@ -302,7 +301,7 @@
           (g:gtype (cffi:foreign-funcall "pango_font_scale_get_type" :size))))
   ;; Check the registered name
   (is (eq 'pango:font-scale
-          (gobject:symbol-for-gtype "PangoFontScale")))
+          (glib:symbol-for-gtype "PangoFontScale")))
   ;; Check the names
   (is (equal '("PANGO_FONT_SCALE_NONE" "PANGO_FONT_SCALE_SUPERSCRIPT"
                "PANGO_FONT_SCALE_SUBSCRIPT" "PANGO_FONT_SCALE_SMALL_CAPS")
@@ -610,4 +609,4 @@
 ;;;     pango_attr_iterator_get_attrs
 ;;;     pango_attr_iterator_destroy
 
-;;; --- 2023-2-4 ---------------------------------------------------------------
+;;; --- 2023-5-29 --------------------------------------------------------------
