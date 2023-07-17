@@ -12,25 +12,24 @@
   (is (g:type-is-object "PangoContext"))
   ;; Check the registered name
   (is (eq 'pango:context
-          (gobject:symbol-for-gtype "PangoContext")))
+          (glib:symbol-for-gtype "PangoContext")))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoContext")
           (g:gtype (cffi:foreign-funcall "pango_context_get_type" :size))))
   ;; Check the parent
-  (is (eq (g:gtype "GObject") (g:type-parent "PangoContext")))
+  (is (eq (g:gtype "GObject")
+          (g:type-parent "PangoContext")))
   ;; Check the children
   (is (equal '()
-             (mapcar #'g:type-name (g:type-children "PangoContext"))))
+             (list-children "PangoContext")))
   ;; Check the interfaces
   (is (equal '()
-             (mapcar #'g:type-name (g:type-interfaces "PangoContext"))))
+             (list-interfaces "PangoContext")))
   ;; Check the class properties
   (is (equal '()
-             (stable-sort (mapcar #'g:param-spec-name
-                                  (g:object-class-list-properties "PangoContext"))
-                          #'string-lessp)))
+             (list-properties "PangoContext")))
   ;; Check the class definition
-  (is (equal '(DEFINE-G-OBJECT-CLASS "PangoContext" PANGO-CONTEXT
+  (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoContext" PANGO-CONTEXT
                        (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES NIL
                         :TYPE-INITIALIZER "pango_context_get_type")
                        NIL)
@@ -131,4 +130,4 @@
                (mapcar #'pango:font-family-name
                        (pango:context-list-families context))))))
 
-;;; --- 2023-1-3 ---------------------------------------------------------------
+;;; --- 2023-7-14 --------------------------------------------------------------

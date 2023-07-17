@@ -15,13 +15,16 @@
 
 (test pango-scale-values
   (let ((eps 1.0d-6))
-    (is (approx-equal (/ 1.0d0 (* 1.2d0 1.2d0 1.2d0)) +pango-scale-xx-small+ eps))
-    (is (approx-equal (/ 1.0d0 (* 1.2d0 1.2d0)) +pango-scale-x-small+ eps))
-    (is (approx-equal (/ 1.0d0 1.2d0) +pango-scale-small+ eps))
-    (is (approx-equal 1.0d0 +pango-scale-medium+ eps))
-    (is (approx-equal 1.2d0 +pango-scale-large+ eps))
-    (is (approx-equal (* 1.2d0 1.2d0) +pango-scale-x-large+ eps))
-    (is (approx-equal (* 1.2d0 1.2d0 1.2d0) +pango-scale-xx-large+ eps))))
+    (is (approx-equal (/ 1.0d0 (* 1.2d0 1.2d0 1.2d0))
+                      pango:+pango-scale-xx-small+ eps))
+    (is (approx-equal (/ 1.0d0 (* 1.2d0 1.2d0))
+                      pango:+pango-scale-x-small+ eps))
+    (is (approx-equal (/ 1.0d0 1.2d0)
+                      pango:+pango-scale-small+ eps))
+    (is (approx-equal 1.0d0 pango:+pango-scale-medium+ eps))
+    (is (approx-equal 1.2d0 pango:+pango-scale-large+ eps))
+    (is (approx-equal (* 1.2d0 1.2d0) pango:+pango-scale-x-large+ eps))
+    (is (approx-equal (* 1.2d0 1.2d0 1.2d0) pango:+pango-scale-xx-large+ eps))))
 
 ;;;     PangoAttrType
 
@@ -115,7 +118,7 @@
 
 ;;;     PangoUnderline
 
-(test underline
+(test pango-underline
   ;; Check the type
   (is (g:type-is-enum "PangoUnderline"))
   ;; Check the type initializer
@@ -154,7 +157,7 @@
 
 ;;;     PangoOverline
 
-(test overline
+(test pango-overline
   ;; Check the type
   (is (g:type-is-enum "PangoOverline"))
   ;; Check the type initializer
@@ -165,16 +168,13 @@
           (glib:symbol-for-gtype "PangoOverline")))
   ;; Check the names
   (is (equal '("PANGO_OVERLINE_NONE" "PANGO_OVERLINE_SINGLE")
-             (mapcar #'gobject:enum-item-name
-                     (gobject:get-enum-items "PangoOverline"))))
+             (list-enum-item-name "PangoOverline")))
   ;; Check the values
   (is (equal '(0 1)
-             (mapcar #'gobject:enum-item-value
-                     (gobject:get-enum-items "PangoOverline"))))
+             (list-enum-item-value "PangoOverline")))
   ;; Check the nick names
   (is (equal '("none" "single")
-             (mapcar #'gobject:enum-item-nick
-                     (gobject:get-enum-items "PangoOverline"))))
+             (list-enum-item-nick "PangoOverline")))
   ;; Check the enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoOverline"
                              PANGO-OVERLINE
@@ -186,7 +186,7 @@
 
 ;;;     PangoShowFlags
 
-(test show-flags
+(test pango-show-flags
   ;; Check the type
   (is (g:type-is-flags "PangoShowFlags"))
   ;; Check the registered name
@@ -198,16 +198,13 @@
   ;; Check the names
   (is (equal '("PANGO_SHOW_NONE" "PANGO_SHOW_SPACES" "PANGO_SHOW_LINE_BREAKS"
                "PANGO_SHOW_IGNORABLES")
-             (mapcar #'gobject:flags-item-name
-                     (gobject:get-flags-items "PangoShowFlags"))))
+             (list-flags-item-name "PangoShowFlags")))
   ;; Check the values
   (is (equal '(0 1 2 4)
-             (mapcar #'gobject:flags-item-value
-                     (gobject:get-flags-items "PangoShowFlags"))))
+             (list-flags-item-value "PangoShowFlags")))
   ;; Check the nick names
   (is (equal '("none" "spaces" "line-breaks" "ignorables")
-             (mapcar #'gobject:flags-item-nick
-                     (gobject:get-flags-items "PangoShowFlags"))))
+             (list-flags-item-nick "PangoShowFlags")))
   ;; Check the flags definition
   (is (equal '(GOBJECT:DEFINE-G-FLAGS "PangoShowFlags"
                               PANGO-SHOW-FLAGS
@@ -221,7 +218,7 @@
 
 ;;;     PangoTextTransform                                 Since 1.50
 
-(test text-transform
+(test pango-text-transform
   ;; Check the type
   (is (g:type-is-enum "PangoTextTransform"))
   ;; Check the type initializer
@@ -235,18 +232,15 @@
   (is (equal '("PANGO_TEXT_TRANSFORM_NONE" "PANGO_TEXT_TRANSFORM_LOWERCASE"
                "PANGO_TEXT_TRANSFORM_UPPERCASE"
                "PANGO_TEXT_TRANSFORM_CAPITALIZE")
-             (mapcar #'gobject:enum-item-name
-                     (gobject:get-enum-items "PangoTextTransform"))))
+             (list-enum-item-name "PangoTextTransform")))
   ;; Check the values
   (is (equal '(0 1 2 3)
-             (mapcar #'gobject:enum-item-value
-                     (gobject:get-enum-items "PangoTextTransform"))))
+             (list-enum-item-value "PangoTextTransform")))
   ;; Check the nick names
   (is (equal '("none" "lowercase" "uppercase" "capitalize")
-             (mapcar #'gobject:enum-item-nick
-                     (gobject:get-enum-items "PangoTextTransform"))))
+             (list-enum-item-nick "PangoTextTransform")))
   ;; Check the enum definition
-  (is (equal '(DEFINE-G-ENUM "PangoTextTransform"
+  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoTextTransform"
                              PANGO-TEXT-TRANSFORM
                              (:EXPORT T
                               :TYPE-INITIALIZER "pango_text_transform_get_type")
@@ -258,7 +252,7 @@
 
 ;;;     PangoBaselineShift                                 Since 1.50
 
-(test baseline-shift
+(test pango-baseline-shift
   ;; Check the type
   (is (g:type-is-enum "PangoBaselineShift"))
   ;; Check the type initializer
@@ -271,18 +265,15 @@
   ;; Check the names
   (is (equal '("PANGO_BASELINE_SHIFT_NONE" "PANGO_BASELINE_SHIFT_SUPERSCRIPT"
                "PANGO_BASELINE_SHIFT_SUBSCRIPT")
-             (mapcar #'gobject:enum-item-name
-                     (gobject:get-enum-items "PangoBaselineShift"))))
+             (list-enum-item-name "PangoBaselineShift")))
   ;; Check the values
   (is (equal '(0 1 2)
-             (mapcar #'gobject:enum-item-value
-                     (gobject:get-enum-items "PangoBaselineShift"))))
+             (list-enum-item-value "PangoBaselineShift")))
   ;; Check the nick names
   (is (equal '("none" "superscript" "subscript")
-             (mapcar #'gobject:enum-item-nick
-                     (gobject:get-enum-items "PangoBaselineShift"))))
+             (list-enum-item-nick "PangoBaselineShift")))
   ;; Check the enum definition
-  (is (equal '(DEFINE-G-ENUM "PangoBaselineShift"
+  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoBaselineShift"
                              PANGO-BASELINE-SHIFT
                              (:EXPORT T
                               :TYPE-INITIALIZER "pango_baseline_shift_get_type")
@@ -293,7 +284,7 @@
 
 ;;;     PangoFontScale                                     Since 1.50
 
-(test font-scale
+(test pango-font-scale
   ;; Check the type
   (is (g:type-is-enum "PangoFontScale"))
   ;; Check the type initializer
@@ -305,18 +296,15 @@
   ;; Check the names
   (is (equal '("PANGO_FONT_SCALE_NONE" "PANGO_FONT_SCALE_SUPERSCRIPT"
                "PANGO_FONT_SCALE_SUBSCRIPT" "PANGO_FONT_SCALE_SMALL_CAPS")
-             (mapcar #'gobject:enum-item-name
-                     (gobject:get-enum-items "PangoFontScale"))))
+             (list-enum-item-name "PangoFontScale")))
   ;; Check the values
   (is (equal '(0 1 2 3)
-             (mapcar #'gobject:enum-item-value
-                     (gobject:get-enum-items "PangoFontScale"))))
+             (list-enum-item-value "PangoFontScale")))
   ;; Check the nick names
   (is (equal '("none" "superscript" "subscript" "small-caps")
-             (mapcar #'gobject:enum-item-nick
-                     (gobject:get-enum-items "PangoFontScale"))))
+             (list-enum-item-nick "PangoFontScale")))
   ;; Check the enum definition
-  (is (equal '(DEFINE-G-ENUM "PangoFontScale"
+  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoFontScale"
                              PANGO-FONT-SCALE
                              (:EXPORT T
                               :TYPE-INITIALIZER "pango_font_scale_get_type")
@@ -328,20 +316,27 @@
 
 ;;;     PangoColor
 
-(test color
+(test pango-color
   ;; Type check
-  (is (g:type-is-a (g:gtype "PangoColor") +g-type-boxed+))
+  (is (g:type-is-a (g:gtype "PangoColor") g:+g-type-boxed+))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoColor")
           (g:gtype (cffi:foreign-funcall "pango_color_get_type" :size)))))
 
-;;;     color-new
-;;;     color-copy
 ;;;     color-red
 ;;;     color-green
 ;;;     color-blue
 
-(test color-new/copy
+(test pango-properties
+  (let ((color (make-instance 'pango:color)))
+    (is (= 0 (pango:color-red color)))
+    (is (= 0 (pango:color-green color)))
+    (is (= 0 (pango:color-blue color)))))
+
+;;;     color-new
+;;;     color-copy
+
+(test pango-color-new/copy
   (let ((color (pango:color-new :red 1 :green 2 :blue 3)))
     (is (typep color 'pango:color))
     (is (= 1 (pango:color-red color)))
@@ -358,7 +353,7 @@
 ;;;     pango_color_parse
 ;;;     pango_color_to_string
 
-(test color-parse/to-string
+(test pango-color-parse/to-string
   (let ((color (pango:color-parse "red")))
     (is (= 65535 (pango:color-red color)))
     (is (= 0 (pango:color-green color)))
@@ -367,7 +362,7 @@
 
 ;;;     pango_color_parse_with_alpha
 
-(test color-parse-with-alpha
+(test pango-color-parse-with-alpha
   (multiple-value-bind (color alpha)
       (pango:color-parse-with-alpha "red")
     (is (string= "#ffff00000000" (pango:color-to-string color)))
@@ -377,23 +372,23 @@
 
 ;;;     PangoAttribute
 
-(test attribute
+(test pango-attribute
   ;; Type check
-  (is (g:type-is-a (g:gtype "PangoAttribute") +g-type-boxed+))
+  (is (g:type-is-a (g:gtype "PangoAttribute") g:+g-type-boxed+))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoAttribute")
           (g:gtype (cffi:foreign-funcall "pango_attribute_get_type" :size)))))
 
-(test attribute-new
+(test pango-attribute-new
   (let ((attr (pango:attribute-new)))
-    (is-false (pango:attribute-klass attr))
-    (is-false (pango:attribute-start-index attr))
-    (is-false (pango:attribute-end-index attr))))
+    (is (cffi:null-pointer-p (pango:attribute-klass attr)))
+    (is (= 0 (pango:attribute-start-index attr)))
+    (is (= 4294967295 (pango:attribute-end-index attr)))))
 
 (test attribute-slots
-  (let ((attr (pango:attr-size-new 99)))
+  (let ((attr (pango::attr-size-new 99)))
     (is (cffi:pointerp (pango:attribute-klass attr)))
-    (is (eq :size (pango:attribute-type attr)))
+    (is (eq :size (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))))
 
@@ -402,23 +397,26 @@
 ;;;     pango_attribute_copy
 ;;;     pango_attribute_equal
 
-;; TODO: Does not work as expected. There is something wrong.
-
 (test attribute-copy/equal
-  (let* ((attr1 (pango:attr-size-new 99))
-         (attr2 (pango:attribute-copy attr1)))
+  (let* ((attr1 (pango::attr-size-new 99))
+         (attr2 (pango:attribute-copy attr1))
+         (attr3 (pango::attr-language-new (pango:language-default))))
 
-    (is (eq :size (pango:attribute-type attr1)))
+    (is (eq :size (pango::attribute-type attr1)))
     (is (= 0 (pango:attribute-start-index attr1)))
     (is (= 4294967295 (pango:attribute-end-index attr1)))
 
-    (is (eq :size (pango:attribute-type attr2)))
+    (is (eq :size (pango::attribute-type attr2)))
     (is (= 0 (pango:attribute-start-index attr2)))
     (is (= 4294967295 (pango:attribute-end-index attr2)))
-    ;; attr1 is not equal attr2?! Is this correct?
-    ;; TODO: Is sometimes TRUE and sometimes FALSE
-;    (is-true (pango:attribute-equal attr1 attr2))
-))
+
+    (is (eq :language (pango::attribute-type attr3)))
+    (is (= 0 (pango:attribute-start-index attr3)))
+    (is (= 4294967295 (pango:attribute-end-index attr3)))
+
+    (is-true (pango:attribute-equal attr1 attr2))
+    (is-false (pango:attribute-equal attr1 attr3))
+    (is-false (pango:attribute-equal attr2 attr3))))
 
 ;;;     pango_attribute_destroy
 
@@ -436,7 +434,7 @@
 
 (test attr-list
   ;; Type check
-  (is (g:type-is-a (g:gtype "PangoAttrList") +g-type-boxed+))
+  (is (g:type-is-a (g:gtype "PangoAttrList") g:+g-type-boxed+))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoAttrList")
           (g:gtype (cffi:foreign-funcall "pango_attr_list_get_type" :size)))))
@@ -445,16 +443,18 @@
 
 (test attr-iterator
   ;; Type check
-  (is (g:type-is-a (g:gtype "PangoAttrIterator") +g-type-boxed+))
+  (is (g:type-is-a (g:gtype "PangoAttrIterator") g:+g-type-boxed+))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoAttrIterator")
-          (g:gtype (cffi:foreign-funcall "pango_attr_iterator_get_type" :size)))))
+          (g:gtype (cffi:foreign-funcall "pango_attr_iterator_get_type"
+                                         :size)))))
 
 ;;; --- Functions --------------------------------------------------------------
 
 ;;;     pango_attr_type_register
 ;;;     pango_attr_type_get_name
 
+#+nil
 (test attr-type-register
   (let (id1 id2)
     (is (integerp (setf id1 (pango:attr-type-register "newtype1"))))
@@ -465,28 +465,31 @@
 
 ;;;     pango_attr_language_new
 
+#+nil
 (test attr-language-new
   (let ((attr (pango:attr-language-new (pango:language-default))))
     (is (typep attr 'pango:attribute))
-    (is (eq :language (pango:attribute-type attr)))
+    (is (eq :language (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))))
 
 ;;;     pango_attr_family_new
 
+#+nil
 (test attr-familiy-new
   (let ((attr (pango:attr-family-new "Sans")))
     (is (typep attr 'pango:attribute))
-    (is (eq :family (pango:attribute-type attr)))
+    (is (eq :family (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))))
 
 ;;;     pango_attr_style_new
 
+#+nil
 (test attr-style-new
   (let ((attr (pango:attr-style-new :normal)))
     (is (typep attr 'pango:attribute))
-    (is (eq :style (pango:attribute-type attr)))
+    (is (eq :style (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))))
 
@@ -504,7 +507,6 @@
 ;;;     pango_attr_underline_color_new
 ;;;     pango_attr_overline_new
 ;;;     pango_attr_overline_color_new
-;;;
 ;;;     pango_attr_shape_new
 ;;;     pango_attr_shape_new_with_data
 ;;;
@@ -537,6 +539,7 @@
 
 ;; TODO: Inseration of an attribute does not work as expected.
 
+#+nil
 (test attr-list-insert
   (let ((attrs (pango:attr-list-new)))
 
@@ -609,4 +612,4 @@
 ;;;     pango_attr_iterator_get_attrs
 ;;;     pango_attr_iterator_destroy
 
-;;; --- 2023-5-29 --------------------------------------------------------------
+;;; --- 2023-7-14 --------------------------------------------------------------

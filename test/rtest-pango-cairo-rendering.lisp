@@ -20,7 +20,7 @@
   (is (g:type-is-interface "PangoCairoFont"))
   ;; Check the registered name
   (is (eq 'pango:cairo-font
-          (gobject:symbol-for-gtype "PangoCairoFont")))
+          (glib:symbol-for-gtype "PangoCairoFont")))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoCairoFont")
           (g:gtype (cffi:foreign-funcall "pango_cairo_font_get_type" :size))))
@@ -30,7 +30,7 @@
              (list-interface-properties "PangoCairoFont")))
   ;; Get the interface definition
   #+nil
-  (is (equal '(DEFINE-G-INTERFACE "PangoCairoFont"
+  (is (equal '(GOBJECT:DEFINE-G-INTERFACE "PangoCairoFont"
                                   PANGO-CAIRO-FONT
                                   (:EXPORT T
                                    :TYPE-INITIALIZER
@@ -50,7 +50,7 @@
   (is (g:type-is-interface "PangoCairoFontMap"))
   ;; Check the registered name
   (is (eq 'pango:cairo-font-map
-          (gobject:symbol-for-gtype "PangoCairoFontMap")))
+          (glib:symbol-for-gtype "PangoCairoFontMap")))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoCairoFontMap")
           (g:gtype (cffi:foreign-funcall "pango_cairo_font_map_get_type" :size))))
@@ -60,7 +60,7 @@
              (list-interface-properties "PangoCairoFontMap")))
   ;; Get the interface definition
   #+nil
-  (is (equal '(DEFINE-G-INTERFACE "PangoCairoFontMap"
+  (is (equal '(GOBJECT:DEFINE-G-INTERFACE "PangoCairoFontMap"
                                   PANGO-CAIRO-FONT-MAP
                                   (:EXPORT T
                                    :TYPE-INITIALIZER
@@ -169,13 +169,13 @@
 ;;;     pango_cairo_create_context
 
 (test cairo-create-context
-  (with-cairo-context-for-image-surface (cr :rgb24 200 400)
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (is (typep (pango:cairo-create-context cr) 'pango:context))))
 
 ;;;     pango_cairo_update_context
 
 (test cairo-update-context
-  (with-cairo-context-for-image-surface (cr :rgb24 200 400)
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let ((context (pango:cairo-create-context cr)))
       (is (typep context 'pango:context))
       (is-false (pango:cairo-update-context cr context)))))
@@ -183,13 +183,13 @@
 ;;;     pango_cairo_create_layout
 
 (test cairo-create-layout
-  (with-cairo-context-for-image-surface (cr :rgb24 200 400)
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (is (typep (pango:cairo-create-layout cr) 'pango:layout))))
 
 ;;;     pango_cairo_update_layout
 
 (test cairo-update-layout
-  (with-cairo-context-for-image-surface (cr :rgb24 200 400)
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let ((layout (pango:cairo-create-layout cr)))
       (is (typep layout 'pango:layout))
       (is-false (pango:cairo-update-layout cr layout)))))
@@ -204,4 +204,4 @@
 ;;;     pango_cairo_layout_path
 ;;;     pango_cairo_error_underline_path
 
-;;; --- 2023-1-18 --------------------------------------------------------------
+;;; --- 2023-7-17 --------------------------------------------------------------

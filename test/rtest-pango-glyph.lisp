@@ -39,9 +39,9 @@
 
 ;;;     PangoMatrix
 
-(test matrix-cstruct
+(test pango-matrix-cstruct
   ;; Type check
-  (is (g:type-is-a (g:gtype "PangoMatrix") +g-type-boxed+))
+  (is (g:type-is-a (g:gtype "PangoMatrix") g:+g-type-boxed+))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoMatrix")
           (g:gtype (cffi:foreign-funcall "pango_matrix_get_type" :size)))))
@@ -51,7 +51,7 @@
 ;;;     pango_matrix_copy
 
 #+nil
-(test matrix-new/copy/init
+(test pango-matrix-new/copy/init
   (let* ((matrix1 (pango:matrix-init))
          (matrix2 (pango:matrix-new :xx 1 :yy 2))
          (matrix3 (pango:matrix-copy matrix2)))
@@ -102,4 +102,4 @@
 ;;;     pango_glyph_item_iter_next_cluster
 ;;;     pango_glyph_item_iter_prev_cluster
 
-;;; --- 2023-2-4 ---------------------------------------------------------------
+;;; --- 2023-7-17 --------------------------------------------------------------

@@ -7,7 +7,7 @@
 
 ;;;     PangoGravity
 
-(test gravity
+(test pango-gravity
   ;; Check the type
   (is (g:type-is-enum "PangoGravity"))
   ;; Check the type initializer
@@ -15,22 +15,19 @@
           (g:gtype (cffi:foreign-funcall "pango_gravity_get_type" :size))))
   ;; Check the registered name
   (is (eq 'pango:gravity
-          (gobject:symbol-for-gtype "PangoGravity")))
+          (glib:symbol-for-gtype "PangoGravity")))
   ;; Check the names
   (is (equal '("PANGO_GRAVITY_SOUTH" "PANGO_GRAVITY_EAST" "PANGO_GRAVITY_NORTH"
                "PANGO_GRAVITY_WEST" "PANGO_GRAVITY_AUTO")
-             (mapcar #'gobject:enum-item-name
-                     (gobject:get-enum-items "PangoGravity"))))
+             (list-enum-item-name "PangoGravity")))
   ;; Check the values
   (is (equal '(0 1 2 3 4)
-             (mapcar #'gobject:enum-item-value
-                     (gobject:get-enum-items "PangoGravity"))))
+             (list-enum-item-value "PangoGravity")))
   ;; Check the nick names
   (is (equal '("south" "east" "north" "west" "auto")
-             (mapcar #'gobject:enum-item-nick
-                     (gobject:get-enum-items "PangoGravity"))))
+             (list-enum-item-nick "PangoGravity")))
   ;; Check the enum definition
-  (is (equal '(DEFINE-G-ENUM "PangoGravity"
+  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoGravity"
                              PANGO-GRAVITY
                              (:EXPORT T
                               :TYPE-INITIALIZER "pango_gravity_get_type")
@@ -43,7 +40,7 @@
 
 ;;;     PangoGravityHint
 
-(test gravity-hint
+(test pango-gravity-hint
   ;; Check the type
   (is (g:type-is-enum "PangoGravityHint"))
   ;; Check the type initializer
@@ -51,22 +48,19 @@
           (g:gtype (cffi:foreign-funcall "pango_gravity_hint_get_type" :size))))
   ;; Check the registered name
   (is (eq 'pango:gravity-hint
-          (gobject:symbol-for-gtype "PangoGravityHint")))
+          (glib:symbol-for-gtype "PangoGravityHint")))
   ;; Check the names
   (is (equal '("PANGO_GRAVITY_HINT_NATURAL" "PANGO_GRAVITY_HINT_STRONG"
                "PANGO_GRAVITY_HINT_LINE")
-             (mapcar #'gobject:enum-item-name
-                     (gobject:get-enum-items "PangoGravityHint"))))
+             (list-enum-item-name "PangoGravityHint")))
   ;; Check the values
   (is (equal '(0 1 2)
-             (mapcar #'gobject:enum-item-value
-                     (gobject:get-enum-items "PangoGravityHint"))))
+             (list-enum-item-value "PangoGravityHint")))
   ;; Check the nick names
   (is (equal '("natural" "strong" "line")
-             (mapcar #'gobject:enum-item-nick
-                     (gobject:get-enum-items "PangoGravityHint"))))
+             (list-enum-item-nick "PangoGravityHint")))
   ;; Check the enum definition
-  (is (equal '(DEFINE-G-ENUM "PangoGravityHint"
+  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoGravityHint"
                              PANGO-GRAVITY-HINT
                              (:EXPORT T
                               :TYPE-INITIALIZER "pango_gravity_hint_get_type")
@@ -82,7 +76,7 @@
 
 ;;;     pango_gravity_get_for_matrix
 
-(test gravity-for-matrix
+(test pango-gravity-for-matrix
   (let ((matrix (pango:matrix-init)))
     (is (eq :south (pango:gravity-for-matrix matrix)))
     (is-false (pango:matrix-rotate matrix 90))
@@ -96,19 +90,19 @@
 
 ;;;     pango_gravity_get_for_script
 
-(test gravity-for-script
+(test pango-gravity-for-script
   (is (eq :south (pango:gravity-for-script :common :auto :strong)))
   (is (eq :south (pango:gravity-for-script :arabic :auto :strong))))
 
 ;;;     pango_gravity_get_for_script_and_width
 
-(test gravity-for-script-and-width
+(test pango-gravity-for-script-and-width
   (is (eq :south (pango:gravity-for-script-and-width :common t :auto :strong)))
   (is (eq :south (pango:gravity-for-script-and-width :arabic t :auto :strong))))
 
 ;;;     pango_gravity_to_rotation
 
-(test gravity-to-rotation
+(test pango-gravity-to-rotation
   (let ((matrix (pango:matrix-init)))
     (is (= 0 (pango:gravity-to-rotation (pango:gravity-for-matrix matrix))))
     (is-false (pango:matrix-rotate matrix 90))
@@ -123,4 +117,4 @@
     (is-false (pango:matrix-rotate matrix 90))
     (is (= 0 (pango:gravity-to-rotation (pango:gravity-for-matrix matrix))))))
 
-;;; --- 2023-1-3 ---------------------------------------------------------------
+;;; --- 2023-7-17 --------------------------------------------------------------

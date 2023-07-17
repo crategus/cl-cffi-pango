@@ -1,19 +1,9 @@
 (defpackage :pango-test
   (:use :fiveam :common-lisp)
   (:export #:run!)
-  (:import-from :pango   #:+pango-scale+
-                         #:+pango-scale-xx-small+
-                         #:+pango-scale-x-small+
-                         #:+pango-scale-small+
-                         #:+pango-scale-medium+
-                         #:+pango-scale-large+
-                         #:+pango-scale-x-large+
-                         #:+pango-scale-xx-large+)
-  (:import-from :cairo   #:with-cairo-context-for-image-surface)
-  (:import-from :gobject #:+g-type-boxed+
-                         #:define-g-interface
-                         #:define-g-enum
-                         #:define-g-object-class))
+  (:import-from :pango)
+  (:import-from :cairo)
+  (:import-from :gobject))
 
 (in-package :pango-test)
 
@@ -129,10 +119,10 @@ dargestellt werden.")
 
 #-windows
 (test version
-  (is (string= "1.50.6" (pango:version-string))))
+  (is (string= "1.50.12" (pango:version-string))))
 
 #+windows
 (test version
-  (is (string= "1.50.7" (pango:version-string))))
+  (is (string= "1.50.14" (pango:version-string))))
 
 ;;; --- 2023-1-7 ---------------------------------------------------------------
