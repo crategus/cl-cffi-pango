@@ -2,28 +2,29 @@
 ;;; pango.glyph.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango library.
-;;; See <http://www.pango.org>. The API documentation of the Lisp binding is
-;;; available from <http://www.crategus.com/books/cl-cffi-gtk/>.
+;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
-;;; This program is free software: you can redistribute it and/or modify
-;;; it under the terms of the GNU Lesser General Public License for Lisp
-;;; as published by the Free Software Foundation, either version 3 of the
-;;; License, or (at your option) any later version and with a preamble to
-;;; the GNU Lesser General Public License that clarifies the terms for use
-;;; with Lisp programs and is referred as the LLGPL.
+;;; Permission is hereby granted, free of charge, to any person obtaining a
+;;; copy of this software and associated documentation files (the "Software"),
+;;; to deal in the Software without restriction, including without limitation
+;;; the rights to use, copy, modify, merge, publish, distribute, sublicense,
+;;; and/or sell copies of the Software, and to permit persons to whom the
+;;; Software is furnished to do so, subject to the following conditions:
 ;;;
-;;; This program is distributed in the hope that it will be useful,
-;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;;; GNU Lesser General Public License for more details.
+;;; The above copyright notice and this permission notice shall be included in
+;;; all copies or substantial portions of the Software.
 ;;;
-;;; You should have received a copy of the GNU Lesser General Public
-;;; License along with this program and the preamble to the Gnu Lesser
-;;; General Public License.  If not, see <http://www.gnu.org/licenses/>
-;;; and <http://opensource.franz.com/preamble.html>.
+;;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;;; IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;;; FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+;;; THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;;; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;;; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+;;; DEALINGS IN THE SOFTWARE.
 ;;; ----------------------------------------------------------------------------
 ;;;
 ;;; Glyph Storage
@@ -153,7 +154,7 @@
 ;;; struct PangoRectangle
 ;;; ----------------------------------------------------------------------------
 
-(defcstruct rectangle
+(cffi:defcstruct rectangle
   (x :int)
   (y :int)
   (width :int)
@@ -171,7 +172,7 @@
   glyph or section of text. See, for instance, the function
   @fun{pango:font-glyph-extents}.
   @begin{pre}
-(defcstruct rectangle
+(cffi:defcstruct rectangle
   (x :int)
   (y :int)
   (width :int)
@@ -186,29 +187,6 @@
   @see-function{pango:font-glyph-extents}")
 
 (export 'rectangle)
-
-;;; ----------------------------------------------------------------------------
-
-;; It is not a good idea to define the following functions
-
-#|
-(defun rectangle-x (rect)
-  (cffi:foreign-slot-value rect '(:struct rectangle) 'x))
-
-(defun rectangle-y (rect)
-  (cffi:foreign-slot-value rect '(:struct rectangle) 'y))
-
-(defun rectangle-width (rect)
-  (cffi:foreign-slot-value rect '(:struct rectangle) 'width))
-
-(defun rectangle-height (rect)
-  (cffi:foreign-slot-value rect '(:struct rectangle) 'height))
-
-(export 'rectangle-x)
-(export 'rectangle-y)
-(export 'rectangle-width)
-(export 'rectangle-height)
-|#
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoMatrix
@@ -239,7 +217,7 @@ xdevice = xuser * xx + yuser * xy + x0
 ydevice = xuser * yx + yuser * yy + y0
   @end{pre}
   @begin{pre}
-(define-g-boxed-cstruct matrix \"PangoMatrix\"
+(glib:define-g-boxed-cstruct matrix \"PangoMatrix\"
   (:export t
    :type-initializer \"pango_matrix_get_type\")
   (xx :double :initform 0.0d0)
@@ -259,11 +237,113 @@ ydevice = xuser * yx + yuser * yy + y0
   @end{table}
   @see-constructor{pango:matrix-init}")
 
+;;; --- matrix-xx --------------------------------------------------------------
+
+#+liber-documentation
+(setf (liber:alias-for-function 'matrix-xx)
+      "Accessor"
+      (documentation 'matrix-xx 'function)
+ "@version{#2023-7-14}
+  @syntax[]{(pango:matrix-xx instance) => xx}
+  @syntax[]{(setf (pango:matrix-xx instance) xx)}
+  @argument[instance]{a @class{pango:matrix} instance}
+  @argument[xx]{an double float with the xx component of the transformation
+    matrix}
+  @begin{short}
+    Accessor of the @code{xx} slot of the @class{pango:matrix} structure.
+  @end{short}
+  @see-class{pango:matrix}")
+
+;;; --- matrix-xy --------------------------------------------------------------
+
+#+liber-documentation
+(setf (liber:alias-for-function 'matrix-xy)
+      "Accessor"
+      (documentation 'matrix-xy 'function)
+ "@version{#2023-7-14}
+  @syntax[]{(pango:matrix-xy instance) => xy}
+  @syntax[]{(setf (pango:matrix-xy instance) xy)}
+  @argument[instance]{a @class{pango:matrix} instance}
+  @argument[xy]{an double float with the xy component of the transformation
+    matrix}
+  @begin{short}
+    Accessor of the @code{xy} slot of the @class{pango:matrix} structure.
+  @end{short}
+  @see-class{pango:matrix}")
+
+;;; --- matrix-yx --------------------------------------------------------------
+
+#+liber-documentation
+(setf (liber:alias-for-function 'matrix-yx)
+      "Accessor"
+      (documentation 'matrix-yx 'function)
+ "@version{#2023-7-14}
+  @syntax[]{(pango:matrix-yx instance) => yx}
+  @syntax[]{(setf (pango:matrix-yx instance) yx)}
+  @argument[instance]{a @class{pango:matrix} instance}
+  @argument[yx]{an double float with the yx component of the transformation
+    matrix}
+  @begin{short}
+    Accessor of the @code{yx} slot of the @class{pango:matrix} structure.
+  @end{short}
+  @see-class{pango:matrix}")
+
+;;; --- matrix-yy --------------------------------------------------------------
+
+#+liber-documentation
+(setf (liber:alias-for-function 'matrix-yy)
+      "Accessor"
+      (documentation 'matrix-yy 'function)
+ "@version{#2023-7-14}
+  @syntax[]{(pango:matrix-yy instance) => yy}
+  @syntax[]{(setf (pango:matrix-yy instance) yy)}
+  @argument[instance]{a @class{pango:matrix} instance}
+  @argument[yy]{an double float with the yy component of the transformation
+    matrix}
+  @begin{short}
+    Accessor of the @code{yy} slot of the @class{pango:matrix} structure.
+  @end{short}
+  @see-class{pango:matrix}")
+
+;;; --- matrix-x0 --------------------------------------------------------------
+
+#+liber-documentation
+(setf (liber:alias-for-function 'matrix-x0)
+      "Accessor"
+      (documentation 'matrix-x0 'function)
+ "@version{#2023-7-14}
+  @syntax[]{(pango:matrix-x0 instance) => x0}
+  @syntax[]{(setf (pango:matrix-x0 instance) x0)}
+  @argument[instance]{a @class{pango:matrix} instance}
+  @argument[x0]{an double float with the x0 component of the transformation
+    matrix}
+  @begin{short}
+    Accessor of the @code{x0} slot of the @class{pango:matrix} structure.
+  @end{short}
+  @see-class{pango:matrix}")
+
+;;; --- matrix-y0 --------------------------------------------------------------
+
+#+liber-documentation
+(setf (liber:alias-for-function 'matrix-y0)
+      "Accessor"
+      (documentation 'matrix-y0 'function)
+ "@version{#2023-7-14}
+  @syntax[]{(pango:matrix-y0 instance) => y0}
+  @syntax[]{(setf (pango:matrix-y0 instance) y0)}
+  @argument[instance]{a @class{pango:matrix} instance}
+  @argument[y0]{an double float with the y0 component of the transformation
+    matrix}
+  @begin{short}
+    Accessor of the @code{y0} slot of the @class{pango:matrix} structure.
+  @end{short}
+  @see-class{pango:matrix}")
+
 ;;; ----------------------------------------------------------------------------
 ;;; PangoGlyph
 ;;; ----------------------------------------------------------------------------
 
-(defctype glyph :uint32)
+(cffi:defctype glyph :uint32)
 
 #+liber-documentation
 (setf (liber:alias-for-symbol 'glyph)
@@ -727,12 +807,11 @@ ydevice = xuser * yx + yuser * yy + y0
 ;;; matrix-new
 ;;; ----------------------------------------------------------------------------
 
-#+nil
 (defun matrix-new (&key (xx 0.0d0) (xy 0.0d0) (yx 0.0d0) (yy 0.0d0)
                         (x0 0.0d0) (y0 0.0d0))
  #+liber-documentation
  "@version{2023-2-4}
-  @argument[xx, xy, yx, yy, x0, y0]{numbers corced to double floats with the
+  @argument[xx, xy, yx, yy, x0, y0]{numbers coerced to double floats with the
     components of the transformation matrix}
   @return{The newly allocated @class{pango:matrix} instance.}
   @short{Creates a new Pango matrix.}
@@ -773,7 +852,7 @@ ydevice = xuser * yx + yuser * yy + y0
 ;;; pango_matrix_translate ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_matrix_translate" %matrix-translate) :void
+(cffi:defcfun ("pango_matrix_translate" %matrix-translate) :void
   (matrix (g:boxed matrix))
   (tx :double)
   (ty :double))
@@ -800,7 +879,7 @@ ydevice = xuser * yx + yuser * yy + y0
 ;;; pango_matrix_scale ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_matrix_scale" %matrix-scale) :void
+(cffi:defcfun ("pango_matrix_scale" %matrix-scale) :void
   (matrix (g:boxed matrix))
   (sx :double)
   (sy :double))
@@ -827,7 +906,7 @@ ydevice = xuser * yx + yuser * yy + y0
 ;;; pango_matrix_rotate ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_matrix_rotate" %matrix-rotate) :void
+(cffi:defcfun ("pango_matrix_rotate" %matrix-rotate) :void
   (matrix (g:boxed matrix))
   (degrees :double))
 
@@ -851,7 +930,7 @@ ydevice = xuser * yx + yuser * yy + y0
 ;;; pango_matrix_concat ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_matrix_concat" matrix-concat) :void
+(cffi:defcfun ("pango_matrix_concat" matrix-concat) :void
  #+liber-documentation
  "@version{#2021-1-4}
   @argument[matrix]{a @class{pango:matrix} instance}
@@ -869,32 +948,25 @@ ydevice = xuser * yx + yuser * yy + y0
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_matrix_transform_point ()
-;;;
-;;; void pango_matrix_transform_point (const PangoMatrix *matrix,
-;;;                                    double *x,
-;;;                                    double *y);
-;;;
-;;; Transforms the point (x, y) by matrix.
-;;;
-;;; matrix :
-;;;     a PangoMatrix, or NULL
-;;;
-;;; x :
-;;;     in/out X position. [inout]
-;;;
-;;; y :
-;;;     in/out Y position. [inout]
-;;;
-;;; Since 1.16
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_matrix_transform_point" %matrix-transform-point) :void
+(cffi:defcfun ("pango_matrix_transform_point" %matrix-transform-point) :void
   (matrix (g:boxed matrix))
   (x (:pointer :double))
   (y (:pointer :double)))
 
 (defun matrix-transform-point (matrix x y)
-  (with-foreign-objects ((x-out :double) (y-out :double))
+ #+liber-documentation
+ "@version{#2023-7-14}
+  @argument[matrix]{a @class{pango:matrix} instance}
+  @argument[x]{a number coerced to a double float with the x position}
+  @argument[y]{a number coerced to a double float with the y position}
+  @return{The double float values for the transformed point (x,y).}
+  @begin{short}
+    Transforms the point (x, y) by @arg{matrix}.
+  @end{short}
+  @see-class{pango:matrix}"
+  (cffi:with-foreign-objects ((x-out :double) (y-out :double))
     (setf (cffi:mem-ref x-out :double) (coerce x 'double-float)
           (cffi:mem-ref y-out :double) (coerce y 'double-float))
     (%matrix-transform-point matrix x y)
@@ -905,43 +977,37 @@ ydevice = xuser * yx + yuser * yy + y0
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_matrix_transform_distance ()
-;;;
-;;; void pango_matrix_transform_distance (const PangoMatrix *matrix,
-;;;                                       double *dx,
-;;;                                       double *dy);
-;;;
-;;; Transforms the distance vector (dx,dy) by matrix. This is similar to
-;;; pango_matrix_transform_point() except that the translation components of the
-;;; transformation are ignored. The calculation of the returned vector is as
-;;; follows:
-;;;
-;;; dx2 = dx1 * xx + dy1 * xy;
-;;; dy2 = dx1 * yx + dy1 * yy;
-;;;
-;;; Affine transformations are position invariant, so the same vector always
-;;; transforms to the same vector. If (x1,y1) transforms to (x2,y2) then
-;;; (x1+dx1,y1+dy1) will transform to (x1+dx2,y1+dy2) for all values of x1
-;;; and x2.
-;;;
-;;; matrix :
-;;;     a PangoMatrix, or NULL
-;;;
-;;; dx :
-;;;     in/out X component of a distance vector. [inout]
-;;;
-;;; dy :
-;;;     in/out Y component of a distance vector. [inout]
-;;;
-;;; Since 1.16
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_matrix_transform_distance" %matrix-transform-distance) :void
+(cffi:defcfun ("pango_matrix_transform_distance" %matrix-transform-distance)
+    :void
   (matrix (g:boxed matrix))
   (dx (:pointer :double))
   (dy (:pointer :double)))
 
 (defun matrix-transform-distance (matrix dx dy)
-  (with-foreign-objects ((dx-out :double) (dy-out :double))
+ #+liber-documentation
+ "@version{#2023-7-14}
+  @argument[matrix]{a @class{pango:matrix} instance}
+  @argument[dx]{a number coerced to a double float with the x component}
+  @argument[dy]{a number coerced to a double float with the y component}
+  @return{The double float values for the transformed distance vector (dx,dy).}
+  @begin{short}
+    Transforms the distance vector (dx,dy) by @arg{matrix}.
+  @end{short}
+  This is similar to the @fun{pango:matrix-transform-point} function except
+  that the translation components of the transformation are ignored. The
+  calculation of the returned vector is as follows:
+  @begin{pre}
+dx2 = dx1 * xx + dy1 * xy;
+dy2 = dx1 * yx + dy1 * yy;
+  @end{pre}
+  Affine transformations are position invariant, so the same vector always
+  transforms to the same vector. If (x1,y1) transforms to (x2,y2) then
+  (x1+dx1,y1+dy1) will transform to (x1+dx2,y1+dy2) for all values of x1 and x2.
+  @see-class{pango:matrix}
+  @see-function{pango:matrix-transform-point}"
+  (cffi:with-foreign-objects ((dx-out :double) (dy-out :double))
     (setf (cffi:mem-ref dx-out :double) (coerce dx 'double-float)
           (cffi:mem-ref dy-out :double) (coerce dy 'double-float))
     (%matrix-transform-distance matrix dx-out dy-out)
@@ -952,38 +1018,37 @@ ydevice = xuser * yx + yuser * yy + y0
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_matrix_transform_rectangle ()
-;;;
-;;; void pango_matrix_transform_rectangle (const PangoMatrix *matrix,
-;;;                                        PangoRectangle *rect);
-;;;
-;;; First transforms rect using matrix, then calculates the bounding box of the
-;;; transformed rectangle. The rectangle should be in Pango units.
-;;;
-;;; This function is useful for example when you want to draw a rotated
-;;; PangoLayout to an image buffer, and want to know how large the image should
-;;; be and how much you should shift the layout when rendering.
-;;;
-;;; If you have a rectangle in device units (pixels), use
-;;; pango_matrix_transform_pixel_rectangle().
-;;;
-;;; If you have the rectangle in Pango units and want to convert to transformed
-;;; pixel bounding box, it is more accurate to transform it first (using this
-;;; function) and pass the result to pango_extents_to_pixels(), first argument,
-;;; for an inclusive rounded rectangle. However, there are valid reasons that
-;;; you may want to convert to pixels first and then transform, for example when
-;;; the transformed coordinates may overflow in Pango units (large matrix
-;;; translation for example).
-;;;
-;;; matrix :
-;;;     a PangoMatrix, or NULL
-;;;
-;;; rect :
-;;;     in/out bounding box in Pango units, or NULL. [inout][allow-none]
-;;;
-;;; Since 1.16
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_matrix_transform_rectangle" matrix-transform-rectangle) :void
+(cffi:defcfun ("pango_matrix_transform_rectangle" matrix-transform-rectangle)
+    :void
+ #+liber-documentation
+ "@version{#2023-7-14}
+  @argument[matrix]{a @class{pango:matrix} instance}
+  @argument[rect]{a @class{pango:rectangle} instance}
+  @begin{short}
+    First transforms @arg{rect} using @arg{matrix}, then calculates the
+    bounding box of the transformed rectangle.
+  @end{short}
+  The rectangle should be in Pango units.
+
+  This function is useful for example when you want to draw a rotated
+  @class{pango:layout} object to an image buffer, and want to know how large
+  the image should be and how much you should shift the layout when rendering.
+
+  If you have a rectangle in device units (pixels), use the
+  @fun{pango:matrix-transform-pixel-rectangle} function.
+
+  If you have the rectangle in Pango units and want to convert to transformed
+  pixel bounding box, it is more accurate to transform it first (using this
+  function) and pass the result to the @fun{pango:extents-to-pixels} function,
+  first argument, for an inclusive rounded rectangle. However, there are valid
+  reasons that you may want to convert to pixels first and then transform, for
+  example when the transformed coordinates may overflow in Pango units (large
+  matrix translation for example).
+  @see-class{pango:matrix}
+  @see-symbol{pango:rectangle}
+  @see-function{pango:matrix-transform-pixel-rectangle}"
   (matrix (g:boxed matrix))
   (rect (:pointer (:struct rectangle))))
 
@@ -991,32 +1056,31 @@ ydevice = xuser * yx + yuser * yy + y0
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_matrix_transform_pixel_rectangle ()
-;;;
-;;; void pango_matrix_transform_pixel_rectangle (const PangoMatrix *matrix,
-;;;                                              PangoRectangle *rect);
-;;;
-;;; First transforms the rect using matrix, then calculates the bounding box of
-;;; the transformed rectangle. The rectangle should be in device units (pixels).
-;;;
-;;; This function is useful for example when you want to draw a rotated
-;;; PangoLayout to an image buffer, and want to know how large the image should
-;;; be and how much you should shift the layout when rendering.
-;;;
-;;; For better accuracy, you should use pango_matrix_transform_rectangle() on
-;;; original rectangle in Pango units and convert to pixels afterward using
-;;; pango_extents_to_pixels()'s first argument.
-;;;
-;;; matrix :
-;;;     a PangoMatrix, or NULL
-;;;
-;;; rect :
-;;;     in/out bounding box in device units, or NULL. [inout][allow-none]
-;;;
-;;; Since 1.16
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_matrix_transform_pixel_rectangle"
-           matrix-transform-pixel-rectangle) :void
+(cffi:defcfun ("pango_matrix_transform_pixel_rectangle"
+                matrix-transform-pixel-rectangle) :void
+ #+liber-documentation
+ "@version{#2023-7-14}
+  @argument[matrix]{a @class{pango:matrix} instance}
+  @argument[rect]{a @class{pango:rectangle} instance}
+  @begin{short}
+    First transforms @arg{rect} using @arg{matrix}, then calculates the
+    bounding box of the transformed rectangle. The rectangle should be in
+    device units (pixels).
+  @end{short}
+
+  This function is useful for example when you want to draw a rotated
+  @class{pango:layout} object to an image buffer, and want to know how large
+  the image should be and how much you should shift the layout when rendering.
+
+  For better accuracy, you should use the @fun{pango:matrix-transform-rectangle}
+  function on original rectangle in Pango units and convert to pixels afterward
+  using the @fun{pango:extents-to-pixels} functions first argument.
+  @see-class{pango:matrix}
+  @see-symbol{pango:rectangle}
+  @see-function{pango:matrix-transform-rectangle}
+  @see-function{pango:extents-to-pixels}"
   (matrix (g:boxed matrix))
   (rect (:pointer (:struct rectangle))))
 
@@ -1024,63 +1088,51 @@ ydevice = xuser * yx + yuser * yy + y0
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_matrix_get_font_scale_factor ()
-;;;
-;;; double pango_matrix_get_font_scale_factor (const PangoMatrix *matrix);
-;;;
-;;; Returns the scale factor of a matrix on the height of the font. That is, the
-;;; scale factor in the direction perpendicular to the vector that the X
-;;; coordinate is mapped to.
-;;;
-;;; matrix :
-;;;     a PangoMatrix, may be NULL. [allow-none]
-;;;
-;;; Returns :
-;;;     the scale factor of matrix on the height of the font, or 1.0 if matrix
-;;;     is NULL.
-;;;
-;;; Since 1.12
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_matrix_get_font_scale_factor" matrix-font-scale-factor) :double
+(cffi:defcfun ("pango_matrix_get_font_scale_factor" matrix-font-scale-factor)
+    :double
+ #+liber-documentation
+ "@version{#2023-7-14}
+  @argument[matrix]{a @class{pango:matrix} instance}
+  @return{A double float with the scale factor of @arg{matrix} on the height
+    of the font, or 1.0 if @arg{matrix} is @code{nil}.}
+  @begin{short}
+    Returns the scale factor of a matrix on the height of the font.
+  @end{short}
+  That is, the scale factor in the direction perpendicular to the vector that
+  the X coordinate is mapped to.
+  @see-class{pango:matrix}"
   (matrix (g:boxed matrix)))
 
 (export 'matrix-font-scale-factor)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_matrix_get_font_scale_factors ()
-;;;
-;;; void
-;;; pango_matrix_get_font_scale_factors (const PangoMatrix *matrix,
-;;;                                      double *xscale,
-;;;                                      double *yscale);
-;;;
-;;; Calculates the scale factor of a matrix on the width and height of the font.
-;;; That is, xscale is the scale factor in the direction of the X coordinate,
-;;; and yscale is the scale factor in the direction perpendicular to the vector
-;;; that the X coordinate is mapped to.
-;;;
-;;; Note that output numbers will always be non-negative.
-;;;
-;;; matrix :
-;;;     a PangoMatrix, or NULL.
-;;;
-;;; xscale :
-;;;     output scale factor in the x direction, or NULL.
-;;;
-;;; yscale :
-;;;     output scale factor perpendicular to the x direction, or NULL.
-;;;
-;;; Since 1.38
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_matrix_get_font_scale_factors" %matrix-font-scale-factors)
+(cffi:defcfun ("pango_matrix_get_font_scale_factors" %matrix-font-scale-factors)
     :void
   (matrix (g:boxed matrix))
   (xscale (:pointer :double))
   (yscale (:pointer :double)))
 
 (defun matrix-font-scale-factors (matrix)
-  (with-foreign-objects ((xscale :double) (yscale :double))
+ #+liber-documentation
+ "@version{#2023-7-14}
+  @argument[matrix]{a @class{pango:matrix} instance}
+  @return{The double float @arg{(xscale, yscale)} values with the scale factor
+    in the x direction and in the y direction}
+  @begin{short}
+    Calculates the scale factor of a matrix on the width and height of the font.
+  @end{short}
+  That is, @arg{xscale} is the scale factor in the direction of the X
+  coordinate, and @arg{yscale} is the scale factor in the direction
+  perpendicular to the vector that the X coordinate is mapped to.
+
+  Note that output numbers will always be non-negative.
+  @see-class{pango:matrix}"
+  (cffi:with-foreign-objects ((xscale :double) (yscale :double))
     (%matrix-font-scale-factors matrix xscale yscale)
     (values (cffi:mem-ref xscale :double)
             (cffi:mem-ref yscale :double))))
@@ -1114,7 +1166,7 @@ ydevice = xuser * yx + yuser * yy + y0
 ;;;     pango_glyph_string_free().
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_glyph_string_new" %glyph-string-new) :pointer)
+(cffi:defcfun ("pango_glyph_string_new" %glyph-string-new) :pointer)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_string_copy ()

@@ -2,29 +2,29 @@
 ;;; pango.cairo-rendering.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango library.
-;;; See <http://www.pango.org>. The API documentation of the Lisp binding is
-;;; available from <http://www.crategus.com/books/cl-cffi-gtk/>.
+;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2009 - 2011 Kalyanov Dmitry
 ;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
-;;; This program is free software: you can redistribute it and/or modify
-;;; it under the terms of the GNU Lesser General Public License for Lisp
-;;; as published by the Free Software Foundation, either version 3 of the
-;;; License, or (at your option) any later version and with a preamble to
-;;; the GNU Lesser General Public License that clarifies the terms for use
-;;; with Lisp programs and is referred as the LLGPL.
+;;; Permission is hereby granted, free of charge, to any person obtaining a
+;;; copy of this software and associated documentation files (the "Software"),
+;;; to deal in the Software without restriction, including without limitation
+;;; the rights to use, copy, modify, merge, publish, distribute, sublicense,
+;;; and/or sell copies of the Software, and to permit persons to whom the
+;;; Software is furnished to do so, subject to the following conditions:
 ;;;
-;;; This program is distributed in the hope that it will be useful,
-;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;;; GNU Lesser General Public License for more details.
+;;; The above copyright notice and this permission notice shall be included in
+;;; all copies or substantial portions of the Software.
 ;;;
-;;; You should have received a copy of the GNU Lesser General Public
-;;; License along with this program and the preamble to the Gnu Lesser
-;;; General Public License.  If not, see <http://www.gnu.org/licenses/>
-;;; and <http://opensource.franz.com/preamble.html>.
+;;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;;; IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;;; FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+;;; THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;;; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;;; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+;;; DEALINGS IN THE SOFTWARE.
 ;;; ----------------------------------------------------------------------------
 ;;;
 ;;; Cairo Rendering
@@ -88,7 +88,7 @@
 ;;; PangoCairoFont
 ;;; ----------------------------------------------------------------------------
 
-(define-g-interface "PangoCairoFont" cairo-font
+(gobject:define-g-interface "PangoCairoFont" cairo-font
   (:export t
    :type-initializer "pango_cairo_font_get_type")
   nil)
@@ -110,7 +110,7 @@
 ;;; PangoCairoFontMap
 ;;; ----------------------------------------------------------------------------
 
-(define-g-interface "PangoCairoFontMap" cairo-font-map
+(gobject:define-g-interface "PangoCairoFontMap" cairo-font-map
   (:export t
    :type-initializer "pango_cairo_font_map_get_type")
   nil)
@@ -140,7 +140,7 @@
                         :void)
   fontmap)
 
-(defcfun ("pango_cairo_font_map_get_default" cairo-font-map-default)
+(cffi:defcfun ("pango_cairo_font_map_get_default" cairo-font-map-default)
     (g:object font-map)
  #+liber-documentation
  "@version{2023-1-16}
@@ -177,8 +177,8 @@
 ;;; pango_cairo_font_map_new ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_font_map_new" cairo-font-map-new) (g:object font-map)
- #+liber-documentation
+(cffi:defcfun ("pango_cairo_font_map_new" cairo-font-map-new)
+    (g:object font-map) #+liber-documentation
  "@version{2023-1-16}
   @begin{return}
     The newly allocated @class{pango:font-map} object.
@@ -203,8 +203,8 @@
 ;;; pango_cairo_font_map_new_for_font_type ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_font_map_new_for_font_type"
-           cairo-font-map-new-for-font-type) (g:object font-map)
+(cffi:defcfun ("pango_cairo_font_map_new_for_font_type"
+                cairo-font-map-new-for-font-type) (g:object font-map)
  #+liber-documentation
  "@version{2023-1-16}
   @argument[fonttype]{desired value of the @symbol{cairo:font-type-t}
@@ -233,7 +233,7 @@
 ;;; pango_cairo_font_map_get_font_type () -> cairo-font-map-font-type
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_font_map_get_font_type" %cairo-font-map-font-type)
+(cffi:defcfun ("pango_cairo_font_map_get_font_type" %cairo-font-map-font-type)
     cairo:font-type-t
   (fontmap :pointer))
 
@@ -276,7 +276,7 @@
                           :void)
     dpi))
 
-(defcfun ("pango_cairo_font_map_get_resolution" %cairo-font-map-resolution)
+(cffi:defcfun ("pango_cairo_font_map_get_resolution" %cairo-font-map-resolution)
     :double
   (fontmap :pointer))
 
@@ -313,8 +313,8 @@
 ;;; pango_cairo_font_map_create_context ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_font_map_create_context"
-           cairo-font-map-create-context) (g:object context)
+(cffi:defcfun ("pango_cairo_font_map_create_context"
+                cairo-font-map-create-context) (g:object context)
  #+liber-documentation
  "@version{#2023-1-16}
   @argument[fontmap]{a @class{pango:cairo-font-map} object}
@@ -338,7 +338,7 @@
 ;;; pango_cairo_font_get_scaled_font () -> cairo-font-scaled-font
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_font_get_scaled_font" cairo-font-scaled-font)
+(cffi:defcfun ("pango_cairo_font_get_scaled_font" cairo-font-scaled-font)
     (:pointer (:struct cairo:scaled-font-t))
  #+liber-documentation
  "@version{#2023-1-16}
@@ -373,7 +373,8 @@
                           :void)
     dpi))
 
-(defcfun ("pango_cairo_context_get_resolution" cairo-context-resolution) :double
+(cffi:defcfun ("pango_cairo_context_get_resolution" cairo-context-resolution)
+    :double
  #+liber-documentation
  "@version{2023-1-16}
   @syntax[]{(pango:cairo-context-resolution context) => dpi}
@@ -409,7 +410,8 @@
                         :void)
   options)
 
-(defcfun ("pango_cairo_context_get_font_options" %cairo-context-font-options)
+(cffi:defcfun ("pango_cairo_context_get_font_options"
+                %cairo-context-font-options)
     (:pointer (:struct cairo:font-options-t))
   (context (g:object context)))
 
@@ -498,8 +500,8 @@ lambda (cr attr dopath)
                           :void)
     func))
 
-(defcfun ("pango_cairo_context_get_shape_renderer"
-           %cairo-context-shape-renderer) :pointer
+(cffi:defcfun ("pango_cairo_context_get_shape_renderer"
+                %cairo-context-shape-renderer) :pointer
   (context (g:object context))
   (data :pointer))
 
@@ -528,7 +530,8 @@ lambda (cr attr dopath)
 ;;; pango_cairo_create_context ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_create_context" cairo-create-context) (g:object context)
+(cffi:defcfun ("pango_cairo_create_context" cairo-create-context)
+    (g:object context)
  #+liber-documentation
  "@version{2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -557,7 +560,7 @@ lambda (cr attr dopath)
 ;;; pango_cairo_update_context ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_update_context" cairo-update-context) :void
+(cffi:defcfun ("pango_cairo_update_context" cairo-update-context) :void
  #+liber-documentation
  "@version{2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -581,7 +584,8 @@ lambda (cr attr dopath)
 ;;; pango_cairo_create_layout ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_create_layout" cairo-create-layout) (g:object layout)
+(cffi:defcfun ("pango_cairo_create_layout" cairo-create-layout)
+    (g:object layout)
  #+liber-documentation
  "@version{2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -614,7 +618,7 @@ lambda (cr attr dopath)
 ;;; pango_cairo_update_layout ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_update_layout" cairo-update-layout) :void
+(cffi:defcfun ("pango_cairo_update_layout" cairo-update-layout) :void
  #+liber-documentation
  "@version{2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -638,7 +642,7 @@ lambda (cr attr dopath)
 ;;; pango_cairo_show_glyph_string ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_show_glyph_string" cairo-show-glyph-string) :void
+(cffi:defcfun ("pango_cairo_show_glyph_string" cairo-show-glyph-string) :void
  #+liber-documentation
  "@version{#2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -662,7 +666,7 @@ lambda (cr attr dopath)
 ;;; pango_cairo_show_glyph_item ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_show_glyph_item" cairo-show-glyph-item) :void
+(cffi:defcfun ("pango_cairo_show_glyph_item" cairo-show-glyph-item) :void
  #+liber-documentation
  "@version{#2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -691,7 +695,7 @@ lambda (cr attr dopath)
 ;;; pango_cairo_show_layout_line ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_show_layout_line" cairo-show-layout-line) :void
+(cffi:defcfun ("pango_cairo_show_layout_line" cairo-show-layout-line) :void
  #+liber-documentation
  "@version{#2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -712,7 +716,7 @@ lambda (cr attr dopath)
 ;;; pango_cairo_show_layout ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_show_layout" cairo-show-layout) :void
+(cffi:defcfun ("pango_cairo_show_layout" cairo-show-layout) :void
  #+liber-documentation
  "@version{#2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -733,7 +737,8 @@ lambda (cr attr dopath)
 ;;; pango_cairo_show_error_underline ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_show_error_underline" %cairo-show-error-underline) :void
+(cffi:defcfun ("pango_cairo_show_error_underline" %cairo-show-error-underline)
+    :void
   (cr (:pointer (:struct cairo:context-t)))
   (x :double)
   (y :double)
@@ -770,7 +775,7 @@ lambda (cr attr dopath)
 ;;; pango_cairo_glyph_string_path ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_glyph_string_path" cairo-glyph-string-path) :void
+(cffi:defcfun ("pango_cairo_glyph_string_path" cairo-glyph-string-path) :void
  #+liber-documentation
  "@version{#2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -795,7 +800,7 @@ lambda (cr attr dopath)
 ;;; pango_cairo_layout_line_path ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_layout_line_path" cairo-layout-line-path) :void
+(cffi:defcfun ("pango_cairo_layout_line_path" cairo-layout-line-path) :void
  #+liber-documentation
  "@version{#2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -817,7 +822,7 @@ lambda (cr attr dopath)
 ;;; pango_cairo_layout_path ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_layout_path" cairo-layout-path) :void
+(cffi:defcfun ("pango_cairo_layout_path" cairo-layout-path) :void
  #+liber-documentation
  "@version{#2023-1-17}
   @argument[cr]{a @symbol{cairo:context-t} context}
@@ -839,7 +844,8 @@ lambda (cr attr dopath)
 ;;; pango_cairo_error_underline_path ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_cairo_error_underline_path" %cairo-error-underline-path) :void
+(cffi:defcfun ("pango_cairo_error_underline_path" %cairo-error-underline-path)
+    :void
   (cr (:pointer (:struct cairo:context-t)))
   (x :double)
   (y :double)

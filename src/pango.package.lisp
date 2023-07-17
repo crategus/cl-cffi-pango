@@ -3,8 +3,8 @@
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
 ;;; Version 1.50 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp binding
-;;; is available from <http://www.crategus.com/books/cl-cffi-gtk/>.
+;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
@@ -29,20 +29,9 @@
 
 (defpackage :pango
   (:use :common-lisp)
-  (:import-from :cffi     #:defcfun
-                          #:defctype
-                          #:defcstruct
-                          #:defcenum
-                          #:defbitfield
-                          #:with-foreign-object
-                          #:with-foreign-objects
-                          #:with-foreign-slots)
-  (:import-from #:glib    #:with-stable-pointer
-                          #:with-g-error)
-  (:import-from #:gobject #:define-g-enum
-                          #:define-g-flags
-                          #:define-g-object-class
-                          #:define-g-interface))
+  (:import-from :cffi)
+  (:import-from #:glib)
+  (:import-from #:gobject))
 
 ;;; ----------------------------------------------------------------------------
 
@@ -53,27 +42,27 @@
   and cross-platform support is had when Pango is used with platform APIs or
   3rd party libraries, such as Uniscribe and FreeType, as text rendering
   backends. Pango-processed text will appear similar under different operating
-  systems.
-  This is the API documentation of a Lisp binding to Pango.
+  systems. This is the API documentation of a Lisp binding to Pango.
   @begin[Basic Pango Interfaces]{section}
     @begin[Rendering]{subsection}
-      Functions to run the rendering pipeline.
-
       The Pango rendering pipeline takes a string of Unicode characters and
       converts it into glyphs. The functions described in this section
       accomplish various steps of this process.
-      @about-symbol{shape-flags}
-      @about-struct{item}
-      @about-symbol{analysis}
       @about-symbol{PANGO_ANALYSIS_FLAG_CENTERED_BASELINE}
       @about-symbol{PANGO_ANALYSIS_FLAG_IS_ELLIPSIS}
       @about-symbol{PANGO_ANALYSIS_FLAG_NEED_HYPHEN}
+      @about-symbol{shape-flags}
       @about-symbol{log-attr}
+      @about-symbol{analysis}
+      @about-struct{item}
+      @about-function{item-analysis}
+      @about-function{item-length}
+      @about-function{item-num-chars}
+      @about-function{item-offset}
+      @about-function{item-new}
+      @about-function{item-copy}
       @about-function{itemize}
       @about-function{itemize-with-base-dir}
-      @about-function{item-free}
-      @about-function{item-copy}
-      @about-function{item-new}
       @about-function{item-split}
       @about-function{item-apply-attrs}
       @about-function{reorder-items}
@@ -187,11 +176,27 @@
       store information about glyphs.
       @about-variable{+pango-scale+}
       @about-symbol{rectangle}
-      @about-function{rectangle-x}
-      @about-function{rectangle-y}
-      @about-function{rectangle-height}
-      @about-function{rectangle-width}
       @about-struct{matrix}
+      @about-function{matrix-xx}
+      @about-function{matrix-xy}
+      @about-function{matrix-yx}
+      @about-function{matrix-yy}
+      @about-function{matrix-x0}
+      @about-function{matrix-y0}
+      @about-function{matrix-new}
+      @about-function{matrix-init}
+      @about-function{matrix-copy}
+      @about-function{matrix-free}
+      @about-function{matrix-translate}
+      @about-function{matrix-scale}
+      @about-function{matrix-rotate}
+      @about-function{matrix-concat}
+      @about-function{matrix-transform-point}
+      @about-function{matrix-transform-distance}
+      @about-function{matrix-transform-rectangle}
+      @about-function{matrix-transform-pixel-rectangle}
+      @about-function{matrix-font-scale-factor}
+      @about-function{matrix-font-scale-factors}
       @about-symbol{glyph}
       @about-function{PANGO_GLYPH_EMPTY}
       @about-function{PANGO_GLYPH_INVALID_INPUT}
@@ -215,19 +220,6 @@
       @about-function{PANGO_LBEARING}
       @about-function{PANGO_RBEARING}
       @about-function{extents-to-pixels}
-      @about-function{matrix-init}
-      @about-function{matrix-copy}
-      @about-function{matrix-free}
-      @about-function{matrix-translate}
-      @about-function{matrix-scale}
-      @about-function{matrix-rotate}
-      @about-function{matrix-concat}
-      @about-function{matrix-transform-point}
-      @about-function{matrix-transform-distance}
-      @about-function{matrix-transform-rectangle}
-      @about-function{matrix-transform-pixel-rectangle}
-      @about-function{matrix-font-scale-factor}
-      @about-function{matrix-font-scale-factors}
       @about-function{PANGO_GET_UNKNOWN_GLYPH}
       @about-function{glyph-string-new}
       @about-function{glyph-string-copy}
@@ -279,10 +271,18 @@
       @about-function{color-copy}
       @about-function{color-parse}
       @about-function{color-parse-with-alpha}
-      @about-function{color-free}
       @about-function{color-to-string}
       @about-symbol{attr-class}
       @about-struct{attribute}
+      @about-function{attribute-klass}
+      @about-function{attribute-start-index}
+      @about-function{attribute-end-index}
+      @about-function{attribute-type}
+      @about-function{attribute-new}
+      @about-function{attribute-init}
+      @about-function{attribute-copy}
+      @about-function{attribute-equal}
+      @about-function{attribute-destroy}
       @about-symbol{attr-string}
       @about-symbol{attr-language}
       @about-symbol{attr-color}
@@ -292,14 +292,6 @@
       @about-symbol{attr-shape}
       @about-symbol{attr-size}
       @about-symbol{attr-font-features}
-      @about-class{attr-list}
-      @about-class{attr-iterator}
-      @about-function{attr-type-register}
-      @about-function{attr-type-name}
-      @about-function{attribute-init}
-      @about-function{attribute-copy}
-      @about-function{attribute-equal}
-      @about-function{attribute-destroy}
       @about-function{attr-language-new}
       @about-function{attr-family-new}
       @about-function{attr-style-new}
@@ -332,6 +324,9 @@
       @about-function{attr-allow-breaks-new}
       @about-function{attr-insert-hyphens-new}
       @about-function{attr-show-new}
+      @about-function{attr-type-register}
+      @about-function{attr-type-name}
+      @about-class{attr-list}
       @about-function{attr-list-new}
       @about-function{attr-list-ref}
       @about-function{attr-list-unref}
@@ -345,7 +340,10 @@
       @about-function{PangoAttrFilterFunc}
       @about-function{attr-list-attributes}
       @about-function{attr-list-equal}
+      @about-function{attr-list-from-string}
+      @about-function{attr-list-to-string}
       @about-function{attr-list-iterator}
+      @about-class{attr-iterator}
       @about-function{attr-iterator-copy}
       @about-function{attr-iterator-next}
       @about-function{attr-iterator-range}
@@ -555,15 +553,19 @@
       @about-function{layout-iter-line-yrange}
       @about-function{layout-iter-line-extents}
       @about-function{layout-iter-layout-extents}
-      @about-struct{layout-line}
+      @about-class{layout-line}
       @about-function{layout-line-ref}
       @about-function{layout-line-unref}
       @about-function{layout-line-extents}
-      @about-function{layout-line-pixel-extents}
-      @about-function{layout-line-index-to-x}
-      @about-function{layout-line-x-to-index}
-      @about-function{layout-line-x-ranges}
       @about-function{layout-line-height}
+      @about-function{layout-line-length}
+      @about-function{layout-line-pixel-extents}
+      @about-function{layout-line-resolved-direction}
+      @about-function{layout-line-start-index}
+      @about-function{layout-line-x-ranges}
+      @about-function{layout-line-index-to-x}
+      @about-function{layout-line-is-paragraph-start}
+      @about-function{layout-line-x-to-index}
     @end{subsection}
     @begin[Scripts and Languages]{subsection}
       Identifying writing systems and languages.

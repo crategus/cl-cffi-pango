@@ -2,9 +2,9 @@
 ;;; pango.layout.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango library.
-;;; See <http://www.pango.org>. The API documentation of the Lisp binding is
-;;; available from <http://www.crategus.com/books/cl-cffi-pango/>.
+;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
@@ -160,7 +160,7 @@
 ;;; enum PangoWrapMode
 ;;; ----------------------------------------------------------------------------
 
-(define-g-enum "PangoWrapMode" wrap-mode
+(gobject:define-g-enum "PangoWrapMode" wrap-mode
   (:export t
    :type-initializer "pango_wrap_mode_get_type")
   (:word 0)
@@ -177,7 +177,7 @@
     @class{pango:layout} object to the desired width.
   @end{short}
   @begin{pre}
-(define-g-enum \"PangoWrapMode\" wrap-mode
+(gobject:define-g-enum \"PangoWrapMode\" wrap-mode
   (:export t
    :type-initializer \"pango_wrap_mode_get_type\")
   (:word 0)
@@ -198,7 +198,7 @@
 ;;; enum PangoEllipsizeMode
 ;;; ----------------------------------------------------------------------------
 
-(define-g-enum "PangoEllipsizeMode" ellipsize-mode
+(gobject:define-g-enum "PangoEllipsizeMode" ellipsize-mode
   (:export t
    :type-initializer "pango_ellipsize_mode_get_type")
   (:none 0)
@@ -218,7 +218,7 @@
   In the ellipsization process characters are removed from the text in order to
   make it fit to a given width and replaced with an ellipsis.
   @begin{pre}
-(define-g-enum \"PangoEllipsizeMode\" ellipsize-mode
+(gobject:define-g-enum \"PangoEllipsizeMode\" ellipsize-mode
   (:export t
    :type-initializer \"pango_ellipsize_mode_get_type\")
   (:none 0)
@@ -240,7 +240,7 @@
 ;;; enum PangoAlignment
 ;;; ----------------------------------------------------------------------------
 
-(define-g-enum "PangoAlignment" alignment
+(gobject:define-g-enum "PangoAlignment" alignment
   (:export t
    :type-initializer "pango_alignment_get_type")
   (:left 0)
@@ -259,7 +259,7 @@
   If the @class{pango:layout} object is set to justify using the
   @fun{pango:layout-justify} function, this only has effect for partial lines.
   @begin{pre}
-(define-g-enum \"PangoAlignment\" alignment
+(gobject:define-g-enum \"PangoAlignment\" alignment
   (:export t
    :type-initializer \"pango_alignment_get_type\")
   (:left 0)
@@ -293,7 +293,7 @@
 ;; define-g-boxed-cstruct does not work.
 
 #+nil
-(define-g-boxed-cstruct layout-line "PangoLayoutLine"
+(gobject:define-g-boxed-cstruct layout-line "PangoLayoutLine"
   (:export t
    :type-initializer "pango_layout_line_get_type")
   (layout (g:object layout))
@@ -323,7 +323,7 @@
   modified. Routines for rendering @class{pango:layout} objects are provided in
   code specific to each rendering system.
   @begin{pre}
-(define-g-boxed-cstruct layout-line \"PangoLayoutLine\"
+(gobject:define-g-boxed-cstruct layout-line \"PangoLayoutLine\"
   (:export t
    :type-initializer \"pango_layout_line_get_type\")
   (layout (g:object layout))
@@ -331,7 +331,7 @@
   (length :int)
   (runs (g:slist-t (g:boxed glyph-item)))
   (is-paragraph-start :uint)
-  (resolved-idr :uint))
+  (resolved-dir :uint))
   @end{pre}
   @begin[code]{table}
     @entry[layout]{The @class{pango:layout} object this line belongs to, might
@@ -377,7 +377,7 @@
 ;;; PangoLayout
 ;;; ----------------------------------------------------------------------------
 
-(define-g-object-class "PangoLayout" layout
+(gobject:define-g-object-class "PangoLayout" layout
   (:superclass g:object
    :export t
    :interfaces nil
@@ -412,7 +412,7 @@
 ;;; pango_layout_new ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_new" layout-new) (g:object layout)
+(cffi:defcfun ("pango_layout_new" layout-new) (g:object layout)
  #+liber-documentation
  "@version{2023-2-6}
   @argument[context]{a @class{pango:context} object}
@@ -431,7 +431,7 @@
 ;;; pango_layout_copy ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_copy" layout-copy) (g:object layout)
+(cffi:defcfun ("pango_layout_copy" layout-copy) (g:object layout)
  #+liber-documentation
  "@version{2023-2-6}
   @argument[src]{a @class{pango:layout} object}
@@ -452,7 +452,7 @@
 ;;; pango_layout_get_context () -> layout-context
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_context" layout-context) (g:object context)
+(cffi:defcfun ("pango_layout_get_context" layout-context) (g:object context)
  #+liber-documentation
  "@version{2023-2-6}
   @argument[layout]{a @class{pango:layout} object}
@@ -472,7 +472,7 @@
 ;;; pango_layout_context_changed ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_context_changed" layout-context-changed) :void
+(cffi:defcfun ("pango_layout_context_changed" layout-context-changed) :void
  #+liber-documentation
  "@version{2023-2-6}
   @argument[layout]{a @class{pango:layout} object}
@@ -491,7 +491,7 @@
 ;;; pango_layout_get_serial () -> layout-serial
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_serial" layout-serial) :uint
+(cffi:defcfun ("pango_layout_get_serial" layout-serial) :uint
  #+liber-documentation
  "@version{2023-2-6}
   @argument[layout]{a @class{pango:layout} object}
@@ -529,7 +529,7 @@
                         :int -1)
   text)
 
-(defcfun ("pango_layout_get_text" layout-text) :string
+(cffi:defcfun ("pango_layout_get_text" layout-text) :string
  #+liber-documentation
  "@version{2023-2-6}
   @syntax[]{(pango:layout-text layout) => text}
@@ -559,7 +559,7 @@
 ;;; pango_layout_get_character_count () -> layout-character-count
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_character_count" layout-character-count) :int
+(cffi:defcfun ("pango_layout_get_character_count" layout-character-count) :int
  #+liber-documentation
  "@version{2023-2-6}
   @argument[layout]{a @class{pango:layout} object}
@@ -579,7 +579,7 @@
 ;;; pango_layout_set_markup ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_set_markup" %layout-set-markup) :void
+(cffi:defcfun ("pango_layout_set_markup" %layout-set-markup) :void
   (layout (g:object layout))
   (markup :string)
   (length :int))
@@ -605,8 +605,8 @@
 
 ;; TODO: Replace :uint32 with the UNICHAR type! This is defined elsewhere.
 
-(defcfun ("pango_layout_set_markup_with_accel" %layout-set-markup-with-accel)
-    :void
+(cffi:defcfun ("pango_layout_set_markup_with_accel"
+                %layout-set-markup-with-accel) :void
   (layout (g:object layout))
   (markup :string)
   (length :int)
@@ -636,7 +636,7 @@
   will be returned. Two @arg{marker} characters following each other
   produce a single literal @arg{marker} character.
   @see-class{pango:layout}"
-  (with-foreign-object (char :uint32)
+  (cffi:with-foreign-object (char :uint32)
     (%layout-set-markup-with-accel layout markup -1 marker char)
     (values (cffi:mem-ref char 'g:unichar))))
 
@@ -654,7 +654,8 @@
                         :void)
   attrs)
 
-(defcfun ("pango_layout_get_attributes" layout-attributes) (g:boxed attr-list)
+(cffi:defcfun ("pango_layout_get_attributes" layout-attributes)
+    (g:boxed attr-list)
  #+liber-documentation
  "@version{2023-2-6}
   @syntax[]{(pango:layout-attributes layout) => attrs}
@@ -684,7 +685,7 @@
                         :void)
   desc)
 
-(defcfun ("pango_layout_get_font_description" layout-font-description)
+(cffi:defcfun ("pango_layout_get_font_description" layout-font-description)
     (g:boxed font-description)
  #+liber-documentation
  "@version{2023-2-6}
@@ -720,7 +721,7 @@
                         :void)
   width)
 
-(defcfun ("pango_layout_get_width" layout-width) :int
+(cffi:defcfun ("pango_layout_get_width" layout-width) :int
  #+liber-documentation
  "@version{2023-2-6}
   @syntax[]{(pango:layout-width layout) => width}
@@ -752,7 +753,7 @@
                         :void)
   height)
 
-(defcfun ("pango_layout_get_height" layout-height) :int
+(cffi:defcfun ("pango_layout_get_height" layout-height) :int
  #+liber-documentation
  "@version{2023-2-6}
   @syntax[]{(pango:layout-height layout) => height}
@@ -803,7 +804,7 @@
                         :void)
   wrap)
 
-(defcfun ("pango_layout_get_wrap" layout-wrap) wrap-mode
+(cffi:defcfun ("pango_layout_get_wrap" layout-wrap) wrap-mode
  #+liber-documentation
  "@version{#2023-2-6}
   @syntax[]{(pango:layout-wrap layout) => wrap}
@@ -831,7 +832,7 @@
 ;;; pango_layout_is_wrapped ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_is_wrapped" layout-is-wrapped) :boolean
+(cffi:defcfun ("pango_layout_is_wrapped" layout-is-wrapped) :boolean
  #+liber-documentation
  "@version{#2023-2-6}
   @argument[layout]{a @class{pango:layout} object}
@@ -861,7 +862,7 @@
                         :void)
   ellipsize)
 
-(defcfun ("pango_layout_get_ellipsize" layout-ellipsize) ellipsize-mode
+(cffi:defcfun ("pango_layout_get_ellipsize" layout-ellipsize) ellipsize-mode
  #+liber-documentation
  "@version{#2023-2-6}
   @syntax[]{(pango:layout-ellipsize layout) => ellipsize}
@@ -897,7 +898,7 @@
 ;;; pango_layout_is_ellipsized ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_is_ellipsized" layout-is-ellipsized) :boolean
+(cffi:defcfun ("pango_layout_is_ellipsized" layout-is-ellipsized) :boolean
  #+liber-documentation
  "@version{#2023-2-6}
   @argument[layout]{a @class{pango:layout} object}
@@ -927,7 +928,7 @@
                         :void)
   indent)
 
-(defcfun ("pango_layout_get_ident" layout-indent) :int
+(cffi:defcfun ("pango_layout_get_ident" layout-indent) :int
  #+liber-documentation
  "@version{#2023-2-6}
   @syntax[]{(pango:layout-indent layout) => indent}
@@ -963,7 +964,7 @@
                         :void)
   spacing)
 
-(defcfun ("pango_layout_get_spacing" layout-spacing) :int
+(cffi:defcfun ("pango_layout_get_spacing" layout-spacing) :int
  #+liber-documentation
  "@version{#2023-2-6}
   @syntax[]{(pango:layout-spacing layout) => spacing}
@@ -1006,7 +1007,7 @@ line2.top = line1.bottom + spacing
   factor)
 
 #+pango-1-44
-(defcfun ("pango_layout_get_line_spacing" layout-line-spacing) :float
+(cffi:defcfun ("pango_layout_get_line_spacing" layout-line-spacing) :float
  #+liber-documentation
  "@version{#2023-2-6}
   @syntax[]{(pango:layout-line-spacing layout) => factor}
@@ -1051,7 +1052,7 @@ baseline2 = baseline1 + factor * height2
                         :void)
   justify)
 
-(defcfun ("pango_layout_get_justify" layout-justify) :boolean
+(cffi:defcfun ("pango_layout_get_justify" layout-justify) :boolean
  #+liber-documentation
  "@version{#2023-2-6}
   @syntax[]{(pango:layout-justify layout) => justify}
@@ -1085,7 +1086,7 @@ baseline2 = baseline1 + factor * height2
                         :void)
   auto-dir)
 
-(defcfun ("pango_layout_get_auto_dir" layout-auto-dir) :boolean
+(cffi:defcfun ("pango_layout_get_auto_dir" layout-auto-dir) :boolean
  #+liber-documentation
  "@version{#2023-2-6}
   @syntax[]{(pango:layout-auto-dir layout) => auto-dir}
@@ -1124,7 +1125,7 @@ baseline2 = baseline1 + factor * height2
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-46
-(defcfun ("pango_layout_get_direction" layout-direction) direction
+(cffi:defcfun ("pango_layout_get_direction" layout-direction) direction
  #+liber-documentation
  "@version{#2023-2-6}
   @argument[layout]{a @class{pango:layout} object}
@@ -1156,7 +1157,7 @@ baseline2 = baseline1 + factor * height2
                         :void)
   alignment)
 
-(defcfun ("pango_layout_get_alignment" layout-alignment) alignment
+(cffi:defcfun ("pango_layout_get_alignment" layout-alignment) alignment
  #+liber-documentation
  "@version{#2023-2-6}
   @syntax[]{(pango:layout-alignment layout) => alignment}
@@ -1187,7 +1188,7 @@ baseline2 = baseline1 + factor * height2
                         :void)
   tabs)
 
-(defcfun ("pango_layout_get_tabs" layout-tabs) (g:boxed tab-array :return)
+(cffi:defcfun ("pango_layout_get_tabs" layout-tabs) (g:boxed tab-array :return)
  #+liber-documentation
  "@version{#2023-2-6}
   @syntax[]{(pango:layout-tabs layout) => tabs}
@@ -1222,8 +1223,8 @@ baseline2 = baseline1 + factor * height2
                         :void)
   setting)
 
-(defcfun ("pango_layout_get_single_paragraph_mode" layout-single-paragraph-mode)
-    :boolean
+(cffi:defcfun ("pango_layout_get_single_paragraph_mode"
+                layout-single-paragraph-mode) :boolean
  #+liber-documentation
  "@version{#2023-2-6}
   @syntax[]{(pango:layout-tabs layout) => tabs}
@@ -1247,8 +1248,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_unknown_glyphs_count ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_unknown_glyphs_count" layout-unknown-glyphs-count)
-    :int
+(cffi:defcfun ("pango_layout_get_unknown_glyphs_count"
+                layout-unknown-glyphs-count) :int
  #+liber-documentation
  "@version{#2023-2-6}
   @argument[layout]{a @class{pango:layout} object}
@@ -1275,7 +1276,7 @@ baseline2 = baseline1 + factor * height2
 
 ;; FIXME: More work is needed. At this time we do not export the function.
 
-(defcfun ("pango_layout_get_log_attrs" %layout-log-attrs) :void
+(cffi:defcfun ("pango_layout_get_log_attrs" %layout-log-attrs) :void
   (layout (g:object layout))
   (attrs (:pointer (:struct log-attr)))
   (n-attrs (:pointer :int)))
@@ -1292,7 +1293,7 @@ baseline2 = baseline1 + factor * height2
   @end{short}
   @see-class{pango:layout}
   @see-symbol{pango:log-attr}"
-  (with-foreign-objects ((attrs-ptr :pointer) (n-attrs :int))
+  (cffi:with-foreign-objects ((attrs-ptr :pointer) (n-attrs :int))
     (%layout-log-attrs layout attrs-ptr n-attrs)
     (loop with attrs-ar = (cffi:mem-ref attrs-ptr :pointer)
           for i from 0 below (cffi:mem-ref n-attrs :int)
@@ -1306,8 +1307,8 @@ baseline2 = baseline1 + factor * height2
 
 ;; FIXME: More work is needed. At this time we do not export the function.
 
-(defcfun ("pango_layout_get_log_attrs_readonly"
-          %layout-log-attrs-readonly) (:pointer (:struct log-attr))
+(cffi:defcfun ("pango_layout_get_log_attrs_readonly"
+                %layout-log-attrs-readonly) (:pointer (:struct log-attr))
   (layout (g:object layout))
   (n-attrs (:pointer :int)))
 
@@ -1324,7 +1325,7 @@ baseline2 = baseline1 + factor * height2
   layout will invalidate the returned list.
   @see-class{pango:layout}
   @see-function{pango:layout-log-attrs}"
-  (with-foreign-object (n-attrs :int)
+  (cffi:with-foreign-object (n-attrs :int)
     (let ((attrs-ptr (%layout-log-attrs-readonly layout n-attrs)))
       (loop for count from 0 below (cffi:mem-ref n-attrs :int)
             collect (cffi:mem-ref attrs-ptr '(:struct log-attr) count)
@@ -1334,7 +1335,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_index_to_pos ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_index_to_pos" %layout-index-to-pos) :void
+(cffi:defcfun ("pango_layout_index_to_pos" %layout-index-to-pos) :void
   (layout (g:object layout))
   (index :int)
   (pos (:pointer (:struct rectangle))))
@@ -1360,9 +1361,9 @@ baseline2 = baseline1 + factor * height2
   directionality of the grapheme is right-to-left, then @arg{witdh} will be
   negative.
   @see-class{pango:layout}"
-  (with-foreign-object (pos '(:struct rectangle))
+  (cffi:with-foreign-object (pos '(:struct rectangle))
     (%layout-index-to-pos layout index pos)
-    (with-foreign-slots ((x y width height) pos (:struct rectangle))
+    (cffi:with-foreign-slots ((x y width height) pos (:struct rectangle))
       (values x y width height))))
 
 (export 'layout-index-to-pos)
@@ -1371,7 +1372,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_index_to_line_x ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_index_to_line_x" %layout-index-to-line-x) :void
+(cffi:defcfun ("pango_layout_index_to_line_x" %layout-index-to-line-x) :void
   (layout (g:object layout))
   (index :int)
   (trailing :boolean)
@@ -1399,7 +1400,7 @@ baseline2 = baseline1 + factor * height2
   @end{short}
   The @arg{xpos} position is measured from the left edge of the line.
   @see-class{pango:layout}"
-  (with-foreign-objects ((line :int) (xpos :int))
+  (cffi:with-foreign-objects ((line :int) (xpos :int))
     (%layout-index-to-line-x layout index trailing line xpos)
     (values (cffi:mem-ref line :int)
             (cffi:mem-ref xpos :int))))
@@ -1410,7 +1411,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_xy_to_index ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_xy_to_index" %layout-xy-to-index) :boolean
+(cffi:defcfun ("pango_layout_xy_to_index" %layout-xy-to-index) :boolean
   (layout (g:object layout))
   (x :int)
   (y :int)
@@ -1443,7 +1444,7 @@ baseline2 = baseline1 + factor * height2
   function returns @code{nil}.
   @see-class{pango:layout}
   @see-function{pango:layout-line-x-to-index}"
-  (with-foreign-objects ((index :int) (trailing :int))
+  (cffi:with-foreign-objects ((index :int) (trailing :int))
     (when (%layout-xy-to-index layout x y index trailing)
       (values (cffi:mem-ref index :int)
               (cffi:mem-ref trailing :int)))))
@@ -1454,7 +1455,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_cursor_pos () -> layout-cursor-pos
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_cursor_pos" %layout-cursor-pos) :void
+(cffi:defcfun ("pango_layout_get_cursor_pos" %layout-cursor-pos) :void
   (layout (g:object layout))
   (index :int)
   (strong-pos (:pointer (:struct rectangle)))
@@ -1480,13 +1481,13 @@ baseline2 = baseline1 + factor * height2
   the location where characters of the directionality opposite to the base
   direction of the layout are inserted.
   @see-class{pango:layout}"
-  (with-foreign-objects ((strong '(:struct rectangle))
-                         (weak '(:struct rectangle)))
+  (cffi:with-foreign-objects ((strong '(:struct rectangle))
+                              (weak '(:struct rectangle)))
     (%layout-cursor-pos layout index strong weak)
     (let (values1 values2)
-      (with-foreign-slots ((x y width height) strong (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) strong (:struct rectangle))
         (setf values1 (list x y width height)))
-      (with-foreign-slots ((x y width height) weak (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) weak (:struct rectangle))
         (setf values2 (list x y width height)))
       (values values1 values2))))
 
@@ -1498,7 +1499,7 @@ baseline2 = baseline1 + factor * height2
 
 ;; TODO: Rework the documentation
 
-(defcfun ("pango_layout_move_cursor_visually" %layout-move-cursor-visually)
+(cffi:defcfun ("pango_layout_move_cursor_visually" %layout-move-cursor-visually)
     :void
   (layout (g:object layout))
   (strong :boolean)
@@ -1552,7 +1553,7 @@ baseline2 = baseline1 + factor * height2
   multiple characters when multiple characters combine to form a single
   grapheme.
   @see-class{pango:layout}"
-  (with-foreign-objects ((new-index :int) (new-trailing :int))
+  (cffi:with-foreign-objects ((new-index :int) (new-trailing :int))
     (%layout-move-cursor-visually layout
                                   strong
                                   index
@@ -1569,7 +1570,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_extents ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_extents" %layout-extents) :void
+(cffi:defcfun ("pango_layout_get_extents" %layout-extents) :void
   (layout (g:object layout))
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
@@ -1595,13 +1596,13 @@ baseline2 = baseline1 + factor * height2
   The extents are given in layout coordinates and in Pango units. Layout
   coordinates begin at the top left corner of the layout.
   @see-class{pango:layout}"
-  (with-foreign-objects ((ink '(:struct rectangle))
-                         (logical '(:struct rectangle)))
+  (cffi:with-foreign-objects ((ink '(:struct rectangle))
+                              (logical '(:struct rectangle)))
     (%layout-extents layout ink logical)
     (let (values1 values2)
-      (with-foreign-slots ((x y width height) ink (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
         (setf values1 (list x y width height)))
-      (with-foreign-slots ((x y width height) logical (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
         (setf values2 (list x y width height)))
       (values values1 values2))))
 
@@ -1611,7 +1612,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_pixel_extents ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_pixel_extents" %layout-pixel-extents) :void
+(cffi:defcfun ("pango_layout_get_pixel_extents" %layout-pixel-extents) :void
   (layout (g:object layout))
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
@@ -1636,13 +1637,13 @@ baseline2 = baseline1 + factor * height2
   @see-class{pango:layout}
   @see-function{pango:layout-extents}
   @see-function{pango:extents-to-pixels}"
-  (with-foreign-objects ((ink '(:struct rectangle))
-                         (logical '(:struct rectangle)))
+  (cffi:with-foreign-objects ((ink '(:struct rectangle))
+                              (logical '(:struct rectangle)))
     (%layout-pixel-extents layout ink logical)
     (let (values1 values2)
-      (with-foreign-slots ((x y width height) ink (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
         (setf values1 (list x y width height)))
-      (with-foreign-slots ((x y width height) logical (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
         (setf values2 (list x y width height)))
       (values values1 values2))))
 
@@ -1652,7 +1653,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_size () -> layout-size
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_size" %layout-size) :void
+(cffi:defcfun ("pango_layout_get_size" %layout-size) :void
   (layout (g:object layout))
   (width (:pointer :int))
   (height (:pointer :int)))
@@ -1674,7 +1675,7 @@ baseline2 = baseline1 + factor * height2
   @see-class{pango:layout}
   @see-function{pango:layout-extents}
   @see-variable{+pango-scale+}"
-  (with-foreign-objects ((width :int) (height :int))
+  (cffi:with-foreign-objects ((width :int) (height :int))
     (%layout-size layout width height)
     (values (cffi:mem-ref width :int)
             (cffi:mem-ref height :int))))
@@ -1685,7 +1686,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_pixel_size () -> layout-pixel-size
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_pixel_size" %layout-get-pixel-size) :void
+(cffi:defcfun ("pango_layout_get_pixel_size" %layout-get-pixel-size) :void
   (layout (g:object layout))
   (width (:pointer :int))
   (height (:pointer :int)))
@@ -1707,7 +1708,7 @@ baseline2 = baseline1 + factor * height2
   @see-class{pango:layout}
   @see-function{pango:layout-size}
   @see-function{pango:layout-pixel-extents}"
-  (with-foreign-objects ((width :int) (height :int))
+  (cffi:with-foreign-objects ((width :int) (height :int))
     (%layout-get-pixel-size layout width height)
     (values (cffi:mem-ref width :int)
             (cffi:mem-ref height :int))))
@@ -1718,7 +1719,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_baseline () -> layout-baseline
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_baseline" layout-baseline) :int
+(cffi:defcfun ("pango_layout_get_baseline" layout-baseline) :int
  #+liber-documentation
  "@version{2023-2-7}
   @argument[layout]{a @class{pango:layout} object}
@@ -1735,7 +1736,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_line_count () -> layout-line-count
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_line_count" layout-line-count) :int
+(cffi:defcfun ("pango_layout_get_line_count" layout-line-count) :int
  #+liber-documentation
  "@version{2023-2-7}
   @argument[layout]{a @class{pango:layout} object}
@@ -1752,7 +1753,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_line () -> layout-line
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_line" layout-line) (g:boxed layout-line)
+(cffi:defcfun ("pango_layout_get_line" layout-line) (g:boxed layout-line)
  #+liber-documentation
  "@version{2023-2-7}
   @argument[layout]{a @class{pango:layout} object}
@@ -1782,7 +1783,7 @@ baseline2 = baseline1 + factor * height2
 
 ;;; TODO: Do we need a second function. Which is the better implementation?
 
-(defcfun ("pango_layout_get_line_readonly" layout-line-readonly)
+(cffi:defcfun ("pango_layout_get_line_readonly" layout-line-readonly)
     (g:boxed layout-line)
  #+liber-documentation
  "@version{2023-2-7}
@@ -1874,7 +1875,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_iter () -> layout-iter
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_get_iter" layout-iter) (g:boxed layout-iter :return)
+(cffi:defcfun ("pango_layout_get_iter" layout-iter)
+    (g:boxed layout-iter :return)
  #+liber-documentation
  "@version{2023-2-11}
   @argument[layout]{a @class{pango:layout} object}
@@ -1893,7 +1895,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_copy ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_copy" layout-iter-copy)
+(cffi:defcfun ("pango_layout_iter_copy" layout-iter-copy)
     (g:boxed layout-iter :return)
  #+liber-documentation
  "@version{2023-2-11}
@@ -1911,7 +1913,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_free ()                              not needed
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_free" layout-iter-free) :void
+(cffi:defcfun ("pango_layout_iter_free" layout-iter-free) :void
  #+liber-documentation
  "@version{#2021-1-15}
   @argument[iter]{a @class{pango:layout-iter} instance, may be NULL}
@@ -1925,7 +1927,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_next_run ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_next_run" layout-iter-next-run) :boolean
+(cffi:defcfun ("pango_layout_iter_next_run" layout-iter-next-run) :boolean
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -1943,7 +1945,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_next_char ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_next_char" layout-iter-next-char) :boolean
+(cffi:defcfun ("pango_layout_iter_next_char" layout-iter-next-char) :boolean
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -1961,7 +1963,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_next_cluster ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_next_cluster" layout-iter-next-cluster) :boolean
+(cffi:defcfun ("pango_layout_iter_next_cluster" layout-iter-next-cluster)
+    :boolean
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -1979,7 +1982,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_next_line ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_next_line" layout-iter-next-line) :boolean
+(cffi:defcfun ("pango_layout_iter_next_line" layout-iter-next-line) :boolean
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -1997,7 +2000,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_at_last_line ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_at_last_line" layout-iter-at-last-line) :boolean
+(cffi:defcfun ("pango_layout_iter_at_last_line" layout-iter-at-last-line)
+    :boolean
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -2014,7 +2018,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_index () -> layout-iter-index
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_index" layout-iter-index) :int
+(cffi:defcfun ("pango_layout_iter_get_index" layout-iter-index) :int
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -2036,7 +2040,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_baseline () -> layout-iter-baseline
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_baseline" layout-iter-baseline) :int
+(cffi:defcfun ("pango_layout_iter_get_baseline" layout-iter-baseline) :int
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -2054,7 +2058,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_run () -> layout-iter-run
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_run" layout-iter-run) (g:boxed glyph-item)
+(cffi:defcfun ("pango_layout_iter_get_run" layout-iter-run) (g:boxed glyph-item)
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -2080,7 +2084,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_run_readonly () -> layout-iter-run-readonly
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_run_readonly" layout-iter-run-readonly)
+(cffi:defcfun ("pango_layout_iter_get_run_readonly" layout-iter-run-readonly)
     (g:boxed glyph-item)
  #+liber-documentation
  "@version{2023-2-11}
@@ -2108,7 +2112,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_line () -> layout-iter-line
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_line" layout-iter-line) (g:boxed layout-line)
+(cffi:defcfun ("pango_layout_iter_get_line" layout-iter-line)
+    (g:boxed layout-line)
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -2128,7 +2133,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_line_readonly () -> layout-iter-line-readonly
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_line_readonly" layout-iter-line-readonly)
+(cffi:defcfun ("pango_layout_iter_get_line_readonly" layout-iter-line-readonly)
     (g:boxed layout-line)
  #+liber-documentation
  "@version{2023-2-11}
@@ -2151,7 +2156,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_layout () -> layout-iter-layout
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_layout" layout-iter-layout) (g:object layout)
+(cffi:defcfun ("pango_layout_iter_get_layout" layout-iter-layout)
+    (g:object layout)
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -2169,7 +2175,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_char_extents () -> layout-iter-char-extents
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_char_extents" %layout-iter-char-extents) :void
+(cffi:defcfun ("pango_layout_iter_get_char_extents" %layout-iter-char-extents)
+    :void
   (iter (g:boxed layout-iter))
   (extents (:pointer (:struct rectangle))))
 
@@ -2186,9 +2193,9 @@ baseline2 = baseline1 + factor * height2
   be obtained for characters; ink extents make sense only down to the level of
   clusters.
   @see-class{pango:layout-iter}"
-  (with-foreign-object (extents '(:struct rectangle))
+  (cffi:with-foreign-object (extents '(:struct rectangle))
     (%layout-iter-char-extents iter extents)
-    (with-foreign-slots ((x y width height) extents (:struct rectangle))
+    (cffi:with-foreign-slots ((x y width height) extents (:struct rectangle))
       (values x y width height))))
 
 (export 'layout-iter-char-extents)
@@ -2197,8 +2204,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_cluster_extents () -> layout-iter-cluster-extents
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_cluster_extents" %layout-iter-cluster-extents)
-    :void
+(cffi:defcfun ("pango_layout_iter_get_cluster_extents"
+                %layout-iter-cluster-extents) :void
   (iter (g:boxed layout-iter))
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
@@ -2217,13 +2224,13 @@ baseline2 = baseline1 + factor * height2
     the top left of the entire layout).
   @end{short}
   @see-class{pango:layout-iter}"
-  (with-foreign-objects ((ink '(:struct rectangle))
-                         (logical '(:struct rectangle)))
+  (cffi:with-foreign-objects ((ink '(:struct rectangle))
+                              (logical '(:struct rectangle)))
     (%layout-iter-cluster-extents iter ink logical)
     (let (values1 values2)
-      (with-foreign-slots ((x y width height) ink (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
         (setf values1 (list x y width height)))
-      (with-foreign-slots ((x y width height) logical (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
         (setf values2 (list x y width height)))
       (values values1 values2))))
 
@@ -2233,7 +2240,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_run_extents () -> layout-iter-run-extents
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_run_extents" %layout-iter-run-extents) :void
+(cffi:defcfun ("pango_layout_iter_get_run_extents" %layout-iter-run-extents)
+    :void
   (iter (g:boxed layout-iter))
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
@@ -2253,13 +2261,13 @@ baseline2 = baseline1 + factor * height2
   @end{short}
   @see-class{pango:layout-iter}
   @see-symbol{pango:rectangle}"
-  (with-foreign-objects ((ink '(:struct rectangle))
-                         (logical '(:struct rectangle)))
+  (cffi:with-foreign-objects ((ink '(:struct rectangle))
+                              (logical '(:struct rectangle)))
     (%layout-iter-run-extents iter ink logical)
     (let (values1 values2)
-      (with-foreign-slots ((x y width height) ink (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
         (setf values1 (list x y width height)))
-      (with-foreign-slots ((x y width height) logical (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
         (setf values2 (list x y width height)))
       (values values1 values2))))
 
@@ -2269,7 +2277,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_line_yrange () -> layout-iter-line-yrange
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_line_yrange" %layout-iter-line-yrange) :void
+(cffi:defcfun ("pango_layout_iter_get_line_yrange" %layout-iter-line-yrange)
+    :void
   (iter (g:boxed layout-iter))
   (y0 (:pointer :int))
   (y1 (:pointer :int)))
@@ -2297,7 +2306,7 @@ baseline2 = baseline1 + factor * height2
   @end{dictionary}
   @see-class{pango:layout-iter}
   @see-function{pango:layout-spacing}"
-  (with-foreign-objects ((y0 :int) (y1 :int))
+  (cffi:with-foreign-objects ((y0 :int) (y1 :int))
     (%layout-iter-line-yrange iter y0 y1)
     (values (cffi:mem-ref y0 :int)
             (cffi:mem-ref y1 :int))))
@@ -2308,7 +2317,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_line_extents () -> layout-iter-line-extents
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_line_extents" %layout-iter-line-extents) :void
+(cffi:defcfun ("pango_layout_iter_get_line_extents" %layout-iter-line-extents)
+    :void
   (iter (g:boxed layout-iter))
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
@@ -2331,13 +2341,13 @@ baseline2 = baseline1 + factor * height2
   @fun{pango:layout-line-extents} function.
   @see-class{pango:layout-iter}
   @see-function{pango:layout-line-extents}"
-  (with-foreign-objects ((ink '(:struct rectangle))
-                         (logical '(:struct rectangle)))
+  (cffi:with-foreign-objects ((ink '(:struct rectangle))
+                              (logical '(:struct rectangle)))
     (%layout-iter-line-extents iter ink logical)
     (let (values1 values2)
-      (with-foreign-slots ((x y width height) ink (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
         (setf values1 (list x y width height)))
-      (with-foreign-slots ((x y width height) logical (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
         (setf values2 (list x y width height)))
       (values values1 values2))))
 
@@ -2347,8 +2357,8 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_layout_extents () -> layout-iter-layout-extents
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_iter_get_layout_extents" %layout-iter-layout-extents)
-    :void
+(cffi:defcfun ("pango_layout_iter_get_layout_extents"
+                %layout-iter-layout-extents) :void
   (iter (g:boxed layout-iter))
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
@@ -2367,13 +2377,13 @@ baseline2 = baseline1 + factor * height2
   @end{short}
   @see-class{pango:layout-iter}
   @see-symbol{pango:rectangle}"
-  (with-foreign-objects ((ink '(:struct rectangle))
-                         (logical '(:struct rectangle)))
+  (cffi:with-foreign-objects ((ink '(:struct rectangle))
+                              (logical '(:struct rectangle)))
     (%layout-iter-line-extents iter ink logical)
     (let (values1 values2)
-      (with-foreign-slots ((x y width height) ink (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
         (setf values1 (list x y width height)))
-      (with-foreign-slots ((x y width height) logical (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
         (setf values2 (list x y width height)))
       (values values1 values2))))
 
@@ -2383,7 +2393,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_line_ref ()                               not exported
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_line_ref" %layout-line-ref) :pointer
+(cffi:defcfun ("pango_layout_line_ref" %layout-line-ref) :pointer
  #+liber-documentation
  "@version{#2021-1-16}
   @argument[line]{a @class{pango:layout-line} instance, may be NULL}
@@ -2398,7 +2408,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_line_unref ()                             not exported
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_line_unref" layout-line-unref) :void
+(cffi:defcfun ("pango_layout_line_unref" layout-line-unref) :void
  #+liber-documentation
  "@version{#2021-1-16}
   @argument[line]{a @class{pango:layout-line} instance}
@@ -2413,7 +2423,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_line_get_extents () -> layout-line-extents
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_line_get_extents" %layout-line-extents) :void
+(cffi:defcfun ("pango_layout_line_get_extents" %layout-line-extents) :void
   (line (g:boxed layout-line))
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
@@ -2434,13 +2444,13 @@ baseline2 = baseline1 + factor * height2
   interpretation of the rectangles.
   @see-class{pango:layout-line}
   @see-function{pango:font-glyph-extents}"
-  (with-foreign-objects ((ink '(:struct rectangle))
-                         (logical '(:struct rectangle)))
+  (cffi:with-foreign-objects ((ink '(:struct rectangle))
+                              (logical '(:struct rectangle)))
     (%layout-line-extents line ink logical)
     (let ((values1 nil) (values2 nil))
-      (with-foreign-slots ((x y width height) ink (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
         (setf values1 (list x y width height)))
-      (with-foreign-slots ((x y width height) logical (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
         (setf values2 (list x y width height)))
       (values values1 values2))))
 
@@ -2451,7 +2461,7 @@ baseline2 = baseline1 + factor * height2
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-44
-(defcfun ("pango_layout_line_get_height" %layout-line-height) :void
+(cffi:defcfun ("pango_layout_line_get_height" %layout-line-height) :void
   (line (g:boxed layout-line))
   (height (:pointer :int)))
 
@@ -2468,7 +2478,7 @@ baseline2 = baseline1 + factor * height2
 
   Since 1.44
   @see-class{pango:layout-line}"
-  (with-foreign-object (height :int)
+  (cffi:with-foreign-object (height :int)
     (%layout-line-height line height)
     (unless (cffi:null-pointer-p height)
       (values (cffi:mem-ref height :int)))))
@@ -2477,23 +2487,21 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-line-height)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_line_get_length () -> layout-line-pixel-length
-;;;
-;;; int
-;;; pango_layout_line_get_length (PangoLayoutLine* line)
-;;;
-;;; Description
-;;;
-;;;     Returns the length of the line, in bytes.
-;;;
-;;;     Since: 1.50
-;;;
-;;; Returns:
-;;;     The length of the line.
+;;; pango_layout_line_get_length ()
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
-(defcfun ("pango_layout_line_get_length" layout-line-length) :int
+(cffi:defcfun ("pango_layout_line_get_length" layout-line-length) :int
+ #+liber-documentation
+ "@version{#2023-7-17}
+  @argument[line]{a @class{pango:layout-line} instance}
+  @return{An integer with the length of the line.}
+  @begin{short}
+    Returns the length of the line, in bytes.
+  @end{short}
+
+  Since 1.50
+  @see-class{pango:layout-line}"
   (line (g:boxed layout-line)))
 
 #+pango-1-50
@@ -2503,7 +2511,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_line_get_pixel_extents () -> layout-line-pixel-extents
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_line_get_pixel_extents" %layout-line-pixel-extents)
+(cffi:defcfun ("pango_layout_line_get_pixel_extents" %layout-line-pixel-extents)
     :void
   (line (g:boxed layout-line))
   (ink (:pointer (:struct rectangle)))
@@ -2529,13 +2537,13 @@ baseline2 = baseline1 + factor * height2
   @see-class{pango:layout-line}
   @see-function{pango:layout-line-extents}
   @see-function{pango:extents-to-pixels}"
-  (with-foreign-objects ((ink '(:struct rectangle))
-                         (logical '(:struct rectangle)))
+  (cffi:with-foreign-objects ((ink '(:struct rectangle))
+                              (logical '(:struct rectangle)))
     (%layout-line-pixel-extents line ink logical)
     (let (values1 values2)
-      (with-foreign-slots ((x y width height) ink (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
         (setf values1 (list x y width height)))
-      (with-foreign-slots ((x y width height) logical (:struct rectangle))
+      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
         (setf values2 (list x y width height)))
       (values values1 values2))))
 
@@ -2543,23 +2551,22 @@ baseline2 = baseline1 + factor * height2
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_line_get_resolved_direction ()
-;;;
-;;; PangoDirection
-;;; pango_layout_line_get_resolved_direction (PangoLayoutLine* line)
-;;;
-;;; Description
-;;;
-;;;     Returns the resolved direction of the line.
-;;;
-;;;     Since: 1.50
-;;;
-;;; Returns:
-;;;     The resolved direction of the line.
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
-(defcfun ("pango_layout_line_get_resolved_direction"
-           layout-line-resolved-direction) direction
+(cffi:defcfun ("pango_layout_line_get_resolved_direction"
+                layout-line-resolved-direction) direction
+ #+liber-documentation
+ "@version{#2023-7-17}
+  @argument[line]{a @class{pango:layout-line} instance}
+  @return{A @symbol{pango:direction} value with the resolved direction of the
+    line.}
+  @begin{short}
+    Returns the resolved direction of the line.
+  @end{short}
+
+  Since 1.50
+  @see-class{pango:layout-line}"
   (line (g:boxed layout-line)))
 
 #+pango-1-50
@@ -2567,23 +2574,21 @@ baseline2 = baseline1 + factor * height2
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_line_start_index ()
-;;;
-;;; int
-;;; pango_layout_line_get_start_index (PangoLayoutLine* line)
-;;;
-;;; Description
-;;;
-;;;     Returns the start index of the line, as byte index into the text of the
-;;;     layout.
-;;;
-;;;     Since: 1.50
-;;;
-;;; Returns:
-;;;     The start index of the line.
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
-(defcfun ("pango_layout_line_start_index" layout-line-start-index) :int
+(cffi:defcfun ("pango_layout_line_start_index" layout-line-start-index) :int
+ #+liber-documentation
+ "@version{#2023-7-17}
+  @argument[line]{a @class{pango:layout-line} instance}
+  @return{An integer with the start index of the line.}
+  @begin{short}
+    Returns the start index of the line, as byte index into the text of the
+    layout.
+  @end{short}
+
+  Since 1.50
+  @see-class{pango:layout-line}"
   (line (g:boxed layout-line)))
 
 #+pango-1-50
@@ -2595,7 +2600,7 @@ baseline2 = baseline1 + factor * height2
 
 ;; TODO: Return a Lisp list with the values.
 
-(defcfun ("pango_layout_line_get_x_ranges" layout-line-x-ranges) :void
+(cffi:defcfun ("pango_layout_line_get_x_ranges" layout-line-x-ranges) :void
  #+liber-documentation
  "@version{#2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -2635,7 +2640,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_line_index_to_x ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_line_index_to_x" %layout-line-index-to-x) :void
+(cffi:defcfun ("pango_layout_line_index_to_x" %layout-line-index-to-x) :void
   (line (g:boxed layout-line))
   (index :int)
   (trailing :boolean)
@@ -2657,7 +2662,7 @@ baseline2 = baseline1 + factor * height2
     Converts an index within a line to a x position.
   @end{short}
   @see-class{pango:layout-line}"
-  (with-foreign-object (xpos :int)
+  (cffi:with-foreign-object (xpos :int)
     (%layout-line-index-to-x line index trailing xpos)
     (values (cffi:mem-ref xpos :int))))
 
@@ -2665,23 +2670,21 @@ baseline2 = baseline1 + factor * height2
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_line_is_paragraph_start ()
-;;;
-;;; gboolean
-;;; pango_layout_line_is_paragraph_start (PangoLayoutLine* line)
-;;;
-;;; Description
-;;;
-;;;     Returns whether this is the first line of the paragraph.
-;;;
-;;;     Since: 1.50
-;;;
-;;; Returns:
-;;;     TRUE if this is the first line.
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
-(defcfun ("pango_layout_line_is_paragraph_start" layout-line-is-paragraph-start)
-    :boolean
+(cffi:defcfun ("pango_layout_line_is_paragraph_start"
+                layout-line-is-paragraph-start) :boolean
+ #+liber-documentation
+ "@version{#2023-7-17}
+  @argument[line]{a @class{pango:layout-line} instance}
+  @return{@em{True} if this is the first line.}
+  @begin{short}
+    Returns whether this is the first line of the paragraph.
+  @end{short}
+
+  Since 1.50
+  @see-class{pango:layout-line}"
   (line (g:boxed layout-line)))
 
 #+pango-1-50
@@ -2691,7 +2694,7 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_line_x_to_index ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_layout_line_x_to_index" %layout-line-x-to-index) :boolean
+(cffi:defcfun ("pango_layout_line_x_to_index" %layout-line-x-to-index) :boolean
   (line  (g:boxed layout-line))
   (xpos :int)
   (index (:pointer :int))
@@ -2725,7 +2728,7 @@ baseline2 = baseline1 + factor * height2
   grapheme in the line and trailing being set to the number of characters in
   that grapheme. The reverse is true for a left-to-right line.
   @see-class{pango:layout-line-x-to-index}"
-  (with-foreign-objects ((index :int) (trailing :int))
+  (cffi:with-foreign-objects ((index :int) (trailing :int))
     (let ((bool (%layout-line-x-to-index line xpos index trailing)))
       (values (cffi:mem-ref index :int)
               (cffi:mem-ref trailing :int)

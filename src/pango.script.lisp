@@ -2,28 +2,29 @@
 ;;; pango.script.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; for Pango 1.50 and modified to document the Lisp binding to the Pango
+;;; Version 1.50 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk/>.
+;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2012 - 2023 Dieter Kaiser
 ;;;
-;;; This program is free software: you can redistribute it and/or modify
-;;; it under the terms of the GNU Lesser General Public License for Lisp
-;;; as published by the Free Software Foundation, either version 3 of the
-;;; License, or (at your option) any later version and with a preamble to
-;;; the GNU Lesser General Public License that clarifies the terms for use
-;;; with Lisp programs and is referred as the LLGPL.
+;;; Permission is hereby granted, free of charge, to any person obtaining a
+;;; copy of this software and associated documentation files (the "Software"),
+;;; to deal in the Software without restriction, including without limitation
+;;; the rights to use, copy, modify, merge, publish, distribute, sublicense,
+;;; and/or sell copies of the Software, and to permit persons to whom the
+;;; Software is furnished to do so, subject to the following conditions:
 ;;;
-;;; This program is distributed in the hope that it will be useful,
-;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;;; GNU Lesser General Public License for more details.
+;;; The above copyright notice and this permission notice shall be included in
+;;; all copies or substantial portions of the Software.
 ;;;
-;;; You should have received a copy of the GNU Lesser General Public
-;;; License along with this program and the preamble to the Gnu Lesser
-;;; General Public License.  If not, see <http://www.gnu.org/licenses/>
-;;; and <http://opensource.franz.com/preamble.html>.
+;;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;;; IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;;; FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+;;; THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;;; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;;; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+;;; DEALINGS IN THE SOFTWARE.
 ;;; ----------------------------------------------------------------------------
 ;;;
 ;;; Scripts and Languages
@@ -431,7 +432,7 @@
 ;;;     Signwriting. Since 1.40
 ;;; ----------------------------------------------------------------------------
 
-(define-g-enum "PangoScript" script
+(gobject:define-g-enum "PangoScript" script
   (:export t
    :type-initializer "pango_script_get_type")
   (:INVALID-CODE -1)
@@ -570,7 +571,7 @@
   the @code{GUnicodeScript} enumeration instead, whose values are
   interchangeable with the @sym{pango:script} enumeration.
   @begin{pre}
-(define-g-enum \"PangoScript\" script
+(gobject:define-g-enum \"PangoScript\" script
   (:export t
    :type-initializer \"pango_script_get_type\")
   (:INVALID-CODE -1)
@@ -718,7 +719,7 @@
 ;;; pango_language_from_string ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_language_from_string" language-from-string)
+(cffi:defcfun ("pango_language_from_string" language-from-string)
     (g:boxed language :return)
  #+liber-documentation
  "@version{2023-2-6}
@@ -750,7 +751,7 @@
 ;;; pango_language_to_string ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_language_to_string" language-to-string) :string
+(cffi:defcfun ("pango_language_to_string" language-to-string) :string
  #+liber-documentation
  "@version{2023-2-6}
   @argument[language]{a @class{pango:language} instance}
@@ -769,7 +770,7 @@
 ;;; pango_language_matches ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_language_matches" language-matches) :boolean
+(cffi:defcfun ("pango_language_matches" language-matches) :boolean
  #+liber-documentation
  "@version{2023-2-6}
   @argument[language]{a @class{pango:language} instance}
@@ -870,7 +871,7 @@
 ;;; pango_language_get_default () -> language-default
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_language_get_default" language-default) (g:boxed language)
+(cffi:defcfun ("pango_language_get_default" language-default) (g:boxed language)
  #+liber-documentation
  "@version{2023-2-6}
   @return{The default language as a @class{pango:language} instance.}
@@ -890,8 +891,8 @@
   Brazil.
 
   On Windows, the C library does not use any such environment variables, and
-  setting them will not affect the behavior of functions like @code{ctime()}. 
-  The user sets the locale through the Regional Options in the Control Panel. 
+  setting them will not affect the behavior of functions like @code{ctime()}.
+  The user sets the locale through the Regional Options in the Control Panel.
   The C library, in the @code{setlocale()} function, does not use country and
   language codes, but country and language names spelled out in English.
   However, this function does check the above environment variables, and does
@@ -916,7 +917,7 @@
 ;;; pango_language_get_preferred () -> language-preferred
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_language_get_preferred" %language-preferred) :pointer)
+(cffi:defcfun ("pango_language_get_preferred" %language-preferred) :pointer)
 
 (defun language-preferred ()
  #+liber-documentation
@@ -924,19 +925,19 @@
   @return{A list of @class{pango:language} instances, or @code{nil}.}
   @begin{short}
     Returns the list of languages that the user prefers, as specified by the
-     @code{PANGO_LANGUAGE} or @code{LANGUAGE} environment variables, in order 
+     @code{PANGO_LANGUAGE} or @code{LANGUAGE} environment variables, in order
      of preference.
   @end{short}
   Note that this list does not necessarily include the language returned by
   the @fun{pango:language-default} function.
 
   When choosing language specific resources, such as the sample text returned
-  by the @fun{pango:language-sample-string} function, you should first try the 
+  by the @fun{pango:language-sample-string} function, you should first try the
   default language, followed by the languages returned by this function.
   @see-class{pango:language}
   @see-function{pango:language-default}
   @see-function{pango:language-sample-string}"
-  (with-foreign-object (ptr '(g:boxed language))
+  (cffi:with-foreign-object (ptr '(g:boxed language))
     (unless (cffi:null-pointer-p (setf ptr (%language-preferred)))
       (loop for count from 0
             for lang = (cffi:mem-aref ptr :pointer count)
@@ -949,7 +950,8 @@
 ;;; pango_language_get_sample_string () -> language-sample-string
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_language_get_sample_string" language-sample-string) :string
+(cffi:defcfun ("pango_language_get_sample_string" language-sample-string)
+    :string
  #+liber-documentation
  "@version{2023-2-6}
   @argument[language]{a @class{pango:language} instance, or @code{nil}}

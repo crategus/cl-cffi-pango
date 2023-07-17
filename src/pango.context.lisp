@@ -2,29 +2,29 @@
 ;;; pango.context.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango library.
-;;; See <http://www.pango.org>. The API documentation of the Lisp binding is
-;;; available from <http://www.crategus.com/books/cl-cffi-gtk/>.
+;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2009 - 2011 Kalyanov Dmitry
 ;;; Copyright (C) 2011 - 2023 Dieter Kaiser
 ;;;
-;;; This program is free software: you can redistribute it and/or modify
-;;; it under the terms of the GNU Lesser General Public License for Lisp
-;;; as published by the Free Software Foundation, either version 3 of the
-;;; License, or (at your option) any later version and with a preamble to
-;;; the GNU Lesser General Public License that clarifies the terms for use
-;;; with Lisp programs and is referred as the LLGPL.
+;;; Permission is hereby granted, free of charge, to any person obtaining a
+;;; copy of this software and associated documentation files (the "Software"),
+;;; to deal in the Software without restriction, including without limitation
+;;; the rights to use, copy, modify, merge, publish, distribute, sublicense,
+;;; and/or sell copies of the Software, and to permit persons to whom the
+;;; Software is furnished to do so, subject to the following conditions:
 ;;;
-;;; This program is distributed in the hope that it will be useful,
-;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;;; GNU Lesser General Public License for more details.
+;;; The above copyright notice and this permission notice shall be included in
+;;; all copies or substantial portions of the Software.
 ;;;
-;;; You should have received a copy of the GNU Lesser General Public
-;;; License along with this program and the preamble to the Gnu Lesser
-;;; General Public License.  If not, see <http://www.gnu.org/licenses/>
-;;; and <http://opensource.franz.com/preamble.html>.
+;;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;;; IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;;; FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+;;; THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;;; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;;; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+;;; DEALINGS IN THE SOFTWARE.
 ;;; ----------------------------------------------------------------------------
 ;;;
 ;;; Contexts
@@ -81,7 +81,7 @@
 ;;; PangoContext
 ;;; ----------------------------------------------------------------------------
 
-(define-g-object-class "PangoContext" context
+(gobject:define-g-object-class "PangoContext" context
   (:superclass g:object
    :export t
    :interfaces nil
@@ -133,7 +133,7 @@
 ;;; pango_context_changed ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_context_changed" context-changed) :void
+(cffi:defcfun ("pango_context_changed" context-changed) :void
  #+liber-documentation
  "@version{#2021-1-3}
   @argument[context]{a @class{pango:context} object}
@@ -155,7 +155,7 @@
 ;;; pango_context_get_serial () -> context-serial
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_context_get_serial" context-serial) :uint
+(cffi:defcfun ("pango_context_get_serial" context-serial) :uint
  #+liber-documentation
  "@version{#2021-1-3}
   @argument[context]{a @class{pango:context} object}
@@ -191,7 +191,7 @@
                         :void)
   font-map)
 
-(defcfun ("pango_context_get_font_map" context-font-map)
+(cffi:defcfun ("pango_context_get_font_map" context-font-map)
     (g:object font-map)
  #+liber-documentation
  "@version{#2021-1-3}
@@ -227,7 +227,7 @@
                         :void)
   desc)
 
-(defcfun ("pango_context_get_font_description" context-font-description)
+(cffi:defcfun ("pango_context_get_font_description" context-font-description)
     (g:boxed font-description)
  #+liber-documentation
  "@version{#2021-1-3}
@@ -260,7 +260,7 @@
                         (g:boxed language) language)
   language)
 
-(defcfun ("pango_context_get_language" context-language) (g:boxed language)
+(cffi:defcfun ("pango_context_get_language" context-language) (g:boxed language)
  #+liber-documentation
  "@version{2023-1-24}
   @syntax[]{(pango:context-language context) => language}
@@ -293,7 +293,7 @@
                         :void)
   direction)
 
-(defcfun ("pango_context_get_base_dir" context-base-dir) direction
+(cffi:defcfun ("pango_context_get_base_dir" context-base-dir) direction
  #+liber-documentation
  "@version{#2021-1-3}
   @syntax[]{(pango:context-base-dir context) => direction}
@@ -331,8 +331,7 @@
                         :void)
   gravity)
 
-(defcfun ("pango_context_get_base_gravity" context-base-gravity)
-    gravity
+(cffi:defcfun ("pango_context_get_base_gravity" context-base-gravity) gravity
  #+liber-documentation
  "@version{#2021-1-3}
   @syntax[]{(pango:context-base-gravity context) => gravity}
@@ -358,7 +357,7 @@
 ;;; pango_context_get_gravity () -> context-gravity
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_context_get_gravity" context-gravity) gravity
+(cffi:defcfun ("pango_context_get_gravity" context-gravity) gravity
  #+liber-documentation
  "@version{#2021-1-3}
   @argument[context]{a @class{pango:context} object}
@@ -392,7 +391,7 @@
                         :void)
   hint)
 
-(defcfun ("pango_context_get_gravity_hint" context-gravity-hint)
+(cffi:defcfun ("pango_context_get_gravity_hint" context-gravity-hint)
     gravity-hint
  #+liber-documentation
  "@version{#2021-1-3}
@@ -429,7 +428,7 @@
                         :void)
   matrix)
 
-(defcfun ("pango_context_get_matrix" context-matrix)
+(cffi:defcfun ("pango_context_get_matrix" context-matrix)
     (g:boxed matrix)
  #+liber-documentation
  "@version{#2021-1-3}
@@ -471,8 +470,8 @@
   round-positions)
 
 #+pango-1-44
-(defcfun ("pango_context_get_round_glyph_positions"
-           context-round-glyph-positions) :boolean
+(cffi:defcfun ("pango_context_get_round_glyph_positions"
+                context-round-glyph-positions) :boolean
  #+liber-documentation
  "@version{#2021-1-3}
   @syntax[]{(pango:context-round-glyph-positions context) => round-positions}
@@ -504,8 +503,7 @@
 ;;; pango_context_load_font ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_context_load_font" context-load-font)
-    (g:object font)
+(cffi:defcfun ("pango_context_load_font" context-load-font) (g:object font)
  #+liber-documentation
  "@version{#2021-1-3}
   @argument[context]{a @class{pango:context} object}
@@ -530,7 +528,7 @@
 ;;; pango_context_load_fontset ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_context_load_fontset" context-load-fontset)
+(cffi:defcfun ("pango_context_load_fontset" context-load-fontset)
     (g:object fontset)
  #+liber-documentation
  "@version{#2021-1-3}
@@ -561,7 +559,7 @@
 ;;; pango_context_get_metrics () -> context-metrics
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_context_get_metrics" context-metrics)
+(cffi:defcfun ("pango_context_get_metrics" context-metrics)
     (g:boxed font-metrics)
  #+liber-documentation
  "@version{#2021-1-7}
@@ -603,7 +601,7 @@
 ;;; pango_context_list_families ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("pango_context_list_families" %context-list-families) :void
+(cffi:defcfun ("pango_context_list_families" %context-list-families) :void
   (context (g:object context))
   (families :pointer)
   (n-families (:pointer :int)))
@@ -620,7 +618,7 @@
   @end{short}
   @see-class{pango:context}
   @see-class{pango:font-family}"
-  (with-foreign-objects ((families-ptr :pointer) (n-families :int))
+  (cffi:with-foreign-objects ((families-ptr :pointer) (n-families :int))
     (%context-list-families context families-ptr n-families)
     (loop with families-ar = (cffi:mem-ref families-ptr :pointer)
           for i from 0 below (cffi:mem-ref n-families :int)
