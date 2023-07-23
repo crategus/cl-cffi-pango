@@ -1,5 +1,5 @@
 ;;; ----------------------------------------------------------------------------
-;;; pango.rendering.lisp
+;;; pango.item.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
 ;;; Version 1.50 and modified to document the Lisp binding to the Pango
@@ -47,10 +47,11 @@
 ;;;     pango_item_new
 ;;;     pango_item_copy
 ;;;     pango_item_free                                    not needed
-;;;     pango_itemize
-;;;     pango_itemize_with_base_dir
 ;;;     pango_item_split
 ;;;     pango_item_apply_attrs
+;;;
+;;;     pango_itemize
+;;;     pango_itemize_with_base_dir
 ;;;     pango_reorder_items                                not implemented
 ;;;     pango_break                                        not implemented
 ;;;     pango_get_log_attrs
@@ -279,8 +280,9 @@
   @end{table}
   @see-class{pango:item}
   @see-class{pango:font}
-  @see-class{pango:language}
-  @see-symbol{pango:gravity}")
+  @see-symbol{pango:gravity}
+  @see-symbol{pango:script}
+  @see-class{pango:language}")
 
 (export 'analysis)
 
@@ -294,13 +296,15 @@
   (offset :int :initform 0)
   (length :int :initform 0)
   (num-chars :int :initform 0)
-  (analysis (:pointer (:struct analysis)) :initform (cffi:null-pointer)))
+  (analysis :pointer :initform (cffi:null-pointer)))
+
+; (:pointer (:struct analysis)) :initform (cffi:null-pointer)))
 
 #+liber-documentation
 (setf (liber:alias-for-class 'item)
       "GBoxed"
       (documentation 'item 'type)
- "@version{#2023-2-5}
+ "@version{2023-7-18}
   @begin{short}
     The @sym{pango:item} structure stores information about a segment of text.
   @end{short}
@@ -334,7 +338,7 @@
 (setf (liber:alias-for-function 'item-analysis)
       "Accessor"
       (documentation 'item-analysis 'function)
- "@version{#2023-7-14}
+ "@version{2023-7-18}
   @syntax[]{(pango:item-analysis instance) => analysis}
   @syntax[]{(setf (pango:item-analysis instance) analysis)}
   @argument[instance]{a @class{pango:item} instance}
@@ -351,7 +355,7 @@
 (setf (liber:alias-for-function 'item-length)
       "Accessor"
       (documentation 'item-length 'function)
- "@version{#2023-7-14}
+ "@version{2023-7-18}
   @syntax[]{(pango:item-length instance) => length}
   @syntax[]{(setf (pango:item-length instance) length)}
   @argument[instance]{a @class{pango:item} instance}
@@ -367,7 +371,7 @@
 (setf (liber:alias-for-function 'item-num-chars)
       "Accessor"
       (documentation 'item-num-chars 'function)
- "@version{#2023-7-14}
+ "@version{2023-7-18}
   @syntax[]{(pango:item-num-chars instance) => num-chars}
   @syntax[]{(setf (pango:item-num-chars instance) num-chars)}
   @argument[instance]{a @class{pango:item} instance}
@@ -384,7 +388,7 @@
 (setf (liber:alias-for-function 'item-offset)
       "Accessor"
       (documentation 'item-offset 'function)
- "@version{#2023-7-14}
+ "@version{2023-7-18}
   @syntax[]{(pango:item-offset instance) => offset}
   @syntax[]{(setf (pango:item-offset instance) offset)}
   @argument[instance]{a @class{pango:item} instance}
@@ -401,15 +405,13 @@
 
 (defun item-new ()
  #+liber-documentation
- "@version{#2023-7-14}
-  @begin{return}
-    The newly allocated @class{pango:item} instance.
-  @end{return}
+ "@version{2023-7-18}
+  @return{The newly allocated @class{pango:item} instance.}
   @begin{short}
     Creates a new @class{pango:item} instance initialized to default values.
   @end{short}
   @see-class{pango:item}
-  @see-function{pango:copy}"
+  @see-function{pango:item-copy}"
   (make-item))
 
 (export 'item-new)
@@ -420,17 +422,14 @@
 
 (defun item-copy (item)
  #+liber-documentation
- "@version{#2023-7-14}
-  @argument[item]{a @class{pango:item} instance, may be @code{nil}}
-  @begin{return}
-    The newly allocated @class{pango:item} instance, or @code{nil} if
-    @arg{item} was @code{nil}.
-  @end{return}
+ "@version{2023-7-18}
+  @argument[item]{a @class{pango:item} instance}
+  @return{The newly allocated @class{pango:item} instance.}
   @begin{short}
     Copy an existing @class{pango:item} instance.
   @end{short}
   @see-class{pango:item}
-  @see-function{pango:new}"
+  @see-function{pango:item-new}"
   (copy-item item))
 
 (export 'item-copy)
@@ -448,21 +447,90 @@
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
+;;; pango_item_split ()
+;;; ----------------------------------------------------------------------------
+
+;; TODO: We have no working example for this function.
+
+(cffi:defcfun ("pango_item_split" item-split) (g:boxed item :return)
+ #+liber-documentation
+ "@version{#2023-7-18}
+  @argument[item]{a @class{pango:item} instance}
+  @argument[index]{an integer with the byte index of position to split 
+    @arg{item}, relative to the start of the item}
+  @argument[offset]{an integer with the number of chars between start of
+    @arg{item} and @arg{index}}
+  @begin{return}
+    New @class{pango:item} instance representing text before @arg{index}.
+  @end{return}
+  @begin{short}
+    Modifies @arg{item} to cover only the text after @arg{index}, and returns a 
+    new item that covers the text before @arg{index} that used to be in 
+    @arg{item}.
+  @end{short}
+  You can think of @arg{index} as the length of the returned item.
+  @arg{index} may not be 0, and it may not be greater than or equal to the
+  length of @arg{item}, that is, there must be at least one byte assigned to
+  each item, you cannot create a zero-length item. @arg{offset} is the length 
+  of the first item in chars, and must be provided because the text used to 
+  generate the item is not available, so the @sym{pango:item-split} function
+  cannot count the char length of the split items itself.
+  @see-class{pango:item}"
+  (item (g:boxed item))
+  (index :int)
+  (offset :int))
+
+(export 'item-split)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_item_apply_attrs ()
+;;; ----------------------------------------------------------------------------
+
+#+pango-1-44
+(cffi:defcfun ("pango_item_apply_attrs" item-apply-attrs) :void
+ #+liber-documentation
+ "@version{#2023-7-18}
+  @argument[item]{a @class{pango:item} instance}
+  @argument[iter]{a @class{pango:attr-iterator} instance}
+  @begin{short}
+    Add attributes to a @class{pango:item} instance.
+  @end{short}
+  The idea is that you have attributes that do not affect itemization, such as
+  font features, so you filter them out using the @fun{pango:attr-list-filter}
+  function, itemize your text, then reapply the attributes to the resulting 
+  items using this function.
+
+  The @arg{iter} iterator should be positioned before the range of the item, 
+  and will be advanced past it. This function is meant to be called in a loop 
+  over the items resulting from itemization, while passing the iter to each 
+  call.
+
+  Since 1.44
+  @see-class{pango:item}
+  @see-class{pango:attr-iterator}
+  @see-function{pango:attr-list-filter}"
+  (item (g:boxed item))
+  (iter (g:boxed attr-iterator)))
+
+#+pango-1-44
+(export 'item-apply-attrs)
+
+;;; ----------------------------------------------------------------------------
 ;;; pango_itemize ()
 ;;; ----------------------------------------------------------------------------
 
-(cffi:defcfun ("pango_itemize" itemize) (g:list-t (g:boxed item))
+(cffi:defcfun ("pango_itemize" itemize) (g:list-t (g:boxed item :return))
  #+liber-documentation
- "@version{#2021-1-12}
+ "@version{2023-7-18}
   @argument[context]{a @class{pango:context} object holding information that
     affects the itemization process}
   @argument[text]{a string with the text to itemize, must be valid UTF-8}
   @argument[start]{an integer with the first byte in @arg{text} to process}
-  @argument[length]{an integer with the number of bytes (not characters) to
+  @argument[length]{an integer with the number of bytes, (not characters, to
     process after @arg{start}, this must be >= 0}
-  @argument[attrs]{the @class{pango:attr-list} set of attributes that apply to
-    @arg{text}}
-  @argument[iter]{cached @class{pango:attr-iterator} attribute iterator, or
+  @argument[attrs]{a @class{pango:attr-list} instance with the set of 
+    attributes that apply to @arg{text}}
+  @argument[iter]{a cached @class{pango:attr-iterator} attribute iterator, or
     @code{nil}}
   @return{A list of @class{pango:item} instances.}
   @begin{short}
@@ -473,15 +541,16 @@
   returned list. The generated list of items will be in logical order, the
   start offsets of the items are ascending.
 
-  The argument @arg{iter} should be an iterator over @arg{attrs} currently
-  positioned at a range before or containing @arg{start}. The argument
-  @arg{iter} will be advanced to the range covering the position just after
+  The @arg{iter} argument should be an iterator over @arg{attrs} currently
+  positioned at a range before or containing @arg{start}. The @arg{iter} 
+  argument will be advanced to the range covering the position just after
   @arg{start} + @arg{length}, i.e. if itemizing in a loop, just keep passing
   in the same @arg{iter}.
   @see-class{pango:context}
   @see-class{pango:item}
   @see-class{pango:attr-list}
-  @see-class{pango:attr-iterator}"
+  @see-class{pango:attr-iterator}
+  @see-function{pango:itemize-with-base-dir}"
   (context (g:object context))
   (text :string)
   (start :int)
@@ -498,28 +567,26 @@
 (cffi:defcfun ("pango_itemize_with_base_dir" itemize-with-base-dir)
     (g:list-t (g:boxed item))
  #+liber-documentation
- "@version{#2021-1-12}
+ "@version{2023-7-18}
   @argument[context]{a @class{pango:context} object holding information that
     affects the itemization process}
-  @argument[base-dir]{a @symbol{pango:direction} value with the base direction
+  @argument[direction]{a @symbol{pango:direction} value with the base direction
     to use for bidirectional processing}
   @argument[text]{a string with the text to itemize, must be valid UTF-8}
   @argument[start]{an integer with the first byte in @arg{text} to process}
-  @argument[length]{an integer with the number of bytes (not characters) to
+  @argument[length]{an integer with the number of bytes, not characters, to
     process after @arg{start}, this must be >= 0}
-  @argument[attrs]{the @class{pango:attr-list} set of attributes that apply to
-    @arg{text}}
-  @argument[iter]{cached @class{pango:attr-iterator} attribute iterator,
-     or @code{nil}}
-  @begin{return}
-    A list of @class{pango:item} instances.
-  @end{return}
+  @argument[attrs]{a @class{pango:attr-list} instance with the set of 
+    attributes that apply to @arg{text}}
+  @argument[iter]{a cached @class{pango:attr-iterator} attribute iterator, or
+    @code{nil}}
+  @return{A list of @class{pango:item} instances.}
   @begin{short}
-    Like the function @fun{pango:itemize}, but the base direction to use when
-    computing bidirectional levels, see the function
-    @fun{pango:context-base-dir}, is specified explicitly rather than gotten
+    Like the @fun{pango:itemize} function, but the base direction to use when
+    computing bidirectional levels, is specified explicitly rather than gotten
     from the @class{pango:context} object.
   @end{short}
+  See also the @fun{pango:context-base-dir} function. 
   @see-class{pango:context}
   @see-class{pango:item}
   @see-class{pango:attr-list}
@@ -528,7 +595,7 @@
   @see-function{pango:itemize}
   @see-function{pango:context-base-dir}"
   (context (g:object context))
-  (base-dir direction)
+  (direction direction)
   (text :string)
   (start :int)
   (length :int)
@@ -536,72 +603,6 @@
   (iter (g:boxed attr-iterator)))
 
 (export 'itemize-with-base-dir)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_item_split ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_item_split" item-split) (g:boxed item)
- #+liber-documentation
- "@version{#2021-01-12}
-  @argument[orig]{a @class{pango:item} instance}
-  @argument[split-index]{an integer with the byte index of position to split
-    item, relative to the start of the item}
-  @argument[split-offset]{an integer with the number of chars between start of
-    @arg{orig} and @arg{split-index}}
-  @begin{return}
-    New @class{pango:item} instance representing text before @arg{split-index}.
-  @end{return}
-  @begin{short}
-    Modifies @arg{orig} to cover only the text after @arg{split-index}, and
-    returns a new item that covers the text before @arg{split-index} that used
-    to be in @arg{orig}.
-  @end{short}
-  You can think of @arg{split-index} as the length of the returned item.
-  @arg{split-index} may not be 0, and it may not be greater than or equal to the
-  length of @arg{orig} (that is, there must be at least one byte assigned to
-  each item, you cannot create a zero-length item). @arg{split-offset} is the
-  length of the first item in chars, and must be provided because the text used
-  to generate the item is not available, so the function @sym{pango:item-split}
-  cannot count the char length of the split items itself.
-  @see-class{pango:item}"
-  (orig (g:boxed item))
-  (split-index :int)
-  (split-offset :int))
-
-(export 'item-split)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_item_apply_attrs ()
-;;; ----------------------------------------------------------------------------
-
-#+pango-1-44
-(cffi:defcfun ("pango_item_apply_attrs" item-apply-attrs) :void
- #+liber-documentation
- "@version{#2021-1-12}
-  @argument[item]{a @class{pango:item} instance}
-  @argument[iter]{a @class{pango:attr-iterator} instance}
-  @begin{short}
-    Add attributes to a @class{pango:item} instance.
-  @end{short}
-  The idea is that you have attributes that do not affect itemization, such as
-  font features, so you filter them out using the function
-  @fun{pango:attr-list-filter}, itemize your text, then reapply the attributes
-  to the resulting items using this function.
-
-  The @arg{iter} should be positioned before the range of the item, and will
-  be advanced past it. This function is meant to be called in a loop over the
-  items resulting from itemization, while passing the iter to each call.
-
-  Since 1.44
-  @see-class{pango:item}
-  @see-class{pango:attr-iterator}
-  @see-function{pango:attr-list-filter}"
-  (item (g:boxed item))
-  (iter (g:boxed attr-iterator)))
-
-#+pango-1-44
-(export 'item-apply-attrs)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_reorder_items ()                                 not implemented
@@ -951,4 +952,4 @@
 #+pango-1-44
 (export 'shape-with-flags)
 
-;;; --- End of file pango.rendering.lisp ---------------------------------------
+;;; --- End of file pango.item.lisp --------------------------------------------
