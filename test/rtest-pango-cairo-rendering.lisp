@@ -7,15 +7,7 @@
 
 ;;;     PangoCairoFont
 
-;; FIXME: We get an error when getting the GType definition.
-
-;;  --------------------------------
-;; CAIRO-FONT-INTERFACE in PANGO-CAIRO-RENDERING []:
-;;       Unexpected Error: #<SB-SYS:MEMORY-FAULT-ERROR {10035B64E3}>
-;; Unhandled memory fault at #x0..
-;; --------------------------------
-
-(test cairo-font-interface
+(test pango-cairo-font-interface
   ;; Type check
   (is (g:type-is-interface "PangoCairoFont"))
   ;; Check the registered name
@@ -24,12 +16,10 @@
   ;; Check the type initializer
   (is (eq (g:gtype "PangoCairoFont")
           (g:gtype (cffi:foreign-funcall "pango_cairo_font_get_type" :size))))
-  ;; Get the names of the interface properties.
-  #+nil
+  ;; Check the interface properties
   (is (equal '()
              (list-interface-properties "PangoCairoFont")))
   ;; Get the interface definition
-  #+nil
   (is (equal '(GOBJECT:DEFINE-G-INTERFACE "PangoCairoFont"
                                   PANGO-CAIRO-FONT
                                   (:EXPORT T
@@ -45,7 +35,7 @@
 ;;       Unexpected Error: #<SB-SYS:MEMORY-FAULT-ERROR {1003972BA3}>
 ;; Unhandled memory fault at #x0..
 
-(test cairo-font-map-interface
+(test pango-cairo-font-map-interface
   ;; Type check
   (is (g:type-is-interface "PangoCairoFontMap"))
   ;; Check the registered name
@@ -53,13 +43,12 @@
           (glib:symbol-for-gtype "PangoCairoFontMap")))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoCairoFontMap")
-          (g:gtype (cffi:foreign-funcall "pango_cairo_font_map_get_type" :size))))
-  ;; Get the names of the interface properties.
-  #+nil
+          (g:gtype (cffi:foreign-funcall "pango_cairo_font_map_get_type" 
+                                         :size))))
+  ;; Check the interface properties
   (is (equal '()
              (list-interface-properties "PangoCairoFontMap")))
   ;; Get the interface definition
-  #+nil
   (is (equal '(GOBJECT:DEFINE-G-INTERFACE "PangoCairoFontMap"
                                   PANGO-CAIRO-FONT-MAP
                                   (:EXPORT T
@@ -72,7 +61,7 @@
 ;;;     pango_cairo_font_map_get_default
 ;;;     pango_cairo_font_map_set_default
 
-(test cairo-font-map-default
+(test pango-cairo-font-map-default
   (is (typep (pango:cairo-font-map-default) 'pango:font-map))
   (is (typep (setf (pango:cairo-font-map-default) (pango:cairo-font-map-new))
              'pango:font-map))
@@ -80,12 +69,12 @@
 
 ;;;     pango_cairo_font_map_new
 
-(test cairo-font-map-new
+(test pango-cairo-font-map-new
   (is (typep (pango:cairo-font-map-new) 'pango:font-map)))
 
 ;;;     pango_cairo_font_map_new_for_font_type
 
-(test cairo-font-map-new-for-font-type
+(test pango-cairo-font-map-new-for-font-type
   (is-false (pango:cairo-font-map-new-for-font-type :toy))
   (is-true  (pango:cairo-font-map-new-for-font-type :ft))
   #-windows
@@ -100,21 +89,20 @@
 ;;;     pango_cairo_font_map_get_font_type
 
 #-windows
-(test cairo-font-map-font-type
+(test pango-cairo-font-map-font-type
   (is (eq :ft (pango:cairo-font-map-font-type (pango:cairo-font-map-default))))
-  (is (eq :ft (pango:cairo-font-map-font-type (pango:cairo-font-map-new))))
-  (is (eq :ft (pango:cairo-font-map-font-type (pango:cairo-font-map-default)))))
+  (is (eq :ft (pango:cairo-font-map-font-type (pango:cairo-font-map-new)))))
 
 #+windows
-(test cairo-font-map-font-type
-  (is (eq :win32 (pango:cairo-font-map-font-type (pango:cairo-font-map-default))))
-  (is (eq :win32 (pango:cairo-font-map-font-type (pango:cairo-font-map-new))))
-  (is (eq :win32 (pango:cairo-font-map-font-type (pango:cairo-font-map-default)))))
+(test pango-cairo-font-map-font-type
+  (is (eq :win32 
+          (pango:cairo-font-map-font-type (pango:cairo-font-map-default))))
+  (is (eq :win32 (pango:cairo-font-map-font-type (pango:cairo-font-map-new)))))
 
 ;;;     pango_cairo_font_map_set_resolution
 ;;;     pango_cairo_font_map_get_resolution
 
-(test cairo-font-map-resolution
+(test pango-cairo-font-map-resolution
   (let ((fontmap (pango:cairo-font-map-default)))
     (is (=  96.0d0 (pango:cairo-font-map-resolution fontmap)))
     (is (= 200.0d0 (setf (pango:cairo-font-map-resolution fontmap) 200)))
@@ -122,15 +110,7 @@
     ;; Restore the default resolution
     (is (=  96.0d0 (setf (pango:cairo-font-map-resolution fontmap) 96.0d0)))))
 
-;;;     pango_cairo_font_map_create_context
-
-;; TODO: Gets a pango:font-map object, but expects an pango:cairo-font-map
-;; object.
-
-#+nil
-(test cairo-font-map-create-context
-  (let ((fontmap (pango:cairo-font-map-default)))
-    (is-false (pango:cairo-font-map-create-context fontmap))))
+;;;     pango_cairo_font_map_create_context                not exported
 
 ;;;     pango_cairo_font_get_scaled_font
 
@@ -140,7 +120,7 @@
 ;;;     pango_cairo_context_set_resolution
 ;;;     pango_cairo_context_get_resolution
 
-(test cairo-context-resolution
+(test pango-cairo-context-resolution
   (let ((context (pango:font-map-create-context (pango:cairo-font-map-default))))
     (is (= -1.0d0 (pango:cairo-context-resolution context)))
     (is (= 96.0d0 (setf (pango:cairo-context-resolution context) 96)))
@@ -149,32 +129,33 @@
 ;;;     pango_cairo_context_set_font_options
 ;;;     pango_cairo_context_get_font_options
 
-(test cairo-context-font-options
+(test pango-cairo-context-font-options
   (let ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
         (options (cairo:font-options-create)))
     (is-false (pango:cairo-context-font-options context))
+    ;; Set the font options
     (is (cffi:pointer-eq options
                          (setf (pango:cairo-context-font-options context)
                                options)))
-    ;; TODO: The pointers are no longer eq! Why?
-    #+nil
-    (is (cffi:pointer-eq options
-                         (pango:cairo-context-font-options context)))
+    (is (cffi:pointerp (pango:cairo-context-font-options context)))
+    ;; Unset the font options
+    (is-false (setf (pango:cairo-context-font-options context) nil))
+    (is-false (pango:cairo-context-font-options context))    
     (is-false (cairo:font-options-destroy options))))
 
-;;;     PangoCairoShapeRendererFunc
-;;;     pango_cairo_context_set_shape_renderer
-;;;     pango_cairo_context_get_shape_renderer
+;;;     PangoCairoShapeRendererFunc                        not exported
+;;;     pango_cairo_context_set_shape_renderer             not exported
+;;;     pango_cairo_context_get_shape_renderer             not exported
 
 ;;;     pango_cairo_create_context
 
-(test cairo-create-context
+(test pango-cairo-create-context
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (is (typep (pango:cairo-create-context cr) 'pango:context))))
 
 ;;;     pango_cairo_update_context
 
-(test cairo-update-context
+(test pango-cairo-update-context
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let ((context (pango:cairo-create-context cr)))
       (is (typep context 'pango:context))
@@ -182,13 +163,13 @@
 
 ;;;     pango_cairo_create_layout
 
-(test cairo-create-layout
+(test pango-cairo-create-layout
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (is (typep (pango:cairo-create-layout cr) 'pango:layout))))
 
 ;;;     pango_cairo_update_layout
 
-(test cairo-update-layout
+(test pango-cairo-update-layout
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let ((layout (pango:cairo-create-layout cr)))
       (is (typep layout 'pango:layout))
@@ -204,4 +185,4 @@
 ;;;     pango_cairo_layout_path
 ;;;     pango_cairo_error_underline_path
 
-;;; --- 2023-7-17 --------------------------------------------------------------
+;;; --- 2023-7-18 --------------------------------------------------------------

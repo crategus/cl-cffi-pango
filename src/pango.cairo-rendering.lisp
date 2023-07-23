@@ -310,8 +310,10 @@
 (export 'cairo-font-map-resolution)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_cairo_font_map_create_context ()
+;;; pango_cairo_font_map_create_context ()                 not exported
 ;;; ----------------------------------------------------------------------------
+
+;; This function is deprectaed and not exported.
 
 (cffi:defcfun ("pango_cairo_font_map_create_context"
                 cairo-font-map-create-context) (g:object context)
@@ -331,8 +333,6 @@
   @see-class{pango:context}
   @see-function{pango:font-map-create-context}"
   (fontmap (g:object cairo-font-map)))
-
-(export 'cairo-font-map-create-context)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_cairo_font_get_scaled_font () -> cairo-font-scaled-font
@@ -442,8 +442,11 @@
 (export 'cairo-context-font-options)
 
 ;;; ----------------------------------------------------------------------------
-;;; PangoCairoShapeRendererFunc ()
+;;; PangoCairoShapeRendererFunc ()                         not exported
 ;;; ----------------------------------------------------------------------------
+
+;; TODO: The PANGO:ATTR-SHAPE type is not implemented. Should we remove the
+;; implementation of CairoShapeRenderer?
 
 (cffi:defcallback cairo-shape-renderer-func- :void
     ((cr (:pointer (:struct cairo:context-t)))
@@ -458,18 +461,18 @@
 (setf (liber:alias-for-symbol 'cairo-shape-renderer-func)
       "Callback"
       (liber:symbol-documentation 'cairo-shape-renderer-func)
- "@version{#2023-1-17}
+ "@version{#2023-7-18}
   @begin{short}
     Callback function type for rendering attributes of @symbol{pango:attr-shape}
-    type with Pango's Cairo renderer.
+    type with the Cairo renderer of Pango.
   @end{short}
   @begin{pre}
 lambda (cr attr dopath)
   @end{pre}
   @begin[code]{table}
-    @entry[cr]{A @symbol{cairo:context-t} Cairo context with current point set
-      to where the shape should be rendered.}
-    @entry[attr]{A @symbol{pango:attr-shape} instance witht the attributes to
+    @entry[cr]{A @symbol{cairo:context-t} instance with current point set to
+      where the shape should be rendered.}
+    @entry[attr]{A @symbol{pango:attr-shape} instance with the attributes to
       render.}
     @entry[dopath]{Whether only the shape path should be appended to current
       path of @arg{cr} and no filling/stroking done. This will be set to
@@ -481,10 +484,8 @@ lambda (cr attr dopath)
   @see-function{pango:cairo-layout-path}
   @see-function{pango:cairo-layout-line-path}")
 
-(export 'cairo-shape-renderer-func)
-
 ;;; ----------------------------------------------------------------------------
-;;; pango_cairo_context_get_shape_renderer ()
+;;; pango_cairo_context_get_shape_renderer ()              not exported
 ;;; pango_cairo_context_set_shape_renderer ()
 ;;;   -> cairo-context-shape-renderer
 ;;; ----------------------------------------------------------------------------
@@ -507,24 +508,24 @@ lambda (cr attr dopath)
 
 (defun cairo-context-shape-renderer (context)
  #+liber-documentation
- "@version{#2023-1-17}
+ "@version{#2023-7-18}
   @syntax[]{(pango:cairo-context-shape-renderer context) func}
   @syntax[]{(setf (pango:cairo-context-shape-renderer context) func)}
   @argument[context]{a @class{pango:context} object, from a PangoCairo font map}
-  @argument[func]{callback function for rendering attributes of
-    @symbol{pango:attr-shape} type, or @code{nil} to disable shape rendering}
+  @argument[func]{a @symbol{pango:cairo-shape-renderer-func} callback function
+    for rendering attributes of @symbol{pango:attr-shape} type, or @code{nil}
+    to disable shape rendering}
   @begin{short}
-    Accessor of the shape rendering callback function set on the context.
+    Accessor of the shape rendering callback function set on the Pango context.
   @end{short}
-  The function @sym{pango:cairo-context-shape-renderer} retrieves the callback
-  function for rendering attributes of type @symbol{pango:attr-shape}. The
-  function @sym{(pango:cairo-context-shape-renderer)} sets the callback
-  function for context to use for rendering attributes.
+  The @sym{pango:cairo-context-shape-renderer} function retrieves the callback
+  function for rendering attributes of the @symbol{pango:attr-shape} type. The
+  @sym{(pango:cairo-context-shape-renderer)} function sets the callback
+  function.
   @see-class{pango:context}
-  @see-symbol{pango:attr-shape}"
+  @see-symbol{pango:attr-shape}
+  @see-symbol{pango:cairo-shape-renderer-func}"
   (%cairo-context-shape-renderer context (cffi:null-pointer)))
-
-(export 'cairo-context-shape-renderer)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_cairo_create_context ()
@@ -534,7 +535,7 @@ lambda (cr attr dopath)
     (g:object context)
  #+liber-documentation
  "@version{2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @return{The newly created @class{pango:context} object.}
   @begin{short}
     Creates a context object set up to match the current transformation and
@@ -563,7 +564,7 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_update_context" cairo-update-context) :void
  #+liber-documentation
  "@version{2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[context]{a @class{pango:context} object, from a PangoCairo font map}
   @begin{short}
     Updates a @class{pango:context} object previously created for use with
@@ -587,18 +588,18 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_create_layout" cairo-create-layout)
     (g:object layout)
  #+liber-documentation
- "@version{2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+ "@version{2023-7-18}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @return{The newly created @class{pango:layout} object.}
   @begin{short}
     Creates a layout object set up to match the current transformation and
     target surface of the Cairo context.
   @end{short}
-  This layout can then be used for text measurement with functions like
-  @fun{pango:layout-size} or drawing with functions like
-  @fun{pango:cairo-show-layout}. If you change the transformation or target
-  surface for @arg{cr}, you need to call the @fun{pango:cairo-update-layout}
-  function.
+  This layout can then be used for text measurement with functions like the
+  @fun{pango:layout-size} function or drawing with functions like the
+  @fun{pango:cairo-show-layout} function. If you change the transformation or
+  target surface for @arg{cr}, you need to call the
+  @fun{pango:cairo-update-layout} function.
 
   This function is the most convenient way to use Cairo with Pango, however it
   is slightly inefficient since it creates a separate @class{pango:context}
@@ -620,8 +621,8 @@ lambda (cr attr dopath)
 
 (cffi:defcfun ("pango_cairo_update_layout" cairo-update-layout) :void
  #+liber-documentation
- "@version{2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+ "@version{2023-7-18}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[layout]{a @class{pango:layout} object, from the
     @fun{pango:cairo-create-layout} function.}
   @begin{short}
@@ -645,7 +646,7 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_show_glyph_string" cairo-show-glyph-string) :void
  #+liber-documentation
  "@version{#2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[font]{a @class{pango:font} from a PangoCairoFontMap}
   @argument[glyphs]{a @class{pango:glyph-string} instance}
   @begin{short}
@@ -669,7 +670,7 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_show_glyph_item" cairo-show-glyph-item) :void
  #+liber-documentation
  "@version{#2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[text]{a string with the UTF-8 text that @arg{glyph-item} refers to}
   @argument[item]{a @class{pango:glyph-item} instance}
   @begin{short}
@@ -698,7 +699,7 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_show_layout_line" cairo-show-layout-line) :void
  #+liber-documentation
  "@version{#2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[line]{a @class{pango:layout-line} instance}
   @begin{short}
     Draws a Pango layout line in the specified Cairo context.
@@ -719,7 +720,7 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_show_layout" cairo-show-layout) :void
  #+liber-documentation
  "@version{#2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[layout]{a @class{pango:layout} object}
   @begin{short}
     Draws a Pango layout in the specified Cairo context.
@@ -748,7 +749,7 @@ lambda (cr attr dopath)
 (defun cairo-show-error-underline (cr x y width height)
  #+liber-documentation
  "@version{#203-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[x]{a number with the x coordinate of one corner of the rectangle}
   @argument[y]{a number with the y coordinate of one corner of the rectangle}
   @argument[width]{a number with the non-negative width of the rectangle}
@@ -778,7 +779,7 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_glyph_string_path" cairo-glyph-string-path) :void
  #+liber-documentation
  "@version{#2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[font]{a @class{pango:font} object from a PangoCairoFontMap}
   @argument[glyphs]{a @class{pango:glyph-string} instance}
   @begin{short}
@@ -803,7 +804,7 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_layout_line_path" cairo-layout-line-path) :void
  #+liber-documentation
  "@version{#2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[line]{a @class{pango:layout-line} instance}
   @begin{short}
     Adds the text in the @class{pango:layout-line} instance to the current path
@@ -825,7 +826,7 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_layout_path" cairo-layout-path) :void
  #+liber-documentation
  "@version{#2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[layout]{a @class{pango:layout} object}
   @begin{short}
     Adds the text in a Pango layout to the current path in the specified Cairo
@@ -855,7 +856,7 @@ lambda (cr attr dopath)
 (defun cairo-error-underline-path (cr x y width height)
  #+liber-documentation
  "@version{#2023-1-17}
-  @argument[cr]{a @symbol{cairo:context-t} context}
+  @argument[cr]{a @symbol{cairo:context-t} instance}
   @argument[x]{a number with the x coordinate of one corner of the rectangle}
   @argument[y]{a number with the y coordinate of one corner of the rectangle}
   @argument[width]{a number with the non-negative width of the rectangle}
