@@ -24,7 +24,7 @@
 
 (defsystem :cl-cffi-pango
   :name "cl-cffi-gtk-pango"
-  :version "0.1.0"                              ; Version of Pango Library
+  :version "0.3.0"
   :author "Dieter Kaiser"
   :license "LLGPL"
   :components
@@ -34,7 +34,7 @@
     ((:file "pango.package")
      (:file "pango.init")
      (:file "pango.version")
-     (:file "pango.script")          ; Identifying writing systems and languages
+     (:file "pango.script")
      (:file "pango.glyph")
      (:file "pango.vertical-text")
      (:file "pango.font")
@@ -42,7 +42,7 @@
      (:file "pango.tab-array")
      (:file "pango.bidirectional")
      (:file "pango.renderer")
-     (:file "pango.rendering")
+     (:file "pango.item")
      (:file "pango.coverage")
      (:file "pango.context")
      (:file "pango.layout")
@@ -69,21 +69,21 @@
     :serial nil
     :components
     ((:file "rtest-pango")
-     (:file "rtest-pango-attributes")
-;    (:file "pango.bidirectional")
-     (:file "rtest-pango-cairo-rendering")
-     (:file "rtest-pango-context")
-;    (:file "pango.coverage")
-     (:file "rtest-pango-font")
-     (:file "rtest-pango-glyph")
-     (:file "rtest-pango-layout")
-;    (:file "pango.markup")
-;    (:file "pango.renderer")
-     (:file "rtest-pango-rendering")
-     (:file "rtest-pango-script")
-;    (:file "pango.tab-array")
      (:file "rtest-pango-version")
+     (:file "rtest-pango-script")
+     (:file "rtest-pango-glyph")
      (:file "rtest-pango-vertical-text")
+     (:file "rtest-pango-font")
+     (:file "rtest-pango-attributes")
+;    (:file "pango.tab-array")
+;    (:file "pango.bidirectional")
+;    (:file "pango.renderer")
+     (:file "rtest-pango-item")
+;    (:file "pango.coverage")
+     (:file "rtest-pango-context")
+     (:file "rtest-pango-layout")
+     (:file "rtest-pango-cairo-rendering")
+;    (:file "pango.markup")
     ))))
 
 ;;; --- End of file cl-cffi-pango.asd ------------------------------------------

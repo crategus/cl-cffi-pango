@@ -6,7 +6,7 @@ Content from the Pango 1.50 Reference Manual
 
 Basic Pango Interfaces
 
-  pango.rendering.lisp - Functions to run the rendering pipeline  - Pango 1.48
+  pango.item.lisp - Functions to run the rendering pipeline       - Pango 1.50
 
 * pango.font.lisp - Structures representing abstract fonts        - Pango 1.48
 * pango.glyph.lisp - Storing information about glyphs             - Pango 1.48 %
@@ -52,4 +52,4 @@ Deprecated APIs
  PangoEngineShape — Rendering-system dependent script engines
  Modules — Support for loadable modules
 
-;;; 2023-7-17
+;;; 2023-7-18

@@ -33,6 +33,14 @@
   (:import-from #:glib)
   (:import-from #:gobject))
 
+(in-package :pango)
+
+#+sbcl
+(when (and (find-package "SB-EXT")
+           (find-symbol "SET-FLOATING-POINT-MODES" (find-package "SB-EXT")))
+  (funcall (find-symbol "SET-FLOATING-POINT-MODES" (find-package "SB-EXT"))
+           :traps nil))
+
 ;;; ----------------------------------------------------------------------------
 
 #+liber-documentation
@@ -61,10 +69,10 @@
       @about-function{item-offset}
       @about-function{item-new}
       @about-function{item-copy}
-      @about-function{itemize}
-      @about-function{itemize-with-base-dir}
       @about-function{item-split}
       @about-function{item-apply-attrs}
+      @about-function{itemize}
+      @about-function{itemize-with-base-dir}
       @about-function{reorder-items}
       @about-function{log-attrs}
       @about-function{find-paragraph-boundary}
@@ -629,11 +637,11 @@
       render to Cairo surfaces.
 
       Using Pango with Cairo is straightforward. A @class{pango:context} object
-      created with the @fun{pango:cairo-font-map-create-context} function can
-      be used on any @symbol{cairo:contex-t} Cairo context, but needs to be
-      updated to match the current transformation matrix and target surface of
-      the Cairo context using the @fun{pango:cairo-update-context} function.
-      The convenience @fun{pango:cairo-create-layout} and
+      created with the @fun{pango:font-map-create-context} function can be used
+      on any @symbol{cairo:context-t} instance, but needs to be updated to
+      match the current transformation matrix and target surface of the Cairo
+      context using the @fun{pango:cairo-update-context} function. The
+      convenience @fun{pango:cairo-create-layout} and
       @fun{pango:cairo-update-layout} functions handle the common case where
       the program does not need to manipulate the properties of the
       @class{pango:context} object.
@@ -647,7 +655,7 @@
       should not assume they are completely independent of the current
       transformation matrix. Note that the basic metrics functions in Pango
       report results in integer Pango units. To get to the floating point units
-      used in Cairo divide by @variable{+pango-scale+}.
+      used in Cairo divide by the @var{pango:+pango-scale+} value.
       @begin[Example]{dictionary}
         Using Pango with Cairo
         @begin{pre}
