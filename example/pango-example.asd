@@ -1,7 +1,7 @@
 (defsystem :pango-example
   :name "pango-example"
   :author "Dieter Kaiser"
-  :license "LLGPL"
+  :license "MIT"
   :depends-on (:cl-cffi-pango :cl-cffi-cairo)
   :serial t
   :components
@@ -14,4 +14,4 @@
    (:file "cairo-rendering")
    ))
 
-;;; --- 2023-2-12 --------------------------------------------------------------
+;;; --- 2023-8-23 --------------------------------------------------------------

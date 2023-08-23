@@ -26,7 +26,7 @@
   :name "cl-cffi-gtk-pango"
   :version "0.3.0"
   :author "Dieter Kaiser"
-  :license "LLGPL"
+  :license "MIT"
   :components
   ((:module src
     :serial t
