@@ -83,27 +83,17 @@
       @about-function{shape-with-flags}
     @end{subsection}
     @begin[Fonts]{subsection}
-      Structures representing abstract fonts.
-
-      Pango supports a flexible architecture where a particular rendering
-      architecture can supply an implementation of fonts. The
-      @class{pango:font} class represents an abstract
-      rendering-system-independent font. Pango provides routines to list
-      available fonts, and to load a font of a given description.
-      @about-class{font-description}
+      Structures representing abstract fonts. Pango supports a flexible
+      architecture where a particular rendering architecture can supply an
+      implementation of fonts. The @class{pango:font} class represents an
+      abstract rendering-system-independent font. Pango provides routines to
+      list available fonts, and to load a font of a given description.
       @about-symbol{style}
       @about-symbol{weight}
       @about-symbol{variant}
       @about-symbol{stretch}
       @about-symbol{font-mask}
-      @about-class{font-metrics}
-      @about-class{font}
-      @about-class{font-family}
-      @about-class{font-face}
-      @about-class{font-map}
-      @about-class{font-map-class}
-      @about-class{fontset}
-      @about-class{fontset-class}
+      @about-class{font-description}
       @about-function{font-description-new}
       @about-function{font-description-copy}
       @about-function{font-description-copy-static}
@@ -131,6 +121,7 @@
       @about-function{font-description-from-string}
       @about-function{font-description-to-string}
       @about-function{font-description-to-filename}
+      @about-class{font-metrics}
       @about-function{font-metrics-ref}
       @about-function{font-metrics-unref}
       @about-function{font-metrics-ascent}
@@ -142,6 +133,7 @@
       @about-function{font-metrics-underline-position}
       @about-function{font-metrics-strikethrough-thickness}
       @about-function{font-metrics-strikethrough-position}
+      @about-class{font}
       @about-function{font-find-shaper}
       @about-function{font-describe}
       @about-function{font-describe-with-absolute-size}
@@ -153,16 +145,19 @@
       @about-function{font-font-map}
       @about-function{font-features}
       @about-function{font-hb-font}
+      @about-class{font-family}
       @about-function{font-family-name}
       @about-function{font-family-is-monospace}
       @about-function{font-family-is-variable}
       @about-function{font-family-list-faces}
       @about-function{font-family-face}
+      @about-class{font-face}
       @about-function{font-face-face-name}
       @about-function{font-face-list-sizes}
       @about-function{font-face-describe}
       @about-function{font-face-is-synthesized}
       @about-function{font-face-family}
+      @about-class{font-map}
       @about-function{font-map-create-context}
       @about-function{font-map-load-font}
       @about-function{font-map-load-fontset}
@@ -171,6 +166,7 @@
       @about-function{font-map-serial}
       @about-function{font-map-changed}
       @about-function{font-map-shape-engine-type}
+      @about-class{fontset}
       @about-function{fontset-font}
       @about-function{fontset-metrics}
       @about-symbol{PangoFontsetForeachFunc}

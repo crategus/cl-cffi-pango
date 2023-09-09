@@ -33,12 +33,13 @@
 ;;;
 ;;; Types and Values
 ;;;
-;;;     PangoFontDescription
 ;;;     PangoStyle
 ;;;     PangoWeight
 ;;;     PangoVariant
 ;;;     PangoStretch
 ;;;     PangoFontMask
+;;;
+;;;     PangoFontDescription
 ;;;     PangoFontMetrics
 ;;;     PangoFont
 ;;;     PangoFontFamily
@@ -52,13 +53,13 @@
 ;;;
 ;;;     pango_font_description_new
 ;;;     pango_font_description_copy
-;;;     pango_font_description_copy_static
+;;;     pango_font_description_copy_static                 not implemented
 ;;;     pango_font_description_hash
 ;;;     pango_font_description_equal
-;;;     pango_font_description_free
-;;;     pango_font_descriptions_free
+;;;     pango_font_description_free                        not needed
+;;;     pango_font_descriptions_free                       not needed
 ;;;     pango_font_description_set_family
-;;;     pango_font_description_set_family_static
+;;;     pango_font_description_set_family_static           not implemented
 ;;;     pango_font_description_get_family
 ;;;     pango_font_description_set_style
 ;;;     pango_font_description_get_style
@@ -75,19 +76,19 @@
 ;;;     pango_font_description_set_gravity
 ;;;     pango_font_description_get_gravity
 ;;;     pango_font_description_set_variations
-;;;     pango_font_description_set_variations_static
+;;;     pango_font_description_set_variations_static       not implemented
 ;;;     pango_font_description_get_variations
 ;;;     pango_font_description_get_set_fields
 ;;;     pango_font_description_unset_fields
 ;;;     pango_font_description_merge
-;;;     pango_font_description_merge_static
+;;;     pango_font_description_merge_static                not implemented
 ;;;     pango_font_description_better_match
 ;;;     pango_font_description_from_string
 ;;;     pango_font_description_to_string
 ;;;     pango_font_description_to_filename
 ;;;
-;;;     pango_font_metrics_ref
-;;;     pango_font_metrics_unref
+;;;     pango_font_metrics_ref                             not needed
+;;;     pango_font_metrics_unref                           not needed
 ;;;     pango_font_metrics_get_ascent
 ;;;     pango_font_metrics_get_descent
 ;;;     pango_font_metrics_get_height
@@ -182,30 +183,6 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; PangoFontDescription
-;;; ----------------------------------------------------------------------------
-
-(glib:define-g-boxed-opaque font-description "PangoFontDescription"
-  :export t
-  :type-initializer "pango_font_description_get_type"
-  :alloc (error "PangoFontDescription cannot be created from the Lisp side."))
-
-#+liber-documentation
-(setf (liber:alias-for-class 'font-description)
-      "GBoxed"
-      (documentation 'font-description 'type)
- "@version{#2023-2-5}
-  @begin{short}
-    The @sym{pango:font-description} structure represents the description of an
-    ideal font.
-  @end{short}
-  The @sym{pango:font-description} structure is opaque, and has no user visible
-  fields. These structures are used both to list what fonts are available on the
-  system and also for specifying the characteristics of a font to load.
-  @see-class{pango:context}
-  @see-class{pango:layout}")
-
-;;; ----------------------------------------------------------------------------
 ;;; enum PangoStyle
 ;;; ----------------------------------------------------------------------------
 
@@ -220,7 +197,7 @@
 (setf (liber:alias-for-symbol 'style)
       "GEnum"
       (liber:symbol-documentation 'style)
- "@version{#2021-1-6}
+ "@version{2023-8-27}
   @begin{short}
     An enumeration specifying the various slant styles possible for a font.
   @end{short}
@@ -245,6 +222,7 @@
 
 (gobject:define-g-enum "PangoWeight" weight
   (:export t
+   :allow-undeclared-values t
    :type-initializer "pango_weight_get_type")
   (:thin 100)
   (:ultralight 200)
@@ -263,15 +241,20 @@
 (setf (liber:alias-for-symbol 'weight)
       "GEnum"
       (liber:symbol-documentation 'weight)
- "@version{#2021-2-4}
+ "@version{2023-8-27}
   @begin{short}
     An enumeration specifying the weight (boldness) of a font.
   @end{short}
   This is a numerical value ranging from 100 to 1000, but there are some
   predefined values.
+  @begin[Note]{dictionary}
+    The enumeration allows undeclared values. Therefore, it is possible to pass
+    any integer value to functions that expect a @symbol{pango:weight} value.
+  @end{dictionary}
   @begin{pre}
 (gobject:define-g-enum \"PangoWeight\" weight
   (:export t
+   :allow-undeclared-values t
    :type-initializer \"pango_weight_get_type\")
   (:thin 100)
   (:ultralight 200)
@@ -311,13 +294,23 @@
   (:export t
    :type-initializer "pango_variant_get_type")
   (:normal 0)
-  (:small-caps 1))
+  (:small-caps 1)
+  #+pango-1-50
+  (:all-small-caps 2)
+  #+pango-1-50
+  (:petite-caps 3)
+  #+pango-1-50
+  (:all-petite-caps 4)
+  #+pango-1-50
+  (:unicase 5)
+  #+pango-1-50
+  (:title-caps 6))
 
 #+liber-documentation
 (setf (liber:alias-for-symbol 'variant)
       "GEnum"
       (liber:symbol-documentation 'variant)
- "@version{#2021-1-6}
+ "@version{2023-8-27}
   @begin{short}
     An enumeration specifying capitalization variant of the font.
   @end{short}
@@ -326,21 +319,40 @@
   (:export t
    :type-initializer \"pango_variant_get_type\")
   (:normal 0)
-  (:small-caps 1))
+  (:small-caps 1)
+  #+pango-1-50
+  (:all-small-caps 2)
+  #+pango-1-50
+  (:petite-caps 3)
+  #+pango-1-50
+  (:all-petite-caps 4)
+  #+pango-1-50
+  (:unicase 5)
+  #+pango-1-50
+  (:title-caps 6))
   @end{pre}
   @begin[code]{table}
     @entry[:normal]{A normal font.}
     @entry[:small-caps]{A font with the lower case characters replaced by
       smaller variants of the capital characters.}
+    @entry[:all-small-caps]{A font with all characters replaced by smaller
+      variants of the capital characters. Since 1.50}
+    @entry[:petite-caps]{A font with the lower case characters replaced by
+      smaller variants of the capital characters. Petite Caps can be even
+      smaller than Small Caps. Since 1.50}
+    @entry[:all-petite-caps]{A font with all characters replaced by smaller
+      variants of the capital characters. Petite Caps can be even smaller than
+        Small Caps. Since 1.50}
+    @entry[:unicase]{A font with the upper case characters replaced by smaller
+      variants of the capital letters. Since 1.50}
+    @entry[:title-caps]{A font with capital letters that are more suitable for
+      all-uppercase title. Since 1.50}
   @end{table}
   @see-class{pango:font-description}")
 
 ;;; ----------------------------------------------------------------------------
 ;;; enum PangoStretch
 ;;; ----------------------------------------------------------------------------
-
-(glib-init:at-init ()
-  (cffi:foreign-funcall "pango_stretch_get_type" :size))
 
 (gobject:define-g-enum "PangoStretch" stretch
   (:export t
@@ -359,7 +371,7 @@
 (setf (liber:alias-for-symbol 'stretch)
       "GEnum"
       (liber:symbol-documentation 'stretch)
- "@version{#2021-1-6}
+ "@version{2023-8-27}
   @begin{short}
     An enumeration specifying the width of the font relative to other designs
     within a family.
@@ -411,10 +423,10 @@
 (setf (liber:alias-for-symbol 'font-mask)
       "GFlags"
       (liber:symbol-documentation 'font-mask)
- "@version{#2021-1-6}
+ "@version{2023-8-27}
   @begin{short}
-    The bits in a @sym{pango:font-mask} flags correspond to fields in a
-    @class{pango:font-description} structure that have been set.
+    The bits correspond to fields in a @class{pango:font-description} instance
+    that have been set.
   @end{short}
   @begin{pre}
 (gobject:define-g-flags \"PangoFontMask\" font-mask
@@ -442,6 +454,34 @@
   @see-class{pango:font-description}")
 
 ;;; ----------------------------------------------------------------------------
+;;; PangoFontDescription
+;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_font_description_new" %font-description-new) :pointer)
+
+(glib:define-g-boxed-opaque font-description "PangoFontDescription"
+  :export t
+  :type-initializer "pango_font_description_get_type"
+  :alloc (%font-description-new))
+
+#+liber-documentation
+(setf (liber:alias-for-class 'font-description)
+      "GBoxed"
+      (documentation 'font-description 'type)
+ "@version{2023-8-27}
+  @begin{short}
+    The @class{pango:font-description} structure represents the description of
+    an ideal font.
+  @end{short}
+  It is opaque, and has no user visible fields. These structures are used both
+  to list what fonts are available on the system and also for specifying the
+  characteristics of a font to load.
+  @see-constructor{pango:font-description-new}
+  @see-constructor{pango:font-description-copy}
+  @see-class{pango:context}
+  @see-class{pango:layout}")
+
+;;; ----------------------------------------------------------------------------
 ;;; struct PangoFontMetrics
 ;;; ----------------------------------------------------------------------------
 
@@ -454,9 +494,9 @@
 (setf (liber:alias-for-class 'font-metrics)
       "GBoxed"
       (documentation 'font-metrics 'type)
- "@version{#2023-2-5}
+ "@version{2023-8-27}
   @begin{short}
-    A @sym{pango:font-metrics} structure holds the overall metric information
+    A @class{pango:font-metrics} structure holds the overall metric information
     for a font, possibly restricted to a script.
   @end{short}
   The fields of this structure are private to implementations of a font backend.
@@ -578,50 +618,6 @@
   @see-class{pango:fc-font-map}")
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoFontMapClass
-;;;
-;;; struct PangoFontMapClass {
-;;;   GObjectClass parent_class;
-;;;
-;;;
-;;;   PangoFont *   (*load_font)     (PangoFontMap               *fontmap,
-;;;                                   PangoContext               *context,
-;;;                                   const PangoFontDescription *desc);
-;;;   void          (*list_families) (PangoFontMap               *fontmap,
-;;;                                   PangoFontFamily          ***families,
-;;;                                   int                        *n_families);
-;;;   PangoFontset *(*load_fontset)  (PangoFontMap               *fontmap,
-;;;                                   PangoContext               *context,
-;;;                                   const PangoFontDescription *desc,
-;;;                                   PangoLanguage              *language);
-;;;
-;;;   const char *shape_engine_type;
-;;; };
-;;;
-;;; The PangoFontMapClass structure holds the virtual functions for a
-;;; particular PangoFontMap implementation.
-;;;
-;;; GObjectClass parent_class;
-;;;     parent GObjectClass.
-;;;
-;;; load_font ()
-;;;     a function to load a font with a given description.
-;;;     See pango_font_map_load_font().
-;;;
-;;; list_families ()
-;;;     A function to list available font families.
-;;;     See pango_font_map_list_families().
-;;;
-;;; load_fontset ()
-;;;     a function to load a fontset with a given given description suitable
-;;;     for a particular language. See pango_font_map_load_fontset().
-;;;
-;;; const char *shape_engine_type;
-;;;     the type of rendering-system-dependent engines that can handle fonts
-;;;     of this fonts loaded with this fontmap.
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
 ;;; struct PangoFontset
 ;;; ----------------------------------------------------------------------------
 
@@ -648,52 +644,13 @@
   @see-class{pango:font-description}")
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoFontsetClass
-;;;
-;;; struct PangoFontsetClass {
-;;;   GObjectClass parent_class;
-;;;
-;;;
-;;;   PangoFont *       (*get_font)     (PangoFontset     *fontset,
-;;;                      guint             wc);
-;;;
-;;;   PangoFontMetrics *(*get_metrics)  (PangoFontset     *fontset);
-;;;   PangoLanguage *   (*get_language) (PangoFontset     *fontset);
-;;;   void              (*foreach)      (PangoFontset           *fontset,
-;;;                      PangoFontsetForeachFunc func,
-;;;                      gpointer                data);
-;;; };
-;;;
-;;; The PangoFontsetClass structure holds the virtual functions for a particular
-;;; PangoFontset implementation.
-;;;
-;;; GObjectClass parent_class;
-;;;     parent GObjectClass.
-;;;
-;;; get_font ()
-;;;     a function to get the font in the fontset that contains the best glyph
-;;;     for the given Unicode character; see pango_fontset_get_font().
-;;;
-;;; get_metrics ()
-;;;     a function to get overall metric information for the fonts in the
-;;;     fontset; see pango_fontset_get_metrics().
-;;;
-;;; get_language ()
-;;;     a function to get the language of the fontset.
-;;;
-;;; foreach ()
-;;;     a function to loop over the fonts in the fontset.
-;;;     See pango_fontset_foreach().
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
 ;;; pango_font_description_new ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_description_new" font-description-new)
-    (g:boxed font-description)
+    (g:boxed font-description :return)
  #+liber-documentation
- "@version{#2021-1-6}
+ "@version{2023-8-27}
   @begin{return}
     The newly allocated @class{pango:font-description} instance.
   @end{return}
@@ -709,9 +666,9 @@
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_description_copy" font-description-copy)
-    (g:boxed font-description)
+    (g:boxed font-description :return)
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @argument[desc]{a @class{pango:font-description} instance, may be @code{nil}}
   @begin{return}
     The newly allocated @class{pango:font-description} instance.
@@ -725,11 +682,10 @@
 (export 'font-description-copy)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_description_copy_static ()
+;;; pango_font_description_copy_static ()                  not implemented
 ;;; ----------------------------------------------------------------------------
 
-;; not exported
-
+#+nil
 (cffi:defcfun ("pango_font_description_copy_static"
                 font-description-copy-static) (g:boxed font-description)
  #+liber-documentation
@@ -739,7 +695,7 @@
     The newly allocated @class{pango:font-description} instance.
   @end{return}
   @begin{short}
-    Like the function @fun{pango:font-description-copy}, but only a shallow
+    Like the @fun{pango:font-description-copy} function, but only a shallow
     copy is made of the family name and other allocated fields.
   @end{short}
   The result can only be used until @arg{desc} is modified or freed. This is
@@ -754,7 +710,7 @@
 
 (cffi:defcfun ("pango_font_description_hash" font-description-hash) :uint
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @argument[desc]{a @class{pango:font-description} instance}
   @return{An unsigned integer with the hash value.}
   @begin{short}
@@ -771,7 +727,7 @@
 
 (cffi:defcfun ("pango_font_description_equal" font-description-equal) :boolean
  #+liber-documentation
- "@version{#2021-1-7}
+ "@version{2023-8-27}
   @argument[desc1]{a @class{pango:font-description} instance}
   @argument[desc2]{another @class{pango:font-description} instance}
   @begin{return}
@@ -791,9 +747,10 @@
 (export 'font-description-equal)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_description_free ()
+;;; pango_font_description_free ()                         not needed
 ;;; ----------------------------------------------------------------------------
 
+#+nil
 (cffi:defcfun ("pango_font_description_free" font-description-free) :void
  #+liber-documentation
  "@version{#2021-1-14}
@@ -802,14 +759,11 @@
   @see-class{pango:font-description}"
   (desc (g:boxed font-description)))
 
-(export 'font-description-free)
-
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_descriptions_free ()
+;;; pango_font_descriptions_free ()                        not needed
 ;;; ----------------------------------------------------------------------------
 
-;; not exported
-
+#+nil
 (cffi:defcfun ("pango_font_descriptions_free" font-descriptions-free) :void
  #+liber-documentation
  "@version{#2021-1-7}
@@ -837,7 +791,7 @@
 (cffi:defcfun ("pango_font_description_get_family" font-description-family)
     :string
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @syntax[]{(pango:font-description-family desc) => family}
   @syntax[]{(setf (pango:font-description-family desc) family)}
   @argument[desc]{a @class{pango:font-description} instance}
@@ -845,11 +799,10 @@
   @begin{short}
     Accessor of the family name for the font description.
   @end{short}
-
-  The function @sym{pango:font-description-family} gets the family name field of
-  a font description. The function @sym{(setf pango:font-description-family)}
-  sets the family name field of a font description. The family name represents
-  a family of related font styles, and will resolve to a particular
+  The @fun{pango:font-description-family} function gets the family name field
+  of a font description. The @sym{(setf pango:font-description-family)}
+  function sets the family name field of a font description. The family name
+  represents a family of related font styles, and will resolve to a particular
   @class{pango:font-family} object. In some uses of a
   @class{pango:font-description} structure, it is also possible to use a comma
   separated list of family names for this field.
@@ -860,11 +813,10 @@
 (export 'font-description-family)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_description_set_family_static ()
+;;; pango_font_description_set_family_static ()            not implemented
 ;;; ----------------------------------------------------------------------------
 
-;; not exported
-
+#+nil
 (cffi:defcfun ("pango_font_description_set_family_static"
                 font-description-set-family-static) :void
  #+liber-documentation
@@ -872,7 +824,7 @@
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[family]{a string representing the family name}
   @begin{short}
-    Like the function @fun{pango:font-description-family}, except that no copy
+    Like the @fun{pango:font-description-family} function, except that no copy
     of @arg{family} is made.
   @end{short}
   The caller must make sure that the string passed in stays around until
@@ -898,18 +850,17 @@
 
 (cffi:defcfun ("pango_font_description_get_style" font-description-style) style
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @syntax[]{(pango:font-description-style desc) => style}
   @syntax[]{(setf (pango:font-description-style desc) style)}
   @argument[desc]{a @class{pango:font-description} instance}
-  @argument[style]{the style of type @symbol{pango:style} for the font
+  @argument[style]{a @symbol{pango:style} value with the style for the font
     description}
   @begin{short}
     Accessor of the style field for the font description.
   @end{short}
-
-  The function @sym{pango:font-description-style} gets the style field of a
-  font description instance. The function @sym{(pango:font-description-style)}
+  The @fun{pango:font-description-style} function gets the style field of a
+  font description instance. The @sym{(pango:font-description-style)} function
   sets the style field. The @symbol{pango:style} enumeration describes whether
   the font is slanted and the manner in which it is slanted. It can be either
   @code{:normal}, @code{:italic}, or @code{:oblique}. Most fonts will either
@@ -937,7 +888,7 @@
 (cffi:defcfun ("pango_font_description_get_variant" font-description-variant)
     variant
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-28}
   @syntax[]{(pango:font-description-variant desc) => variant}
   @syntax[]{(setf (pango:font-description-variant desc) variant)}
   @argument[desc]{a @class{pango:font-description} instance}
@@ -946,9 +897,8 @@
   @begin{short}
     Accessor of the variant field for the font description.
   @end{short}
-
-  The function @sym{pango:font-description-variant} gets the variant field of a
-  font description. The function @sym{(setf pango:font-descripton-variant)}
+  The @fun{pango:font-description-variant} function gets the variant field of a
+  font description. The @sym{(setf pango:font-descripton-variant)} function
   sets the variant field. The @symbol{pango:variant} value can either be
   @code{:normal} or @code{:small-caps}.
   @see-class{pango:font-description}
@@ -962,31 +912,27 @@
 ;;; pango_font_description_set_weight () -> font-description-weight
 ;;; ----------------------------------------------------------------------------
 
-;; FIXME: The pango:weight enumeration contains predefined values for the weight
-;; of a font, but the weight can be any postive integer, therefore  we declare
-;; the type as an integer and not pango:weight, generalize this behavior
-
 (defun (setf font-description-weight) (weight desc)
   (cffi:foreign-funcall "pango_font_description_set_weight"
                         (g:boxed font-description) desc
-                        :int weight ; not pango:weight
+                        weight weight
                         :void)
   weight)
 
 (cffi:defcfun ("pango_font_description_get_weight" font-description-weight)
-    :int ; not pango:weight
+    weight
  #+liber-documentation
- "@version{#2021-2-4}
+ "@version{2023-8-27}
   @syntax[]{(pango:font-description-weight desc) => weight}
   @syntax[]{(setf (pango:font-description-weight desc) weight)}
   @argument[desc]{a @class{pango:font-description} instance}
-  @argument[weight]{an integer for the weight of the font description}
+  @argument[weight]{a @symbol{pango:weight} value or an integer for the weight
+    of the font description}
   @begin{short}
     Accessor of the weight field of a font description.
   @end{short}
-
-  The function @sym{pango:font-description-weight} gets the weight field of a
-  font description. The function @sym{(setf pango:font-description-weight)}
+  The @fun{pango:font-description-weight} function gets the weight field of a
+  font description. The @sym{(setf pango:font-description-weight)} function
   sets the weight field. The weight field specifies how bold or light the font
   should be. In addition to the values of the @symbol{pango:weight} enumeration,
   other intermediate numeric values are possible.
@@ -1011,7 +957,7 @@
 (cffi:defcfun ("pango_font_description_get_stretch" font-description-stretch)
     stretch
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @syntax[]{(pango:font-description-stretch desc) => stretch}
   @syntax[]{(setf (pango:font-description-stretch desc) stretch)}
   @argument[desc]{a @class{pango:font-description} instance}
@@ -1020,9 +966,8 @@
   @begin{short}
     Accessor of the stretch field of the font description.
   @end{short}
-
-  The function @sym{pango:font-description} gets the stretch field of a font
-  description. The function @sym{(setf pango:font-description-stretch)} sets
+  The @fun{pango:font-description} function gets the stretch field of a font
+  description. The @sym{(setf pango:font-description-stretch)} function sets
   the stretch field. The stretch field specifies how narrow or wide the font
   should be.
   @see-class{pango:font-description}
@@ -1045,32 +990,32 @@
 
 (cffi:defcfun ("pango_font_description_get_size" font-description-size) :int
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @syntax[]{(pango:font-description-size desc) => size}
   @syntax[]{(setf (pango:font-description-size desc) size)}
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[size]{an integer with the size of the font in points, scaled by
-    @var{+pango-scale+}}
+    @var{pango:+pango-scale+}}
   @begin{short}
     Accessor of the size field of a font description.
   @end{short}
-
-  The function @sym{pango:font-description-size} gets the size field of a font
-  description in points or device units. The function
-  @sym{(setf pango:font-description-size)} sets the size field. This is mutually
-  exclusive with the function @fun{pango:font-description-set-absolute-size}.
+  The @fun{pango:font-description-size} function gets the size field of a font
+  description in points or device units. The
+  @sym{(setf pango:font-description-size)} function sets the size field. This
+  is mutually exclusive with the @fun{pango:font-description-set-absolute-size}
+  function.
 
   A size value of 10 * @code{+pango-scale+} is a 10 point font. The conversion
   factor between points and device units depends on the system configuration
   and the output device. For screen display, a logical DPI of 96 is common, in
   which case a 10 point font corresponds to a 10 * (96 / 72) = 13.3 pixel font.
-  Use the function @fun{pango:font-description-set-absolute-size} if you need a
+  Use the @fun{pango:font-description-set-absolute-size} function if you need a
   particular size in device units.
 
-  You must call the function @fun{pango:font-description-size-is-absolute}
+  You must call the @fun{pango:font-description-size-is-absolute} function
   to find out which is the case. Returns 0 if the size field has not previously
-  been set or it has been set to 0 explicitly. Use the function
-  @fun{pango:font-description-set-fields} to find out if the field was
+  been set or it has been set to 0 explicitly. Use the
+  @fun{pango:font-description-set-fields} function to find out if the field was
   explicitly set or not.
   @see-class{pango:font-description}
   @see-function{pango:font-description-set-absolute-size}
@@ -1091,18 +1036,17 @@
 
 (defun font-description-set-absolute-size (desc size)
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[size]{a double float with the new size, in Pango units}
   @begin{short}
     Sets the size field of a font description, in device units.
   @end{short}
-
-  There are @var{+pango-scale+} Pango units in one device unit. For an output
-  backend where a device unit is a pixel, a size value of 10 *
+  There are @var{pango:+pango-scale+} Pango units in one device unit. For an
+  output backend where a device unit is a pixel, a size value of 10 *
   @code{+pango-scale+} gives a 10 pixel font.
 
-  This is mutually exclusive with the function @fun{pango:font-description-size}
+  This is mutually exclusive with the @fun{pango:font-description-size} function
   which sets the font size in points.
   @see-class{pango:font-description}
   @see-function{pango:font-description-size}"
@@ -1118,7 +1062,7 @@
 (cffi:defcfun ("pango_font_description_get_size_is_absolute"
                 font-description-size-is-absolute) :boolean
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @argument[desc]{a @class{pango:font-description} instance}
   @begin{return}
     Whether the size for the font description is in points or device units.
@@ -1127,10 +1071,10 @@
     Determines whether the size of the font is in points (not absolute) or
     device units (absolute).
   @end{short}
-  See the functions @fun{pango:font-description-size} and
-  @fun{pango:font-description-set-absolute-size}.
+  See the @fun{pango:font-description-size} and
+  @fun{pango:font-description-set-absolute-size} functions.
 
-  Use the function @fun{pango:font-description-set-fields} to find out if the
+  Use the @fun{pango:font-description-set-fields} function to find out if the
   size field of the font description was explicitly set or not.
   @see-class{pango:font-description}
   @see-function{pango:font-description-size}
@@ -1155,7 +1099,7 @@
 (cffi:defcfun ("pango_font_description_get_gravity" font-description-gravity)
     gravity
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @syntax[]{(pango:font-description-gravity desc) => gravity}
   @syntax[]{(setf (pango:font-description-gravity desc) gravity)}
   @argument[desc]{a @class{pango:font-description} instance}
@@ -1164,9 +1108,8 @@
   @begin{short}
     Accessor of the gravity field of the font description.
   @end{short}
-
-  The function @sym{pango:font-description-gravity} gets the gravity field of a
-  font description. The function @sym{(setf pango:font-description-gravity)}
+  The @fun{pango:font-description-gravity} function gets the gravity field of a
+  font description. The @sym{(setf pango:font-description-gravity)} function
   sets the gravity field. The gravity field specifies how the glyphs should be
   rotated. If gravity is @code{:auto}, this actually unsets the gravity mask on
   the font description.
@@ -1196,7 +1139,7 @@
 (cffi:defcfun ("pango_font_description_get_variations"
                 font-description-variations) :string
  #+liber-documentation
- "@version{#2021-1-7}
+ "@version{#2023-8-27}
   @syntax[]{(pango:font-description-variations desc) => variations}
   @syntax[]{(setf (pango:font-description-variations desc) variations)}
   @argument[desc]{a @class{pango:font-description} instance}
@@ -1204,12 +1147,11 @@
   @begin{short}
     Accessor of the variations field for the font description.
   @end{short}
-
-  The function @sym{pango:font-description-variations} gets the variations
-  field of a font description. The function
-  @sym{(setf pango:font-description-variations)} sets the variations field.
-  OpenType font variations allow to select a font instance by specifying values
-  for a number of axes, such as width or weight.
+  The @fun{pango:font-description-variations} function gets the variations
+  field of a font description. The
+  @sym{(setf pango:font-description-variations)} function sets the variations
+  field. OpenType font variations allow to select a font instance by specifying
+  values for a number of axes, such as width or weight.
 
   The format of the variations string is @code{AXIS1=VALUE,AXIS2=VALUE...,}
   with each @code{AXIS} a 4 character tag that identifies a font axis, and each
@@ -1224,11 +1166,10 @@
 (export 'font-description-variations)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_description_set_variations_static ()
+;;; pango_font_description_set_variations_static ()        not implemented
 ;;; ----------------------------------------------------------------------------
 
-;; not exported
-
+#+nil
 (cffi:defcfun ("pango_font_description_set_variations_static"
                 font-description-set-variations-static) :void
  #+liber-documentation
@@ -1236,7 +1177,7 @@
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[variations]{a string representing the variations}
   @begin{short}
-    Like the function @fun{pango:font-description-variations}, except that no
+    Like the @fun{pango:font-description-variations} function, except that no
     copy of variations is made.
   @end{short}
   The caller must make sure that the string passed in stays around until
@@ -1255,7 +1196,7 @@
 (cffi:defcfun ("pango_font_description_get_set_fields"
                 font-description-set-fields) font-mask
  #+liber-documentation
- "@version{#2021-1-7}
+ "@version{2023-8-27}
   @argument[desc]{a @class{pango:font-description} instance}
   @begin{return}
     A list with @symbol{pango:font-mask} values set corresponding to the fields
@@ -1277,9 +1218,9 @@
 (cffi:defcfun ("pango_font_description_unset_fields"
                 font-description-unset-fields) :void
  #+liber-documentation
- "@version{#2021-1-7}
+ "@version{2023-8-27}
   @argument[desc]{a @class{pango:font-description} instance}
-  @argument[to-unset]{a list of @symbol{pango:font-mask} values in @arg{desc}
+  @argument[unset]{a list of @symbol{pango:font-mask} values in @arg{desc}
     to unset}
   @begin{short}
     Unsets some of the fields in a font description.
@@ -1288,7 +1229,7 @@
   @see-class{pango:font-description}
   @see-symbol{pango:font-mask}"
   (desc (g:boxed font-description))
-  (to-unset font-mask))
+  (unset font-mask))
 
 (export 'font-description-unset-fields)
 
@@ -1298,35 +1239,33 @@
 
 (cffi:defcfun ("pango_font_description_merge" font-description-merge) :void
  #+liber-documentation
- "@version{#2021-1-7}
+ "@version{2023-8-27}
   @argument[desc]{a @class{pango:font-description} instance}
-  @argument[desc-to-merge]{a @class{pango:font-description} instance to merge
-    from, or @code{nil}}
-  @argument[replace-existing]{if @em{true}, replace fields in @arg{desc} with
-    the corresponding values from @arg{desc-to-merge}, even if they are already
-    exist}
+  @argument[merge]{a @class{pango:font-description} instance to merge from,
+    or @code{nil}}
+  @argument[replace]{if @em{true}, replace fields in @arg{desc} with the
+    corresponding values from @arg{merge}, even if they are already exist}
   @begin{short}
-    Merges the fields that are set in @arg{desc-to-merge} into the fields in
+    Merges the fields that are set in @arg{merge} into the fields in
     @arg{desc}.
   @end{short}
-  If @arg{replace-existing} is @em{false}, only fields in @arg{desc} that are
-  not already set are affected. If @em{true}, then fields that are already set
-  will be replaced as well.
+  If @arg{replace} is @em{false}, only fields in @arg{desc} that are not
+  already set are affected. If @em{true}, then fields that are already set will
+  be replaced as well.
 
-  If @arg{desc-to-merge} is @code{nil}, this function performs nothing.
+  If @arg{merge} is @code{nil}, this function performs nothing.
   @see-class{pango:font-description}"
   (desc (g:boxed font-description))
-  (desc-to-merge (g:boxed font-description))
-  (replace-existing :boolean))
+  (merge (g:boxed font-description))
+  (replace :boolean))
 
 (export 'font-description-merge)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_description_merge_static ()
+;;; pango_font_description_merge_static ()                 not implemented
 ;;; ----------------------------------------------------------------------------
 
-;; not exported
-
+#+nil
 (cffi:defcfun ("pango_font_description_merge_static"
                 font-description-merge-static) :void
  #+liber-documentation
@@ -1338,7 +1277,7 @@
     the corresponding values from @arg{desc-to-merge}, even if they are already
     exist}
   @begin{short}
-    Like the function @fun{pango:font-description-merge}, but only a shallow
+    Like the @fun{pango:font-description-merge} function, but only a shallow
     copy is made of the family name and other allocated fields.
   @end{short}
   @arg{desc} can only be used until @arg{desc_to_merge} is modified or freed.
@@ -1357,15 +1296,15 @@
 (cffi:defcfun ("pango_font_description_better_match"
                 font-description-better-match) :boolean
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{#2023-8-27}
   @argument[desc]{a @class{pango:font-description} instance}
-  @argument[old-match]{a @class{pango:font-description} instance, or @code{nil}}
-  @argument[new-match]{a @class{pango:font-description} instance}
-  @return{@em{True} if @arg{new-match} is a better match.}
+  @argument[old]{a @class{pango:font-description} instance, or @code{nil}}
+  @argument[new]{a @class{pango:font-description} instance}
+  @return{@em{True} if @arg{new} is a better match.}
   @begin{short}
-    Determines if the style attributes of @arg{new-match} are a closer match
-    for @arg{desc} than those of @arg{old-match} are, or if @arg{old-match} is
-    @code{nil}, determines if @arg{new-match} is a match at all.
+    Determines if the style attributes of @arg{new} are a closer match for
+    @arg{desc} than those of @arg{old} are, or if @arg{old} is @code{nil},
+    determines if @arg{new} is a match at all.
   @end{short}
   Approximate matching is done for weight and style. Other style attributes
   must match exactly. Style attributes are all attributes other than family and
@@ -1373,11 +1312,11 @@
   @code{:oblique} and @code{:italic} as matches, but not as good a match as
   when the styles are equal.
 
-  Note that @arg{old-match} must match @arg{desc}.
+  Note that @arg{old} must match @arg{desc}.
   @see-class{pango:font-description}"
   (desc (g:boxed font-description))
-  (old-match (g:boxed font-description))
-  (new-match (g:boxed font-description)))
+  (old (g:boxed font-description))
+  (new (g:boxed font-description)))
 
 (export 'font-description-better-match)
 
@@ -1388,7 +1327,7 @@
 (cffi:defcfun ("pango_font_description_from_string"
                 font-description-from-string) (g:boxed font-description)
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @argument[str]{a string representation of a font description}
   @return{A new @class{pango:font-description} instance.}
   @begin{short}
@@ -1451,13 +1390,13 @@
 (cffi:defcfun ("pango_font_description_to_string"
                 font-description-to-string) :string
  #+liber-documentation
- "@version{#2021-1-8}
+ "@version{2023-8-27}
   @argument[desc]{a @class{pango:font-description} instance}
   @return{A new string with a representation of a font description.}
   @begin{short}
     Creates a string representation of a font description.
   @end{short}
-  See the function @fun{pango:font-description-from-string} for a description
+  See the @fun{pango:font-description-from-string} function for a description
   of the format of the string representation. The family list in the string
   description will only have a terminating comma if the last word of the list
   is a valid style option.
@@ -1474,15 +1413,15 @@
 (cffi:defcfun ("pango_font_description_to_filename"
                 font-description-to-filename) :string
  #+liber-documentation
- "@version{#2021-1-14}
+ "@version{2023-8-27}
   @argument[desc]{a @class{pango:font-description} instance}
   @return{A new string with a filname.}
   @begin{short}
     Creates a filename representation of a font description.
   @end{short}
-  The filename is identical to the result from calling the function
-  @fun{pango:font-description-to-string}, but with underscores instead of
-  characters that are untypical in filenames, and in lower case only.
+  The filename is identical to the result from calling the
+  @fun{pango:font-description-to-string} function, but with underscores instead
+  of characters that are untypical in filenames, and in lower case only.
   @see-class{pango:font-description}
   @see-function{pango:font-description-to-string}"
   (desc (g:boxed font-description)))
@@ -1490,9 +1429,10 @@
 (export 'font-description-to-filename)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_ref ()
+;;; pango_font_metrics_ref ()                              not needed
 ;;; ----------------------------------------------------------------------------
 
+#+nil
 (cffi:defcfun ("pango_font_metrics_ref" font-metrics-ref)
     (g:boxed font-metrics)
  #+liber-documentation
@@ -1505,12 +1445,14 @@
   @see-class{pango:font-metrics}"
   (metrics (g:boxed font-metrics)))
 
+#+nil
 (export 'font-metrics-ref)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_unref ()
+;;; pango_font_metrics_unref ()                            not needed
 ;;; ----------------------------------------------------------------------------
 
+#+nil
 (cffi:defcfun ("pango_font_metrics_unref" font-metrics-unref) :void
  #+liber-documentation
  "@version{#2021-1-8}
@@ -1522,6 +1464,7 @@
   @see-class{pango:font-metrics}"
   (metrics (g:boxed font-metrics)))
 
+#+nil
 (export 'font-metrics-unref)
 
 ;;; ----------------------------------------------------------------------------
@@ -1628,7 +1571,7 @@
   This is merely a representative value useful, for example, for determining
   the initial size for a window. Actual digits in text can be wider or narrower
   than this, though this value is generally somewhat more accurate than the
-  result of the function @fun{pango:font-metrics-approximate-char-width} for
+  result of the @fun{pango:font-metrics-approximate-char-width} function for
   digits.
   @see-class{pango:font-metrics}
   @see-function{pango:font-metrics-approximate-char-width}"
@@ -1761,7 +1704,7 @@
   @begin{short}
     Returns a description of the font, with font size set in points.
   @end{short}
-  Use the function @fun{pango:font-describe-with-absolute-size} if you want the
+  Use the @fun{pango:font-describe-with-absolute-size} function if you want the
   font size in device units.
   @see-class{pango:font}
   @see-class{pango:font-description}
@@ -1784,7 +1727,7 @@
     Returns a description of the font, with absolute font size set, in device
     units.
   @end{short}
-  Use the function @fun{pango:font-describe} if you want the font size in
+  Use the @fun{pango:font-describe} function if you want the font size in
   points.
   @see-class{pango:font}
   @see-class{pango:font-description}"
@@ -1906,8 +1849,7 @@
     script to get the metrics for, or @code{nil} to indicate to get the metrics
     for the entire font}
   @begin{return}
-    A @class{pango:font-metrics} instance. The caller must call the function
-    @fun{pango:font-metrics-unref} when finished using the object.
+    A @class{pango:font-metrics} instance.
   @end{return}
   @begin{short}
     Gets overall metric information for a font.
@@ -2047,14 +1989,14 @@
   @end{short}
   For Western languages this would mean that the advance width of all characters
   are the same, but this categorization also includes Asian fonts which include
-  double-width characters: characters that occupy two grid cells. The function
-  @code{g_unichar_iswide()} returns a result that indicates whether a character
-  is typically double-width in a monospace font.
+  double-width characters: characters that occupy two grid cells. The
+  @code{g_unichar_iswide()} function returns a result that indicates whether a
+  character is typically double-width in a monospace font.
 
-  The best way to find out the grid-cell size is to call the function
-  @fun{pango:font-metrics-approximate-digit-width}, since the results of the
-  function @fun{pango:font-metrics-approximate-char-width} may be affected by
-  double-width characters.
+  The best way to find out the grid-cell size is to call the
+  @fun{pango:font-metrics-approximate-digit-width} function, since the results
+  of the @fun{pango:font-metrics-approximate-char-width} function may be
+  affected by double-width characters.
   @see-class{pango:font-family}
   @see-function{pango:font-metrics-approximate-digit-width}
   @see-function{pango:font-metrics-approximate-char-width}"
@@ -2217,8 +2159,7 @@
   @argument[face]{a @class{pango:font-face} object}
   @begin{return}
     A newly-created @class{pango:font-description} instance holding the
-    description of @arg{face}. Use the function
-    @fun{pango:font-description-free} to free the result.
+    description of @arg{face}.
   @end{return}
   @begin{short}
     Returns the family, style, variant, weight and stretch of a
@@ -2226,8 +2167,7 @@
   @end{short}
   The size field of the resulting font description will be unset.
   @see-class{pango:font-face}
-  @see-class{pango:font-description}
-  @see-function{pango:font-description-free}"
+  @see-class{pango:font-description}"
   (face (g:object font-face)))
 
 (export 'font-face-describe)
@@ -2508,8 +2448,7 @@
  "@version{#2021-1-8}
   @argument[fontset]{a @class{pango:fontset} object}
   @begin{return}
-    A @class{pango:font-metrics} instance. The caller must call the function
-    @fun{pango:font-metrics-unref} when finished using the object.
+    A @class{pango:font-metrics} instance.
   @end{return}
   @begin{short}
     Get overall metric information for the fonts in the fontset.
@@ -2545,13 +2484,15 @@
 ;;; Since 1.4
 ;;; ----------------------------------------------------------------------------
 
-(cffi:defcallback fontset-foreach-cb :boolean
+(cffi:defcallback fontset-foreach-func :boolean
     ((fontset (g:object fontset))
      (font (g:object font))
      (data :pointer))
   (restart-case
     (funcall (glib:get-stable-pointer-value data) fontset font)
     (return () :report "Error in PangoFontsetForeach function." nil)))
+
+(export 'fontset-foreach-func)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_fontset_foreach ()
@@ -2575,7 +2516,7 @@
   @see-class{pango:fontset}"
   (glib:with-stable-pointer (ptr func)
     (%fontset-foreach fontset
-                      (cffi:callback fontset-foreach-cb)
+                      (cffi:callback fontset-foreach-func)
                       ptr)))
 
 (export 'fontset-foreach)
