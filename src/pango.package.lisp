@@ -28,7 +28,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defpackage :pango
-  (:use :common-lisp)
+  (:use :iterate :common-lisp)
   (:import-from :cffi)
   (:import-from #:glib)
   (:import-from #:gobject))
@@ -758,18 +758,21 @@
     @end{subsection}
     @begin[Tab Stops]{subsection}
       Structures for storing tab stops.
-      @about-class{tab-array}
       @about-symbol{tab-align}
+      @about-class{tab-array}
       @about-function{tab-array-new}
       @about-function{tab-array-new-with-positions}
       @about-function{tab-array-copy}
       @about-function{tab-array-free}
-      @about-function{tab-array-get-size}
+      @about-function{tab-array-size}
       @about-function{tab-array-resize}
-      @about-function{tab-array-set-tab}
-      @about-function{tab-array-get-tab}
-      @about-function{tab-array-get-tabs}
-      @about-function{tab-array-get-positions-in-pixels}
+      @about-function{tab-array-tab}
+      @about-function{tab-array-tabs}
+      @about-function{tab-array-positions-in-pixels}
+      @about-function{tab-array-decimal-point}
+      @about-function{tab-array-sort}
+      @about-function{tab-array-from-string}
+      @about-function{tab-array-to-string}
     @end{subsection}
     @begin[Coverage Maps]{subsection}
       Unicode character range coverage storage.

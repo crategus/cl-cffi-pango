@@ -75,7 +75,7 @@
      (:file "rtest-pango-vertical-text")
      (:file "rtest-pango-font")
      (:file "rtest-pango-attributes")
-;    (:file "pango.tab-array")
+     (:file "rtest-pango-tab-array")
 ;    (:file "pango.bidirectional")
 ;    (:file "pango.renderer")
      (:file "rtest-pango-item")
