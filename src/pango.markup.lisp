@@ -226,6 +226,26 @@
 ;;;     FALSE if error is set, otherwise TRUE
 ;;; ----------------------------------------------------------------------------
 
+(cffi:defcfun ("pango_parse_markup" %parse-markup) :boolean
+  (markup :string)
+  (length :int)
+  (marker g:unichar)
+  (attrlist (g:boxed attr-list))
+  (text (:pointer :string))
+  (char (:pointer g:unichar))
+  (err :pointer))
+
+(defun parse-markup (markup marker)
+  (let ((attrlist (attr-list-new)))
+    (glib:with-g-error (err)
+      (cffi:with-foreign-objects ((text :string) (char 'g:unichar))
+        (when (%parse-markup markup -1 marker attrlist text char err)
+          (values (cffi:mem-ref text :string)
+                  attrlist
+                  (cffi:mem-ref char 'g:unichar)))))))
+
+(export 'parse-markup)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_markup_parser_new ()
 ;;;
