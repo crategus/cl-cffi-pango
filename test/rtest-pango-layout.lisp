@@ -349,7 +349,35 @@
 
 ;;;     pango_layout_index_to_pos
 
-(test pango-layout-index-to-pos
+(test pango-layout-index-to-pos.1
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+      (multiple-value-bind (x y width height)
+          (pango:layout-index-to-pos layout 0)
+        (is (integerp x))
+        (is (integerp y))
+        (is (integerp width))
+        (is (integerp height)))
+
+      (multiple-value-bind (x y width height)
+          (pango:layout-index-to-pos layout 1)
+        (is (integerp x))
+        (is (integerp y))
+        (is (integerp width))
+        (is (integerp height)))
+
+      (multiple-value-bind (x y width height)
+          (pango:layout-index-to-pos layout 2)
+        (is (integerp x))
+        (is (integerp y))
+        (is (integerp width))
+        (is (integerp height))))))
+
+#+crategus
+(test pango-layout-index-to-pos.2
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context)))
@@ -359,26 +387,43 @@
           (pango:layout-index-to-pos layout 0)
         (is (=     0 x))
         (is (=     0 y))
-        (is (= 11264 width))
-        (is (= 19456 height)))
+        (is (=  9216 width))
+        (is (= 23552 height)))
 
       (multiple-value-bind (x y width height)
           (pango:layout-index-to-pos layout 1)
-        (is (= 11264 x))
+        (is (=  9216 x))
         (is (=     0 y))
-        (is (= 10240 width))
-        (is (= 19456 height)))
+        (is (=  9216 width))
+        (is (= 23552 height)))
 
       (multiple-value-bind (x y width height)
           (pango:layout-index-to-pos layout 2)
-        (is (= 21504 x))
+        (is (= 18432 x))
         (is (=     0 y))
         (is (= 15360 width))
-        (is (= 19456 height))))))
+        (is (= 23552 height))))))
 
 ;;;     pango_layout_index_to_line_x
 
-(test pango-layout-index-to-line-x
+(test pango-layout-index-to-line-x.1
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+      (is (every #'integerp
+                 (multiple-value-list
+                     (pango:layout-index-to-line-x layout 0 nil))))
+      (is (every #'integerp
+                 (multiple-value-list
+                     (pango:layout-index-to-line-x layout 1 nil))))
+      (is (every #'integerp
+                 (multiple-value-list
+                     (pango:layout-index-to-line-x layout 2 nil)))))))
+
+#+crategus
+(test pango-layout-index-to-line-x.2
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context)))
@@ -387,10 +432,10 @@
       (is (equal '(0 0)
                  (multiple-value-list
                      (pango:layout-index-to-line-x layout 0 nil))))
-      (is (equal '(0 11264)
+      (is (equal '(0 9216)
                  (multiple-value-list
                      (pango:layout-index-to-line-x layout 1 nil))))
-      (is (equal '(0 21504)
+      (is (equal '(0 18432)
                  (multiple-value-list
                      (pango:layout-index-to-line-x layout 2 nil)))))))
 
@@ -412,17 +457,34 @@
 
 ;;;     pango_layout_get_cursor_pos
 
-(test pango-layout-cursor-pos
+(test pango-layout-cursor-pos.1
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context)))
       (is (string= "Some text"
                    (setf (pango:layout-text layout) "Some text")))
-      (is (equal '((0 0 0 19456) (0 0 0 19456))
+      (is (every #'integerp
+                 (flatten (multiple-value-list
+                              (pango:layout-cursor-pos layout 0)))))
+      (is (every #'integerp
+                 (flatten (multiple-value-list
+                              (pango:layout-cursor-pos layout 1)))))
+      (is (every #'integerp
+                 (flatten (multiple-value-list
+                              (pango:layout-cursor-pos layout 2))))))))
+
+#+crategus
+(test pango-layout-cursor-pos.2
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+      (is (equal '((0 0 0 23552) (0 0 0 23552))
                  (multiple-value-list (pango:layout-cursor-pos layout 0))))
-      (is (equal '((11264 0 0 19456) (11264 0 0 19456))
+      (is (equal '((9216 0 0 23552) (9216 0 0 23552))
                  (multiple-value-list (pango:layout-cursor-pos layout 1))))
-      (is (equal '((21504 0 0 19456) (21504 0 0 19456))
+      (is (equal '((18432 0 0 23552) (18432 0 0 23552))
                  (multiple-value-list (pango:layout-cursor-pos layout 2)))))))
 
 ;;;     pango_layout_move_cursor_visually
@@ -446,16 +508,30 @@
 ;;;     pango_layout_get_extents
 ;;;     pango_layout_get_pixel_extents
 
-#-windows
 (test pango-layout-extents/pixel-extents
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context)))
       (is (string= "Some text"
                    (setf (pango:layout-text layout) "Some text")))
-      (is (equal '((1024 3072 81920 12288) (0 0 81920 19456))
+      (is (every #'integerp
+                 (flatten
+                     (multiple-value-list (pango:layout-extents layout)))))
+      (is (every #'integerp
+                 (flatten
+                     (multiple-value-list
+                         (pango:layout-pixel-extents layout))))))))
+
+#+crategus
+(test pango-layout-extents/pixel-extents
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+      (is (equal '((0 6144 77824 12288) (0 0 77824 23552))
                  (multiple-value-list (pango:layout-extents layout))))
-      (is (equal '((1 3 80 12) (0 0 80 19))
+      (is (equal '((0 6 76 12) (0 0 76 23))
                  (multiple-value-list (pango:layout-pixel-extents layout)))))))
 
 #+windows
@@ -473,27 +549,49 @@
 ;;;     pango_layout_get_size
 ;;;     pango_layout_get_pixel_size
 
-(test pango-layout-size/pixel-size
+(test pango-layout-size/pixel-size.1
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context)))
       (is (string= "Some text"
                    (setf (pango:layout-text layout) "Some text")))
-      (is (equal '(81920 19456)
+      (is (every #'integerp
                  (multiple-value-list (pango:layout-size layout))))
-      (is (equal '(80 19)
+      (is (every #'integerp
+                 (multiple-value-list (pango:layout-pixel-size layout)))))))
+
+#+crategus
+(test pango-layout-size/pixel-size.2
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+      (is (equal '(77824 23552)
+                 (multiple-value-list (pango:layout-size layout))))
+      (is (equal '(76 23)
                  (multiple-value-list (pango:layout-pixel-size layout)))))))
 
 ;;;     pango_layout_get_baseline
 ;;;     pango_layout_get_line_count
 
-(test pango-layout-baseline/line-count
+(test pango-layout-baseline/line-count.1
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context)))
       (is (string= *sample-text-1*
                    (setf (pango:layout-text layout) *sample-text-1*)))
-      (is (= 15360 (pango:layout-baseline layout)))
+      (is (integerp (pango:layout-baseline layout)))
+      (is (integerp (pango:layout-line-count layout))))))
+
+#+crategus
+(test pango-layout-baseline/line-count.2
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context)))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (= 18432 (pango:layout-baseline layout)))
       (is (= 30 (pango:layout-line-count layout))))))
 
 ;;;     pango_layout_get_line
@@ -640,7 +738,23 @@
 ;;;     pango_layout_iter_at_last_line
 ;;;     pango_layout_iter_get_baseline
 
-(test pango-layout-iter-line/next-line/at-last-line
+(test pango-layout-iter-line/next-line/at-last-line.1
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context))
+           (iter nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+      (is (integerp (pango:layout-iter-index iter)))
+      (is (integerp (pango:layout-iter-baseline iter)))
+      (is-true (pango:layout-iter-next-line iter))
+      (is (integerp (pango:layout-iter-index iter)))
+      (is-false (pango:layout-iter-at-last-line iter))
+      (is (integerp (pango:layout-iter-baseline iter))))))
+
+#+crategus
+(test pango-layout-iter-line/next-line/at-last-line.2
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context))
@@ -649,11 +763,11 @@
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
       (is (= 0 (pango:layout-iter-index iter)))
-      (is (= 15360 (pango:layout-iter-baseline iter)))
+      (is (= 18432 (pango:layout-iter-baseline iter)))
       (is-true (pango:layout-iter-next-line iter))
       (is (= 79 (pango:layout-iter-index iter)))
       (is-false (pango:layout-iter-at-last-line iter))
-      (is (= 34816 (pango:layout-iter-baseline iter))))))
+      (is (= 41984 (pango:layout-iter-baseline iter))))))
 
 ;;;     pango_layout_iter_get_run
 ;;;     pango_layout_iter_get_run_readonly
@@ -700,7 +814,7 @@
 ;;;     pango_layout_iter_get_run_extents
 
 #-windows
-(test pango-layout-iter-char/cluster/run-extents
+(test pango-layout-iter-char/cluster/run-extents.1
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context))
@@ -708,11 +822,33 @@
       (is (string= *sample-text-1*
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (equal '(0 0 15360 19456)
+      (is (every #'integerp
+                 (flatten
+                     (multiple-value-list
+                         (pango:layout-iter-char-extents iter)))))
+      (is (every #'integerp
+                 (flatten
+                     (multiple-value-list
+                         (pango:layout-iter-cluster-extents iter)))))
+      (is (every #'integerp
+                 (flatten
+                     (multiple-value-list
+                         (pango:layout-iter-run-extents iter))))))))
+
+#+crategus
+(test pango-layout-iter-char/cluster/run-extents.2
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context))
+           (iter nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+      (is (equal '(0 0 16384 23552)
                  (multiple-value-list (pango:layout-iter-char-extents iter))))
-      (is (equal '((0 3072 17408 12288) (0 0 15360 19456))
+      (is (equal '((0 6144 17408 12288) (0 0 16384 23552))
                  (multiple-value-list (pango:layout-iter-cluster-extents iter))))
-      (is (equal '((0 2048 659456 17408) (0 0 659456 19456))
+      (is (equal '((0 5120 636928 17408) (0 0 636928 23552))
                  (multiple-value-list (pango:layout-iter-run-extents iter)))))))
 
 #+windows
@@ -733,7 +869,7 @@
 
 ;;;     pango_layout_iter_get_line_yrange
 
-(test pango-layout-iter-line-yrange
+(test pango-layout-iter-line-yrange.1
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context))
@@ -741,14 +877,25 @@
       (is (string= *sample-text-1*
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (equal '(0 19456)
+      (is (every #'integerp
+                 (multiple-value-list (pango:layout-iter-line-yrange iter)))))))
+
+#+crategus
+(test pango-layout-iter-line-yrange.2
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context))
+           (iter nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+      (is (equal '(0 23552)
                  (multiple-value-list (pango:layout-iter-line-yrange iter)))))))
 
 ;;;     pango_layout_iter_get_line_extents
 ;;;     pango_layout_iter_get_layout_extents
 
-#-windows
-(test pango-layout-iter-line/layout-extents
+(test pango-layout-iter-line/layout-extents.1
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context))
@@ -756,14 +903,32 @@
       (is (string= *sample-text-1*
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (equal '((0 2048 659456 17408) (0 0 659456 19456))
+      (is (every #'integerp
+                 (flatten
+                     (multiple-value-list
+                         (pango:layout-iter-line-extents iter)))))
+      (is (every #'integerp
+                 (flatten
+                     (multiple-value-list
+                         (pango:layout-iter-layout-extents iter))))))))
+
+#+crategus
+(test pango-layout-iter-line/layout-extents.2
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context))
+           (iter nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+      (is (equal '((0 5120 636928 17408) (0 0 636928 23552))
                  (multiple-value-list (pango:layout-iter-line-extents iter))))
-      (is (equal '((0 2048 659456 17408) (0 0 659456 19456))
+      (is (equal '((0 5120 636928 17408) (0 0 636928 23552))
                  (multiple-value-list
                      (pango:layout-iter-layout-extents iter)))))))
 
 #+windows
-(test pango-layout-iter-line/layout-extents
+(test pango-layout-iter-line/layout-extents.2
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context))
@@ -780,8 +945,7 @@
 ;;;     pango_layout_line_get_extents
 ;;;     pango_layout_line_get_pixel_extents
 
-#-windows
-(test pango-layout-line-extents/pixel-extents
+(test pango-layout-line-extents/pixel-extents.1
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context))
@@ -789,14 +953,31 @@
       (is (string= *sample-text-1*
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf line (pango:layout-line layout 0)) 'pango:layout-line))
-      (is (equal '((0 -13312 659456 17408) (0 -15360 659456 19456))
+      (is (every #'integerp
+                 (flatten
+                     (multiple-value-list (pango:layout-line-extents line)))))
+      (is (every #'integerp
+                 (flatten
+                     (multiple-value-list
+                         (pango:layout-line-pixel-extents line))))))))
+
+#+crategus
+(test pango-layout-line-extents/pixel-extents.2
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context))
+           (line nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (typep (setf line (pango:layout-line layout 0)) 'pango:layout-line))
+      (is (equal '((0 -13312 636928 17408) (0 -18432 636928 23552))
                  (multiple-value-list (pango:layout-line-extents line))))
-      (is (equal '((0 -13 644 17) (0 -15 644 19))
+      (is (equal '((0 -13 622 17) (0 -18 622 23))
                  (multiple-value-list
                      (pango:layout-line-pixel-extents line)))))))
 
 #+windows
-(test pango-layout-line-extents/pixel-extents
+(test pango-layout-line-extents/pixel-extents.2
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context))
@@ -812,7 +993,7 @@
 
 ;;;     pango_layout_line_get_height
 
-(test pango-layout-line-height
+(test pango-layout-line-height.1
   (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
     (let* ((context (pango:cairo-create-context cr))
            (layout (pango:layout-new context))
@@ -821,7 +1002,19 @@
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf line (pango:layout-line layout 1)) 'pango:layout-line))
       (is (typep line 'pango:layout-line))
-      (is (= 19456 (pango:layout-line-height line))))))
+      (is (integerp (pango:layout-line-height line))))))
+
+#+crategus
+(test pango-layout-line-height.2
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context))
+           (line nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (typep (setf line (pango:layout-line layout 1)) 'pango:layout-line))
+      (is (typep line 'pango:layout-line))
+      (is (= 22528 (pango:layout-line-height line))))))
 
 ;;;     pango_layout_line_get-length
 
@@ -841,8 +1034,20 @@
                    (setf (pango:layout-text layout) *sample-text-1*)))
 
       (is (typep (setf line (pango:layout-line layout 1)) 'pango:layout-line))
-      (is (= 675840 (pango:layout-line-index-to-x line 5 nil))))))
+      (is (integerp (pango:layout-line-index-to-x line 5 nil))))))
+
+#+crategus
+(test pango-layout-line-index-to-x/x-to-index
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context))
+           (line nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+
+      (is (typep (setf line (pango:layout-line layout 1)) 'pango:layout-line))
+      (is (= 645120 (pango:layout-line-index-to-x line 5 nil))))))
 
 ;;;     pango_layout_line_is-paragraph-start
 
-;;; --- 2023-7-17 --------------------------------------------------------------
+;;; --- 2023-11-5 --------------------------------------------------------------

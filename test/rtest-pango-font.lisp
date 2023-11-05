@@ -28,7 +28,7 @@
   ;; Check the enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoStyle"
                                      PANGO-STYLE
-                                     (:EXPORT T 
+                                     (:EXPORT T
                                       :TYPE-INITIALIZER "pango_style_get_type")
                                      (:NORMAL 0)
                                      (:OBLIQUE 1)
@@ -47,23 +47,23 @@
   (is (eq 'pango:weight
           (glib:symbol-for-gtype "PangoWeight")))
   ;; Check the names
-  (is (equal '("PANGO_WEIGHT_THIN" "PANGO_WEIGHT_ULTRALIGHT" 
-               "PANGO_WEIGHT_LIGHT" "PANGO_WEIGHT_SEMILIGHT" "PANGO_WEIGHT_BOOK" 
-               "PANGO_WEIGHT_NORMAL" "PANGO_WEIGHT_MEDIUM" 
-               "PANGO_WEIGHT_SEMIBOLD" "PANGO_WEIGHT_BOLD" 
-               "PANGO_WEIGHT_ULTRABOLD" "PANGO_WEIGHT_HEAVY" 
+  (is (equal '("PANGO_WEIGHT_THIN" "PANGO_WEIGHT_ULTRALIGHT"
+               "PANGO_WEIGHT_LIGHT" "PANGO_WEIGHT_SEMILIGHT" "PANGO_WEIGHT_BOOK"
+               "PANGO_WEIGHT_NORMAL" "PANGO_WEIGHT_MEDIUM"
+               "PANGO_WEIGHT_SEMIBOLD" "PANGO_WEIGHT_BOLD"
+               "PANGO_WEIGHT_ULTRABOLD" "PANGO_WEIGHT_HEAVY"
                "PANGO_WEIGHT_ULTRAHEAVY")
              (list-enum-item-name "PangoWeight")))
   ;; Check the values
   (is (equal '(100 200 300 350 380 400 500 600 700 800 900 1000)
              (list-enum-item-value "PangoWeight")))
   ;; Check the nick names
-  (is (equal '("thin" "ultralight" "light" "semilight" "book" "normal" "medium" 
+  (is (equal '("thin" "ultralight" "light" "semilight" "book" "normal" "medium"
                "semibold" "bold" "ultrabold" "heavy" "ultraheavy")
              (list-enum-item-nick "PangoWeight")))
   ;; Check the enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoWeight" PANGO-WEIGHT
-                                     (:EXPORT T 
+                                     (:EXPORT T
                                       :TYPE-INITIALIZER "pango_weight_get_type")
                                      (:THIN 100)
                                      (:ULTRALIGHT 200)
@@ -100,13 +100,13 @@
   (is (equal '(0 1 2 3 4 5 6)
              (list-enum-item-value "PangoVariant")))
   ;; Check the nick names
-  (is (equal '("normal" "small-caps" "all-small-caps" "petite-caps" 
+  (is (equal '("normal" "small-caps" "all-small-caps" "petite-caps"
                "all-petite-caps" "unicase" "title-caps")
              (list-enum-item-nick "PangoVariant")))
   ;; Check the enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoVariant" PANGO-VARIANT
-                                     (:EXPORT T 
-                                      :TYPE-INITIALIZER 
+                                     (:EXPORT T
+                                      :TYPE-INITIALIZER
                                       "pango_variant_get_type")
                                      (:NORMAL 0)
                                      (:SMALL-CAPS 1)
@@ -131,22 +131,22 @@
   ;; Check the names
   (is (equal '("PANGO_STRETCH_ULTRA_CONDENSED" "PANGO_STRETCH_EXTRA_CONDENSED"
                "PANGO_STRETCH_CONDENSED" "PANGO_STRETCH_SEMI_CONDENSED"
-               "PANGO_STRETCH_NORMAL" "PANGO_STRETCH_SEMI_EXPANDED" 
-               "PANGO_STRETCH_EXPANDED" "PANGO_STRETCH_EXTRA_EXPANDED" 
+               "PANGO_STRETCH_NORMAL" "PANGO_STRETCH_SEMI_EXPANDED"
+               "PANGO_STRETCH_EXPANDED" "PANGO_STRETCH_EXTRA_EXPANDED"
                "PANGO_STRETCH_ULTRA_EXPANDED")
              (list-enum-item-name "PangoStretch")))
   ;; Check the values
   (is (equal '(0 1 2 3 4 5 6 7 8)
              (list-enum-item-value "PangoStretch")))
   ;; Check the nick names
-  (is (equal '("ultra-condensed" "extra-condensed" "condensed" "semi-condensed"  
-               "normal" "semi-expanded" "expanded" "extra-expanded" 
+  (is (equal '("ultra-condensed" "extra-condensed" "condensed" "semi-condensed"
+               "normal" "semi-expanded" "expanded" "extra-expanded"
                "ultra-expanded")
              (list-enum-item-nick "PangoStretch")))
   ;; Check the enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoStretch" PANGO-STRETCH
-                                     (:EXPORT T 
-                                      :TYPE-INITIALIZER 
+                                     (:EXPORT T
+                                      :TYPE-INITIALIZER
                                       "pango_stretch_get_type")
                                      (:ULTRA-CONDENSED 0)
                                      (:EXTRA-CONDENSED 1)
@@ -171,8 +171,8 @@
   (is (eq (g:gtype "PangoFontMask")
           (g:gtype (cffi:foreign-funcall "pango_font_mask_get_type" :size))))
   ;; Check the names
-  (is (equal '("PANGO_FONT_MASK_FAMILY" "PANGO_FONT_MASK_STYLE" 
-               "PANGO_FONT_MASK_VARIANT" "PANGO_FONT_MASK_WEIGHT" 
+  (is (equal '("PANGO_FONT_MASK_FAMILY" "PANGO_FONT_MASK_STYLE"
+               "PANGO_FONT_MASK_VARIANT" "PANGO_FONT_MASK_WEIGHT"
                "PANGO_FONT_MASK_STRETCH" "PANGO_FONT_MASK_SIZE"
                "PANGO_FONT_MASK_GRAVITY" "PANGO_FONT_MASK_VARIATIONS")
              (list-flags-item-name "PangoFontMask")))
@@ -180,13 +180,13 @@
   (is (equal '(1 2 4 8 16 32 64 128)
              (list-flags-item-value "PangoFontMask")))
   ;; Check the nick names
-  (is (equal '("family" "style" "variant" "weight" "stretch" "size" "gravity" 
+  (is (equal '("family" "style" "variant" "weight" "stretch" "size" "gravity"
                "variations")
              (list-flags-item-nick "PangoFontMask")))
   ;; Check the flags definition
   (is (equal '(GOBJECT:DEFINE-G-FLAGS "PangoFontMask" PANGO-FONT-MASK
-                                      (:EXPORT T 
-                                       :TYPE-INITIALIZER 
+                                      (:EXPORT T
+                                       :TYPE-INITIALIZER
                                        "pango_font_mask_get_type")
                                       (:FAMILY 1)
                                       (:STYLE 2)
@@ -422,7 +422,6 @@
 ;;;     pango_font_metrics_get_strikethrough_thickness
 ;;;     pango_font_metrics_get_strikethrough_position
 
-#-windows
 (test pango-font-metrics.1
   (let* ((fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
@@ -430,18 +429,36 @@
          (lang (pango:language-from-string "de-de"))
          (metrics (pango:context-metrics context desc lang)))
     (is (typep metrics 'pango:font-metrics))
-    (is (= 15360 (pango:font-metrics-ascent metrics)))
-    (is (=  4096 (pango:font-metrics-descent metrics)))
-    (is (= 19456 (pango:font-metrics-height metrics)))
-    (is (=  8553 (pango:font-metrics-approximate-char-width metrics)))
-    (is (= 10240 (pango:font-metrics-approximate-digit-width metrics)))
-    (is (=   720 (pango:font-metrics-underline-thickness metrics)))
-    (is (=  -320 (pango:font-metrics-underline-position metrics)))
-    (is (=   816 (pango:font-metrics-strikethrough-thickness metrics)))
-    (is (=  4240 (pango:font-metrics-strikethrough-position metrics)))))
+    (is (integerp (pango:font-metrics-ascent metrics)))
+    (is (integerp (pango:font-metrics-descent metrics)))
+    (is (integerp (pango:font-metrics-height metrics)))
+    (is (integerp (pango:font-metrics-approximate-char-width metrics)))
+    (is (integerp (pango:font-metrics-approximate-digit-width metrics)))
+    (is (integerp (pango:font-metrics-underline-thickness metrics)))
+    (is (integerp (pango:font-metrics-underline-position metrics)))
+    (is (integerp (pango:font-metrics-strikethrough-thickness metrics)))
+    (is (integerp (pango:font-metrics-strikethrough-position metrics)))))
+
+#+crategus
+(test pango-font-metrics.2
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (desc (pango:font-description-from-string "Sans 12"))
+         (lang (pango:language-from-string "de-de"))
+         (metrics (pango:context-metrics context desc lang)))
+    (is (typep metrics 'pango:font-metrics))
+    (is (= 18432 (pango:font-metrics-ascent metrics)))
+    (is (=  5120 (pango:font-metrics-descent metrics)))
+    (is (= 22528 (pango:font-metrics-height metrics)))
+    (is (=  7996 (pango:font-metrics-approximate-char-width metrics)))
+    (is (=  9216 (pango:font-metrics-approximate-digit-width metrics)))
+    (is (=  1024 (pango:font-metrics-underline-thickness metrics)))
+    (is (= -1024 (pango:font-metrics-underline-position metrics)))
+    (is (=  1024 (pango:font-metrics-strikethrough-thickness metrics)))
+    (is (=  6144 (pango:font-metrics-strikethrough-position metrics)))))
 
 #+windows
-(test pango-font-metrics.1
+(test pango-font-metrics.2
   (let* ((fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
          (desc (pango:font-description-from-string "Sans 12"))
@@ -458,26 +475,26 @@
     (is (=  1024 (pango:font-metrics-strikethrough-thickness metrics)))
     (is (=  5120 (pango:font-metrics-strikethrough-position metrics)))))
 
-#-windows
-(test pango-font-metrics.2
+#+crategus
+(test pango-font-metrics.3
   (let* ((fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
          (desc (pango:font-description-from-string "Sans 18"))
          (lang (pango:language-from-string "de-de"))
          (metrics (pango:context-metrics context desc lang)))
     (is (typep metrics 'pango:font-metrics))
-    (is (= 23552 (pango:font-metrics-ascent metrics)))
-    (is (=  6144 (pango:font-metrics-descent metrics)))
-    (is (= 28672 (pango:font-metrics-height metrics)))
-    (is (= 12829 (pango:font-metrics-approximate-char-width metrics)))
-    (is (= 15360 (pango:font-metrics-approximate-digit-width metrics)))
-    (is (=  1080 (pango:font-metrics-underline-thickness metrics)))
-    (is (=  -480 (pango:font-metrics-underline-position metrics)))
-    (is (=  1224 (pango:font-metrics-strikethrough-thickness metrics)))
-    (is (=  6360 (pango:font-metrics-strikethrough-position metrics)))))
+    (is (= 26624 (pango:font-metrics-ascent metrics)))
+    (is (=  8192 (pango:font-metrics-descent metrics)))
+    (is (= 33792 (pango:font-metrics-height metrics)))
+    (is (= 11995 (pango:font-metrics-approximate-char-width metrics)))
+    (is (= 14336 (pango:font-metrics-approximate-digit-width metrics)))
+    (is (=  2048 (pango:font-metrics-underline-thickness metrics)))
+    (is (= -2048 (pango:font-metrics-underline-position metrics)))
+    (is (=  2048 (pango:font-metrics-strikethrough-thickness metrics)))
+    (is (=  8192 (pango:font-metrics-strikethrough-position metrics)))))
 
 #+windows
-(test pango-font-metrics.2
+(test pango-font-metrics.3
   (let* ((fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
          (desc (pango:font-description-from-string "Sans 18"))
@@ -658,4 +675,4 @@
 ;;;     PangoFontsetForeachFunc
 ;;;     pango_fontset_foreach
 
-;;; --- 2023-8-27 --------------------------------------------------------------
+;;; --- 2023-11-5 --------------------------------------------------------------

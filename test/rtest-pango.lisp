@@ -114,15 +114,27 @@ dargestellt werden.")
   (mapcar #'gobject:enum-item-value
           (gobject:get-enum-items gtype)))
 
+(defun flatten (tree)
+  (let (lst)
+    (labels ((traverse (subtree)
+               (when subtree
+                 (if (consp subtree)
+                     (progn
+                       (traverse (car subtree))
+                       (traverse (cdr subtree)))
+                     (push subtree lst)))))
+      (traverse tree))
+    (nreverse lst)))
+
 (def-suite pango-suite)
 (in-suite pango-suite)
 
 #-windows
 (test version
-  (is (string= "1.50.12" (pango:version-string))))
+  (is (string= "1.51.0" (pango:version-string))))
 
 #+windows
 (test version
   (is (string= "1.50.14" (pango:version-string))))
 
-;;; --- 2023-1-7 ---------------------------------------------------------------
+;;; --- 2023-11-5 --------------------------------------------------------------
