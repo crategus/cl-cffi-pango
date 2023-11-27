@@ -2180,7 +2180,7 @@
   (hint gravity-hint))
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_attr_font_features_new ()                        not exported
+;;; pango_attr_font_features_new ()
 ;;;
 ;;; PangoAttribute *
 ;;; pango_attr_font_features_new (const gchar *features);
@@ -2198,8 +2198,10 @@
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_attr_font_features_new" attr-font-features-new)
-    (g:object attribute :return)
+    (g:boxed attribute :return)
   (features :string))
+
+(export 'attr-font-features-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_foreground_alpha_new ()                     not exported
