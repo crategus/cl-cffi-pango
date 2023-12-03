@@ -274,8 +274,18 @@
 ;;;     pango_layout_get_indent
 ;;;     pango_layout_get_spacing
 ;;;     pango_layout_set_spacing
+
 ;;;     pango_layout_set_line_spacing
 ;;;     pango_layout_get_line_spacing
+
+(test pango-layout-line-spacing
+  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context)))
+      (is (= 0.0 (pango:layout-line-spacing layout)))
+      (is (= 1.5 (setf (pango:layout-line-spacing layout) 3/2)))
+      (is (= 1.5 (pango:layout-line-spacing layout))))))
+
 ;;;     pango_layout_set_justify
 ;;;     pango_layout_get_justify
 ;;;     pango_layout_set_auto_dir
@@ -1050,4 +1060,5 @@
 
 ;;;     pango_layout_line_is-paragraph-start
 
-;;; --- 2023-11-5 --------------------------------------------------------------
+;;; --- 2023-12-3 --------------------------------------------------------------
+

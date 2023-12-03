@@ -1000,16 +1000,17 @@ line2.top = line1.bottom + spacing
 
 #+pango-1-44
 (defun (setf layout-line-spacing) (factor layout)
-  (cffi:foreign-funcall "pango_layout_set_line_spacing"
-                        (g:object layout) layout
-                        :float (coerce factor 'float)
-                        :void)
-  factor)
+  (let ((factor (coerce factor 'single-float)))
+    (cffi:foreign-funcall "pango_layout_set_line_spacing"
+                          (g:object layout) layout
+                          :float factor
+                          :void)
+    factor))
 
 #+pango-1-44
 (cffi:defcfun ("pango_layout_get_line_spacing" layout-line-spacing) :float
  #+liber-documentation
- "@version{#2023-2-6}
+ "@version{2023-12-3}
   @syntax[]{(pango:layout-line-spacing layout) => factor}
   @syntax[]{(setf (pango:layout-line-spacing layout) factor)}
   @argument[layout]{a @class{pango:layout} object}
@@ -1018,9 +1019,9 @@ line2.top = line1.bottom + spacing
   @begin{short}
     Accessor of the line spacing for the Pango layout.
   @end{short}
-  The @sym{pango:layout-line-spacing} function gets the value of the line
-  spacing. The @sym{(setf pango:layout-line-spacing)} function sets a factor
-  for line spacing. Typical values are: 0, 1, 1.5, 2. The default values is 0.
+  The @fun{pango:layout-line-spacing} function gets the value of the line
+  spacing. The @setf{pango:layout-line-spacing} function sets a factor for line
+  spacing. Typical values are: 0, 1, 1.5, 2. The default values is 0.
 
   If the @arg{factor} argument is non-zero, lines are placed so that
   @begin{pre}
@@ -1030,7 +1031,7 @@ baseline2 = baseline1 + factor * height2
   the font. In this case, the spacing set with the @fun{pango:layout-spacing}
   function is ignored.
 
-  If the @arg{factor} arugment is zero, spacing is applied as before.
+  If the @arg{factor} argument is zero, spacing is applied as before.
 
   Since 1.44
   @see-class{pango:layout}
@@ -2737,3 +2738,4 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-line-x-to-index)
 
 ;;; --- End of file pango.layout.lisp ------------------------------------------
+
