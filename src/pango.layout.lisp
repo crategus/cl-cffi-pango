@@ -6,7 +6,7 @@
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2023 Dieter Kaiser
+;;; Copyright (C) 2011 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -173,8 +173,8 @@
       (liber:symbol-documentation 'wrap-mode)
  "@version{2023-2-6}
   @begin{short}
-    The @sym{pango:wrap-mode} enumeration describes how to wrap the lines of a
-    @class{pango:layout} object to the desired width.
+    The @symbol{pango:wrap-mode} enumeration describes how to wrap the lines of
+    a @class{pango:layout} object to the desired width.
   @end{short}
   @begin{pre}
 (gobject:define-g-enum \"PangoWrapMode\" wrap-mode
@@ -212,8 +212,8 @@
       (liber:symbol-documentation 'ellipsize-mode)
  "@version{2023-2-6}
   @begin{short}
-    The @sym{pango:ellipsize-mode} enumeration describes what sort of (if any)
-    ellipsization should be applied to a line of text.
+    The @symbol{pango:ellipsize-mode} enumeration describes what sort of (if
+    any) ellipsization should be applied to a line of text.
   @end{short}
   In the ellipsization process characters are removed from the text in order to
   make it fit to a given width and replaced with an ellipsis.
@@ -253,8 +253,8 @@
       (liber:symbol-documentation 'alignment)
  "@version{2023-2-6}
   @begin{short}
-    The @sym{pango:alignment} enumeration describes how to align the lines of a
-    @class{pango:layout} object within the available space.
+    The @symbol{pango:alignment} enumeration describes how to align the lines
+    of a @class{pango:layout} object within the available space.
   @end{short}
   If the @class{pango:layout} object is set to justify using the
   @fun{pango:layout-justify} function, this only has effect for partial lines.
@@ -289,7 +289,7 @@
 ;;; ----------------------------------------------------------------------------
 
 ;; TODO: This implementation does not work. There seems to be a problem, when
-;; the C structure contains bitfields. For this case the implemenation of
+;; the C structure contains bitfields. For this case the implementation of
 ;; define-g-boxed-cstruct does not work.
 
 #+nil
@@ -314,10 +314,10 @@
       (documentation 'layout-line 'type)
  "@version{2023-2-6}
   @begin{short}
-    The @sym{pango:layout-line} structure represents one of the lines resulting
-    from laying out a paragraph via a @class{pango:layout} object.
+    The @class{pango:layout-line} structure represents one of the lines
+    resulting from laying out a paragraph via a @class{pango:layout} object.
   @end{short}
-  The @sym{pango:layout-line} instances are obtained by calling the
+  The @class{pango:layout-line} instances are obtained by calling the
   @fun{pango:layout-line} function and are only valid until the text,
   attributes, or settings of the parent @class{pango:layout} object are
   modified. Routines for rendering @class{pango:layout} objects are provided in
@@ -362,10 +362,10 @@
       (documentation 'layout-iter 'type)
  "@version{2023-2-11}
   @begin{short}
-    A @sym{pango:layout-iter} structure can be used to iterate over the visual
-    extents of a @class{pango:layout} object.
+    A @class{pango:layout-iter} structure can be used to iterate over the
+    visual extents of a @class{pango:layout} object.
   @end{short}
-  The @sym{pango:layout-iter} structure is opaque, and has no user visible
+  The @class{pango:layout-iter} structure is opaque, and has no user visible
   fields.
   @see-constructor{pango:layout-iter}
   @see-constructor{pango:layout-iter-copy}
@@ -388,7 +388,7 @@
 (setf (documentation 'layout 'type)
  "@version{2023-2-6}
   @begin{short}
-    The @sym{pango:layout} class represents an entire paragraph of text.
+    The @class{pango:layout} class represents an entire paragraph of text.
   @end{short}
   It is initialized with a @class{pango:context} object, UTF-8 string and set
   of attributes for that string. Once that is done, the set of formatted lines
@@ -397,13 +397,13 @@
   physical position of the resulting glyphs can be made.
 
   There are also a number of parameters to adjust the formatting of a
-  @sym{pango:layout} object. It is possible, as well, to ignore the 2-D setup,
-  and simply treat the results of a @sym{pango:layout} object as a list of
+  @class{pango:layout} object. It is possible, as well, to ignore the 2-D setup,
+  and simply treat the results of a @class{pango:layout} object as a list of
   lines.
   @image[layout]{Figure. Adjustable parameters (on the left) and font metrics
     (on the right) for a Pango layout}
 
-  The @sym{pango:layout} class is opaque, and has no user visible fields.
+  The @class{pango:layout} class is opaque, and has no user visible fields.
   @see-constructor{pango:layout-new}
   @see-constructor{pango:layout-copy}
   @see-class{pango:context}")
@@ -539,8 +539,8 @@
   @begin{short}
     Accessor of the text of a @class{pango:layout} object.
   @end{short}
-  The @sym{pango:layout-text} function gets the text in the Pango layout. The
-  @sym{(setf pango:layout-text)} function sets the text of the Pango layout.
+  The @fun{pango:layout-text} function gets the text in the Pango layout. The
+  @setf{pango:layout-text} function sets the text of the Pango layout.
 
   Note that if you have used the @fun{pango:layout-set-markup} or
   @fun{pango:layout-set-markup-with-accel} functions on the Pango layout before,
@@ -665,9 +665,9 @@
   @begin{short}
     Accessor of the attribute list for the layout.
   @end{short}
-  The @sym{pango:layout-attributes} function gets the attribute list for the
-  layout, if any. The @sym{(setf pango:layout-attributes)} function sets the
-  text attributes for a layout object.
+  The @fun{pango:layout-attributes} function gets the attribute list for the
+  layout, if any. The @setf{pango:layout-attributes} function sets the text
+  attributes for a layout object.
   @see-class{pango:layout}"
   (layout (g:object layout)))
 
@@ -697,9 +697,9 @@
   @begin{short}
     Accessor of the font description of the Pango layout.
   @end{short}
-  The @sym{pango:layout-font-description} function gets the font description for
-  the Pango layout. The @sym{(setf pango:layout-font-description)} function sets
-  the default font description for the Pango layout.
+  The @fun{pango:layout-font-description} function gets the font description for
+  the Pango layout. The @setf{pango:layout-font-description} function sets the
+  default font description for the Pango layout.
 
   If no font description is set on the layout, the font description from the
   layout's context is used.
@@ -732,10 +732,10 @@
   @begin{short}
     Accessor of the width in Pango units of a Pango layout.
   @end{short}
-  The @sym{pango:layout-width} function gets the width to which the lines of
-  the Pango layout should wrap. The @sym{(setf pango:layout-width)} function
-  sets the width to which the lines of the Pango layout should wrap or
-  ellipsized. The default value is -1: no width set.
+  The @fun{pango:layout-width} function gets the width to which the lines of
+  the Pango layout should wrap. The @setf{pango:layout-width} function sets the
+  width to which the lines of the Pango layout should wrap or ellipsized. The
+  default value is -1: no width set.
   @see-class{pango:layout}"
   (layout (g:object layout)))
 
@@ -764,10 +764,10 @@
   @begin{short}
     Accessor of the height in Pango units of the Pango layout.
   @end{short}
-  The @sym{pango:layout-height} function gets the height of @arg{layout} used
-  for ellipsization. The @sym{(setf pango:layout-height)} function sets the
-  height to which the Pango layout should be ellipsized at. There are two
-  different behaviors, based on whether @arg{height} is positive or negative.
+  The @fun{pango:layout-height} function gets the height of @arg{layout} used
+  for ellipsization. The @setf{pango:layout-height} function sets the height to
+  which the Pango layout should be ellipsized at. There are two different
+  behaviors, based on whether @arg{height} is positive or negative.
 
   If @arg{height} is positive, it will be the maximum height of the layout.
   Only lines would be shown that would fit, and if there is any text omitted,
@@ -814,10 +814,10 @@
   @begin{short}
     Accessor of the wrap mode of the Pango layout.
   @end{short}
-  The @sym{pango:layout-wrap} function gets the wrap mode for the layout. The
-  @sym{(setf pango:layout-wrap)} function sets the wrap mode. The wrap mode
-  only has effect if a width is set on the layout with the
-  @fun{pango:layout-width} function. To turn off wrapping, set the width to -1.
+  The @fun{pango:layout-wrap} function gets the wrap mode for the layout. The
+  @setf{pango:layout-wrap} function sets the wrap mode. The wrap mode only has
+  effect if a width is set on the layout with the @fun{pango:layout-width}
+  function. To turn off wrapping, set the width to -1.
 
   Use the @fun{pango:layout-is-wrapped} function to query whether any
   paragraphs were actually wrapped.
@@ -872,11 +872,11 @@
   @begin{short}
     Accessor of the ellipsization mode for the layout.
   @end{short}
-  The @sym{pango:layout-ellispze} function gets the type of ellipsization being
-  performed for the layout. The @sym{(setf pango:layout-ellipsize} function
-  sets the type of ellipsization being performed for the layout. Depending on
-  the ellipsization mode ellipsize text is removed from the start, middle, or
-  end of text so they fit within the width and height of layout set with the
+  The @fun{pango:layout-ellipsize} function gets the type of ellipsization being
+  performed for the layout. The @setf{pango:layout-ellipsize} function sets the
+  type of ellipsization being performed for the layout. Depending on the
+  ellipsization mode ellipsize text is removed from the start, middle, or end
+  of text so they fit within the width and height of layout set with the
   @fun{pango:layout-width} and @fun{pango:layout-height} functions.
 
   If the layout contains characters such as newlines that force it to be layed
@@ -938,12 +938,12 @@
   @begin{short}
     Accessor of the indent in Pango units of the Pango layout.
   @end{short}
-  The @sym{pango:layout-indent} function gets the paragraph indent width in
+  The @fun{pango:layout-indent} function gets the paragraph indent width in
   Pango units. A negative value indicates a hanging indentation. The
-  @sym{(setf pango:layout-indent)} function sets the width in Pango units to
-  indent each paragraph. A negative value of indent will produce a hanging
-  indentation. That is, the first line will have the full width, and subsequent
-  lines will be indented by the absolute value of indent.
+  @setf{pango:layout-indent} function sets the width in Pango units to indent
+  each paragraph. A negative value of indent will produce a hanging indentation.
+  That is, the first line will have the full width, and subsequent lines will
+  be indented by the absolute value of indent.
 
   The indent setting is ignored if the layout alignment is set to the
   @code{:center} value.
@@ -974,8 +974,8 @@
   @begin{short}
     Accessor of the spacing in Pango units of the Pango layout.
   @end{short}
-  The @sym{pango:layout-spacing} function gets the amount of spacing in Pango
-  units between the lines of the layout. The @sym{(setf pango:layout-spacing)}
+  The @fun{pango:layout-spacing} function gets the amount of spacing in Pango
+  units between the lines of the layout. The @setf{pango:layout-spacing}
   function sets the amount of spacing. When placing lines with spacing, Pango
   arranges things so that
   @begin{pre}
@@ -1064,10 +1064,10 @@ baseline2 = baseline1 + factor * height2
   @begin{short}
     Accessor of the justify value of the Pango layout.
   @end{short}
-  The @sym{pango:layout-justify} function gets whether each complete line should
+  The @fun{pango:layout-justify} function gets whether each complete line should
   be stretched to fill the entire width of the layout. The
-  @sym{(setf pango:layout-justify)} function sets the justify. This stretching
-  is typically done by adding whitespace, but for some scripts (such as Arabic),
+  @setf{pango:layout-justify} function sets the justify. This stretching is
+  typically done by adding whitespace, but for some scripts (such as Arabic),
   the justification may be done in more complex ways, like extending the
   characters.
   @see-class{pango:layout}"
@@ -1096,11 +1096,11 @@ baseline2 = baseline1 + factor * height2
   @argument[auto-dir]{if @em{true}, compute the bidirectional base direction
     from the layout's contents}
   @begin{short}
-    The @sym{pango:layout-auto-dir} function gets whether to calculate the
+    The @fun{pango:layout-auto-dir} function gets whether to calculate the
     bidirectional base direction for the layout according to the contents of
     the layout.
   @end{short}
-  The @sym{(setf pango:layout-auto-dir)} function sets whether to calculate the
+  The @setf{pango:layout-auto-dir} function sets whether to calculate the
   bidirectional base direction for the layout according to the contents of the
   layout. When this flag is on (the default), then paragraphs in layout that
   begin with strong right-to-left characters (Arabic and Hebrew principally),
@@ -1168,9 +1168,9 @@ baseline2 = baseline1 + factor * height2
   @begin{short}
     Accessor of the alignement of the layout.
   @end{short}
-  The @sym{pango:layout-alignment} function gets the alignment for the layout:
+  The @fun{pango:layout-alignment} function gets the alignment for the layout:
   how partial lines are positioned within the horizontal space available. The
-  @sym{(setf pango:layout-alignment)} function sets the alignment.
+  @setf{pango:layout-alignment} function sets the alignment.
   @see-class{pango:layout}
   @see-symbol{pango:alignment}"
   (layout (g:object layout)))
@@ -1199,9 +1199,9 @@ baseline2 = baseline1 + factor * height2
   @begin{short}
     Accessor of the tabs for the Pango layout.
   @end{short}
-  The @sym{pango:layout-tabs} function gets the current @symbol{pango:tab-array}
-  instance used by this layout. The @sym{(setf pango:layout-tabs)} function sets
-  the tabs to use for the layout.
+  The @fun{pango:layout-tabs} function gets the current @symbol{pango:tab-array}
+  instance used by this layout. The @setf{pango:layout-tabs} function sets the
+  tabs to use for the layout.
 
   If no @class{pango:tab-array} instance has been set, then the default tabs
   are in use and @code{nil} is returned. Default tabs are every 8 spaces.
@@ -1254,7 +1254,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{#2023-2-6}
   @argument[layout]{a @class{pango:layout} object}
-  @return{An integer with the number of unknown glyphs in @arg{layout}.}
+  @return{The integer with the number of unknown glyphs in @arg{layout}.}
   @begin{short}
     Counts the number unknown glyphs in layout.
   @end{short}
@@ -1317,7 +1317,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{#2023-2-6}
   @argument[layout]{a @class{pango:layout} object}
-  @return{a list of logical attributes of type @symbol{pango:log-attr}}
+  @return{The list of logical attributes of type @symbol{pango:log-attr}.}
   @begin{short}
     Retrieves a list of logical attributes for each character in the layout.
   @end{short}
@@ -1550,7 +1550,7 @@ baseline2 = baseline1 + factor * height2
   may be jumps when the cursor is moved off of the end of a run.
 
   Motion here is in cursor positions, not in characters, so a single call to
-  the @sym{pango:layout-move-cursor-visually} function may move the cursor over
+  the @fun{pango:layout-move-cursor-visually} function may move the cursor over
   multiple characters when multiple characters combine to form a single
   grapheme.
   @see-class{pango:layout}"
@@ -1669,13 +1669,13 @@ baseline2 = baseline1 + factor * height2
   @end{return}
   @begin{short}
     Determines the logical width and height of a layout in Pango units, device
-    units scaled by the @var{+pango-scale+} constant.
+    units scaled by the @var{pango:+pango-scale+} constant.
   @end{short}
   This is simply a convenience function around the @fun{pango:layout-extents}
   function.
   @see-class{pango:layout}
   @see-function{pango:layout-extents}
-  @see-variable{+pango-scale+}"
+  @see-variable{pango:+pango-scale+}"
   (cffi:with-foreign-objects ((width :int) (height :int))
     (%layout-size layout width height)
     (values (cffi:mem-ref width :int)
@@ -1704,7 +1704,7 @@ baseline2 = baseline1 + factor * height2
     Determines the logical width and height of a Pango layout in device units.
   @end{short}
   The @fun{pango:layout-size} function returns the width and height scaled by
-  @code{+pango-scale+}. This is simply a convenience function around the
+  @var{pango:+pango-scale+}. This is simply a convenience function around the
   @fun{pango:layout-pixel-extents} function.
   @see-class{pango:layout}
   @see-function{pango:layout-size}
@@ -1724,7 +1724,8 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-7}
   @argument[layout]{a @class{pango:layout} object}
-  @return{An integer with the baseline of first line, from top of @arg{layout}.}
+  @return{The integer with the baseline of first line, from top of
+    @arg{layout}.}
   @begin{short}
     Gets the y position of baseline of the first line in the layout.
   @end{short}
@@ -1741,7 +1742,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-7}
   @argument[layout]{a @class{pango:layout} object}
-  @return{An integer with the line count.}
+  @return{The integer with the line count.}
   @begin{short}
     Retrieves the count of lines for the layout.
   @end{short}
@@ -1932,7 +1933,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{A boolean whether motion was possible.}
+  @return{The boolean whether motion was possible.}
   @begin{short}
     Moves @arg{iter} forward to the next run in visual order.
   @end{short}
@@ -1950,7 +1951,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{A boolean whether motion was possible.}
+  @return{The boolean whether motion was possible.}
   @begin{short}
     Moves @arg{iter} forward to the next character in visual order.
   @end{short}
@@ -1969,7 +1970,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{A boolean whether motion was possible.}
+  @return{The boolean whether motion was possible.}
   @begin{short}
     Moves @arg{iter} forward to the next cluster in visual order.
   @end{short}
@@ -1987,7 +1988,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{A boolean whether motion was possible.}
+  @return{The boolean whether motion was possible.}
   @begin{short}
     Moves @arg{iter} forward to the start of the next line.
   @end{short}
@@ -2023,7 +2024,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{An integer with the current byte index.}
+  @return{The integer with the current byte index.}
   @begin{short}
     Gets the current byte index.
   @end{short}
@@ -2045,7 +2046,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{An integer with the baseline of current line.}
+  @return{The integer with the baseline of current line.}
   @begin{short}
     Gets the y position of the current line's baseline, in layout coordinates
     (origin at top left of the entire layout).
@@ -2063,7 +2064,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{A @class{pango:glyph-item} instance with the current run.}
+  @return{The @class{pango:glyph-item} instance with the current run.}
   @begin{short}
     Gets the current run.
   @end{short}
@@ -2090,7 +2091,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{A @class{pango:layout-iter} instance with the current run, that
+  @return{The @class{pango:layout-iter} instance with the current run, that
     should not be modified.}
   @begin{short}
     Gets the current run.
@@ -2118,7 +2119,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{A @class{pango:layout-line} instance with the current line.}
+  @return{The @class{pango:layout-line} instance with the current line.}
   @begin{short}
     Gets the current line.
   @end{short}
@@ -2139,7 +2140,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{A @class{pango:layout-line} instance with the current line, that
+  @return{The @class{pango:layout-line} instance with the current line, that
     should not be modified.}
   @begin{short}
     Gets the current line for read-only access.
@@ -2162,7 +2163,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{A @class{pango:layout} object with the layout associated with
+  @return{The @class{pango:layout} object with the layout associated with
     @arg{iter}.}
   @begin{short}
     Gets the layout associated with a Pango layout iterator.
@@ -2185,7 +2186,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{A list of integers with the @arg{x}, @arg{y}, @arg{width}, and
+  @return{The list of integers with the @arg{x}, @arg{y}, @arg{width}, and
     @arg{height} coordinates of the logical extents.}
   @begin{short}
     Gets the extents of the current character, in layout coordinates.
@@ -2398,7 +2399,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{#2021-1-16}
   @argument[line]{a @class{pango:layout-line} instance, may be NULL}
-  @return{A @class{pango:layout-line} instance with the line passed in.}
+  @return{The @class{pango:layout-line} instance with the line passed in.}
   @begin{short}
     Increase the reference count of a @class{pango:layout-line} instance by one.
   @end{short}
@@ -2471,7 +2472,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{#2023-2-11}
   @argument[line]{a @class{pango:layout-line} instance}
-  @return{An integer with the line height.}
+  @return{The integer with the line height.}
   @begin{short}
     Computes the height of the line, i.e. the distance between this and the
     previous lines baseline.
@@ -2496,7 +2497,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{#2023-7-17}
   @argument[line]{a @class{pango:layout-line} instance}
-  @return{An integer with the length of the line.}
+  @return{The integer with the length of the line.}
   @begin{short}
     Returns the length of the line, in bytes.
   @end{short}
@@ -2560,7 +2561,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{#2023-7-17}
   @argument[line]{a @class{pango:layout-line} instance}
-  @return{A @symbol{pango:direction} value with the resolved direction of the
+  @return{The @symbol{pango:direction} value with the resolved direction of the
     line.}
   @begin{short}
     Returns the resolved direction of the line.
@@ -2582,7 +2583,7 @@ baseline2 = baseline1 + factor * height2
  #+liber-documentation
  "@version{#2023-7-17}
   @argument[line]{a @class{pango:layout-line} instance}
-  @return{An integer with the start index of the line.}
+  @return{The integer with the start index of the line.}
   @begin{short}
     Returns the start index of the line, as byte index into the text of the
     layout.
@@ -2738,4 +2739,3 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-line-x-to-index)
 
 ;;; --- End of file pango.layout.lisp ------------------------------------------
-

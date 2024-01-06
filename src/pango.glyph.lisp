@@ -6,7 +6,7 @@
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2023 Dieter Kaiser
+;;; Copyright (C) 2011 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -133,16 +133,16 @@
 
 (defconstant +pango-scale+ 1024
  #+liber-documentation
- "@version{#2021-4-15}
+ "@version{2023-12-26}
   @variable-value{1024}
   @begin{short}
-    The @sym{+pange-scale+} constant represents the scale between dimensions
-    used for Pango distances and device units.
+    The @var{pango:+pango-scale+} constant represents the scale between
+    dimensions used for Pango distances and device units.
   @end{short}
   The definition of device units is dependent on the output device. It will
   typically be pixels for a screen, and points for a printer.
-  The @sym{+pango-scale+} value is currently 1024, but this may be changed in
-  the future.
+  The @var{pango:+pango-scale+} value is currently 1024, but this may be
+  changed in the future.
 
   When setting font sizes, device units are always considered to be points as
   in \"12 point font\", rather than pixels.
@@ -164,13 +164,13 @@
 (setf (liber:alias-for-symbol 'rectangle)
       "CStruct"
       (liber:symbol-documentation 'rectangle)
- "@version{#2021-1-4}
+ "@version{#2023-12-25}
   @begin{short}
-    The @sym{pango:rectangle} structure represents a rectangle.
+    The @symbol{pango:rectangle} structure represents a rectangle.
   @end{short}
   It is frequently used to represent the logical or ink extents of a single
-  glyph or section of text. See, for instance, the function
-  @fun{pango:font-glyph-extents}.
+  glyph or section of text. See, for instance, the
+  @fun{pango:font-glyph-extents} function.
   @begin{pre}
 (cffi:defcstruct rectangle
   (x :int)
@@ -179,10 +179,10 @@
   (height :int))
   @end{pre}
   @begin[code]{table}
-    @entry[x]{x coordinate of the left side of the rectangle.}
-    @entry[y]{y coordinate of the the top side of the rectangle.}
-    @entry[width]{Width of the rectangle.}
-    @entry[height]{Height of the rectangle.}
+    @entry[x]{The x coordinate of the left side of the rectangle.}
+    @entry[y]{The y coordinate of the the top side of the rectangle.}
+    @entry[width]{The width of the rectangle.}
+    @entry[height]{The height of the rectangle.}
   @end{table}
   @see-function{pango:font-glyph-extents}")
 
@@ -491,7 +491,7 @@ ydevice = xuser * yx + yuser * yy + y0
       (documentation 'glyph-string 'type)
  "@version{#2023-2-5}
   @begin{short}
-    The @sym{pango:glyph-string} structure is used to store strings of glyphs
+    The @class{pango:glyph-string} structure is used to store strings of glyphs
     with geometry and visual attribute information.
   @end{short}
   The storage for the glyph information is owned by the structure which
@@ -520,14 +520,14 @@ ydevice = xuser * yx + yuser * yy + y0
       (documentation 'glyph-item 'type)
  "@version{#2023-2-4}
   @begin{short}
-    A @sym{pango:glyph-item} structure is a pair of a @class{pango:item}
+    A @class{pango:glyph-item} structure is a pair of a @class{pango:item}
     instance and the glyphs resulting from shaping the text corresponding to
     an item.
   @end{short}
-  As an example of the usage of the @sym{pango:glyph-item} structure, the
+  As an example of the usage of the @class{pango:glyph-item} structure, the
   results of shaping text with the @class{pango:layout} class is a list of
   @class{pango:layout-line} objects, each of which contains a list of
-  @sym{pango:glyph-item} instances.
+  @class{pango:glyph-item} instances.
   @see-class{pango:item}
   @see-class{pango:layout}
   @see-class{pango:layout-line}")
@@ -605,7 +605,7 @@ ydevice = xuser * yx + yuser * yy + y0
   @begin{short}
     Converts a dimension to device units by rounding.
   @end{short}
-  @see-variable{+pango-scale+}"
+  @see-variable{pango:+pango-scale+}"
   (ash (+ d 512) -10)) ; #define PANGO_PIXELS(d) (((int)(d) + 512) >> 10)
 
 (export 'pixels)
@@ -749,34 +749,38 @@ ydevice = xuser * yx + yuser * yy + y0
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_extents_to_pixels ()
-;;;
-;;; void pango_extents_to_pixels (PangoRectangle *inclusive,
-;;;                               PangoRectangle *nearest);
-;;;
-;;; Converts extents from Pango units to device units, dividing by the
-;;; PANGO_SCALE factor and performing rounding.
-;;;
-;;; The inclusive rectangle is converted by flooring the x/y coordinates and
-;;; extending width/height, such that the final rectangle completely includes
-;;; the original rectangle.
-;;;
-;;; The nearest rectangle is converted by rounding the coordinates of the
-;;; rectangle to the nearest device unit (pixel).
-;;;
-;;; The rule to which argument to use is: if you want the resulting device-space
-;;; rectangle to completely contain the original rectangle, pass it in as
-;;; inclusive. If you want two touching-but-not-overlapping rectangles stay
-;;; touching-but-not-overlapping after rounding to device units, pass them in as
-;;; nearest.
-;;;
-;;; inclusive :
-;;;     rectangle to round to pixels inclusively, or NULL
-;;;
-;;; nearest :
-;;;     rectangle to round to nearest pixels, or NULL
-;;;
-;;; Since 1.16
 ;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_extents_to_pixels" extents-to-pixels) :void
+ #+liber-documentation
+ "@version{2023-12-25}
+  @argument[inclusive]{a @symbol{pango:rectangle} instance to round to
+    pixels inclusively, or @code{NULL}}
+  @argument[nearest]{a @symbol{pango:rectangle} instance to round to
+    nearest pixels, or @code{NULL}}
+  @begin{short}
+    Converts extents from Pango units to device units, dividing by the
+    @var{pango:+pango-scale+} factor and performing rounding.
+  @end{short}
+
+  The @arg{inclusive} rectangle is converted by flooring the x/y coordinates
+  and extending width/height, such that the final rectangle completely includes
+  the original rectangle.
+
+  The @arg{nearest} rectangle is converted by rounding the coordinates of the
+  rectangle to the nearest device unit (pixel).
+
+  The rule to which argument to use is: if you want the resulting device-space
+  rectangle to completely contain the original rectangle, pass it in as
+  inclusive. If you want two touching-but-not-overlapping rectangles stay
+  touching-but-not-overlapping after rounding to device units, pass them in as
+  nearest.
+  @see-symbol{pango:rectangle}
+  @see-variable{pango:+pango-scale+}"
+  (inclusive (:pointer (:struct rectangle)))
+  (nearest (:pointer (:struct rectangle))))
+
+(export 'extents-to-pixels)
 
 ;;; ----------------------------------------------------------------------------
 ;;; PANGO_MATRIX_INIT
@@ -785,7 +789,7 @@ ydevice = xuser * yx + yuser * yy + y0
 (defun matrix-init ()
  #+liber-documentation
  "@version{#2023-2-4}
-  @return{A newly allocated @class{pango:matrix} initialized to the identiy
+  @return{The newly allocated @class{pango:matrix} initialized to the identiy
     transform.}
   @begin{short}
     Constant that can be used to initialize a Pango matrix to the identity
@@ -1095,7 +1099,7 @@ dy2 = dx1 * yx + dy1 * yy;
  #+liber-documentation
  "@version{#2023-7-14}
   @argument[matrix]{a @class{pango:matrix} instance}
-  @return{A double float with the scale factor of @arg{matrix} on the height
+  @return{The double float with the scale factor of @arg{matrix} on the height
     of the font, or 1.0 if @arg{matrix} is @code{nil}.}
   @begin{short}
     Returns the scale factor of a matrix on the height of the font.

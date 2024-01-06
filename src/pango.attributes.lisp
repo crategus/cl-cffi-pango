@@ -6,7 +6,7 @@
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2023 Dieter Kaiser
+;;; Copyright (C) 2011 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -381,8 +381,8 @@
       (liber:symbol-documentation 'attr-type)
  "@version{2023-1-19}
   @begin{short}
-    The @sym{pango:attr-type} enumeration distinguishes between different types
-    of attributes.
+    The @symbol{pango:attr-type} enumeration distinguishes between different
+    types of attributes.
   @end{short}
   Along with the predefined values, it is possible to allocate additional
   values for custom attributes using the @fun{pango:attr-type-register}
@@ -441,7 +441,7 @@
     @entry[:variant]{Font variant, normal or small caps
       (@symbol{pango:attr-int}).}
     @entry[:stretch]{Font stretch (@symbol{pango:attr-int}).}
-    @entry[:size]{Font size in points scaled by @var{+pango-scale+}
+    @entry[:size]{Font size in points scaled by @var{pango:+pango-scale+}
       (@symbol{pango:attr-int}).}
     @entry[:font-desc]{Font description (@symbol{pango:attr-font-desc}).}
     @entry[:foreground]{Foreground color (@symbol{pango:attr-color}).}
@@ -458,8 +458,8 @@
     @entry[:underline-color]{Underline color (@symbol{pango:attr-color}).}
     @entry[:strikethrough-color]{Strikethrough color
       (@symbol{pango:attr-color}).}
-    @entry[:absolute-size]{Font size in pixels scaled by @var{+pango-scale+}
-      (@symbol{pango:attr-int}).}
+    @entry[:absolute-size]{Font size in pixels scaled by
+      @var{pango:+pango-scale+} (@symbol{pango:attr-int}).}
     @entry[:gravity]{Base text gravity (@symbol{pango:attr-int}).}
     @entry[:gravity-hint]{Gravity hint (@symbol{pango:attr-int}).}
     @entry[:font-features]{OpenType font features (@symbol{pango:attr-string}).}
@@ -520,7 +520,7 @@
       (liber:symbol-documentation 'underline)
  "@version{2023-1-19}
   @begin{short}
-    The @sym{pango:underline} enumeration is used to specify whether text
+    The @symbol{pango:underline} enumeration is used to specify whether text
     should be underlined, and if so, the type of underlining.
   @end{short}
   @begin{pre}
@@ -573,8 +573,8 @@
       (liber:symbol-documentation 'overline)
  "@version{2023-1-19}
   @begin{short}
-    The @sym{pango:overline} enumeration is used to specify whether text should
-    be overlined, and if so, the type of line.
+    The @symbol{pango:overline} enumeration is used to specify whether text
+    should be overlined, and if so, the type of line.
   @end{short}
   Since 1.46
   @begin{pre}
@@ -757,7 +757,7 @@
       (documentation 'color 'type)
  "@version{2023-2-5}
   @begin{short}
-    The @sym{pango:color} structure is used to represent a color in an
+    The @class{pango:color} structure is used to represent a color in an
     uncalibrated RGB color space.
   @end{short}
   @begin{pre}
@@ -894,7 +894,7 @@
  #+liber-documentation
  "@version{2023-2-5}
   @argument[spec]{a string specifying a color}
-  @return{A newly created @class{pango:color} instance with the result, or
+  @return{The newly created @class{pango:color} instance with the result, or
     @code{nil}.}
   @begin{short}
     Fill in the fields of a color from a string specification.
@@ -973,7 +973,7 @@
  #+liber-documentation
  "@version{2023-2-5}
   @argument[color]{a @class{pango:color} instance}
-  @return{A string with the hexadecimal form of @arg{color}.}
+  @return{The string with the hexadecimal form of @arg{color}.}
   @begin{short}
     Returns a textual specification of @arg{color} in the hexadecimal form
     @code{#rrrrggggbbbb}, where @code{r}, @code{g} and @code{b} are hex digits
@@ -1027,8 +1027,8 @@
       (liber:symbol-documentation 'attr-class)
  "@version{#2021-1-17}
   @begin{short}
-    The @sym{pango:attr-class} structure stores the type and operations for a
-    particular type of attribute.
+    The @symbol{pango:attr-class} structure stores the type and operations for
+    a particular type of attribute.
   @end{short}
   The functions in this structure should not be called directly. Instead, one
   should use the wrapper functions provided for the @class{pango:attribute}
@@ -1069,7 +1069,7 @@
       (documentation 'attribute 'type)
  "@version{#2023-2-5}
   @begin{short}
-    The @sym{pango:attribute} structure represents the common portions of all
+    The @class{pango:attribute} structure represents the common portions of all
     attributes.
   @end{short}
   Particular types of attributes include this structure as their initial
@@ -1287,8 +1287,8 @@
       (liber:symbol-documentation 'attr-string)
  "@version{#2021-1-17}
   @begin{short}
-    The @sym{pango:attr-string} structure is used to represent attributes with
-    a string value.
+    The @symbol{pango:attr-string} structure is used to represent attributes
+    with a string value.
   @end{short}
   @see-class{pango:attribute}")
 
@@ -1315,7 +1315,7 @@
       (liber:symbol-documentation 'attr-language)
  "@version{#2021-1-17}
   @begin{short}
-    The @sym{pango:attr-language} structure is used to represent attributes
+    The @symbol{pango:attr-language} structure is used to represent attributes
     that are languages.
   @end{short}
   @see-class{pango:attribute}")
@@ -1343,7 +1343,7 @@
       (liber:symbol-documentation 'attr-color)
  "@version{#2021-1-17}
   @begin{short}
-    The @sym{pango:attr-color} structure is used to represent attributes
+    The @symbol{pango:attr-color} structure is used to represent attributes
     that are colors.
   @end{short}
   @see-class{pango:attribute}")
@@ -1371,7 +1371,7 @@
       (liber:symbol-documentation 'attr-int)
  "@version{#2021-1-17}
   @begin{short}
-    The @sym{pango:attr-int} structure is used to represent attributes with
+    The @symbol{pango:attr-int} structure is used to represent attributes with
     an integer or enumeration value.
   @end{short}
   @see-class{pango:attribute}")
@@ -1399,7 +1399,7 @@
       (liber:symbol-documentation 'attr-float)
  "@version{#2021-1-17}
   @begin{short}
-    The @sym{pango:attr-float} structure is used to represent attributes with
+    The @symbol{pango:attr-float} structure is used to represent attributes with
     a float or double value.
   @end{short}
   @see-class{pango:attribute}")
@@ -1427,8 +1427,8 @@
       (liber:symbol-documentation 'attr-font-desc)
  "@version{#2021-1-17}
   @begin{short}
-    The @sym{pango:attr-font-desc} structure is used to store an attribute that
-    sets all aspects of the font description at once.
+    The @symbol{pango:attr-font-desc} structure is used to store an attribute
+    that sets all aspects of the font description at once.
   @end{short}
   @see-class{pango:attribute}")
 
@@ -1472,8 +1472,8 @@
       (liber:symbol-documentation 'attr-shape)
  "@version{#2021-1-17}
   @begin{short}
-    The @sym{pango:attr-shape} structure is used to represent attributes which
-    impose shape restrictions.
+    The @symbol{pango:attr-shape} structure is used to represent attributes
+    which impose shape restrictions.
   @end{short}
   @see-class{pango:attribute}")
 
@@ -1508,8 +1508,8 @@
       (liber:symbol-documentation 'attr-size)
  "@version{#2021-1-17}
   @begin{short}
-    The @sym{pango:attr-size} structure is used to represent attributes which
-    set font size.
+    The @symbol{pango:attr-size} structure is used to represent attributes
+    which set font size.
   @end{short}
   @see-class{pango:attribute}")
 
@@ -1538,8 +1538,8 @@
       (liber:symbol-documentation 'attr-font-features)
  "@version{#2021-1-17}
   @begin{short}
-    The @sym{pango:attr-font-features} structure is used to represent OpenType
-    font features as an attribute.
+    The @symbol{pango:attr-font-features} structure is used to represent
+    OpenType font features as an attribute.
   @end{short}
   @see-class{pango:attribute}")
 
@@ -2342,10 +2342,10 @@
       (documentation 'attr-iterator 'type)
  "@version{#2023-2-5}
   @begin{short}
-    The @sym{pango:attr-iterator} structure is used to represent an iterator
+    The @class{pango:attr-iterator} structure is used to represent an iterator
     through a @class{pango:attr-list} structure.
   @end{short}
-  The @sym{pango:attr-iterator} structure is opaque, and has no user visible
+  The @class{pango:attr-iterator} structure is opaque, and has no user visible
   fields. A new iterator is created with the @fun{pango:attr-list-iterator}
   function. Once the iterator is created, it can be advanced through the style
   changes in the text using the @fun{pango:attr-iterator-next} function. At
@@ -2369,19 +2369,19 @@
       (documentation 'attr-list 'type)
  "@version{#2023-2-5}
   @begin{short}
-    The @sym{pango:attr-list} structure represents a list of attributes that
+    The @class{pango:attr-list} structure represents a list of attributes that
     apply to a section of text.
   @end{short}
-  The @sym{pango:attr-list} structure is opaque, and has no user visible fields.
-  The attributes are, in general, allowed to overlap in an arbitrary fashion,
-  however, if the attributes are manipulated only through the
+  The @class{pango:attr-list} structure is opaque, and has no user visible
+  fields. The attributes are, in general, allowed to overlap in an arbitrary
+  fashion, however, if the attributes are manipulated only through the
   @fun{pango:attr-list-change} function, the overlap between properties will
   meet stricter criteria.
 
-  Since the @sym{pango:attr-list} structure is stored as a linear list, it is
+  Since the @class{pango:attr-list} structure is stored as a linear list, it is
   not suitable for storing attributes for large amounts of text. In general,
-  you should not use a single @sym{pango:attr-list} instance for more than one
-  paragraph of text.
+  you should not use a single @class{pango:attr-list} instance for more than
+  one paragraph of text.
   @see-class{pango:attr-iterator}
   @see-function{pango:attr-list-change}")
 
@@ -2396,7 +2396,7 @@
  #+liber-documentation
  "@version{#2021-1-17}
   @begin{return}
-    The newly allocated @sym{pango:attr-list}.
+    The newly allocated @class{pango:attr-list} instance.
   @end{return}
   @begin{short}
     Create a new empty attribute list with a reference count of one.
@@ -2688,7 +2688,7 @@
  #+liber-documentation
  "@version{#2023-7-17}
   @argument[text]{a string with the data}
-  @return{A newly created @class{pango:attr-list} instance.}
+  @return{The newly created @class{pango:attr-list} instance.}
   @begin{short}
     Deserializes a @class{pango:attr-list} instance from a string.
   @end{short}
@@ -2721,7 +2721,7 @@
  #+liber-documentation
  "@version{#2023-7-17}
   @argument[lst]{a @class{pango:attr-list} instance}
-  @return{A string with the serialized attributes.}
+  @return{The string with the serialized attributes.}
   @begin{short}
     Serializes a @class{pango-attr-list} instance to a string.
   @end{short}
@@ -2776,7 +2776,7 @@ START END TYPE VALUE
  #+liber-documentation
  "@version{#2023-7-17}
   @argument[lst]{a @class{pango:attr-list} instance}
-  @return{A @class{pango:attr-iterator} instance.}
+  @return{The @class{pango:attr-iterator} instance.}
   @begin{short}
     Create an iterator initialized to the beginning of the list.
   @end{short}

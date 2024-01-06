@@ -173,11 +173,10 @@
       @about-function{fontset-foreach}
     @end{subsection}
     @begin[Glyph Storage]{subsection}
-      Structures for storing information about glyphs.
-
-      the function @fun{pango:shape} produces a string of glyphs which can be
-      measured or drawn to the screen. The following structures are used to
-      store information about glyphs.
+      Structures for storing information about glyphs. The @fun{pango:shape}
+      function produces a string of glyphs which can be measured or drawn to
+      the screen. The following structures are used to store information about
+      glyphs.
       @about-variable{+pango-scale+}
       @about-symbol{rectangle}
       @about-struct{matrix}
