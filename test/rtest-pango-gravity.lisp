@@ -1,7 +1,7 @@
 (in-package :pango-test)
 
-(def-suite pango-vertical-text :in pango-suite)
-(in-suite pango-vertical-text)
+(def-suite pango-gravity-suite :in pango-suite)
+(in-suite pango-gravity-suite)
 
 ;;; --- Types and Values -------------------------------------------------------
 
@@ -117,4 +117,4 @@
     (is-false (pango:matrix-rotate matrix 90))
     (is (= 0 (pango:gravity-to-rotation (pango:gravity-for-matrix matrix))))))
 
-;;; --- 2023-7-17 --------------------------------------------------------------
+;;; 2024-2-22

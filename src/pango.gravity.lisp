@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
-;;; pango.vertical-text.lisp
+;;; pango.gravity.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
 ;;; Version 1.50 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2020 - 2023 Dieter Kaiser
+;;; Copyright (C) 2020 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -341,4 +341,4 @@
 
 (export 'gravity-to-rotation)
 
-;;; --- End of file pango.vertical-text.lisp -----------------------------------
+;;; --- End of file pango.gravity.lisp -----------------------------------------

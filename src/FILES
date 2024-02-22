@@ -18,7 +18,7 @@ Basic Pango Interfaces
 * pango.script.lisp - Scripts and Languages                       - Pango 1.48 %
 * pango.biderectional.lisp - Handling bidirectional text          - Pango 1.48 %
 
-* pango.vertical-text.lisp - Text layout in vertical directions   - Pango 1.48
+  pango.gravity.lisp - Text layout in vertical directions         - Pango 1.51
 
 Rendering with Pango
 
