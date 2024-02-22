@@ -43,7 +43,7 @@
           (glib:symbol-for-gtype "PangoCairoFontMap")))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoCairoFontMap")
-          (g:gtype (cffi:foreign-funcall "pango_cairo_font_map_get_type" 
+          (g:gtype (cffi:foreign-funcall "pango_cairo_font_map_get_type"
                                          :size))))
   ;; Check the interface properties
   (is (equal '()
@@ -95,7 +95,7 @@
 
 #+windows
 (test pango-cairo-font-map-font-type
-  (is (eq :win32 
+  (is (eq :win32
           (pango:cairo-font-map-font-type (pango:cairo-font-map-default))))
   (is (eq :win32 (pango:cairo-font-map-font-type (pango:cairo-font-map-new)))))
 
@@ -140,7 +140,7 @@
     (is (cffi:pointerp (pango:cairo-context-font-options context)))
     ;; Unset the font options
     (is-false (setf (pango:cairo-context-font-options context) nil))
-    (is-false (pango:cairo-context-font-options context))    
+    (is-false (pango:cairo-context-font-options context))
     (is-false (cairo:font-options-destroy options))))
 
 ;;;     PangoCairoShapeRendererFunc                        not exported
@@ -150,13 +150,13 @@
 ;;;     pango_cairo_create_context
 
 (test pango-cairo-create-context
-  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
     (is (typep (pango:cairo-create-context cr) 'pango:context))))
 
 ;;;     pango_cairo_update_context
 
 (test pango-cairo-update-context
-  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
     (let ((context (pango:cairo-create-context cr)))
       (is (typep context 'pango:context))
       (is-false (pango:cairo-update-context cr context)))))
@@ -164,13 +164,13 @@
 ;;;     pango_cairo_create_layout
 
 (test pango-cairo-create-layout
-  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
     (is (typep (pango:cairo-create-layout cr) 'pango:layout))))
 
 ;;;     pango_cairo_update_layout
 
 (test pango-cairo-update-layout
-  (cairo:with-cairo-context-for-image-surface (cr :rgb24 200 400)
+  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
     (let ((layout (pango:cairo-create-layout cr)))
       (is (typep layout 'pango:layout))
       (is-false (pango:cairo-update-layout cr layout)))))

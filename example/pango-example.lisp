@@ -1,6 +1,6 @@
 (defpackage :pango-example
   (:use :common-lisp)
-  (:import-from :cairo #:with-cairo-context-for-image-surface)
+  (:import-from :cairo)
   (:import-from :pango #:+pango-scale+)
   (:export #:pango-png-image-draw
            #:pango-svg-draw
