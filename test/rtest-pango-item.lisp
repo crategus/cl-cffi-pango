@@ -3,9 +3,28 @@
 (def-suite pango-item :in pango-suite)
 (in-suite pango-item)
 
+;; Check usage of nested defcstructs
+(cffi:defcstruct s1
+  (an-int :int))
+
+(cffi:defctype s1 (:struct s1))
+
+(cffi:defcstruct s2
+  (an-s1 s1))
+
+(cffi:defctype s2 (:struct s2))
+
+(test struct.nested-setf
+  (cffi:with-foreign-object (an-s2 's2)
+    (setf (cffi:foreign-slot-value (cffi:foreign-slot-value an-s2 's2 'an-s1)
+                                   's1 'an-int)
+          1984)
+    (is (= 1984
+    (cffi:foreign-slot-value (cffi:foreign-slot-value an-s2 's2 'an-s1)
+                               's1 'an-int)))))
+
 ;;; --- Types and Values -------------------------------------------------------
 
-;;;
 ;;;     PANGO_ANALYSIS_FLAG_CENTERED_BASELINE
 ;;;     PANGO_ANALYSIS_FLAG_IS_ELLIPSIS
 ;;;     PANGO_ANALYSIS_FLAG_NEED_HYPHEN
@@ -52,8 +71,8 @@
           (g:gtype (cffi:foreign-funcall "pango_item_get_type" :size)))))
 
 (test pango-item-properties
-  (let ((item (make-instance 'pango:item)))
-    (is (cffi:null-pointer-p (pango:item-analysis item)))
+  (let ((item (pango:item-new)))
+    (is (cffi:pointerp (pango:item-analysis item)))
     (is (= 0 (pango:item-length item)))
     (is (= 0 (pango:item-num-chars item)))
     (is (= 0 (pango:item-offset item)))))
@@ -70,28 +89,49 @@
 
 ;;;     pango_item_split
 
-;; FIXME: The PANGO:ITEMIZE function returns NULL-POINTERS for 
-;; PANGO:ANALYSIS. This causes the PANGO:ITEM-SPLIT function to crash.
-
-#+nil
 (test pango-item-split
   (let* ((text "This is some text.")
          (fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
          item item1)
-    (is-false (setf item
-                    (first (pango:itemize context 
-                                          text 
-                                          0 (length text) 
-                                          nil nil))))
-    ;; This call causes a memory fault:
-    ;;  Unexpected Error: #<SB-SYS:MEMORY-FAULT-ERROR {1006A41563}>
-    ;;  Unhandled memory fault at #xFFFFFFFFFFFFFFFF..
-    (is-false (setf item1
-                    (pango:item-split item 5 0)))
-))
+    (is (typep (setf item
+                     (first (pango:itemize context
+                                           text
+                                           0 (length text)
+                                           nil nil)))
+               'pango:item))
+    (is (typep (setf item1
+                     (pango:item-split item 5 1))
+               'pango:item))))
 
 ;;;     pango_item_apply_attrs
+
+(test pango-item-apply-attrs
+  (let* ((text "This is some text.")
+         (fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (attrs (pango:attr-list-from-string "5 7 weight bold"))
+         (iter (pango:attr-list-iterator attrs))
+         items item)
+    ;; Itemize the text without attributes
+    (is (= 1 (length (setf items
+                           (pango:itemize context
+                                          text
+                                          0 (length text)
+                                          (pango:attr-list-from-string "")
+                                          nil)))))
+    ;; Get the item
+    (is (typep (setf item (first items)) 'pango:item))
+    ;; No attributes
+    (is (equal '()
+               (mapcar #'pango:attribute-type
+                       (pango:analysis-extra-attrs (pango:item-analysis item)))))
+    ;; Apply attribute
+    (is-false (pango:item-apply-attrs item iter))
+    ;; Check the applied attribute
+    (is (equal '(:weight)
+               (mapcar #'pango:attribute-type
+                       (pango:analysis-extra-attrs (pango:item-analysis item)))))))
 
 ;;;     pango_itemize
 
@@ -125,7 +165,7 @@
          (attrstr "5 7 weight bold, 8 12 foreground red")
          (attrs (pango:attr-list-from-string attrstr))
          (iter (pango:attr-list-iterator attrs))
-         item items)
+         item items analysis)
     (is (= 5 (length (setf items
                            (pango:itemize context
                                           text
@@ -136,17 +176,59 @@
     (is (= 0 (pango:item-offset item)))
     (is (= 5 (pango:item-length item)))
     (is (= 5 (pango:item-num-chars item)))
-    ;; TODO: Is NULL the expected return value? Is something wrong?
-    ;; The NULL-POINTER causes the function PANGO:ITEM-SPLIT to crash.
-    (is (cffi:null-pointer-p (pango:item-analysis item)))
+
+    (is (cffi:pointerp (setf analysis (pango:item-analysis item))))
+    (is (typep (pango:analysis-font analysis) 'pango:font))
+    (is (= 0 (pango:analysis-level analysis)))
+    (is (eq :south (pango:analysis-gravity analysis)))
+    (is (= 128 (pango:analysis-flags analysis)))
+    (is (eq :latin (pango:analysis-script analysis)))
+    (is (typep (pango:analysis-language analysis) 'pango:language))
+    (is-false (pango:analysis-extra-attrs analysis))
 
     (setf item (second items))
     (is (= 5 (pango:item-offset item)))
     (is (= 2 (pango:item-length item)))
     (is (= 2 (pango:item-num-chars item)))
-    ;; TODO: Is NULL the expected return value? Is something wrong?
-    ;; The NULL-POINTER causes the function PANGO:ITEM-SPLIT to crash.
-    (is (cffi:null-pointer-p (pango:item-analysis item)))))
+
+    (is (cffi:pointerp (setf analysis (pango:item-analysis item))))
+    (is (typep (pango:analysis-font analysis) 'pango:font))
+    (is (= 0 (pango:analysis-level analysis)))
+    (is (eq :south (pango:analysis-gravity analysis)))
+    (is (= 128 (pango:analysis-flags analysis)))
+    (is (eq :latin (pango:analysis-script analysis)))
+    (is (typep (pango:analysis-language analysis) 'pango:language))
+    (is-false (pango:analysis-extra-attrs analysis))
+
+    (setf item (third items))
+    (is (= 7 (pango:item-offset item)))
+    (is (= 1 (pango:item-length item)))
+    (is (= 1 (pango:item-num-chars item)))
+
+    (is (cffi:pointerp (setf analysis (pango:item-analysis item))))
+    (is (typep (pango:analysis-font analysis) 'pango:font))
+    (is (= 0 (pango:analysis-level analysis)))
+    (is (eq :south (pango:analysis-gravity analysis)))
+    (is (= 128 (pango:analysis-flags analysis)))
+    (is (eq :latin (pango:analysis-script analysis)))
+    (is (typep (pango:analysis-language analysis) 'pango:language))
+    (is-false (pango:analysis-extra-attrs analysis))
+
+    (setf item (fourth items))
+    (is (= 8 (pango:item-offset item)))
+    (is (= 4 (pango:item-length item)))
+    (is (= 4 (pango:item-num-chars item)))
+
+    (is (cffi:pointerp (setf analysis (pango:item-analysis item))))
+    (is (typep (pango:analysis-font analysis) 'pango:font))
+    (is (= 0 (pango:analysis-level analysis)))
+    (is (eq :south (pango:analysis-gravity analysis)))
+    (is (= 128 (pango:analysis-flags analysis)))
+    (is (eq :latin (pango:analysis-script analysis)))
+    (is (typep (pango:analysis-language analysis) 'pango:language))
+    (is (equal '(:foreground)
+               (mapcar #'pango:attribute-type
+                      (pango:analysis-extra-attrs analysis))))))
 
 ;;;     pango_itemize_with_base_dir
 
@@ -169,14 +251,54 @@
                                                         iter)))))
     (is (every (lambda (x) (typep x 'pango:item)) items))))
 
-;;;     pango_reorder_items
-;;;     pango_break
-;;;     pango_get_log_attrs
-;;;     pango_find_paragraph_boundary
-;;;     pango_default_break
-;;;     pango_tailor_break
+;;;     pango_reorder_items                                not implemented
+;;;     pango_break                                        not implemented
+;;;     pango_get_log_attrs                                not implemented
+;;;     pango_find_paragraph_boundary                      not implemented
+;;;     pango_default_break                                not exported
+;;;     pango_tailor_break                                 not exported
+
 ;;;     pango_shape
+
+(test pango-shape
+  (let* ((text "This is some text.")
+         (fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (attrstr "5 7 weight bold, 8 12 foreground red")
+         (attrs (pango:attr-list-from-string attrstr))
+         (iter (pango:attr-list-iterator attrs))
+         item items analysis)
+    (is (= 5 (length (setf items
+                           (pango:itemize context
+                                          text
+                                          0
+                                          (babel:string-size-in-octets text)
+                                          attrs
+                                          iter)))))
+    (setf item (first items))
+    (is (= 0 (pango:item-offset item)))
+    (is (= 5 (pango:item-length item)))
+    (is (= 5 (pango:item-num-chars item)))
+
+    (is (cffi:pointerp (setf analysis (pango:item-analysis item))))
+    (is (typep (pango:analysis-font analysis) 'pango:font))
+    (is (= 0 (pango:analysis-level analysis)))
+    (is (eq :south (pango:analysis-gravity analysis)))
+    (is (= 128 (pango:analysis-flags analysis)))
+    (is (eq :latin (pango:analysis-script analysis)))
+    (is (typep (pango:analysis-language analysis) 'pango:language))
+    (is-false (pango:analysis-extra-attrs analysis))
+
+    (is (typep (pango:shape (babel:octets-to-string
+                                (subseq (babel:string-to-octets text)
+                                        (pango:item-offset item)
+                                        (+ (pango:item-offset item)
+                                           (pango:item-length item))))
+                            (pango:item-length item)
+                            (pango:item-analysis item))
+                'pango:glyph-string))))
+
 ;;;     pango_shape_full
 ;;;     pango_shape_with_flags
 
-;;; --- 2023-7-14 --------------------------------------------------------------
+;;; 2024-3-3
