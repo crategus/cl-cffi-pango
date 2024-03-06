@@ -2,11 +2,11 @@
 ;;; pango.tab-array.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; Version 1.51 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2013 - 2023 Dieter Kaiser
+;;; Copyright (C) 2013 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -65,11 +65,6 @@
 ;;;
 ;;;     GEnum
 ;;;     ╰── PangoTabAlign
-;;;
-;;; Description
-;;;
-;;;     Functions in this section are used to deal with PangoTabArray objects
-;;;     that can be used to set tab stop positions in a PangoLayout.
 ;;; ----------------------------------------------------------------------------
 
 (in-package :pango)
@@ -82,15 +77,18 @@
   (:export t
    :type-initializer "pango_tab_align_get_type")
   (:left 0)
+  #+pango-1-50
   (:right 1)
+  #+pango-1-50
   (:center 2)
+  #+pango-1-50
   (:decimal 3))
 
 #+liber-documentation
 (setf (liber:alias-for-symbol 'tab-align)
       "GEnum"
       (liber:symbol-documentation 'tab-align)
- "@version{2023-10-14}
+ "@version{2024-2-24}
   @begin{short}
     The @symbol{pango:tab-align} enumeration specifies where the text appears
     relative to the tab stop position.
@@ -133,14 +131,18 @@
 (setf (liber:alias-for-class 'tab-array)
       "GBoxed"
       (documentation 'tab-array 'type)
- "@version{2023-10-14}
+ "@version{2024-2-24}
   @begin{short}
-    A @class{pango:tab-array} structure contains an array of tab stops.
+    The @class{pango:tab-array} structure contains an array of tab stops.
   @end{short}
   The @class{pango:tab-array} structure is opaque, and has no user visible
   fields. It can be used to set tab stops in a @class{pango:layout} object.
   Each tab  stop has an alignment, a position, and optionally a character to
   use as decimal point.
+  @see-constructor{pango:tab-array-new}
+  @see-constructor{pango:tab-array-new-with-positions}
+  @see-constructor{pango:tab-array-from-string}
+  @see-constructor{pango:tab-array-copy}
   @see-class{pango:layout}")
 
 (export 'tab-array)
@@ -151,7 +153,7 @@
 
 (cffi:defcfun ("pango_tab_array_new" tab-array-new) (g:boxed tab-array :return)
  #+liber-documentation
- "@version{2023-10-14}
+ "@version{2024-2-24}
   @argument[size]{an integer with the initial number of tab stops to allocate,
     can be 0}
   @argument[positions-in-pixels]{a boolean whether positions are in pixel units}
@@ -169,64 +171,45 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_tab_array_new_with_positions ()
-;;;
-;;; PangoTabArray *
-;;; pango_tab_array_new_with_positions (gint size,
-;;;                                     gboolean positions_in_pixels,
-;;;                                     PangoTabAlign first_alignment,
-;;;                                     gint first_position,
-;;;                                     ...);
-;;;
-;;; This is a convenience function that creates a PangoTabArray and allows you
-;;; to specify the alignment and position of each tab stop. You must provide an
-;;; alignment and position for size tab stops.
-;;;
-;;; size :
-;;;     number of tab stops in the array
-;;;
-;;; positions_in_pixels :
-;;;     whether positions are in pixel units
-;;;
-;;; first_alignment :
-;;;     alignment of first tab stop
-;;;
-;;; first_position :
-;;;     position of first tab stop
-;;;
-;;; ... :
-;;;     additional alignment/position pairs
-;;;
-;;; Returns :
-;;;     the newly allocated PangoTabArray, which should be freed with
-;;;     pango_tab_array_free().
 ;;; ----------------------------------------------------------------------------
 
 (defun tab-array-new-with-positions (size positions-in-pixel &rest args)
+ #+liber-documentation
+ "@version{2024-2-24}
+  @argument[size]{an integer with the initial number of tab stops to allocate,
+    can be 0}
+  @argument[positions-in-pixels]{a boolean whether positions are in pixel units}
+  @argument[args]{a list of pairs with the @symbol{pango:tab-align} value and
+    position of the tab stops}
+  @return{The newly allocated @class{pango:tab-array} instance.}
+  @begin{short}
+    This is a convenience function that creates a @class{pango:tab-array}
+    instance and allows you to specify the alignment and position of each tab
+    stop.
+  @end{short}
+  You must provide an alignment and position for @arg{size} tab stops.
+  @see-class{pango:tab-array}
+  @see-symbol{pango:tab-align}"
   (let ((tabs (tab-array-new size positions-in-pixel)))
-    (iter (for (alignment position) on args by #'cddr)
+    (iter (for (align pos) on args by #'cddr)
           (for index from 0)
-          (setf (tab-array-tab tabs index) (list alignment position)))
+          (setf (tab-array-tab tabs index) (list align pos)))
     tabs))
 
 (export 'tab-array-new-with-positions)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_tab_array_copy ()
-;;;
-;;; PangoTabArray * pango_tab_array_copy (PangoTabArray *src);
-;;;
-;;; Copies a PangoTabArray
-;;;
-;;; src :
-;;;     PangoTabArray to copy
-;;;
-;;; Returns :
-;;;     the newly allocated PangoTabArray, which should be freed with
-;;;     pango_tab_array_free().
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_tab_array_copy" tab-array-copy)
     (g:boxed tab-array :return)
+ #+liber-documentation
+ "@version{2024-2-24}
+  @argument[tabs]{a @class{pango:tab-array} instance to copy}
+  @return{The newly allocated @class{pango:tab-array} instance.}
+  @short{Copies a tab array.}
+  @see-class{pango:tab-array}"
   (tabs (g:boxed tab-array)))
 
 (export 'tab-array-copy)
@@ -244,143 +227,134 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_tab_array_get_size ()
-;;;
-;;; gint pango_tab_array_get_size (PangoTabArray *tab_array);
-;;;
-;;; Gets the number of tab stops in tab_array.
-;;;
-;;; tab_array :
-;;;     a PangoTabArray
-;;;
-;;; Returns :
-;;;     the number of tab stops in the array.
 ;;; ----------------------------------------------------------------------------
 
-(cffi:defcfun ("pango_tab_array_get_size" pango-tab-array-size) :int
+(cffi:defcfun ("pango_tab_array_get_size" tab-array-size) :int
+ #+liber-documentation
+ "@version{2024-2-24}
+  @argument[tabs]{a @class{pango:tab-array} instance}
+  @return{The integer with the number of tabs in @arg{tabs}.}
+  @short{Gets the number of tab stops in the tab array.}
+  @see-class{pango:tab-array}"
   (tabs (g:boxed tab-array)))
 
 (export 'tab-array-size)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_tab_array_resize ()
-;;;
-;;; void pango_tab_array_resize (PangoTabArray *tab_array, gint new_size);
-;;;
-;;; Resizes a tab array. You must subsequently initialize any tabs that were
-;;; added as a result of growing the array.
-;;;
-;;; tab_array :
-;;;     a PangoTabArray
-;;;
-;;; new_size :
-;;;     new size of the array
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_tab_array_resize" tab-array-resize) :void
+ #+liber-documentation
+ "@version{2024-2-24}
+  @argument[tabs]{a @class{pango:tab-array} instance}
+  @argument[size]{an integer with the new size of @arg{tabs}}
+  @begin{short}
+    Resizes a tab array.
+  @end{short}
+  You must subsequently initialize any tab stops that were added as a result
+  of growing the tab array.
+  @see-class{pango:tab-array}"
   (tabs (g:boxed tab-array))
   (size :int))
 
 (export 'tab-array-resize)
 
 ;;; ----------------------------------------------------------------------------
+;;; pango_tab_array_get_tab ()
 ;;; pango_tab_array_set_tab ()
-;;;
-;;; void pango_tab_array_set_tab (PangoTabArray *tab_array,
-;;;                               gint tab_index,
-;;;                               PangoTabAlign alignment,
-;;;                               gint location);
-;;;
-;;; Sets the alignment and location of a tab stop. alignment must always be
-;;; PANGO_TAB_LEFT in the current implementation.
-;;;
-;;; tab_array :
-;;;     a PangoTabArray
-;;;
-;;; tab_index :
-;;;     the index of a tab stop
-;;;
-;;; alignment :
-;;;     tab alignment
-;;;
-;;; location :
-;;;     tab location in Pango units
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf tab-array-tab) (value tabs index)
-  (destructuring-bind (alignment location) value
+  (destructuring-bind (align pos) value
     (cffi:foreign-funcall "pango_tab_array_set_tab"
                           (g:boxed tab-array) tabs
                           :int index
-                          tab-align alignment
-                          :int location
+                          tab-align align
+                          :int pos
                           :void)
-    (values alignment location)))
-
-;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_get_tab ()
-;;;
-;;; void pango_tab_array_get_tab (PangoTabArray *tab_array,
-;;;                               gint tab_index,
-;;;                               PangoTabAlign *alignment,
-;;;                               gint *location);
-;;;
-;;; Gets the alignment and position of a tab stop.
-;;;
-;;; tab_array :
-;;;     a PangoTabArray
-;;;
-;;; tab_index :
-;;;     tab stop index
-;;;
-;;; alignment :
-;;;     location to store alignment, or NULL. [out][allow-none]
-;;;
-;;; location :
-;;;     location to store tab position, or NULL. [out][allow-none]
-;;; ----------------------------------------------------------------------------
+    (values align pos)))
 
 (cffi:defcfun ("pango_tab_array_get_tab" %tab-array-tab) :void
   (tabs (g:boxed tab-array))
   (index :int)
-  (alignment (:pointer tab-align))
-  (location (:pointer :int)))
+  (align (:pointer tab-align))
+  (pos (:pointer :int)))
 
 (defun tab-array-tab (tabs index)
-  (cffi:with-foreign-objects ((alignment 'tab-align) (location :int))
-    (%tab-array-tab tabs index alignment location)
-    (values (cffi:mem-ref alignment 'tab-align)
-            (cffi:mem-ref location :int))))
+ #+liber-documentation
+ "@version{2024-4-24}
+  @syntax{(pango:tab-array-tab tabs index} => align, pos
+  @syntax{(setf (pango:tab-array-tab tabs index) (list align pos))}
+  @argument[tabs]{a @class{pango:tab-array} instance}
+  @argument[index]{an integer with the index of the tab stop}
+  @argument[align]{a @symbol{pango:tab-align} value}
+  @argument[pos]{an integer with the tab position}
+  @begin{short}
+    The @fun{pango:tab-array-tab} function gets the alignment and position of
+    a tab stop.
+  @end{short}
+  The @setf{pango:tab-array-tab} function sets the alignment and postion of a
+  tab stop.
+  @see-class{pango:tab-array}
+  @see-symbol{pango:tab-align}"
+  (cffi:with-foreign-objects ((align 'tab-align) (pos :int))
+    (%tab-array-tab tabs index align pos)
+    (values (cffi:mem-ref align 'tab-align)
+            (cffi:mem-ref pos :int))))
 
 (export 'tab-array-tab)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_tab_array_get_tabs ()
-;;;
-;;; void pango_tab_array_get_tabs (PangoTabArray *tab_array,
-;;;                                PangoTabAlign **alignments,
-;;;                                gint **locations);
-;;;
-;;; If non-NULL, alignments and locations are filled with allocated arrays of
-;;; length pango_tab_array_get_size(). You must free the returned array.
-;;;
-;;; tab_array :
-;;;     a PangoTabArray
-;;;
-;;; alignments :
-;;;     location to store an array of tab stop alignments, or NULL
-;;;
-;;; locations :
-;;;     location to store an array of tab positions, or NULL
 ;;; ----------------------------------------------------------------------------
 
+(cffi:defcfun ("pango_tab_array_get_tabs" %tab-array-tabs) :void
+  (tabs (g:boxed tab-array))
+  (align :pointer)
+  (pos :pointer))
+
+(defun tab-array-tabs (tabs)
+ #+liber-documentation
+ "@version{2024-2-24}
+  @argument[tabs]{a @class{pango:tab-array} instance}
+  @return{The list of @symbol{pango:tab-align} values and positions for the tab
+    stops in the tab array.}
+  @begin{short}
+    Returns a list of alignment and positiongs of the tab stops in the tab
+    array.
+  @end{short}
+  @begin[Example]{dictionary}
+    @begin{pre}
+(setf tabs (pango:tab-array-from-string \"100 decimal:150 right:200\"))
+=> #<PANGO:TAB-ARRAY {1003CAF943@}>
+(pango:tab-array-tabs tabs)
+=> ((:LEFT 100) (:DECIMAL 150) (:RIGHT 200))
+    @end{pre}
+  @end{dictionary}
+  @see-class{pango:tab-array}
+  @see-symbol{pango:tab-align}"
+  (let ((size (tab-array-size tabs)))
+    (cffi:with-foreign-objects ((align-ptr :pointer) (pos-ptr :pointer))
+      (%tab-array-tabs tabs align-ptr pos-ptr)
+      (let ((align-arr (cffi:mem-ref align-ptr :pointer))
+            (pos-arr (cffi:mem-ref pos-ptr :pointer)))
+        (unwind-protect
+          (iter (for i from 0 below size)
+                (collect (list (cffi:mem-aref align-arr 'tab-align i)
+                               (cffi:mem-aref pos-arr :int i))))
+          (progn
+            (glib:free align-arr)
+            (glib:free pos-arr)))))))
+
+(export 'tab-array-tabs)
+
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_set_positions_in_pixels
-;;;
-;;; Sets whether positions in this array are specified in pixels.
-;;;
-;;; Since 1.50
+;;; pango_tab_array_set_positions_in_pixels ()
+;;; pango_tab_array_get_positions_in_pixels ()
 ;;; ----------------------------------------------------------------------------
 
+#+pango-1-50
 (defun (setf tab-array-positions-in-pixels) (value tabs)
   (cffi:foreign-funcall "pango_tab_array_set_positions_in_pixels"
                         (g:boxed tab-array) tabs
@@ -388,37 +362,35 @@
                         :void)
   value)
 
-(export 'tab-array-positions-in-pixels)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_get_positions_in_pixels ()
-;;;
-;;; gboolean pango_tab_array_get_positions_in_pixels (PangoTabArray *tab_array)
-;;;
-;;; Returns TRUE if the tab positions are in pixels, FALSE if they are in Pango
-;;; units.
-;;;
-;;; tab_array :
-;;;     a PangoTabArray
-;;;
-;;; Returns :
-;;;     whether positions are in pixels.
-;;; ----------------------------------------------------------------------------
-
 (cffi:defcfun ("pango_tab_array_get_positions_in_pixels"
                tab-array-positions-in-pixels) :boolean
+ #+liber-documentation
+ "@version{2024-2-24}
+  @syntax{(pango:tab-array-positions-in-pixels tabs) => setting}
+  @syntax{(setf (pango:tab-array-positions-in-pixels tabs) setting)}
+  @argument[tabs]{a @class{pango:tab-array} instance}
+  @argument[setting]{a boolean whether positions ar in pixels}
+  @begin{short}
+    The @fun{pango:tab-array-positions-in-pixels} function returns @em{true} if
+    the tab positions are in pixels, @em{false} if they are in Pango units.
+  @end{short}
+  The @setf{pango:tab-array-positions-in-pixels} function sets whether positions
+  in the tab array are specified in pixels.
+  @begin[Note]{dictionary}
+    The @setf{pango:tab-array-positions-in-pixels} function is availabe since
+    Pango version 1.50.
+  @end{dictionary}
+  @see-class{pango:tab-array}"
   (tabs (g:boxed tab-array)))
 
 (export 'tab-array-positions-in-pixels)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_set_decimal_point
-;;;
-;;; Sets the Unicode character to use as decimal point.
-;;;
-;;; Since: 1.50
+;;; pango_tab_array_get_decimal_point ()
+;;; pango_tab_array_set_decimal_point ()
 ;;; ----------------------------------------------------------------------------
 
+#+pango-1-50
 (defun (setf tab-array-decimal-point) (value tabs index)
   (cffi:foreign-funcall "pango_tab_array_set_decimal_point"
                         (g:boxed tab-array) tabs
@@ -427,59 +399,104 @@
                         :void)
   value)
 
-;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_get_decimal_point
-;;;
-;;; Gets the Unicode character to use as decimal point.
-;;;
-;;; Since 1.50
-;;; ----------------------------------------------------------------------------
-
+#+pango-1-50
 (cffi:defcfun ("pango_tab_array_get_decimal_point" tab-array-decimal-point)
     g:unichar
+ #+liber-documentation
+ "@version{2024-2-24}
+  @syntax{(pango:tab-array-decimal-point tabs index) => char}
+  @syntax{(setf (pango:tab-array-decimal-point tabs index) char)}
+  @argument[tabs]{a @class{pango:tab-array} instance}
+  @argument[index]{an integer with the index of a tab stop}
+  @argument[char]{a character with the decimal point to use}
+  @begin{short}
+   The @fun{pango:tab-array-decimal-point} function gets the Unicode character
+   to use as decimal point.
+  @end{short}
+  The @setf{pango:tab-array-decimal-point} function sets the Unicode character
+  to use as decimal point.
+
+  This is only relevant for tabs with @code{:decimal} alignment, which align
+  content at the first occurrence of the decimal point character. The default
+  value of 0 means that Pango will use the decimal point according to the
+  current locale.
+
+  Since 1.50
+  @see-class{pango:tab-array}"
   (tabs (g:boxed tab-array))
   (index :int))
 
+#+pango-1-50
 (export 'tab-array-decimal-point)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_sort
-;;;
-;;; Utility function to ensure that the tab stops are in increasing order.
-;;;
-;;; Since 1.50
+;;; pango_tab_array_sort ()
 ;;; ----------------------------------------------------------------------------
 
+#+pango-1-50
 (cffi:defcfun ("pango_tab_array_sort" tab-array-sort) :void
+ #+liber-documentation
+ "@version{2024-2-24}
+  @argument[tabs]{a @class{pango:tab-array} instance}
+  @begin{short}
+    Utility function to ensure that the tab stops are in increasing order.
+  @end{short}
+
+  Since 1.50
+  @see-class{pango:tab-array}"
   (tabs (g:boxed tab-array)))
 
+#+pango-1-50
 (export 'tab-array-sort)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_from_string
-;;;
-;;; Deserializes a PangoTabArray from a string.
-;;;
-;;; Since 1.50
+;;; pango_tab_array_from_string ()
 ;;; ----------------------------------------------------------------------------
 
-(cffi:defcfun ("pango_tab_array_from_string" tag-array-from-string)
+#+pango-1-50
+(cffi:defcfun ("pango_tab_array_from_string" tab-array-from-string)
     (g:boxed tab-array :return)
+ #+liber-documentation
+ "@version{2024-2-24}
+  @argument[text]{a string with the tab stops for the tab array}
+  @return{The newly allocated @class{pango:tab-array} instance.}
+  @begin{short}
+    Deserializes a @class{pango:tab-array} instance from a string.
+  @end{short}
+  This is the counterpart to the @fun{pango:tab-array-to-string} function. See
+  that function for details about the format.
+
+  Since 1.50
+  @see-class{pango:tab-array}
+  @see-function{pango:tab-array-to-string}"
   (text :string))
 
+#+pango-1-50
 (export 'tab-array-from-string)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_to_string
-;;;
-;;; Serializes a PangoTabArray to a string.
-;;;
-;;; Since 1.50
+;;; pango_tab_array_to_string ()
 ;;; ----------------------------------------------------------------------------
 
+#+pango-1-50
 (cffi:defcfun ("pango_tab_array_to_string" tab-array-to-string) :string
+ #+liber-documentation
+ "@version{2024-2-24}
+  @argument[tabs]{a @class{pango:tab-array} instance}
+  @return{The string with the tab stops of the tab array.}
+  @begin{short}
+    Serializes a @class{pango:tab-array} instance to a string.
+  @end{short}
+  No guarantees are made about the format of the string, it may change between
+  Pango versions. The intended use of this function is testing and debugging.
+  The format is not meant as a permanent storage format.
+
+  Since 1.50
+  @see-class{pango:tab-array}
+  @see-function{pango:tab-array-from-string}"
   (tabs (g:boxed tab-array)))
 
+#+pango-1-50
 (export 'tab-array-to-string)
 
 ;;; --- End of file pango.tab-array.lisp ---------------------------------------

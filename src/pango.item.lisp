@@ -998,7 +998,7 @@
   @see-function{pango:itemize}
   @see-function{pango:shape}"
   (let ((glyphs (glyph-string-new))
-        (paragraph (if paragraph paragraph (cffi:null-pointer))))
+        (paragraph (or paragraph (cffi:null-pointer))))
     (%shape-full text -1 paragraph -1 analysis glyphs)
     glyphs))
 
@@ -1054,7 +1054,7 @@
   @see-function{pango:itemize}
   @see-function{pango:shape-full}"
   (let ((glyphs (glyph-string-new))
-        (paragraph (if paragraph paragraph (cffi:null-pointer))))
+        (paragraph (or paragraph (cffi:null-pointer))))
     (%shape-with-flags text -1 paragraph -1 analysis glyphs flags)
     glyphs))
 

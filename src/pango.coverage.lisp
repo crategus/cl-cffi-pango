@@ -2,11 +2,11 @@
 ;;; pango.coverage.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; Version 1.51 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2023 Dieter Kaiser
+;;; Copyright (C) 2011 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -34,20 +34,19 @@
 ;;; Types and Values
 ;;;
 ;;;     PangoCoverageLevel
-;;;     PANGO_TYPE_COVERAGE_LEVEL
 ;;;     PangoCoverage
 ;;;
 ;;; Functions
 ;;;
 ;;;     pango_coverage_new
-;;;     pango_coverage_ref
-;;;     pango_coverage_unref
-;;;     pango_coverage_copy
+;;;     pango_coverage_ref                                 Deprecated 1.52
+;;;     pango_coverage_unref                               Deprecated 1.52
+;;;     pango_coverage_copy                                not needed
 ;;;     pango_coverage_get
-;;;     pango_coverage_max
+;;;     pango_coverage_max                                 Deprecated 1.44
 ;;;     pango_coverage_set
-;;;     pango_coverage_to_bytes
-;;;     pango_coverage_from_bytes
+;;;     pango_coverage_to_bytes                            Deprecated 1.44
+;;;     pango_coverage_from_bytes                          Deprecated 1.44
 ;;;
 ;;; Object Hierarchy
 ;;;
@@ -56,48 +55,53 @@
 ;;;
 ;;;     GObject
 ;;;     ╰── PangoCoverage
-;;;
-;;; Description
-;;;
-;;;     It is often necessary in Pango to determine if a particular font can
-;;;     represent a particular character, and also how well it can represent
-;;;     that character. The PangoCoverage is a data structure that is used to
-;;;     represent that information.
 ;;; ----------------------------------------------------------------------------
 
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
 ;;; enum PangoCoverageLevel
-;;;
-;;; Used to indicate how well a font can represent a particular Unicode
-;;; character point for a particular script.
-;;;
-;;; Since 1.44, only PANGO_COVERAGE_NONE and PANGO_COVERAGE_EXACT will be
-;;; returned.
-;;;
-;;; PANGO_COVERAGE_NONE
-;;;     The character is not representable with the font.
-;;;
-;;; PANGO_COVERAGE_FALLBACK
-;;;     The character is represented in a way that may be comprehensible but is
-;;;     not the correct graphical form. For instance, a Hangul character
-;;;     represented as a a sequence of Jamos, or a Latin transliteration of a
-;;;     Cyrillic word.
-;;;
-;;; PANGO_COVERAGE_APPROXIMATE
-;;;     The character is represented as basically the correct graphical form,
-;;;     but with a stylistic variant inappropriate for the current script.
-;;;
-;;; PANGO_COVERAGE_EXACT
-;;;     The character is represented as the correct graphical form.
 ;;; ----------------------------------------------------------------------------
 
-;;; ----------------------------------------------------------------------------
-;;; PANGO_TYPE_COVERAGE_LEVEL
-;;;
-;;; #define PANGO_TYPE_COVERAGE_LEVEL (pango_coverage_level_get_type ())
-;;; ----------------------------------------------------------------------------
+(gobject:define-g-enum "PangoCoverageLevel" coverage-level
+  (:export t
+   :type-initializer "pango_coverage_level_get_type")
+  (:none 0)
+  (:fallback 1)
+  (:approximate 2)
+  (:exact 3))
+
+#+liber-documentation
+(setf (liber:alias-for-symbol 'coverage-level)
+      "GEnum"
+      (liber:symbol-documentation 'coverage-level)
+ "@version{2024-2-24}
+  @begin{short}
+    Used to indicate how well a font can represent a particular Unicode
+    character point for a particular script.
+  @end{short}
+  Since 1.44, only the @code{:none} and @code{:exact} values will be returned.
+  @begin{pre}
+(gobject:define-g-enum \"PangoCoverageLevel\" coverage-level
+  (:export t
+   :type-initializer \"pango_coverage_level_get_type\")
+  (:none 0)
+  (:fallback 1)
+  (:approximate 2)
+  (:exact 3))
+  @end{pre}
+  @begin[code]{table}
+    @entry[:none]{The character is not representable with the font.}
+    @entry[:fallback]{The character is represented in a way that may be
+      comprehensible but is not the correct graphical form. For instance, a
+      Hangul character represented as a a sequence of Jamos, or a Latin
+      transliteration of a Cyrillic word.}
+    @entry[:approximage]{The character is represented as basically the correct
+      graphical form, but with a stylistic variant inappropriate for the current
+      script.}
+    @entry[:exact]{The character is represented as the correct graphical form.}
+  @end{table}
+  @see-symbol{pango:coverage}")
 
 ;;; ----------------------------------------------------------------------------
 ;;; PangoCoverage
@@ -112,27 +116,37 @@
 
 #+liber-documentation
 (setf (documentation 'coverage 'type)
- "@version{#2021-1-8}
+ "@version{2024-2-24}
   @begin{short}
-    The @sym{coverage} class represents a map from Unicode characters to
-    PangoCoverageLevel.
+    The @symbol{pango:coverage} class represents a map from Unicode characters
+    to @symbol{pango:coverage-level} values.
   @end{short}
-  It is an opaque structure with no public fields.
-  @see-symbol{coverage-level}")
+  It is often necessary in Pango to determine if a particular font can represent
+  a particular character, and also how well it can represent that character. The
+  @class{pango:coverage} object is a data structure that is used to represent
+  that information. It is an opaque structure with no public fields.
+  @see-constructor{pango:coverage-new}
+  @see-symbol{pango:coverage-level}")
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_coverage_new ()
-;;;
-;;; PangoCoverage *
-;;; pango_coverage_new (void);
-;;;
-;;; Create a new PangoCoverage
-;;;
-;;; Returns :
-;;;     the newly allocated PangoCoverage, initialized to PANGO_COVERAGE_NONE
-;;;     with a reference count of one, which should be freed with
-;;;     pango_coverage_unref().
 ;;; ----------------------------------------------------------------------------
+
+(declaim (inline coverage-new))
+
+(defun coverage-new ()
+ #+liber-documentation
+ "@version{2024-2-24}
+  @return{The newly allocated @class{pango:coverage} object.}
+  @begin{short}
+    Creates a new @class{pango:coverage} object initialized to the @code{:none}
+    value of the @symbol{pango:coverage-level} enumeration.
+  @end{short}
+  @see-class{pango:coverage}
+  @see-symbol{pango:coverage-level}"
+  (make-instance 'coverage))
+
+(export 'coverage-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_coverage_ref ()
@@ -181,22 +195,27 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_coverage_get ()
-;;;
-;;; PangoCoverageLevel
-;;; pango_coverage_get (PangoCoverage *coverage,
-;;;                     int index_);
-;;;
-;;; Determine whether a particular index is covered by coverage
-;;;
-;;; coverage :
-;;;     a PangoCoverage
-;;;
-;;; index_ :
-;;;     the index to check
-;;;
-;;; Returns :
-;;;     the coverage level of coverage for character index_ .
 ;;; ----------------------------------------------------------------------------
+
+;; TODO: Can we use the char code for a character as the index!?
+
+(cffi:defcfun ("pango_coverage_get" coverage-get) coverage-level
+ #+liber-documentation
+ "@version{2024-3-4}
+  @argument[coverage]{a @class{pango:coverage} object}
+  @argument[index]{an integer with the index to check}
+  @return{The @symbol{pango:coverage-level} value with the coverage level for
+    the character with @arg{index}.}
+  @begin{short}
+    Determine whether a particular index is covered by @arg{coverage}.
+  @end{short}
+  @see-class{pango:coverage}
+  @see-symbol{pango:coverage-level}
+  @see-function{pango:coverage-set}"
+  (coverage (g:object coverage))
+  (index :int))
+
+(export 'coverage-get)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_coverage_max ()
@@ -223,23 +242,25 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_coverage_set ()
-;;;
-;;; void
-;;; pango_coverage_set (PangoCoverage *coverage,
-;;;                     int index_,
-;;;                     PangoCoverageLevel level);
-;;;
-;;; Modify a particular index within coverage
-;;;
-;;; coverage :
-;;;     a PangoCoverage
-;;;
-;;; index_ :
-;;;     the index to modify
-;;;
-;;; level :
-;;;     the new level for index_
 ;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_coverage_set" coverage-set) :void
+ #+liber-documentation
+ "@version{2024-2-24}
+  @argument[coverage]{a @class{pango:coverage} object}
+  @argument[index]{an integet with the index to modify}
+  @argument[level]{a new @symbol{pango:coverage-level} value for @arg{index}}
+  @begin{short}
+    Modify a particular index within @arg{coverage}.
+  @end{short}
+  @see-class{pango:coverage}
+  @see-symbol{pango:coverage-level}
+  @see-function{pango:coverage-get}"
+  (coverage (g:object coverage))
+  (index :int)
+  (level coverage-level))
+
+(export 'coverage-set)
 
 ;;; ----------------------------------------------------------------------------
 ;;;pango_coverage_to_bytes ()

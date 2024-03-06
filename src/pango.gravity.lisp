@@ -53,9 +53,9 @@
 ;;;
 ;;; Description
 ;;;
-;;; Since 1.16, Pango is able to correctly lay vertical text out. In fact, it
-;;; can set layouts of mixed vertical and non-vertical text. This section
-;;; describes the types used for setting vertical text parameters.
+;;; Pango is able to correctly lay vertical text out. In fact, it can set
+;;; layouts of mixed vertical and non-vertical text. This section describes the
+;;; types used for setting vertical text parameters.
 ;;;
 ;;; The way this is implemented is through the concept of gravity. Gravity of
 ;;; normal Latin text is south. A gravity value of east means that glyphs will
@@ -115,18 +115,17 @@
 (setf (liber:alias-for-symbol 'gravity)
       "GEnum"
       (liber:symbol-documentation 'gravity)
- "@version{#2021-1-5}
+ "@version{2024-2-22}
   @begin{short}
-    The @sym{pango:gravity} enumeration represents the orientation of glyphs in
-    a segment of text.
+    The @symbol{pango:gravity} enumeration represents the orientation of glyphs
+    in a segment of text.
   @end{short}
   This is useful when rendering vertical text layouts. In those situations, the
-  layout is rotated using a non-identity @symbol{pango:matrix}, and then glyph
-  orientation is controlled using @sym{pango:gravity}. Not every value in this
-  enumeration makes sense for every usage of @sym{pango:gravity}. For example,
-  @code{:auto} only can be passed to the function
-  @fun{pango:context-base-gravity} and can only be returned by the function
-  @fun{pango:context-base-gravity}.
+  layout is rotated using a non-identity @class{pango:matrix} instance, and
+  then glyph orientation is controlled using a @symbol{pango:gravity} value.
+  Not every value in this enumeration makes sense for every usage. For example,
+  the @code{:auto} value only can be passed to and returned by the
+  @fun{pango:context-base-gravity} function.
   @begin{pre}
 (gobject:define-g-enum \"PangoGravity\" gravity
   (:export t
@@ -164,9 +163,9 @@
       "GEnum"
       (liber:symbol-documentation 'gravity-hint)
  #+liber-documentation
- "@version{#2021-1-5}
+ "@version{2024-2-22}
   @begin{short}
-    The @sym{pango:gravity-hint} enumeration defines how horizontal scripts
+    The @symbol{pango:gravity-hint} enumeration defines how horizontal scripts
     should behave in a vertical context.
   @end{short}
   That is, English excerpt in a vertical paragraph for example.
@@ -182,8 +181,8 @@
     @entry[:natural]{Scripts will take their natural gravity based on the base
       gravity and the script. This is the default.}
     @entry[:strong]{Always use the base gravity set, regardless of the script.}
-    @entry[:line]{For scripts not in their natural direction (e.g. Latin in East
-      gravity), choose per-script gravity such that every script respects the
+    @entry[:line]{For scripts not in their natural direction, e.g. Latin in East
+      gravity, choose per-script gravity such that every script respects the
       line progression. This means, Latin and Arabic will take opposite
       gravities and both flow top-to-bottom for example.}
   @end{table}
@@ -203,8 +202,6 @@
 ;;; Returns :
 ;;;     TRUE if gravity is PANGO_GRAVITY_WEST or PANGO_GRAVITY_NORTH, FALSE
 ;;;     otherwise.
-;;;
-;;; Since 1.32
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -220,17 +217,15 @@
 ;;; Returns :
 ;;;     TRUE if gravity is PANGO_GRAVITY_EAST or PANGO_GRAVITY_WEST, FALSE
 ;;;     otherwise.
-;;;
-;;; Since 1.16
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_gravity_get_for_matrix () -> gravity-for-matrix
+;;; pango_gravity_get_for_matrix ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_gravity_get_for_matrix" gravity-for-matrix) gravity
  #+liber-documentation
- "@version{#2021-1-5}
+ "@version{2024-2-22}
   @argument[matrix]{a @class{pango:matrix} instance}
   @begin{return}
     The gravity of @arg{matrix}, which will never be @code{:auto}, or
@@ -246,73 +241,75 @@
 (export 'gravity-for-matrix)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_gravity_get_for_script () -> gravity-for-script
+;;; pango_gravity_get_for_script ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_gravity_get_for_script" gravity-for-script) gravity
  #+liber-documentation
- "@version{#2021-1-5}
+ "@version{2024-2-22}
   @argument[script]{a @symbol{pango:script} value to query}
-  @argument[base-gravity]{a base @symbol{pango:gravity} value of the paragraph}
-  @argument[hint]{a @symbol{pango:gravity-hint} orientation hint}
+  @argument[gravity]{a base @symbol{pango:gravity} value of the paragraph}
+  @argument[hint]{a @symbol{pango:gravity-hint} value with the orientation hint}
   @begin{return}
     Resolved @symbol{pango:gravity} value suitable to use for a run of text
     with @arg{script}.
   @end{return}
   @begin{short}
     Based on the script, base gravity, and hint, returns actual gravity to use
-    in laying out a single PangoItem.
+    in laying out a single @class{pango:item} instance.
   @end{short}
-
-  If @arg{base-gravity} is @code{:auto}, it is first replaced with the
+  If the @arg{gravity} argument is @code{:auto}, it is first replaced with the
   preferred gravity of @arg{script}. To get the preferred gravity of a script,
-  pass @code{:auto} and @code{:strong} in.
+  pass the @code{:auto} and @code{:strong} values in.
+  @see-class{pango:item}
   @see-symbol{pango:script}
   @see-symbol{pango:gravity}
   @see-symbol{pango:gravity-hint}"
   (script script)
-  (base-gravity gravity)
+  (gravity gravity)
   (hint gravity-hint))
 
 (export 'gravity-for-script)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_gravity_get_for_script_and_width () -> gravity-for-script-and-width
+;;; pango_gravity_get_for_script_and_width ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_gravity_get_for_script_and_width"
                 gravity-for-script-and-width) gravity
  #+liber-documentation
- "@version{#2021-1-5}
+ "@version{2024-2-22}
   @argument[script]{a @symbol{pango:script} value to query}
   @argument[wide]{@em{true} for wide characters as returned by
     @code{g_unichar_iswide()}}
-  @argument[base-gravity]{a base @symbol{pango:gravity} value of the paragraph}
-  @argument[hint]{a @symbol{pango:gravity-hint} orientation hint}
+  @argument[gravity]{a base @symbol{pango:gravity} value of the paragraph}
+  @argument[hint]{a @symbol{pango:gravity-hint} value with the orientation hint}
   @begin{return}
     Resolved @symbol{pango:gravity} value suitable to use for a run of text
     with @arg{script} and @arg{wide}.
   @end{return}
   @begin{short}
     Based on the script, East Asian width, base gravity, and hint, returns
-    actual gravity to use in laying out a single character or PangoItem.
+    actual gravity to use in laying out a single character or a
+    @class{pango:item} instance.
   @end{short}
 
-  This function is similar to the function @fun{pango:gravity-for-script}
+  This function is similar to the @fun{pango:gravity-for-script} function
   except that this function makes a distinction between narrow/half-width and
   wide/full-width characters also. Wide/full-width characters always stand
   upright, that is, they always take the base gravity, whereas narrow/full-width
   characters are always rotated in vertical context.
 
-  If @arg{base-gravity} is @code{:auto}, it is first replaced with the
+  If the @arg{gravity} argument is @code{:auto}, it is first replaced with the
   preferred gravity of @arg{script}.
+  @see-class{pango:item}
   @see-symbol{pango:script}
   @see-symbol{pango:gravity}
   @see-symbol{pango:gravity-hint}
   @see-function{pango:gravity-for-script}"
   (script script)
   (wide :boolean)
-  (base-gravity gravity)
+  (gravity gravity)
   (hint gravity-hint))
 
 (export 'gravity-for-script-and-width)
@@ -323,20 +320,21 @@
 
 (cffi:defcfun ("pango_gravity_to_rotation" gravity-to-rotation) :double
  #+liber-documentation
- "@version{#2021-1-5}
+ "@version{2024-2-22}
   @argument[script]{a @symbol{pango:script} value to query}
   @begin{return}
-    A double with the rotation value corresponding to @arg{gravity}.
+    The double float with the rotation value corresponding to @arg{gravity}.
   @end{return}
   @begin{short}
-    Converts a @symbol{pangogravity} value to its natural rotation in radians.
+    Converts a @symbol{pango:gravity} value to its natural rotation in radians.
   @end{short}
-  @arg{gravity} should not be @code{:auto}.
-
-  Note that the function @fun{pango:matrix-rotate} takes angle in degrees, not
-  radians. So, to call the function @fun{pango:matrix-rotate} with the output
-  of this function you should multiply it by (180 / pi).
-  @see-symbol{pango:gravity}"
+  The @arg{gravity} argument should not be the @code{:auto} value. Note that the
+  @fun{pango:matrix-rotate} function takes angle in degrees, not radians. So,
+  to call the @fun{pango:matrix-rotate} function with the output
+  of this function you should multiply it by @code{(180 / pi)}.
+  @see-symbol{pango:script}
+  @see-symbol{pango:gravity}
+  @see-function{pango:matrix-rotate}"
   (gravity gravity))
 
 (export 'gravity-to-rotation)

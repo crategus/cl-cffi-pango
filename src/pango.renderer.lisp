@@ -2,11 +2,11 @@
 ;;; pango.renderer.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; Version 1.51 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2023 Dieter Kaiser
+;;; Copyright (C) 2011 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -36,8 +36,6 @@
 ;;;     PangoRenderer
 ;;;     PangoRenderPart
 ;;;
-;;;     PANGO_TYPE_RENDER_PART
-;;;
 ;;;     PangoRendererClass
 ;;;
 ;;; Functions
@@ -65,14 +63,55 @@
 ;;; Object Hierarchy
 ;;;
 ;;;   GObject
-;;;    +----PangoRenderer
-;;;          +----PangoXftRenderer
+;;;   ╰── PangoRenderer
+;;;       ╰── PangoXftRenderer
 ;;;
 ;;;   GEnum
-;;;    +----PangoRenderPart
+;;;   ╰── PangoRenderPart
 ;;; ----------------------------------------------------------------------------
 
 (in-package :pango)
+
+;;; ----------------------------------------------------------------------------
+;;; enum PangoRenderPart
+;;; ----------------------------------------------------------------------------
+
+(gobject:define-g-enum "PangoRenderPart" render-part
+  (:export t
+   :type-initializer "pango_render_part_get_type")
+  (:foreground 0)
+  (:background 1)
+  (:underline 2)
+  (:strikethrough 3)
+  (:overline 4))
+
+#+liber-documentation
+(setf (liber:alias-for-symbol 'render-part)
+      "GEnum"
+      (liber:symbol-documentation 'render-part)
+ "@version{2024-2-24}
+  @begin{short}
+    The @sym{pango:render-part} enumeration defines different items to render
+    for such purposes as setting colors.
+  @end{short}
+  @begin{pre}
+(gobject:define-g-enum \"PangoRenderPart\" pango:render-part
+  (:export t
+   :type-initializer \"pango_render_part_get_type\")
+  (:foreground 0)
+  (:background 1)
+  (:underline 2)
+  (:strikethrough 3)
+  (:overline 4))
+  @end{pre}
+  @begin[code]{table}
+    @entry[:foreground]{The text itself.}
+    @entry[:background]{The area behind the text.}
+    @entry[:underline]{Underlines.}
+    @entry[:strikethrough]{Strikethrough lines.}
+    @entry[:overline]{Overlines.}
+  @end{table}
+  @see-class{pango:renderer}")
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoRenderer
@@ -87,8 +126,6 @@
 ;;; PangoMatrix *matrix;
 ;;;     the current transformation matrix for the Renderer; may be NULL, which
 ;;;     should be treated the same as the identity matrix.
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-object-class "PangoRenderer" renderer
@@ -100,63 +137,17 @@
 
 #+liber-documentation
 (setf (documentation 'renderer 'type)
- "@version{#2021-4-15}
+ "@version{2024-2-24}
   @begin{short}
-    A @sym{pango:renderer} class is a base class that contains the necessary
+    The @class{pango:renderer} class is a base class that contains the necessary
     logic for rendering @class{pango:layout} or a @class{pango:layout-line}
      objects.
   @end{short}
-  By subclassing the @sym{pango:renderer} class and overriding operations such
+  By subclassing the @class{pango:renderer} class and overriding operations such
   as @code{draw_glyphs} and @code{draw_rectangle}, renderers for particular
   font backends and destinations can be created.
   @see-class{pango:layout}
   @see-class{pango:layout-line}")
-
-;;; ----------------------------------------------------------------------------
-;;; enum PangoRenderPart
-;;; ----------------------------------------------------------------------------
-
-(gobject:define-g-enum "PangoRenderPart" render-part
-  (:export t
-   :type-initializer "pango_render_part_get_type")
-  (:foreground 0)
-  (:background 1)
-  (:underline 2)
-  (:strikethrough 3))
-
-#+liber-documentation
-(setf (liber:alias-for-symbol 'render-part)
-      "GEnum"
-      (liber:symbol-documentation 'render-part)
- "@version{#2021-4-15}
-  @begin{short}
-    The @sym{pango:render-part} enumeration defines different items to render
-    for such purposes as setting colors.
-  @end{short}
-  @begin{pre}
-(gobject:define-g-enum \"PangoRenderPart\" pango:render-part
-  (:export t
-   :type-initializer \"pango_render_part_get_type\")
-  (:foreground 0)
-  (:background 1)
-  (:underline 2)
-  (:strikethrough 3))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:foreground]{The text itself.}
-    @entry[:background]{The area behind the text.}
-    @entry[:underline]{Underlines.}
-    @entry[:strikethrough]{Strikethrough lines.}
-  @end{table}
-  @see-class{pango:renderer}")
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_TYPE_RENDER_PART
-;;;
-;;; #define PANGO_TYPE_RENDER_PART (pango_render_part_get_type ())
-;;;
-;;; The GObject type for PangoRenderPart.
-;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoRendererClass
@@ -266,8 +257,6 @@
 ;;;
 ;;; draw_glyph_item ()
 ;;;     draws a PangoGlyphItem
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -293,8 +282,6 @@
 ;;; y :
 ;;;     Y position of left edge of baseline, in user space coordinates in
 ;;;     Pango units.
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -320,8 +307,6 @@
 ;;; y :
 ;;;     Y position of left edge of baseline, in user space coordinates in
 ;;;     Pango units.
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -351,8 +336,6 @@
 ;;; y :
 ;;;     Y position of left edge of baseline, in user space coordinates in
 ;;;     Pango units.
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -392,8 +375,6 @@
 ;;; y :
 ;;;     Y position of left edge of baseline, in user space coordinates in
 ;;;     Pango units.
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -431,8 +412,6 @@
 ;;;
 ;;; height :
 ;;;     height of rectangle in Pango units in user space coordinates
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -467,8 +446,6 @@
 ;;;
 ;;; height :
 ;;;     height of underline, in Pango units in user coordinate system
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -510,8 +487,6 @@
 ;;;
 ;;; x22 :
 ;;;     X coordinate of right end of bottom of trapezoid
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -540,8 +515,6 @@
 ;;;
 ;;; y :
 ;;;     Y coordinate of left edge of baseline of glyph
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -559,8 +532,6 @@
 ;;;
 ;;; renderer :
 ;;;     a PangoRenderer
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -574,8 +545,6 @@
 ;;;
 ;;; renderer :
 ;;;     a PangoRenderer
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -601,8 +570,6 @@
 ;;;
 ;;; part :
 ;;;     the part for which rendering has changed.
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -623,8 +590,6 @@
 ;;;
 ;;; color :
 ;;;     the new color or NULL to unset the current color. [allow-none]
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -645,8 +610,6 @@
 ;;; Returns :
 ;;;     the color for the specified part, or NULL if it hasn't been set and
 ;;;     should be inherited from the environment.
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -668,8 +631,6 @@
 ;;;
 ;;; alpha :
 ;;;     an alpha value between 1 and 65536, or 0 to unset the alpha
-;;;
-;;; Since 1.38
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -690,8 +651,6 @@
 ;;; Returns :
 ;;;     the alpha for the specified part, or 0 if it hasn't been set and should
 ;;;     be inherited from the environment.
-;;;
-;;; Since 1.38
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -709,8 +668,6 @@
 ;;; matrix :
 ;;;     a PangoMatrix, or NULL to unset any existing matrix. (No matrix set is
 ;;;     the same as setting the identity matrix.). [allow-none]
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -729,8 +686,6 @@
 ;;;     the matrix, or NULL if no matrix has been set (which is the same as the
 ;;;     identity matrix). The returned matrix is owned by Pango and must not be
 ;;;     modified or freed.
-;;;
-;;; Since 1.8
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -751,8 +706,6 @@
 ;;; Returns :
 ;;;     the layout, or NULL if no layout is being rendered using renderer at
 ;;;     this time. [transfer none]
-;;;
-;;; Since 1.20
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------

@@ -2,11 +2,11 @@
 ;;; pango.bidirectional.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; Version 1.51 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2023 Dieter Kaiser
+;;; Copyright (C) 2011 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -34,34 +34,20 @@
 ;;; Types and Value
 ;;;
 ;;;     PangoDirection
-;;;     PangoBidiType
+;;;     PangoBidiType                                      Deprecated 1.44
 ;;;
 ;;; Function
 ;;;
 ;;;     pango_unichar_direction
 ;;;     pango_find_base_dir
-;;;     pango_get_mirror_char
-;;;     pango_bidi_type_for_unichar
+;;;     pango_get_mirror_char                              Deprecated 1.30
+;;;     pango_bidi_type_for_unichar                        Deprecated 1.44
 ;;;
 ;;; Object Hierarchy
 ;;;
 ;;;     GEnum
 ;;;     ├── PangoBidiType
 ;;;     ╰── PangoDirection
-;;;
-;;;
-;;; Description
-;;;
-;;;     Pango supports bidirectional text (like Arabic and Hebrew)
-;;;     automatically. Some applications however, need some help to correctly
-;;;     handle bidirectional text.
-;;;
-;;;     The PangoDirection type can be used with pango_context_set_base_dir()
-;;;     to instruct Pango about direction of text, though in most cases Pango
-;;;     detects that correctly and automatically. The rest of the facilities in
-;;;     this section are used internally by Pango already, and are provided to
-;;;     help applications that need more direct control over bidirectional
-;;;     setting of text.
 ;;; ----------------------------------------------------------------------------
 
 (in-package :pango)
@@ -85,17 +71,17 @@
 (setf (liber:alias-for-symbol 'direction)
       "GEnum"
       (liber:symbol-documentation 'direction)
- "@version{#2021-1-2}
+ "@version{2024-2-25}
   @begin{short}
-    The @sym{pango:direction} enumeration represents a direction in the Unicode
-    bidirectional algorithm.
+    The @symbol{pango:direction} enumeration represents a direction in the
+    Unicode bidirectional algorithm.
   @end{short}
-  Not every value in this enumeration makes sense for every usage of
-  @sym{pango:direction}. For example, the return value of the functions
-  @fun{pango:unichar-direction} and @fun{pango:find-base-dir} cannot be
-  @code{:weak-ltr} or @code{:weak-rtl}, since every character is either neutral
-  or has a strong direction. On the other hand @code{:neutral} does not make
-  sense to pass to the function @fun{pango:itemize-with-base-dir}.
+  Not every value in this enumeration makes sense for every usage. For example,
+  the return value of the @fun{pango:unichar-direction} and
+  @fun{pango:find-base-dir} functions cannot be @code{:weak-ltr} or
+  @code{:weak-rtl}, since every character is either neutral or has a strong
+  direction. On the other hand the @code{:neutral} value does not make sense to
+  pass to the @fun{pango:itemize-with-base-dir} function.
 
   The @code{:ttb-ltr}, @code{:ttb-rtl} values come from an earlier
   interpretation of this enumeration as the writing direction of a block of
@@ -221,60 +207,52 @@
 ;;;
 ;;; PANGO_BIDI_TYPE_ON
 ;;;     Other Neutrals
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_unichar_direction ()
-;;;
-;;; PangoDirection pango_unichar_direction (gunichar ch);
-;;;
-;;; Determines the inherent direction of a character; either
-;;; PANGO_DIRECTION_LTR, PANGO_DIRECTION_RTL, or PANGO_DIRECTION_NEUTRAL.
-;;;
-;;; This function is useful to categorize characters into left-to-right letters,
-;;; right-to-left letters, and everything else. If full Unicode bidirectional
-;;; type of a character is needed, pango_bidi_type_for_gunichar() can be used
-;;; instead.
-;;;
-;;; Warning
-;;;
-;;; pango_unichar_direction is deprecated and should not be used in
-;;; newly written code.
-;;;
-;;; ch :
-;;;     a Unicode character
-;;;
-;;; Returns :
-;;;     the direction of the character.
 ;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_unichar_direction" unichar-direction) direction
+ #+liber-documentation
+ "@version{2024-2-25}
+  @argument[ch]{a Lisp character}
+  @return{The @symbol{pango:direction} value with the direction of the
+    characer.}
+  @begin{short}
+    Determines the inherent direction of a character.
+  @end{short}
+  Either @code{:ltr}, @code{:rtl}, or @code{:neutral}. This function is useful
+  to categorize characters into left-to-right letters, right-to-left letters,
+  and everything else.
+  @see-symbol{pango:direction}"
+  (ch g:unichar))
+
+(export 'unichar-direction)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_find_base_dir ()
-;;;
-;;; PangoDirection pango_find_base_dir (const gchar *text, gint length);
-;;;
-;;; Searches a string the first character that has a strong direction, according
-;;; to the Unicode bidirectional algorithm.
-;;;
-;;; Warning
-;;;
-;;; pango_find_base_dir is deprecated and should not be used in newly written
-;;; code.
-;;;
-;;; text :
-;;;     the text to process
-;;;
-;;; length :
-;;;     length of text in bytes (may be -1 if text is nul-terminated)
-;;;
-;;; Returns :
-;;;     The direction corresponding to the first strong character. If no such
-;;;     character is found, then PANGO_DIRECTION_NEUTRAL is returned.
-;;;
-;;; Since 1.4
 ;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_find_base_dir" %find-base-dir) direction
+  (text :string)
+  (len :int))
+
+(defun find-base-dir (text)
+ #+liber-documentation
+ "@version{2024-2-25}
+  @argument[text]{a string with text to process}
+  @return{The @symbol{pango:direction} value with the direction corresponding
+    to the first strong character. If no such character is found, then the
+    @code{:neutral} value is returned.}
+  @begin{short}
+    Searches a string for the first character that has a strong direction,
+    according to the Unicode bidirectional algorithm.
+  @end{short}
+  @see-symbol{pango:direction}"
+  (%find-base-dir text (length text)))
+
+(export 'find-base-dir)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_get_mirror_char ()
@@ -331,8 +309,6 @@
 ;;; Returns :
 ;;;     the bidirectional character type, as used in the Unicode bidirectional
 ;;;     algorithm.
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
 
 ;;; --- pango.bidirectional.lisp -----------------------------------------------

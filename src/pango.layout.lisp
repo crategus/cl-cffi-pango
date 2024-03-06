@@ -2,7 +2,7 @@
 ;;; pango.layout.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; Version 1.51 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
@@ -449,7 +449,7 @@
 (export 'layout-copy)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_context () -> layout-context
+;;; pango_layout_get_context ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_get_context" layout-context) (g:object context)
@@ -488,7 +488,7 @@
 (export 'layout-context-changed)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_serial () -> layout-serial
+;;; pango_layout_get_serial ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_get_serial" layout-serial) :uint
@@ -519,7 +519,7 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_set_text ()
-;;; pango_layout_get_text () -> layout-text
+;;; pango_layout_get_text ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-text) (text layout)
@@ -556,7 +556,7 @@
 (export 'layout-text)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_character_count () -> layout-character-count
+;;; pango_layout_get_character_count ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_get_character_count" layout-character-count) :int
@@ -644,7 +644,7 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_attributes ()
-;;; pango_layout_set_attributes () -> layout-attributes
+;;; pango_layout_set_attributes ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-attributes) (attrs layout)
@@ -675,7 +675,7 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_set_font_description ()
-;;; pango_layout_get_font_description () -> layout-font-description
+;;; pango_layout_get_font_description ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-font-description) (desc layout)
@@ -711,7 +711,7 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_width ()
-;;; pango_layout_set_width () -> layout-width
+;;; pango_layout_set_width ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-width) (width layout)
@@ -743,7 +743,7 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_height ()
-;;; pango_layout_set_height () -> layout-height
+;;; pango_layout_set_height ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-height) (height layout)
@@ -794,7 +794,7 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_wrap ()
-;;; pango_layout_set_wrap () -> layout-wrap
+;;; pango_layout_set_wrap ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-wrap) (wrap layout)
@@ -852,7 +852,7 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_ellipsize ()
-;;; pango_layout_set_ellipsize () -> layout-ellipsize
+;;; pango_layout_set_ellipsize ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-ellipsize) (ellipsize layout)
@@ -918,7 +918,7 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_indent ()
-;;; pango_layout_set_indent () -> layout-indent
+;;; pango_layout_set_indent ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-indent) (indent layout)
@@ -954,7 +954,7 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_spacing ()
-;;; pango_layout_set_spacing () -> layout-spacing
+;;; pango_layout_set_spacing ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-spacing) (spacing layout)
@@ -995,7 +995,7 @@ line2.top = line1.bottom + spacing
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_line_spacing ()
-;;; pango_layout_set_line_spacing () -> layout-line-spacing
+;;; pango_layout_set_line_spacing ()
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-44
@@ -1043,7 +1043,7 @@ baseline2 = baseline1 + factor * height2
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_justify ()
-;;; pango_layout_set_justify () -> layout-justify
+;;; pango_layout_set_justify ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-justify) (justify layout)
@@ -1077,7 +1077,7 @@ baseline2 = baseline1 + factor * height2
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_auto_dir ()
-;;; pango_layout_set_auto_dir () -> layout-auto-dir
+;;; pango_layout_set_auto_dir ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-auto-dir) (auto-dir layout)
@@ -1122,7 +1122,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-auto-dir)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_direction () -> layout-direction
+;;; pango_layout_get_direction ()
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-46
@@ -1148,7 +1148,7 @@ baseline2 = baseline1 + factor * height2
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_alignment ()
-;;; pango_layout_set_alignment () -> layout-alignment
+;;; pango_layout_set_alignment ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-alignment) (alignment layout)
@@ -1179,7 +1179,7 @@ baseline2 = baseline1 + factor * height2
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_tabs ()
-;;; pango_layout_set_tabs () -> layout-tabs
+;;; pango_layout_set_tabs ()
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-tabs) (tabs layout)
@@ -1214,7 +1214,6 @@ baseline2 = baseline1 + factor * height2
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_get_single_paragraph_mode ()
 ;;; pango_layout_set_single_paragraph_mode ()
-;;;   -> layout-single-paragraph-mode
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf layout-single-paragraph-mode) (setting layout)
@@ -1272,10 +1271,10 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-unknown-glyphs-count)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_log_attrs () -> layout-log-attrs
+;;; pango_layout_get_log_attrs ()                          not exported
 ;;; ----------------------------------------------------------------------------
 
-;; FIXME: More work is needed. At this time we do not export the function.
+;; TODO: Consider to remove the implementation
 
 (cffi:defcfun ("pango_layout_get_log_attrs" %layout-log-attrs) :void
   (layout (g:object layout))
@@ -1296,17 +1295,16 @@ baseline2 = baseline1 + factor * height2
   @see-symbol{pango:log-attr}"
   (cffi:with-foreign-objects ((attrs-ptr :pointer) (n-attrs :int))
     (%layout-log-attrs layout attrs-ptr n-attrs)
-    (loop with attrs-ar = (cffi:mem-ref attrs-ptr :pointer)
-          for i from 0 below (cffi:mem-ref n-attrs :int)
-          for attr = (cffi:mem-aref attrs-ar :pointer i)
-          collect attr
-          finally (glib:free attrs-ptr))))
+    (iter (with attrs-ar = (cffi:mem-ref attrs-ptr :pointer))
+          (for i from 0 below (cffi:mem-ref n-attrs :int))
+          (collect (cffi:mem-aref attrs-ar :pointer i))
+          (finally (glib:free attrs-ptr)))))
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_log_attrs_readonly () -> layout-log-attrs-readonly
+;;; pango_layout_get_log_attrs_readonly ()                 not exported
 ;;; ----------------------------------------------------------------------------
 
-;; FIXME: More work is needed. At this time we do not export the function.
+;; TODO: Consider to remove the implementation
 
 (cffi:defcfun ("pango_layout_get_log_attrs_readonly"
                 %layout-log-attrs-readonly) (:pointer (:struct log-attr))
@@ -1328,9 +1326,9 @@ baseline2 = baseline1 + factor * height2
   @see-function{pango:layout-log-attrs}"
   (cffi:with-foreign-object (n-attrs :int)
     (let ((attrs-ptr (%layout-log-attrs-readonly layout n-attrs)))
-      (loop for count from 0 below (cffi:mem-ref n-attrs :int)
-            collect (cffi:mem-ref attrs-ptr '(:struct log-attr) count)
-            finally (glib:free attrs-ptr)))))
+      (iter (for count from 0 below (cffi:mem-ref n-attrs :int))
+            (collect (cffi:mem-ref attrs-ptr '(:struct log-attr) count))
+            (finally (glib:free attrs-ptr))))))
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_layout_index_to_pos ()
@@ -1453,7 +1451,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-xy-to-index)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_cursor_pos () -> layout-cursor-pos
+;;; pango_layout_get_cursor_pos ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_get_cursor_pos" %layout-cursor-pos) :void
@@ -1651,7 +1649,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-pixel-extents)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_size () -> layout-size
+;;; pango_layout_get_size ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_get_size" %layout-size) :void
@@ -1669,13 +1667,13 @@ baseline2 = baseline1 + factor * height2
   @end{return}
   @begin{short}
     Determines the logical width and height of a layout in Pango units, device
-    units scaled by the @var{pango:+pango-scale+} constant.
+    units scaled by the @var{pango:+scale+} constant.
   @end{short}
   This is simply a convenience function around the @fun{pango:layout-extents}
   function.
   @see-class{pango:layout}
   @see-function{pango:layout-extents}
-  @see-variable{pango:+pango-scale+}"
+  @see-variable{pango:+scale+}"
   (cffi:with-foreign-objects ((width :int) (height :int))
     (%layout-size layout width height)
     (values (cffi:mem-ref width :int)
@@ -1684,7 +1682,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-size)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_pixel_size () -> layout-pixel-size
+;;; pango_layout_get_pixel_size ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_get_pixel_size" %layout-get-pixel-size) :void
@@ -1704,7 +1702,7 @@ baseline2 = baseline1 + factor * height2
     Determines the logical width and height of a Pango layout in device units.
   @end{short}
   The @fun{pango:layout-size} function returns the width and height scaled by
-  @var{pango:+pango-scale+}. This is simply a convenience function around the
+  @var{pango:+scale+}. This is simply a convenience function around the
   @fun{pango:layout-pixel-extents} function.
   @see-class{pango:layout}
   @see-function{pango:layout-size}
@@ -1717,7 +1715,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-pixel-size)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_baseline () -> layout-baseline
+;;; pango_layout_get_baseline ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_get_baseline" layout-baseline) :int
@@ -1735,7 +1733,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-baseline)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_line_count () -> layout-line-count
+;;; pango_layout_get_line_count ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_get_line_count" layout-line-count) :int
@@ -1752,7 +1750,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-line-count)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_line () -> layout-line
+;;; pango_layout_get_line ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_get_line" layout-line) (g:boxed layout-line)
@@ -1780,7 +1778,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-line)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_line_readonly () -> layout-line-readonly
+;;; pango_layout_get_line_readonly ()
 ;;; ----------------------------------------------------------------------------
 
 ;;; TODO: Do we need a second function. Which is the better implementation?
@@ -1812,7 +1810,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-line-readonly)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_lines () -> layout-lines
+;;; pango_layout_get_lines ()
 ;;; ----------------------------------------------------------------------------
 
 ;; TODO: Check again the implementation of g:slist-t. The g:slist-t type does
@@ -1822,12 +1820,12 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-lines (layout)
  #+liber-documentation
- "@version{2023-2-7}
+ "@version{2024-2-25}
   @argument[layout]{a @class{pango:layout} object}
   @begin{return}
     A list containing the @class{pango:layout-line} instances in the layout.
     This points to internal data of the Pango layout and must be used with
-    care. It will become invalid on any change to the layout's text or
+    care. It will become invalid on any change to the text of the layout or
     properties.
   @end{return}
   @begin{short}
@@ -1837,13 +1835,13 @@ baseline2 = baseline1 + factor * height2
   to modify the contents of the lines (glyphs, glyph widths, etc.).
   @see-class{pango:layout}
   @see-class{pango:layout-line}"
-  (loop for count from 0 below (layout-line-count layout)
-        collect (layout-line layout count)))
+  (iter (for index from 0 below (layout-line-count layout))
+        (collect (layout-line layout index))))
 
 (export 'layout-lines)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_lines_readonly () -> layout-lines-readonly
+;;; pango_layout_get_lines_readonly ()
 ;;; ----------------------------------------------------------------------------
 
 ;; TODO: Check again the implementation of g:slist-t. See the comment above.
@@ -1868,13 +1866,13 @@ baseline2 = baseline1 + factor * height2
   @see-class{pango:layout}
   @see-class{pango:layout-line}
   @see-function{pango:layout-lines}"
-  (loop for count from 0 below (layout-line-count layout)
-        collect (layout-line-readonly layout count)))
+  (iter (for count from 0 below (layout-line-count layout))
+        (collect (layout-line-readonly layout count))))
 
 (export 'layout-lines-readonly)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_get_iter () -> layout-iter
+;;; pango_layout_get_iter ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_get_iter" layout-iter)
@@ -2017,7 +2015,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-at-last-line)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_index () -> layout-iter-index
+;;; pango_layout_iter_get_index ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_index" layout-iter-index) :int
@@ -2039,7 +2037,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-index)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_baseline () -> layout-iter-baseline
+;;; pango_layout_iter_get_baseline ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_baseline" layout-iter-baseline) :int
@@ -2057,10 +2055,11 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-baseline)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_run () -> layout-iter-run
+;;; pango_layout_iter_get_run ()
 ;;; ----------------------------------------------------------------------------
 
-(cffi:defcfun ("pango_layout_iter_get_run" layout-iter-run) (g:boxed glyph-item)
+(cffi:defcfun ("pango_layout_iter_get_run" layout-iter-run)
+    (g:boxed glyph-item :return)
  #+liber-documentation
  "@version{2023-2-11}
   @argument[iter]{a @class{pango:layout-iter} instance}
@@ -2083,7 +2082,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-run)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_run_readonly () -> layout-iter-run-readonly
+;;; pango_layout_iter_get_run_readonly ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_run_readonly" layout-iter-run-readonly)
@@ -2111,7 +2110,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-run-readonly)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_line () -> layout-iter-line
+;;; pango_layout_iter_get_line ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_line" layout-iter-line)
@@ -2132,7 +2131,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-line)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_line_readonly () -> layout-iter-line-readonly
+;;; pango_layout_iter_get_line_readonly ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_line_readonly" layout-iter-line-readonly)
@@ -2155,7 +2154,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-line-readonly)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_layout () -> layout-iter-layout
+;;; pango_layout_iter_get_layout ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_layout" layout-iter-layout)
@@ -2174,7 +2173,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-layout)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_char_extents () -> layout-iter-char-extents
+;;; pango_layout_iter_get_char_extents ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_char_extents" %layout-iter-char-extents)
@@ -2203,7 +2202,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-char-extents)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_cluster_extents () -> layout-iter-cluster-extents
+;;; pango_layout_iter_get_cluster_extents ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_cluster_extents"
@@ -2239,7 +2238,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-cluster-extents)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_run_extents () -> layout-iter-run-extents
+;;; pango_layout_iter_get_run_extents ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_run_extents" %layout-iter-run-extents)
@@ -2276,7 +2275,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-run-extents)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_line_yrange () -> layout-iter-line-yrange
+;;; pango_layout_iter_get_line_yrange ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_line_yrange" %layout-iter-line-yrange)
@@ -2316,7 +2315,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-line-yrange)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_line_extents () -> layout-iter-line-extents
+;;; pango_layout_iter_get_line_extents ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_line_extents" %layout-iter-line-extents)
@@ -2356,7 +2355,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-iter-line-extents)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_iter_get_layout_extents () -> layout-iter-layout-extents
+;;; pango_layout_iter_get_layout_extents ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_iter_get_layout_extents"
@@ -2422,7 +2421,7 @@ baseline2 = baseline1 + factor * height2
   (line (g:boxed layout-line)))
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_line_get_extents () -> layout-line-extents
+;;; pango_layout_line_get_extents ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_line_get_extents" %layout-line-extents) :void
@@ -2459,7 +2458,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-line-extents)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_line_get_height () -> layout-line-height
+;;; pango_layout_line_get_height ()
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-44
@@ -2510,7 +2509,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-line-length)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_line_get_pixel_extents () -> layout-line-pixel-extents
+;;; pango_layout_line_get_pixel_extents ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_layout_line_get_pixel_extents" %layout-line-pixel-extents)
@@ -2597,7 +2596,7 @@ baseline2 = baseline1 + factor * height2
 (export 'layout-line-start-index)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_layout_line_get_x_ranges () -> layout-line-x-ranges
+;;; pango_layout_line_get_x_ranges ()
 ;;; ----------------------------------------------------------------------------
 
 ;; TODO: Return a Lisp list with the values.

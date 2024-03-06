@@ -2,11 +2,11 @@
 ;;; pango.package.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; Version 1.51 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2023 Dieter Kaiser
+;;; Copyright (C) 2011 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -56,13 +56,17 @@
       The Pango rendering pipeline takes a string of Unicode characters and
       converts it into glyphs. The functions described in this section
       accomplish various steps of this process.
-      @about-symbol{PANGO_ANALYSIS_FLAG_CENTERED_BASELINE}
-      @about-symbol{PANGO_ANALYSIS_FLAG_IS_ELLIPSIS}
-      @about-symbol{PANGO_ANALYSIS_FLAG_NEED_HYPHEN}
       @about-symbol{shape-flags}
       @about-symbol{log-attr}
       @about-symbol{analysis}
-      @about-struct{item}
+      @about-function{analysis-font}
+      @about-function{analysis-level}
+      @about-function{analysis-gravity}
+      @about-function{analysis-flags}
+      @about-function{analysis-script}
+      @about-function{analysis-language}
+      @about-function{analysis-extra-attrs}
+      @about-class{item}
       @about-function{item-analysis}
       @about-function{item-length}
       @about-function{item-num-chars}
@@ -82,12 +86,7 @@
       @about-function{shape-full}
       @about-function{shape-with-flags}
     @end{subsection}
-    @begin[Fonts]{subsection}
-      Structures representing abstract fonts. Pango supports a flexible
-      architecture where a particular rendering architecture can supply an
-      implementation of fonts. The @class{pango:font} class represents an
-      abstract rendering-system-independent font. Pango provides routines to
-      list available fonts, and to load a font of a given description.
+    @begin[PangoFontDescription]{subsection}
       @about-symbol{style}
       @about-symbol{weight}
       @about-symbol{variant}
@@ -121,9 +120,9 @@
       @about-function{font-description-from-string}
       @about-function{font-description-to-string}
       @about-function{font-description-to-filename}
+    @end{subsection}
+    @begin[PangoFontMetrics]{subsection}
       @about-class{font-metrics}
-      @about-function{font-metrics-ref}
-      @about-function{font-metrics-unref}
       @about-function{font-metrics-ascent}
       @about-function{font-metrics-descent}
       @about-function{font-metrics-height}
@@ -133,6 +132,13 @@
       @about-function{font-metrics-underline-position}
       @about-function{font-metrics-strikethrough-thickness}
       @about-function{font-metrics-strikethrough-position}
+    @end{subsection}
+    @begin[Fonts]{subsection}
+      Pango supports a flexible architecture where a particular rendering
+      architecture can supply an implementation of fonts. The @class{pango:font}
+      class represents an abstract rendering-system-independent font. Pango
+      provides routines to list available fonts, and to load a font of a given
+      description.
       @about-class{font}
       @about-function{font-find-shaper}
       @about-function{font-describe}
@@ -145,7 +151,12 @@
       @about-function{font-font-map}
       @about-function{font-features}
       @about-function{font-hb-font}
+      @about-function{font-languages}
+      @about-function{font-serialize}
+      @about-function{font-deserialize}
       @about-class{font-family}
+      @about-generic{font-family-item-type}
+      @about-generic{font-family-n-items}
       @about-function{font-family-name}
       @about-function{font-family-is-monospace}
       @about-function{font-family-is-variable}
@@ -158,6 +169,8 @@
       @about-function{font-face-is-synthesized}
       @about-function{font-face-family}
       @about-class{font-map}
+      @about-generic{font-map-item-type}
+      @about-generic{font-map-n-items}
       @about-function{font-map-create-context}
       @about-function{font-map-load-font}
       @about-function{font-map-load-fontset}
@@ -169,7 +182,7 @@
       @about-class{fontset}
       @about-function{fontset-font}
       @about-function{fontset-metrics}
-      @about-symbol{PangoFontsetForeachFunc}
+      @about-symbol{fontset-foreach-func}
       @about-function{fontset-foreach}
     @end{subsection}
     @begin[Glyph Storage]{subsection}
@@ -177,29 +190,6 @@
       function produces a string of glyphs which can be measured or drawn to
       the screen. The following structures are used to store information about
       glyphs.
-      @about-variable{+pango-scale+}
-      @about-symbol{rectangle}
-      @about-struct{matrix}
-      @about-function{matrix-xx}
-      @about-function{matrix-xy}
-      @about-function{matrix-yx}
-      @about-function{matrix-yy}
-      @about-function{matrix-x0}
-      @about-function{matrix-y0}
-      @about-function{matrix-new}
-      @about-function{matrix-init}
-      @about-function{matrix-copy}
-      @about-function{matrix-free}
-      @about-function{matrix-translate}
-      @about-function{matrix-scale}
-      @about-function{matrix-rotate}
-      @about-function{matrix-concat}
-      @about-function{matrix-transform-point}
-      @about-function{matrix-transform-distance}
-      @about-function{matrix-transform-rectangle}
-      @about-function{matrix-transform-pixel-rectangle}
-      @about-function{matrix-font-scale-factor}
-      @about-function{matrix-font-scale-factors}
       @about-symbol{glyph}
       @about-function{PANGO_GLYPH_EMPTY}
       @about-function{PANGO_GLYPH_INVALID_INPUT}
@@ -209,20 +199,6 @@
       @about-class{glyph-unit}
       @about-class{glyph-vis-attr}
       @about-class{glyph-string}
-      @about-class{glyph-item}
-      @about-class{glyph-item-iter}
-      @about-function{PANGO_TYPE_GLYPH_STRING}
-      @about-function{pixels}
-      @about-function{PANGO_PIXELS_FLOOR}
-      @about-function{PANGO_PIXELS_CEIL}
-      @about-function{PANGO_UNITS_ROUND}
-      @about-function{units-to-double}
-      @about-function{units-from-double}
-      @about-function{PANGO_ASCENT}
-      @about-function{PANGO_DESCENT}
-      @about-function{PANGO_LBEARING}
-      @about-function{PANGO_RBEARING}
-      @about-function{extents-to-pixels}
       @about-function{PANGO_GET_UNKNOWN_GLYPH}
       @about-function{glyph-string-new}
       @about-function{glyph-string-copy}
@@ -230,16 +206,18 @@
       @about-function{glyph-string-free}
       @about-function{glyph-string-extents}
       @about-function{glyph-string-extents-range}
-      @about-function{glyph-string-get-width}
+      @about-function{glyph-string-width}
       @about-function{glyph-string-index-to-x}
       @about-function{glyph-string-x-to-index}
-      @about-function{glyph-string-get-logical-widths}
+      @about-function{glyph-string-logical-widths}
+      @about-class{glyph-item}
       @about-function{glyph-item-copy}
       @about-function{glyph-item-free}
       @about-function{glyph-item-split}
       @about-function{glyph-item-apply-attrs}
       @about-function{glyph-item-letter-space}
-      @about-function{glyph-item-get-logical-widths}
+      @about-function{glyph-item-logical-widths}
+      @about-class{glyph-item-iter}
       @about-function{glyph-item-iter-copy}
       @about-function{glyph-item-iter-free}
       @about-function{glyph-item-iter-init-start}
@@ -252,13 +230,13 @@
       input to the itemization process and also when creating a Pango layout.
       The data types and functions in this section are used to represent and
       manipulate sets of attributes applied to a portion of text.
-      @about-variable{+pango-scale-xx-small+}
-      @about-variable{+pango-scale-x-small+}
-      @about-variable{+pango-scale-small+}
-      @about-variable{+pango-scale-medium+}
-      @about-variable{+pango-scale-large+}
-      @about-variable{+pango-scale-x-large+}
-      @about-variable{+pango-scale-xx-large+}
+      @about-variable{+scale-xx-small+}
+      @about-variable{+scale-x-small+}
+      @about-variable{+scale-small+}
+      @about-variable{+scale-medium+}
+      @about-variable{+scale-large+}
+      @about-variable{+scale-x-large+}
+      @about-variable{+scale-xx-large+}
       @about-symbol{attr-type}
       @about-symbol{underline}
       @about-symbol{overline}
@@ -266,22 +244,11 @@
       @about-symbol{text-transform}
       @about-symbol{baseline-shift}
       @about-symbol{font-scale}
-      @about-struct{color}
-      @about-function{color-red}
-      @about-function{color-green}
-      @about-function{color-blue}
-      @about-function{color-new}
-      @about-function{color-copy}
-      @about-function{color-parse}
-      @about-function{color-parse-with-alpha}
-      @about-function{color-to-string}
       @about-symbol{attr-class}
-      @about-struct{attribute}
-      @about-function{attribute-klass}
+      @about-class{attribute}
       @about-function{attribute-start-index}
       @about-function{attribute-end-index}
       @about-function{attribute-type}
-      @about-function{attribute-new}
       @about-function{attribute-init}
       @about-function{attribute-copy}
       @about-function{attribute-equal}
@@ -334,15 +301,15 @@
       @about-function{attr-list-ref}
       @about-function{attr-list-unref}
       @about-function{attr-list-copy}
+      @about-function{attr-list-equal}
       @about-function{attr-list-insert}
       @about-function{attr-list-insert-before}
       @about-function{attr-list-change}
       @about-function{attr-list-splice}
+      @about-symbol{attr-filter-func}
       @about-function{attr-list-filter}
       @about-function{attr-list-update}
-      @about-function{PangoAttrFilterFunc}
       @about-function{attr-list-attributes}
-      @about-function{attr-list-equal}
       @about-function{attr-list-from-string}
       @about-function{attr-list-to-string}
       @about-function{attr-list-iterator}
@@ -359,102 +326,111 @@
       Simple markup language for text with attributes.
 
       Frequently, you want to display some text to the user with attributes
-      applied to part of the text (for example, you might want bold or
-      italicized words). With the base Pango interfaces, you could create a
-      @class{pango:attr-list} instance and apply it to the text; the problem is
-      that you'd need to apply attributes to some numeric range of characters,
-      for example \"characters 12-17.\" This is broken from an
-      internationalization standpoint; once the text is translated, the word
+      applied to part of the text. For example, you might want bold or
+      italicized words. With the base Pango interfaces, you could create a
+      @class{pango:attr-list} instance and apply it to the text. The problem is
+      that you would need to apply attributes to some numeric range of
+      characters, for example \"characters 12-17.\" This is broken from an
+      internationalization standpoint. Once the text is translated, the word
       you wanted to italicize could be in a different position.
 
       The solution is to include the text attributes in the string to be
       translated. Pango provides this feature with a small markup language.
       You can parse a marked-up string into the string text plus a
-      @class{pango:attr-list} instance using either of the functions
-      @fun{pango:parse-markup} or @fun{pango:markup-parser-new}.
+      @class{pango:attr-list} instance using the @fun{pango:parse-markup}
+      function.
 
       A simple example of a marked-up string might be:
       @begin{pre}
 <span foreground=\"blue\" size=\"x-large\">Blue text</span> is <i>cool</i>!
       @end{pre}
-      Pango uses GMarkup to parse this language, which means that XML features
-      such as numeric character entities such as &amp;#169; for © can be used
-      too.
+      Pango uses @code{GMarkup} to parse this language, which means that XML
+      features such as numeric character entities such as @code{&amp;#169;}
+      for © can be used too.
 
-      The root tag of a marked-up document is @code{<markup>}, but the function
-      @fun{pango:parse-markup} allows you to omit this tag, so you will most
-      likely never need to use it. The most general markup tag is @code{<span>},
-      then there are some convenience tags.
+      The root tag of a marked-up document is @code{<markup>}, but the
+      @fun{pango:parse-markup} function allows you to omit this tag, so you will
+      most likely never need to use it. The most general markup tag is
+      @code{<span>}, then there are some convenience tags.
 
       @subheading{Span attributes}
       @code{<span>} has the following attributes:
       @begin[code]{table}
-        @entry[font_desc]{A font description string, such as \"Sans Italic 12\".
-          See the function @fun{pango:font-description-from-string} for a
-          description of the format of the string representation. Note that any
-          other span attributes will override this description. So if you have
-          \"Sans Italic\" and also a style=\"normal\" attribute, you will get
-          Sans normal, not italic.}
+        @entry[font_desc]{A font description string, such as
+          @code{\"Sans Italic 12\"}. See the
+          @fun{pango:font-description-from-string} function for a description of
+          the format of the string representation. Note that any other span
+          attributes will override this description. So if you have
+          @code{\"Sans Italic\"} and also a @code{style=\"normal\"} attribute,
+          you will get Sans normal, not italic.}
         @entry[font_family]{A font family name.}
         @entry[font_size, size]{Font size in 1024ths of a point, or one of the
-          absolute sizes xx-small, x-small, small, medium, large, x-large,
-          xx-large, or one of the relative sizes smaller or larger. If you want
-          to specify a absolute size, it's usually easier to take advantage of
-          the ability to specify a partial font description using font; you can
-          use @code{font='12.5'} rather than @code{size='12800'}.}
-        @entry[font_style]{One of normal, oblique, italic.}
-        @entry[font_weight]{One of ultralight, light, normal, bold, ultrabold,
-          heavy, or a numeric weight.}
-        @entry[font_variant]{One of normal or smallcaps.}
-        @entry[font_stretch, stretch]{One of ultracondensed, extracondensed,
-          condensed, semicondensed, normal, semiexpanded, expanded,
-          extraexpanded, ultraexpanded.}
+          absolute sizes @code{xx-small}, @code{x-small}, @code{small},
+          @code{medium}, @code{large}, @code{x-large}, @code{xx-large}, or one
+          of the relative sizes @code{smaller} or @code{larger}. If you want
+          to specify a absolute size, it is usually easier to take advantage of
+          the ability to specify a partial font description using @code{font}.
+          You can use @code{font='12.5'} rather than @code{size='12800'}.}
+        @entry[font_style]{One of @code{normal}, @code{oblique},
+          @code{italic}.}
+        @entry[font_weight]{One of @code{ultralight}, @code{light},
+          @code{normal}, @code{bold}, @code{ultrabold}, @code{heavy}, or a
+          numeric weight.}
+        @entry[font_variant]{One of @code{normal} or @code{smallcaps}.}
+        @entry[font_stretch, stretch]{One of @code{ultracondensed},
+          @code{extracondensed}, @code{condensed}, @code{semicondensed},
+          @code{normal}, @code{semiexpanded}, @code{expanded},
+          @code{extraexpanded}, @code{ultraexpanded}.}
         @entry[font_features]{A comma-separated list of OpenType font feature
-          settings, in the same syntax as accepted by CSS. E.g:
+          settings, in the same syntax as accepted by CSS, e.g.
           @code{font_features='dlig=1, -kern, afrc on'}.}
-        @entry[foreground, fgcolor]{An RGB color specification such as #00FF00
-          or a color name such as red. Since 1.38, an RGBA color specification
-          such as #00FF007F will be interpreted as specifying both a foreground
-          color and foreground alpha.}
-        @entry[background, bgcolor]{An RGB color specification such as #00FF00
-          or a color name such as red. Since 1.38, an RGBA color specification
-          such as #00FF007F will be interpreted as specifying both a background
-          color and background alpha.}
+        @entry[foreground, fgcolor]{An RGB color specification such as
+          @code{#00FF00} or a color name such as red. An RGBA color
+          specification such as @code{#00FF007F} will be interpreted as
+          specifying both a foreground color and foreground alpha.}
+        @entry[background, bgcolor]{An RGB color specification such as
+          @code{#00FF00} or a color name such as red. An RGBA color
+          specification such as @code{#00FF007F} will be interpreted as
+          specifying both a background color and background alpha.}
         @entry[alpha, fgalpha]{An alpha value for the foreground color, either
-          a plain integer between 1 and 65536 or a percentage value like 50%.}
+          a plain integer between 1 and 65536 or a percentage value like 50 %.}
         @entry[background_alpha, bgalpha]{An alpha value for the background
           color, either a plain integer between 1 and 65536 or a percentage
-          value like 50%.}
-        @entry[underline]{One of none, single, double, low, error, single-line,
-          double-line or error-line.}
-        @entry[underline_color]{The color of underlines; an RGB color
-          specification such as #00FF00 or a color name such as red.}
-        @entry[overline]{One of none or single.}
-        @entry[overline_color]{The color of overlines; an RGB color
-          specification such as #00FF00 or a color name such as red.}
+          value like 50 %.}
+        @entry[underline]{One of @code{none}, @code{single}, @code{double},
+          @code{low}, @code{error}, @code{single-line}, @code{double-line} or
+          @code{error-line}.}
+        @entry[underline_color]{The color of underlines. An RGB color
+          specification such as @code{#00FF00} or a color name such as red.}
+        @entry[overline]{One of @code{none} or @code{single}.}
+        @entry[overline_color]{The color of overlines. An RGB color
+          specification such as @code{#00FF00} or a color name such as red.}
         @entry[rise]{Vertical displacement, in Pango units. Can be negative for
           subscript, positive for superscript.}
-        @entry[strikethrough]{true or false whether to strike through the text.}
-        @entry[strikethrough_color]{The color of strikethrough lines; an RGB
-          color specification such as #00FF00 or a color name such as red.}
-        @entry[fallback]{true or false whether to enable fallback. If disabled,
-          then characters will only be used from the closest matching font on
-          the system. No fallback will be done to other fonts on the system that
-          might contain the characters in the text. Fallback is enabled by
-          default. Most applications should not disable fallback.}
-        @entry[allow_breaks]{true or false whether to allow line breaks or not.
-          If not allowed, the range will be kept in a single run as far as
-          possible. Breaks are allowed by default.}
-        @entry[insert_hyphens]{true or false` whether to insert hyphens when
-          breaking lines in the middle of a word. Hyphens are inserted by
+        @entry[strikethrough]{@em{True} or @em{false} whether to strike through
+          the text.}
+        @entry[strikethrough_color]{The color of strikethrough lines. An RGB
+          color specification such as @code{#00FF00} or a color name such as
+          red.}
+        @entry[fallback]{@em{True} or @em{false} whether to enable fallback. If
+          disabled, then characters will only be used from the closest matching
+          font on the system. No fallback will be done to other fonts on the
+          system that might contain the characters in the text. Fallback is
+          enabled by default. Most applications should not disable fallback.}
+        @entry[allow_breaks]{@em{True} or @em{false} whether to allow line
+          breaks or not. If not allowed, the range will be kept in a single run
+          as far as possible. Breaks are allowed by default.}
+        @entry[insert_hyphens]{@em{True} or @em{false} whether to insert hyphens
+          when breaking lines in the middle of a word. Hyphens are inserted by
           default.}
         @entry[show]{A value determining how invisible characters are treated.
           Possible values are spaces, line-breaks, ignorables or combinations,
-          such as spaces|line-breaks.}
+          such as spaces and line-breaks.}
         @entry[lang]{A language code, indicating the text language.}
         @entry[letter_spacing]{Inter-letter spacing in 1024ths of a point.}
-        @entry[gravity]{One of south, east, north, west, auto.}
-        @entry[gravity_hint]{One of natural, strong, line.}
+        @entry[gravity]{One of @code{south}, @code{east}, @code{north},
+          @code{west}, @code{auto}.}
+        @entry[gravity_hint]{One of @code{natural}, @code{strong}, @code{line}.}
       @end{table}
       @subheading{Convenience tags}
       The following convenience tags are provided:
@@ -462,7 +438,7 @@
         @entry[<b>]{Bold.}
         @entry[<big>]{Makes font relatively larger, equivalent to
           @code{<span size=\"larger\">}.}
-        @entry[<i>]{{Italic.}
+        @entry[<i>]{Italic.}
         @entry[<s>]{Strikethrough.}
         @entry[<sub>]{Subscript.}
         @entry[<sup>]{Superscript.}
@@ -573,13 +549,6 @@
     @begin[Scripts and Languages]{subsection}
       Identifying writing systems and languages.
       @about-symbol{script}
-      @about-symbol{script-iter}
-      @about-function{script-for-unichar}
-      @about-function{script-sample-language}
-      @about-function{script-iter-new}
-      @about-function{script-iter-get-range}
-      @about-function{script-iter-next}
-      @about-function{script-iter-free}
       @about-class{language}
       @about-function{language-from-string}
       @about-function{language-to-string}
@@ -589,6 +558,13 @@
       @about-function{language-default}
       @about-function{language-preferred}
       @about-function{language-sample-string}
+      @about-function{script-for-unichar}
+      @about-function{script-sample-language}
+      @about-symbol{script-iter}
+      @about-function{script-iter-new}
+      @about-function{script-iter-get-range}
+      @about-function{script-iter-next}
+      @about-function{script-iter-free}
     @end{subsection}
     @begin[Bidirectional Text]{subsection}
       Types and functions to help with handling bidirectional text.
@@ -597,9 +573,9 @@
       Some applications however, need some help to correctly handle
       bidirectional text.
 
-      The @symbol{pango:direction} enumeration can be used with the function
-      @fun{pango:context-base-dir} to instruct Pango about direction of text,
-      though in most cases Pango detects that correctly and automatically.
+      The @symbol{pango:direction} enumeration can be used with the
+      @fun{pango:context-base-dir} function to instruct Pango about direction of
+      text, though in most cases Pango detects that correctly and automatically.
       The rest of the facilities in this section are used internally by Pango
       already, and are provided to help applications that need more direct
       control over bidirectional setting of text.
@@ -650,7 +626,7 @@
       should not assume they are completely independent of the current
       transformation matrix. Note that the basic metrics functions in Pango
       report results in integer Pango units. To get to the floating point units
-      used in Cairo divide by the @var{pango:+pango-scale+} value.
+      used in Cairo divide by the @var{pango:+scale+} value.
       @begin[Example]{dictionary}
         Using Pango with Cairo
         @begin{pre}
@@ -689,7 +665,7 @@
            (multiple-value-bind (width height)
                (pango:layout-size layout)
              (declare (ignore height))
-             (cairo:move-to cr (- (/ width 2 +pango-scale+)) (- circle)))
+             (cairo:move-to cr (- (/ width 2 pango:+scale+)) (- circle)))
              (pango:cairo-show-layout cr layout)
              (cairo:restore cr)))))
         @end{pre}
@@ -721,18 +697,6 @@
       @about-function{cairo-layout-path}
       @about-function{cairo-error-underline-path}
     @end{subsection}
-    @begin[Win32 Fonts and Rendering]{subsection}
-      not implemented
-    @end{subsection}
-    @begin[CoreText Fonts]{subsection}
-      not implemented
-    @end{subsection}
-    @begin[FreeType Fonts and Rendering]{subsection}
-      not implemented
-    @end{subsection}
-    @begin[Xft Fonts and Rendering]{subsection}
-      not implemented
-    @end{subsection}
   @end{section}
   @begin[Low Level Functionality]{section}
     @begin[Contexts]{subsection}
@@ -756,7 +720,9 @@
       @about-function{context-list-families}
     @end{subsection}
     @begin[Tab Stops]{subsection}
-      Structures for storing tab stops.
+      Structures for storing tab stops. Functions in this section are used to
+      deal with @class{pango:tab-array} instances that can be used to set tab
+      stop positions in a @class{pango:layout} object.
       @about-symbol{tab-align}
       @about-class{tab-array}
       @about-function{tab-array-new}
@@ -790,8 +756,8 @@
     @end{subsection}
     @begin[PangoRenderer]{subsection}
       Rendering driver base class.
-      @about-class{renderer}
       @about-symbol{render-part}
+      @about-class{renderer}
       @about-function{type-render-part}
       @about-class{renderer-class}
       @about-function{renderer-draw-layout}
@@ -814,48 +780,72 @@
       @about-function{renderer-get-layout}
       @about-function{renderer-get-layout-line}
     @end{subsection}
-    @begin[PangoFcFontMap]{subsection}
-      not implemented
+  @end{section}
+  @begin[Utilities]{section}
+    @begin[PangoRectangle and PangoMatrix]{subsection}
+      @about-symbol{rectangle}
+      @about-function{rectangle-x}
+      @about-function{rectangle-y}
+      @about-function{rectangle-width}
+      @about-function{rectangle-height}
+      @about-macro{with-rectangle}
+      @about-macro{with-rectangles}
+      @about-struct{matrix}
+      @about-function{matrix-xx}
+      @about-function{matrix-xy}
+      @about-function{matrix-yx}
+      @about-function{matrix-yy}
+      @about-function{matrix-x0}
+      @about-function{matrix-y0}
+      @about-function{matrix-init}
+      @about-function{matrix-new}
+      @about-function{matrix-copy}
+      @about-function{matrix-free}
+      @about-function{matrix-to-float}
+      @about-function{matrix-translate}
+      @about-function{matrix-scale}
+      @about-function{matrix-rotate}
+      @about-function{matrix-concat}
+      @about-function{matrix-transform-point}
+      @about-function{matrix-transform-distance}
+      @about-function{matrix-transform-rectangle}
+      @about-function{matrix-transform-pixel-rectangle}
+      @about-function{matrix-font-scale-factor}
+      @about-function{matrix-font-scale-factors}
+      @about-function{matrix-slant-ratio}
     @end{subsection}
-    @begin[PangoFcFont]{subsection}
-      not implemented
+    @begin[Utilities]{subsection}
+      @about-variable{+scale+}
+      @about-function{pixels}
+      @about-function{PANGO_PIXELS_FLOOR}
+      @about-function{PANGO_PIXELS_CEIL}
+      @about-function{PANGO_UNITS_ROUND}
+      @about-function{units-to-double}
+      @about-function{units-from-double}
+      @about-function{ascent}
+      @about-function{descent}
+      @about-function{lbearing}
+      @about-function{rbearing}
+      @about-function{extents-to-pixels}
     @end{subsection}
-    @begin[PangoFcDecoder]{subsection}
-      not implemented
-    @end{subsection}
-    @begin[Miscellaneous Utilities]{subsection}
-      not implemented
+    @begin[PangoColor]{subsection}
+      @about-struct{color}
+      @about-function{color-red}
+      @about-function{color-green}
+      @about-function{color-blue}
+      @about-function{color-new}
+      @about-function{color-copy}
+      @about-function{color-parse}
+      @about-function{color-parse-with-alpha}
+      @about-function{color-to-string}
     @end{subsection}
     @begin[Version Information]{subsection}
-      Tools for checking Pango version at compile- and run-time.
-      @about-function{PANGO_VERSION_ENCODE}
-      @about-function{PANGO_VERSION}
-      @about-function{PANGO_VERSION_MAJOR}
-      @about-function{PANGO_VERSION_MINOR}
-      @about-function{PANGO_VERSION_MICRO}
-      @about-function{PANGO_VERSION_STRING}
-      @about-function{PANGO_VERSION_CHECK}
+      Tools for checking Pango version at compile and run time.
       @about-function{version}
       @about-function{version-string}
       @about-function{version-check}
     @end{subsection}
-  @end{section}
-  @begin[Deprecated APIs]{section}
-    @begin[OpenType Font Handling]{subsection}
-      not implemented
-    @end{subsection}
-    @begin[Engines]{subsection}
-      not implemented
-    @end{subsection}
-    @begin[PangoEngineLang]{subsection}
-      not implemented
-    @end{subsection}
-    @begin[PangoEngineShape]{subsection}
-      not implemented
-    @end{subsection}
-    @begin[Modules]{subsection}
-      not implemented
-    @end{subsection}
+
   @end{section}")
 
 ;;; --- End of file pango.package.lisp -----------------------------------------

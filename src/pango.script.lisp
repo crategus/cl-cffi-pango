@@ -34,17 +34,11 @@
 ;;; Types and Values
 ;;;
 ;;;     PangoScript
-;;;     PangoScriptIter
 ;;;     PangoLanguage
 ;;;
-;;; Functions
+;;;     PangoScriptIter                                    not implemented
 ;;;
-;;;     pango_script_for_unichar
-;;;     pango_script_get_sample_language
-;;;     pango_script_iter_new
-;;;     pango_script_iter_get_range
-;;;     pango_script_iter_next
-;;;     pango_script_iter_free
+;;; Functions
 ;;;
 ;;;     pango_language_from_string
 ;;;     pango_language_to_string
@@ -54,6 +48,14 @@
 ;;;     pango_language_get_default
 ;;;     pango_language_get_preferred
 ;;;     pango_language_get_sample_string
+;;;
+;;;     pango_script_for_unichar                           Deprecated
+;;;     pango_script_get_sample_language
+;;;
+;;;     pango_script_iter_new                              not implemented
+;;;     pango_script_iter_get_range                        not implemented
+;;;     pango_script_iter_next                             not implemented
+;;;     pango_script_iter_free                             not implemented
 ;;;
 ;;; Object Hierarchy
 ;;;
@@ -75,361 +77,6 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; enum PangoScript
-;;;
-;;; PANGO_SCRIPT_INVALID_CODE
-;;;     a value never returned from pango_script_for_unichar()
-;;;
-;;; PANGO_SCRIPT_COMMON
-;;;     a character used by multiple different scripts
-;;;
-;;; PANGO_SCRIPT_INHERITED
-;;;     a mark glyph that takes its script from the base glyph to which it is
-;;;     attached
-;;;
-;;; PANGO_SCRIPT_ARABIC
-;;;     Arabic
-;;;
-;;; PANGO_SCRIPT_ARMENIAN
-;;;     Armenian
-;;;
-;;; PANGO_SCRIPT_BENGALI
-;;;     Bengali
-;;;
-;;; PANGO_SCRIPT_BOPOMOFO
-;;;     Bopomofo
-;;;
-;;; PANGO_SCRIPT_CHEROKEE
-;;;     Cherokee
-;;;
-;;; PANGO_SCRIPT_COPTIC
-;;;     Coptic
-;;;
-;;; PANGO_SCRIPT_CYRILLIC
-;;;     Cyrillic
-;;;
-;;; PANGO_SCRIPT_DESERET
-;;;     Deseret
-;;;
-;;; PANGO_SCRIPT_DEVANAGARI
-;;;     Devanagari
-;;;
-;;; PANGO_SCRIPT_ETHIOPIC
-;;;     Ethiopic
-;;;
-;;; PANGO_SCRIPT_GEORGIAN
-;;;     Georgian
-;;;
-;;; PANGO_SCRIPT_GOTHIC
-;;;     Gothic
-;;;
-;;; PANGO_SCRIPT_GREEK
-;;;     Greek
-;;;
-;;; PANGO_SCRIPT_GUJARATI
-;;;     Gujarati
-;;;
-;;; PANGO_SCRIPT_GURMUKHI
-;;;     Gurmukhi
-;;;
-;;; PANGO_SCRIPT_HAN
-;;;     Han
-;;;
-;;; PANGO_SCRIPT_HANGUL
-;;;     Hangul
-;;;
-;;; PANGO_SCRIPT_HEBREW
-;;;     Hebrew
-;;;
-;;; PANGO_SCRIPT_HIRAGANA
-;;;     Hiragana
-;;;
-;;; PANGO_SCRIPT_KANNADA
-;;;     Kannada
-;;;
-;;; PANGO_SCRIPT_KATAKANA
-;;;     Katakana
-;;;
-;;; PANGO_SCRIPT_KHMER
-;;;     Khmer
-;;;
-;;; PANGO_SCRIPT_LAO
-;;;     Lao
-;;;
-;;; PANGO_SCRIPT_LATIN
-;;;     Latin
-;;;
-;;; PANGO_SCRIPT_MALAYALAM
-;;;     Malayalam
-;;;
-;;; PANGO_SCRIPT_MONGOLIAN
-;;;     Mongolian
-;;;
-;;; PANGO_SCRIPT_MYANMAR
-;;;     Myanmar
-;;;
-;;; PANGO_SCRIPT_OGHAM
-;;;     Ogham
-;;;
-;;; PANGO_SCRIPT_OLD_ITALIC
-;;;     Old Italic
-;;;
-;;; PANGO_SCRIPT_ORIYA
-;;;     Oriya
-;;;
-;;; PANGO_SCRIPT_RUNIC
-;;;     Runic
-;;;
-;;; PANGO_SCRIPT_SINHALA
-;;;     Sinhala
-;;;
-;;; PANGO_SCRIPT_SYRIAC
-;;;     Syriac
-;;;
-;;; PANGO_SCRIPT_TAMIL
-;;;     Tamil
-;;;
-;;; PANGO_SCRIPT_TELUGU
-;;;     Telugu
-;;;
-;;; PANGO_SCRIPT_THAANA
-;;;     Thaana
-;;;
-;;; PANGO_SCRIPT_THAI
-;;;     Thai
-;;;
-;;; PANGO_SCRIPT_TIBETAN
-;;;     Tibetan
-;;;
-;;; PANGO_SCRIPT_CANADIAN_ABORIGINAL
-;;;     Canadian Aboriginal
-;;;
-;;; PANGO_SCRIPT_YI
-;;;     Yi
-;;;
-;;; PANGO_SCRIPT_TAGALOG
-;;;     Tagalog
-;;;
-;;; PANGO_SCRIPT_HANUNOO
-;;;     Hanunoo
-;;;
-;;; PANGO_SCRIPT_BUHID
-;;;     Buhid
-;;;
-;;; PANGO_SCRIPT_TAGBANWA
-;;;     Tagbanwa
-;;;
-;;; PANGO_SCRIPT_BRAILLE
-;;;     Braille
-;;;
-;;; PANGO_SCRIPT_CYPRIOT
-;;;     Cypriot
-;;;
-;;; PANGO_SCRIPT_LIMBU
-;;;     Limbu
-;;;
-;;; PANGO_SCRIPT_OSMANYA
-;;;     Osmanya
-;;;
-;;; PANGO_SCRIPT_SHAVIAN
-;;;     Shavian
-;;;
-;;; PANGO_SCRIPT_LINEAR_B
-;;;     Linear B
-;;;
-;;; PANGO_SCRIPT_TAI_LE
-;;;     Tai Le
-;;;
-;;; PANGO_SCRIPT_UGARITIC
-;;;     Ugaritic
-;;;
-;;; PANGO_SCRIPT_NEW_TAI_LUE
-;;;     New Tai Lue. Since 1.10
-;;;
-;;; PANGO_SCRIPT_BUGINESE
-;;;     Buginese. Since 1.10
-;;;
-;;; PANGO_SCRIPT_GLAGOLITIC
-;;;     Glagolitic. Since 1.10
-;;;
-;;; PANGO_SCRIPT_TIFINAGH
-;;;     Tifinagh. Since 1.10
-;;;
-;;; PANGO_SCRIPT_SYLOTI_NAGRI
-;;;     Syloti Nagri. Since 1.10
-;;;
-;;; PANGO_SCRIPT_OLD_PERSIAN
-;;;     Old Persian. Since 1.10
-;;;
-;;; PANGO_SCRIPT_KHAROSHTHI
-;;;     Kharoshthi. Since 1.10
-;;;
-;;; PANGO_SCRIPT_UNKNOWN
-;;;     an unassigned code point. Since 1.14
-;;;
-;;; PANGO_SCRIPT_BALINESE
-;;;     Balinese. Since 1.14
-;;;
-;;; PANGO_SCRIPT_CUNEIFORM
-;;;     Cuneiform. Since 1.14
-;;;
-;;; PANGO_SCRIPT_PHOENICIAN
-;;;     Phoenician. Since 1.14
-;;;
-;;; PANGO_SCRIPT_PHAGS_PA
-;;;     Phags-pa. Since 1.14
-;;;
-;;; PANGO_SCRIPT_NKO
-;;;     N'Ko. Since 1.14
-;;;
-;;; PANGO_SCRIPT_KAYAH_LI
-;;;     Kayah Li. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_LEPCHA
-;;;     Lepcha. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_REJANG
-;;;     Rejang. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_SUNDANESE
-;;;     Sundanese. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_SAURASHTRA
-;;;     Saurashtra. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_CHAM
-;;;     Cham. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_OL_CHIKI
-;;;     Ol Chiki. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_VAI
-;;;     Vai. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_CARIAN
-;;;     Carian. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_LYCIAN
-;;;     Lycian. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_LYDIAN
-;;;     Lydian. Since 1.20.1
-;;;
-;;; PANGO_SCRIPT_BATAK
-;;;     Batak. Since 1.32
-;;;
-;;; PANGO_SCRIPT_BRAHMI
-;;;     Brahmi. Since 1.32
-;;;
-;;; PANGO_SCRIPT_MANDAIC
-;;;     Mandaic. Since 1.32
-;;;
-;;; PANGO_SCRIPT_CHAKMA
-;;;     Chakma. Since 1.32
-;;;
-;;; PANGO_SCRIPT_MEROITIC_CURSIVE
-;;;     Meroitic Cursive. Since 1.32
-;;;
-;;; PANGO_SCRIPT_MEROITIC_HIEROGLYPHS
-;;;     Meroitic Hieroglyphs. Since 1.32
-;;;
-;;; PANGO_SCRIPT_MIAO
-;;;     Miao. Since 1.32
-;;;
-;;; PANGO_SCRIPT_SHARADA
-;;;     Sharada. Since 1.32
-;;;
-;;; PANGO_SCRIPT_SORA_SOMPENG
-;;;     Sora Sompeng. Since 1.32
-;;;
-;;; PANGO_SCRIPT_TAKRI
-;;;     Takri. Since 1.32
-;;;
-;;; PANGO_SCRIPT_BASSA_VAH
-;;;     Bassa. Since 1.40
-;;;
-;;; PANGO_SCRIPT_CAUCASIAN_ALBANIAN
-;;;     Caucasian Albanian. Since 1.40
-;;;
-;;; PANGO_SCRIPT_DUPLOYAN
-;;;     Duployan. Since 1.40
-;;;
-;;; PANGO_SCRIPT_ELBASAN
-;;;     Elbasan. Since 1.40
-;;;
-;;; PANGO_SCRIPT_GRANTHA
-;;;     Grantha. Since 1.40
-;;;
-;;; PANGO_SCRIPT_KHOJKI
-;;;     Kjohki. Since 1.40
-;;;
-;;; PANGO_SCRIPT_KHUDAWADI
-;;;     Khudawadi, Sindhi. Since 1.40
-;;;
-;;; PANGO_SCRIPT_LINEAR_A
-;;;     Linear A. Since 1.40
-;;;
-;;; PANGO_SCRIPT_MAHAJANI
-;;;     Mahajani. Since 1.40
-;;;
-;;; PANGO_SCRIPT_MANICHAEAN
-;;;     Manichaean. Since 1.40
-;;;
-;;; PANGO_SCRIPT_MENDE_KIKAKUI
-;;;     Mende Kikakui. Since 1.40
-;;;
-;;; PANGO_SCRIPT_MODI
-;;;     Modi. Since 1.40
-;;;
-;;; PANGO_SCRIPT_MRO
-;;;     Mro. Since 1.40
-;;;
-;;; PANGO_SCRIPT_NABATAEAN
-;;;     Nabataean. Since 1.40
-;;;
-;;; PANGO_SCRIPT_OLD_NORTH_ARABIAN
-;;;     Old North Arabian. Since 1.40
-;;;
-;;; PANGO_SCRIPT_OLD_PERMIC
-;;;     Old Permic. Since 1.40
-;;;
-;;; PANGO_SCRIPT_PAHAWH_HMONG
-;;;     Pahawh Hmong. Since 1.40
-;;;
-;;; PANGO_SCRIPT_PALMYRENE
-;;;     Palmyrene. Since 1.40
-;;;
-;;; PANGO_SCRIPT_PAU_CIN_HAU
-;;;     Pau Cin Hau. Since 1.40
-;;;
-;;; PANGO_SCRIPT_PSALTER_PAHLAVI
-;;;     Psalter Pahlavi. Since 1.40
-;;;
-;;; PANGO_SCRIPT_SIDDHAM
-;;;     Siddham. Since 1.40
-;;;
-;;; PANGO_SCRIPT_TIRHUTA
-;;;     Tirhuta. Since 1.40
-;;;
-;;; PANGO_SCRIPT_WARANG_CITI
-;;;     Warang Citi. Since 1.40
-;;;
-;;; PANGO_SCRIPT_AHOM
-;;;     Ahom. Since 1.40
-;;;
-;;; PANGO_SCRIPT_ANATOLIAN_HIEROGLYPHS
-;;;     Anatolian Hieroglyphs. Since 1.40
-;;;
-;;; PANGO_SCRIPT_HATRAN
-;;;     Hatran. Since 1.40
-;;;
-;;; PANGO_SCRIPT_MULTANI
-;;;     Multani. Since 1.40
-;;;
-;;; PANGO_SCRIPT_OLD_HUNGARIAN
-;;;     Old Hungarian. Since 1.40
-;;;
-;;; PANGO_SCRIPT_SIGNWRITING
-;;;     Signwriting. Since 1.40
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoScript" script
@@ -559,9 +206,9 @@
       "GEnum"
       (liber:symbol-documentation 'script)
  #+liber-documentation
- "@version{#2021-1-5}
+ "@version{2024-2-25}
   @begin{short}
-    The @sym{pango:script} enumeration identifies different writing systems.
+    The @symbol{pango:script} enumeration identifies different writing systems.
   @end{short}
   The values correspond to the names as defined in the Unicode standard. See
   @url[http://www.unicode.org/reports/tr24/]{Unicode Standard Annex 24}.
@@ -569,7 +216,7 @@
   Note that this enumeration is deprecated and will not be updated to include
   values in newer versions of the Unicode standard. Applications should use
   the @code{GUnicodeScript} enumeration instead, whose values are
-  interchangeable with the @sym{pango:script} enumeration.
+  interchangeable with the @symbol{pango:script} enumeration.
   @begin{pre}
 (gobject:define-g-enum \"PangoScript\" script
   (:export t
@@ -707,9 +354,9 @@
 (setf (liber:alias-for-class 'language)
       "GBoxed"
       (documentation 'language 'type)
- "@version{2023-2-6}
+ "@version{2024-2-25}
   @begin{short}
-    The @sym{pango:language} structure is used to represent a language.
+    The @symbol{pango:language} structure is used to represent a language.
   @end{short}
   It is opaque, and has no user visible fields.
   @see-constructor{pango:language-from-string}
@@ -727,11 +374,12 @@
   @return{The newly created @class{pango:language} instance.}
   @begin{short}
     Takes a RFC-3066 format language tag as a string and convert it to a
-    @class{pango:language} structure that can be efficiently copied and
+    @class{pango:language} instance that can be efficiently copied and
     compared with other language tags.
   @end{short}
   This function first canonicalizes the string by converting it to lowercase,
-  mapping '_' to '-', and stripping all characters other than letters and '-'.
+  mapping @kbd{_} to @kbd{-}, and stripping all characters other than letters
+  and @kbd{-}.
 
   Use the @fun{pango:language-default} function if you want to get the
   @class{pango:language} instance for the current locale of the process.
@@ -753,7 +401,7 @@
 
 (cffi:defcfun ("pango_language_to_string" language-to-string) :string
  #+liber-documentation
- "@version{2023-2-6}
+ "@version{2024-2-25}
   @argument[language]{a @class{pango:language} instance}
   @begin{return}
     A string representing the Pango language tag.
@@ -761,7 +409,8 @@
   @begin{short}
     Gets the RFC-3066 format string representing the given Pango language tag.
   @end{short}
-  @see-class{pango:language}"
+  @see-class{pango:language}
+  @see-function{pango:language-from-string}"
   (language (g:boxed language)))
 
 (export 'language-to-string)
@@ -772,19 +421,19 @@
 
 (cffi:defcfun ("pango_language_matches" language-matches) :boolean
  #+liber-documentation
- "@version{2023-2-6}
+ "@version{2024-2-25}
   @argument[language]{a @class{pango:language} instance}
-  @argument[range]{a list of language ranges, separated by ';', ':', ',',
-    or space characters, each element must either be '*', or a RFC 3066 language
+  @argument[range]{a list of language ranges, separated by @kbd{; : ,} or
+  space characters, each element must either be @kbd{*} or a RFC 3066 language
     range canonicalized as by the @fun{pango:language-from-string} function}
   @return{@em{True} if a match was found.}
   @begin{short}
     Checks if a language tag matches one of the elements in a list of language
     ranges.
   @end{short}
-  A language tag is considered to match a range in the list if the range is '*',
-  the range is exactly the tag, or the range is a prefix of the tag, and the
-  character after it in the tag is '-'.
+  A language tag is considered to match a range in the list if the range is
+  @kbd{*}, the range is exactly the tag, or the range is a prefix of the tag,
+  and the character after it in the tag is @kbd{-}.
   @begin[Examples]{dictionary}
     @begin{pre}
 (pango:language-matches (pango:language-default) \"de-de en-gb\") => T
@@ -800,75 +449,83 @@
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_language_includes_script ()
-;;;
-;;; gboolean pango_language_includes_script (PangoLanguage *language,
-;;;                                          PangoScript script);
-;;;
-;;; Determines if script is one of the scripts used to write language. The
-;;; returned value is conservative; if nothing is known about the language tag
-;;; language, TRUE will be returned, since, as far as Pango knows, script might
-;;; be used to write language.
-;;;
-;;; This routine is used in Pango's itemization process when determining if a
-;;; supplied language tag is relevant to a particular section of text. It
-;;; probably is not useful for applications in most circumstances.
-;;;
-;;; This function uses pango_language_get_scripts() internally.
-;;;
-;;; language :
-;;;     a PangoLanguage, or NULL
-;;;
-;;; script :
-;;;     a PangoScript
-;;;
-;;; Returns :
-;;;     TRUE if script is one of the scripts used to write language or if
-;;;     nothing is known about language (including the case that language is
-;;;     NULL), FALSE otherwise.
-;;;
-;;; Since 1.4
 ;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_language_includes_script" %language-includes-script)
+    :boolean
+  (language (g:boxed language))
+  (script script))
+
+(defun language-includes-script (language script)
+ #+liber-documentation
+ "@version{2024-2-25}
+  @argument[language]{a @class{pango:language} instance}
+  @argument[script]{a @symbol{pango:script} value}
+  @return{@em{True} if @arg{script} is one of the scripts used to write
+    @arg{language} or @code{nil}, if nothing is known about @arg{language},
+    including the case that @arg{language} is @code{nil}.}
+  @begin{short}
+    Determines if @arg{script} is one of the scripts used to write
+    @arg{language}.
+  @end{short}
+  The returned value is conservative. If nothing is known about the language
+  tag @arg{language}, @em{true} will be returned, since, as far as Pango knows,
+  @arg{script} might be used to write @arg{language}.
+
+  This routine is used in the itemization process of Pango when determining if a
+  supplied language tag is relevant to a particular section of text. It probably
+  is not useful for applications in most circumstances.
+
+  This function uses the @fun{pango:language-scripts} function internally.
+  @see-class{pango:language}
+  @see-symbol{pango:script}
+  @see-function{pango:language-scripts}"
+  (when language
+    (%language-includes-script language script)))
+
+(export 'language-includes-script)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_language_get_scripts ()
-;;;
-;;; const PangoScript * pango_language_get_scripts (PangoLanguage *language,
-;;;                                                 int *num_scripts);
-;;;
-;;; Determines the scripts used to to write language. If nothing is known about
-;;; the language tag language, or if language is NULL, then NULL is returned.
-;;; The list of scripts returned starts with the script that the language uses
-;;; most and continues to the one it uses least.
-;;;
-;;; The value num_script points at will be set to the number of scripts in the
-;;; returned array (or zero if NULL is returned).
-;;;
-;;; Most languages use only one script for writing, but there are some that use
-;;; two (Latin and Cyrillic for example), and a few use three (Japanese for
-;;; example). Applications should not make any assumptions on the maximum number
-;;; of scripts returned though, except that it is positive if the return value
-;;; is not NULL, and it is a small number.
-;;;
-;;; The pango_language_includes_script() function uses this function internally.
-;;;
-;;; language :
-;;;     a PangoLanguage, or NULL
-;;;
-;;; num_scripts :
-;;;     location to return number of scripts, or NULL
-;;;
-;;; Returns :
-;;;     An array of PangoScript values, with the number of entries in the array
-;;;     stored in num_scripts, or NULL if Pango does not have any information
-;;;     about this particular language tag (also the case if language is NULL).
-;;;     The returned array is owned by Pango and should not be modified or
-;;;     freed.
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
 
+(cffi:defcfun ("pango_language_get_scripts" %language-scripts) :pointer
+  (language (g:boxed language))
+  (num (:pointer :int)))
+
+(defun language-scripts (language)
+ #+liber-documentation
+ "@version{2024-2-25}
+  @argument[language]{a @class{pango:language} instance}
+  @return{The list with @symbol{pango:script} values, or @code{nil} if Pango
+    does not have any information about this particular language tag, also the
+    case if @arg{language} is @code{nil}.}
+  @begin{short}
+    Determines the scripts used to to write @arg{language}.
+  @end{short}
+  If nothing is known about the language tag @arg{language}, or if
+  @arg{language} is @code{nil}, then @code{nil} is returned. The list of scripts
+  returned starts with the script that the language uses most and continues to
+  the one it uses least.
+
+  Most languages use only one script for writing, but there are some that use
+  two (Latin and Cyrillic for example), and a few use three, Japanese for
+  example. Applications should not make any assumptions on the maximum number
+  of scripts returned though, except that it is positive if the return value
+  is not @code{nil}, and it is a small number.
+  @see-class{pango:language}
+  @see-symbol{pango:script}"
+  (when language
+    (cffi:with-foreign-object (num :int)
+      (let ((scripts (%language-scripts language num)))
+        (unless (cffi:null-pointer-p scripts)
+          (iter (for i from 0 below (cffi:mem-ref num :int))
+                (collect (cffi:mem-aref scripts 'script i))))))))
+
+(export 'language-scripts)
+
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_get_default () -> language-default
+;;; pango_language_get_default ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_get_default" language-default) (g:boxed language)
@@ -914,7 +571,7 @@
 (export 'language-default)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_get_preferred () -> language-preferred
+;;; pango_language_get_preferred ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_get_preferred" %language-preferred) :pointer)
@@ -939,15 +596,15 @@
   @see-function{pango:language-sample-string}"
   (cffi:with-foreign-object (ptr '(g:boxed language))
     (unless (cffi:null-pointer-p (setf ptr (%language-preferred)))
-      (loop for count from 0
-            for lang = (cffi:mem-aref ptr :pointer count)
-            until (cffi:null-pointer-p lang)
-            collect (cffi:mem-ref lang '(g:boxed language))))))
+      (iter (for count from 0)
+            (for lang = (cffi:mem-aref ptr :pointer count))
+            (until (cffi:null-pointer-p lang))
+            (collect (cffi:mem-ref lang '(g:boxed language)))))))
 
 (export 'language-preferred)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_get_sample_string () -> language-sample-string
+;;; pango_language_get_sample_string ()
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_get_sample_string" language-sample-string)
@@ -971,7 +628,7 @@
   @fun{pango:language-default} function is used.
 
   If Pango does not have a sample string for @arg{language}, the classic
-  \"The quick brown fox...\" is returned.
+  \"The quick brown fox ...\" is returned.
   @begin[Example]{dictionary}
     @begin{pre}
 (pango:language-sample-string (pango:language-default))
@@ -983,15 +640,6 @@
   (language (g:boxed language)))
 
 (export 'language-sample-string)
-
-;;; ----------------------------------------------------------------------------
-;;; PangoScriptIter
-;;;
-;;; typedef struct _PangoScriptIter PangoScriptIter;
-;;;
-;;; A PangoScriptIter is used to iterate through a string and identify ranges
-;;; in different scripts.
-;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_script_for_unichar ()
@@ -1015,49 +663,60 @@
 ;;;
 ;;; Returns :
 ;;;     the PangoScript for the character
-;;;
-;;; Since 1.4
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_script_get_sample_language ()
+;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_script_get_sample_language" script-sample-language)
+    (g:boxed language)
+ #+liber-documentation
+ "@version{2024-2-25}
+  @argument[script]{a @symbol{pango:script} value}
+  @return{The @class{pango:language} instance that is representative of the
+    script, or @code{nil} if no such language exists.}
+  @begin{short}
+    Given a script, finds a language tag that is reasonably representative of
+    that script.
+  @end{short}
+  This will usually be the most widely spoken or used language written in that
+  script: for instance, the sample language for the @code{:cyrillic} value is
+  ru (Russian), the sample language for the @code{:arabic} value is ar.
+
+  For some scripts, no sample language will be returned because there is no
+  language that is sufficiently representative. The best example of this is the
+  @code{:han} value, where various different variants of written Chinese,
+  Japanese, and Korean all use significantly different sets of Han characters
+  and forms of shared characters. No sample language can be provided for many
+  historical scripts as well.
+
+  This function checks the environment variables @code{PANGO_LANGUAGE} and
+  @code{LANGUAGE}, checked in that order, first. If one of them is set, it is
+  parsed as a list of language tags separated by colons or other separators.
+  This function will return the first language in the parsed list that Pango
+  believes may use @arg{script} for writing. This last predicate is tested using
+  the @fun{pango:language-includes-script} function. This can be used to control
+  Pango's font selection for non-primary languages. For example, a
+  @code{PANGO_LANGUAGE} enviroment variable set to \"en:fa\" makes Pango choose
+  fonts suitable for Persian (fa) instead of Arabic (ar) when a segment of
+  Arabic text is found in an otherwise non-Arabic text. The same trick can be
+  used to choose a default language for @code{PANGO_SCRIPT_HAN} when setting
+  context language is not feasible.
+  @see-class{pango:language}
+  @see-symbol{pango:script}
+  @see-function{pango:language-includes-script}"
+  (script script))
+
+(export 'script-sample-language)
+
+;;; ----------------------------------------------------------------------------
+;;; PangoScriptIter
 ;;;
-;;; PangoLanguage * pango_script_get_sample_language (PangoScript script);
+;;; typedef struct _PangoScriptIter PangoScriptIter;
 ;;;
-;;; Given a script, finds a language tag that is reasonably representative of
-;;; that script. This will usually be the most widely spoken or used language
-;;; written in that script: for instance, the sample language for
-;;; PANGO_SCRIPT_CYRILLIC is ru (Russian), the sample language for
-;;; PANGO_SCRIPT_ARABIC is ar.
-;;;
-;;; For some scripts, no sample language will be returned because there is no
-;;; language that is sufficiently representative. The best example of this is
-;;; PANGO_SCRIPT_HAN, where various different variants of written Chinese,
-;;; Japanese, and Korean all use significantly different sets of Han characters
-;;; and forms of shared characters. No sample language can be provided for many
-;;; historical scripts as well.
-;;;
-;;; As of 1.18, this function checks the environment variables PANGO_LANGUAGE
-;;; and LANGUAGE (checked in that order) first. If one of them is set, it is
-;;; parsed as a list of language tags separated by colons or other separators.
-;;; This function will return the first language in the parsed list that Pango
-;;; believes may use script for writing. This last predicate is tested using
-;;; pango_language_includes_script(). This can be used to control Pango's font
-;;; selection for non-primary languages. For example, a PANGO_LANGUAGE
-;;; enviroment variable set to "en:fa" makes Pango choose fonts suitable for
-;;; Persian (fa) instead of Arabic (ar) when a segment of Arabic text is found
-;;; in an otherwise non-Arabic text. The same trick can be used to choose a
-;;; default language for PANGO_SCRIPT_HAN when setting context language is not
-;;; feasible.
-;;;
-;;; script :
-;;;     a PangoScript
-;;;
-;;; Returns :
-;;;     a PangoLanguage that is representative of the script, or NULL if no
-;;;     such language exists.
-;;;
-;;; Since 1.4
+;;; A PangoScriptIter is used to iterate through a string and identify ranges
+;;; in different scripts.
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1079,8 +738,6 @@
 ;;;     The new script iterator, initialized to point at the first range in the
 ;;      text, which should be freed with pango_script_iter_free(). If the string
 ;;;     is empty, it will point at an empty range.
-;;;
-;;; Since 1.4
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1106,8 +763,6 @@
 ;;;
 ;;; script :
 ;;;     location to store script for range, or NULL
-;;;
-;;; Since 1.4
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1123,8 +778,6 @@
 ;;;
 ;;; Returns :
 ;;;     TRUE if iter was successfully advanced
-;;;
-;;; Since 1.4
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1136,8 +789,6 @@
 ;;;
 ;;; iter :
 ;;;     a PangoScriptIter
-;;;
-;;; Since 1.4
 ;;; ----------------------------------------------------------------------------
 
 ;;; --- End of file pango.script.lisp ------------------------------------------

@@ -2,11 +2,11 @@
 ;;; pango.version.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; Version 1.51 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2023 Dieter Kaiser
+;;; Copyright (C) 2011 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -46,13 +46,6 @@
 ;;;     pango_version
 ;;;     pango_version_string
 ;;;     pango_version_check
-;;;
-;;; Description
-;;;
-;;; The capital-letter macros defined here can be used to check the version of
-;;; Pango at compile-time, and to encode Pango versions into integers. The
-;;; functions can be used to check the version of the linked Pango library at
-;;; run-time.
 ;;; ----------------------------------------------------------------------------
 
 (in-package :pango)
@@ -141,9 +134,9 @@
 
 (cffi:defcfun ("pango_version" version) :int
  #+liber-documentation
- "@version{2023-2-11}
-  @return{An integer with the encoded version of the Pango library available at
-    run time.}
+ "@version{2024-2-24}
+  @return{The integer with the encoded version of the Pango library available
+    at run time.}
   @begin{short}
     Returns the encoded version of Pango available at run-time.
   @end{short}
@@ -162,9 +155,9 @@
 
 (cffi:defcfun ("pango_version_string" version-string) :string
  #+liber-documentation
- "@version{2023-2-11}
+ "@version{2024-2-24}
   @begin{return}
-    A string containing the version of the Pango library available at run
+    The string containing the version of the Pango library available at run
     time.
   @end{return}
   @begin{short}
@@ -185,10 +178,10 @@
 
 (cffi:defcfun ("pango_version_check" version-check) :string
  #+liber-documentation
- "@version{2023-2-11}
-  @argument[required-major]{an integer with the required major version}
-  @argument[required-minor]{an integer with the required minor version}
-  @argument[required-micro]{an integer with the required major version}
+ "@version{2024-2-24}
+  @argument[major]{an integer with the required major version}
+  @argument[minor]{an integer with the required minor version}
+  @argument[micro]{an integer with the required major version}
   @begin{return}
     Returns @code{nil} if the Pango library is compatible with the given
     version, or a string describing the version mismatch.
@@ -197,11 +190,9 @@
     Checks that the Pango library in use is compatible with the given version.
   @end{short}
   Compatibility is defined by two things: first the version of the running
-  library is newer than the
-  @arg{required-major}.@arg{required-minor}.@arg{required-micro} version.
+  library is newer than the @arg{major}.@arg{minor}.@arg{micro} version.
   Second the running library must be binary compatible with the
-  @arg{required-major}.@arg{required-minor}.@arg{required-micro} version
-  (same major version.)
+  @arg{major}.@arg{minor}.@arg{micro} version (same major version).
   @begin[Example]{dictionary}
     @begin{pre}
 (pango:version-check 1 48 0) => NIL
@@ -210,9 +201,9 @@
   @end{dictionary}
   @see-function{pango:version}
   @see-function{pango:version-string}"
-  (required-major :int)
-  (required-minor :int)
-  (required-micro :int))
+  (major :int)
+  (minor :int)
+  (micro :int))
 
 (export 'version-check)
 

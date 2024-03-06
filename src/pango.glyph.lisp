@@ -2,7 +2,7 @@
 ;;; pango.glyph.lisp
 ;;;
 ;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango
+;;; Version 1.51 and modified to document the Lisp binding to the Pango
 ;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
@@ -33,52 +33,22 @@
 ;;;
 ;;; Types and Values
 ;;;
-;;;     PANGO_SCALE
-;;;     PangoRectangle
-;;;     PangoMatrix
-;;;     PANGO_MATRIX_INIT
 ;;;     PangoGlyph
+;;;
 ;;;     PANGO_GLYPH_EMPTY
 ;;;     PANGO_GLYPH_INVALID_INPUT
 ;;;     PANGO_GLYPH_UNKNOWN_FLAG
+;;;
 ;;;     PangoGlyphInfo
 ;;;     PangoGlyphGeometry
 ;;;     PangoGlyphUnit
 ;;;     PangoGlyphVisAttr
+;;;
 ;;;     PangoGlyphString
 ;;;     PangoGlyphItem
 ;;;     PangoGlyphItemIter
-;;;     PANGO_TYPE_GLYPH_STRING
 ;;;
 ;;; Functions
-;;;
-;;;     PANGO_PIXELS
-;;;     PANGO_PIXELS_FLOOR
-;;;     PANGO_PIXELS_CEIL
-;;;     PANGO_UNITS_ROUND
-;;;
-;;;     pango_units_to_double
-;;;     pango_units_from_double
-;;;
-;;;     PANGO_ASCENT
-;;;     PANGO_DESCENT
-;;;     PANGO_LBEARING
-;;;     PANGO_RBEARING
-;;;
-;;;     pango_extents_to_pixels
-;;;
-;;;     pango_matrix_copy
-;;;     pango_matrix_free
-;;;     pango_matrix_translate
-;;;     pango_matrix_scale
-;;;     pango_matrix_rotate
-;;;     pango_matrix_concat
-;;;     pango_matrix_transform_point
-;;;     pango_matrix_transform_distance
-;;;     pango_matrix_transform_rectangle
-;;;     pango_matrix_transform_pixel_rectangle
-;;;     pango_matrix_get_font_scale_factor
-;;;     pango_matrix_get_font_scale_factors
 ;;;
 ;;;     PANGO_GET_UNKNOWN_GLYPH
 ;;;
@@ -90,6 +60,7 @@
 ;;;     pango_glyph_string_extents_range
 ;;;     pango_glyph_string_get_width
 ;;;     pango_glyph_string_index_to_x
+;;;     pango_glyph_string_index_to_x_full                 Since 1.50
 ;;;     pango_glyph_string_x_to_index
 ;;;     pango_glyph_string_get_logical_widths
 ;;;
@@ -112,252 +83,10 @@
 ;;;     GBoxed
 ;;;     ├── PangoGlyphItem
 ;;;     ├── PangoGlyphItemIter
-;;;     ├── PangoGlyphString
-;;;     ╰── PangoMatrix
-;;;
-;;; Description
-;;;
-;;;     pango_shape() produces a string of glyphs which can be measured or
-;;;     drawn to the screen. The following structures are used to store
-;;;     information about glyphs.
+;;;     ╰── PangoGlyphString
 ;;; ----------------------------------------------------------------------------
 
 (in-package :pango)
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_SCALE
-;;; ----------------------------------------------------------------------------
-
-#+liber-documentation
-(setf (liber:alias-for-variable '+pango-scale+) "Constant")
-
-(defconstant +pango-scale+ 1024
- #+liber-documentation
- "@version{2023-12-26}
-  @variable-value{1024}
-  @begin{short}
-    The @var{pango:+pango-scale+} constant represents the scale between
-    dimensions used for Pango distances and device units.
-  @end{short}
-  The definition of device units is dependent on the output device. It will
-  typically be pixels for a screen, and points for a printer.
-  The @var{pango:+pango-scale+} value is currently 1024, but this may be
-  changed in the future.
-
-  When setting font sizes, device units are always considered to be points as
-  in \"12 point font\", rather than pixels.
-  @see-function{pango:pixels}")
-
-(export '+pango-scale+)
-
-;;; ----------------------------------------------------------------------------
-;;; struct PangoRectangle
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcstruct rectangle
-  (x :int)
-  (y :int)
-  (width :int)
-  (height :int))
-
-#+liber-documentation
-(setf (liber:alias-for-symbol 'rectangle)
-      "CStruct"
-      (liber:symbol-documentation 'rectangle)
- "@version{#2023-12-25}
-  @begin{short}
-    The @symbol{pango:rectangle} structure represents a rectangle.
-  @end{short}
-  It is frequently used to represent the logical or ink extents of a single
-  glyph or section of text. See, for instance, the
-  @fun{pango:font-glyph-extents} function.
-  @begin{pre}
-(cffi:defcstruct rectangle
-  (x :int)
-  (y :int)
-  (width :int)
-  (height :int))
-  @end{pre}
-  @begin[code]{table}
-    @entry[x]{The x coordinate of the left side of the rectangle.}
-    @entry[y]{The y coordinate of the the top side of the rectangle.}
-    @entry[width]{The width of the rectangle.}
-    @entry[height]{The height of the rectangle.}
-  @end{table}
-  @see-function{pango:font-glyph-extents}")
-
-(export 'rectangle)
-
-;;; ----------------------------------------------------------------------------
-;;; struct PangoMatrix
-;;; ----------------------------------------------------------------------------
-
-(glib:define-g-boxed-cstruct matrix "PangoMatrix"
-  (:export t
-   :type-initializer "pango_matrix_get_type")
-  (xx :double :initform 0.0d0)
-  (xy :double :initform 0.0d0)
-  (yx :double :initform 0.0d0)
-  (yy :double :initform 0.0d0)
-  (x0 :double :initform 0.0d0)
-  (y0 :double :initform 0.0d0))
-
-#+liber-documentation
-(setf (liber:alias-for-class 'matrix)
-      "GBoxed"
-      (documentation 'matrix 'type)
- "@version{2023-2-5}
-  @begin{short}
-    A structure specifying a transformation between user-space coordinates and
-    device coordinates.
-  @end{short}
-  The transformation is given by
-  @begin{pre}
-xdevice = xuser * xx + yuser * xy + x0
-ydevice = xuser * yx + yuser * yy + y0
-  @end{pre}
-  @begin{pre}
-(glib:define-g-boxed-cstruct matrix \"PangoMatrix\"
-  (:export t
-   :type-initializer \"pango_matrix_get_type\")
-  (xx :double :initform 0.0d0)
-  (xy :double :initform 0.0d0)
-  (yx :double :initform 0.0d0)
-  (yy :double :initform 0.0d0)
-  (x0 :double :initform 0.0d0)
-  (y0 :double :initform 0.0d0))
-  @end{pre}
-  @begin[code]{table}
-    @entry[xx]{1st component of the transformation matrix.}
-    @entry[xy]{2nd component of the transformation matrix.}
-    @entry[yx]{3rd component of the transformation matrix.}
-    @entry[yy]{4th component of the transformation matrix.}
-    @entry[x0]{x translation.}
-    @entry[y0]{y translation.}
-  @end{table}
-  @see-constructor{pango:matrix-init}")
-
-;;; --- matrix-xx --------------------------------------------------------------
-
-#+liber-documentation
-(setf (liber:alias-for-function 'matrix-xx)
-      "Accessor"
-      (documentation 'matrix-xx 'function)
- "@version{#2023-7-14}
-  @syntax[]{(pango:matrix-xx instance) => xx}
-  @syntax[]{(setf (pango:matrix-xx instance) xx)}
-  @argument[instance]{a @class{pango:matrix} instance}
-  @argument[xx]{an double float with the xx component of the transformation
-    matrix}
-  @begin{short}
-    Accessor of the @code{xx} slot of the @class{pango:matrix} structure.
-  @end{short}
-  @see-class{pango:matrix}")
-
-;;; --- matrix-xy --------------------------------------------------------------
-
-#+liber-documentation
-(setf (liber:alias-for-function 'matrix-xy)
-      "Accessor"
-      (documentation 'matrix-xy 'function)
- "@version{#2023-7-14}
-  @syntax[]{(pango:matrix-xy instance) => xy}
-  @syntax[]{(setf (pango:matrix-xy instance) xy)}
-  @argument[instance]{a @class{pango:matrix} instance}
-  @argument[xy]{an double float with the xy component of the transformation
-    matrix}
-  @begin{short}
-    Accessor of the @code{xy} slot of the @class{pango:matrix} structure.
-  @end{short}
-  @see-class{pango:matrix}")
-
-;;; --- matrix-yx --------------------------------------------------------------
-
-#+liber-documentation
-(setf (liber:alias-for-function 'matrix-yx)
-      "Accessor"
-      (documentation 'matrix-yx 'function)
- "@version{#2023-7-14}
-  @syntax[]{(pango:matrix-yx instance) => yx}
-  @syntax[]{(setf (pango:matrix-yx instance) yx)}
-  @argument[instance]{a @class{pango:matrix} instance}
-  @argument[yx]{an double float with the yx component of the transformation
-    matrix}
-  @begin{short}
-    Accessor of the @code{yx} slot of the @class{pango:matrix} structure.
-  @end{short}
-  @see-class{pango:matrix}")
-
-;;; --- matrix-yy --------------------------------------------------------------
-
-#+liber-documentation
-(setf (liber:alias-for-function 'matrix-yy)
-      "Accessor"
-      (documentation 'matrix-yy 'function)
- "@version{#2023-7-14}
-  @syntax[]{(pango:matrix-yy instance) => yy}
-  @syntax[]{(setf (pango:matrix-yy instance) yy)}
-  @argument[instance]{a @class{pango:matrix} instance}
-  @argument[yy]{an double float with the yy component of the transformation
-    matrix}
-  @begin{short}
-    Accessor of the @code{yy} slot of the @class{pango:matrix} structure.
-  @end{short}
-  @see-class{pango:matrix}")
-
-;;; --- matrix-x0 --------------------------------------------------------------
-
-#+liber-documentation
-(setf (liber:alias-for-function 'matrix-x0)
-      "Accessor"
-      (documentation 'matrix-x0 'function)
- "@version{#2023-7-14}
-  @syntax[]{(pango:matrix-x0 instance) => x0}
-  @syntax[]{(setf (pango:matrix-x0 instance) x0)}
-  @argument[instance]{a @class{pango:matrix} instance}
-  @argument[x0]{an double float with the x0 component of the transformation
-    matrix}
-  @begin{short}
-    Accessor of the @code{x0} slot of the @class{pango:matrix} structure.
-  @end{short}
-  @see-class{pango:matrix}")
-
-;;; --- matrix-y0 --------------------------------------------------------------
-
-#+liber-documentation
-(setf (liber:alias-for-function 'matrix-y0)
-      "Accessor"
-      (documentation 'matrix-y0 'function)
- "@version{#2023-7-14}
-  @syntax[]{(pango:matrix-y0 instance) => y0}
-  @syntax[]{(setf (pango:matrix-y0 instance) y0)}
-  @argument[instance]{a @class{pango:matrix} instance}
-  @argument[y0]{an double float with the y0 component of the transformation
-    matrix}
-  @begin{short}
-    Accessor of the @code{y0} slot of the @class{pango:matrix} structure.
-  @end{short}
-  @see-class{pango:matrix}")
-
-;;; ----------------------------------------------------------------------------
-;;; PangoGlyph
-;;; ----------------------------------------------------------------------------
-
-(cffi:defctype glyph :uint32)
-
-#+liber-documentation
-(setf (liber:alias-for-symbol 'glyph)
-      "Type"
-      (liber:symbol-documentation 'glyph)
- "@version{#2021-1-8}
-  @begin{short}
-    A @symbol{pango:glyph} type represents a single glyph in the output form
-    of a string.
-  @end{short}
-  @see-class{pango:glyph-item}
-  @see-class{pango:glyph-string}")
-
-(export 'glyph)
 
 ;;; ----------------------------------------------------------------------------
 ;;; PANGO_GLYPH_EMPTY
@@ -379,8 +108,6 @@ ydevice = xuser * yx + yuser * yy + y0
 ;;; meaning of invalid input. PangoLayout produces one such glyph per invalid
 ;;; input UTF-8 byte and such a glyph is rendered as a crossed box. Note that
 ;;; this value is defined such that it has the PANGO_GLYPH_UNKNOWN_FLAG on.
-;;;
-;;; Since 1.20
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -392,6 +119,27 @@ ydevice = xuser * yx + yuser * yy + y0
 ;;; gunichar value of a valid Unicode character, to produce a PangoGlyph value,
 ;;; representing an unknown-character glyph for the respective gunichar.
 ;;; ----------------------------------------------------------------------------
+
+;;; ----------------------------------------------------------------------------
+;;; PangoGlyph
+;;; ----------------------------------------------------------------------------
+
+(cffi:defctype glyph :uint32)
+
+#+liber-documentation
+(setf (liber:alias-for-symbol 'glyph)
+      "Type"
+      (liber:symbol-documentation 'glyph)
+ "@version{2024-3-5}
+  @begin{short}
+    A @symbol{pango:glyph} type represents a single glyph in the output form
+    of a string.
+  @end{short}
+  This type is implemented as the @code{:uint32} foreign type.
+  @see-class{pango:glyph-item}
+  @see-class{pango:glyph-string}")
+
+(export 'glyph)
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoGlyphInfo
@@ -470,15 +218,7 @@ ydevice = xuser * yx + yuser * yy + y0
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoGlyphString
-;;;
-;;; struct PangoGlyphString {
-;;;   int num_glyphs;
-;;;   PangoGlyphInfo* glyphs;
-;;;   int* log_clusters;
-;;; }
 ;;; ----------------------------------------------------------------------------
-
-;; TODO: Implement PangoGlyphString as a boxed CStruct
 
 (glib:define-g-boxed-opaque glyph-string "PangoGlyphString"
   :export t
@@ -489,7 +229,7 @@ ydevice = xuser * yx + yuser * yy + y0
 (setf (liber:alias-for-class 'glyph-string)
       "GBoxed"
       (documentation 'glyph-string 'type)
- "@version{#2023-2-5}
+ "@version{2024-3-6}
   @begin{short}
     The @class{pango:glyph-string} structure is used to store strings of glyphs
     with geometry and visual attribute information.
@@ -500,14 +240,7 @@ ydevice = xuser * yx + yuser * yy + y0
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoGlyphItem
-;;;
-;;; struct PangoGlyphItem {
-;;;   PangoItem        *item;
-;;;   PangoGlyphString *glyphs;
-;;; };
 ;;; ----------------------------------------------------------------------------
-
-;; TODO: Implement PangoGlyphItem as a boxed CStruct
 
 (glib:define-g-boxed-opaque glyph-item "PangoGlyphitem"
   :export t
@@ -518,7 +251,7 @@ ydevice = xuser * yx + yuser * yy + y0
 (setf (liber:alias-for-class 'glyph-item)
       "GBoxed"
       (documentation 'glyph-item 'type)
- "@version{#2023-2-4}
+ "@version{2024-3-6}
   @begin{short}
     A @class{pango:glyph-item} structure is a pair of a @class{pango:item}
     instance and the glyphs resulting from shaping the text corresponding to
@@ -581,567 +314,7 @@ ydevice = xuser * yx + yuser * yy + y0
 ;;; glyph_item. For each cluster, the item pointed at by the start variables is
 ;;; included in the cluster while the one pointed at by end variables is not.
 ;;; None of the members of a PangoGlyphItemIter should be modified manually.
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_TYPE_GLYPH_STRING
-;;;
-;;; #define PANGO_TYPE_GLYPH_STRING (pango_glyph_string_get_type ())
-;;;
-;;; The GObject type for PangoGlyphString.
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_PIXELS()
-;;; ----------------------------------------------------------------------------
-
-(defun pixels (d)
- #+liber-documentation
- "@version{#2021-2-11}
-  @argument[d]{a dimension in Pango units}
-  @return{Rounded dimension in device units.}
-  @begin{short}
-    Converts a dimension to device units by rounding.
-  @end{short}
-  @see-variable{pango:+pango-scale+}"
-  (ash (+ d 512) -10)) ; #define PANGO_PIXELS(d) (((int)(d) + 512) >> 10)
-
-(export 'pixels)
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_PIXELS_FLOOR()
-;;;
-;;; #define PANGO_PIXELS_FLOOR(d) (((int)(d)) >> 10)
-;;;
-;;; Converts a dimension to device units by flooring.
-;;;
-;;; d :
-;;;     a dimension in Pango units.
-;;;
-;;; Returns :
-;;;     floored dimension in device units.
-;;;
-;;; Since 1.14
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_PIXELS_CEIL()
-;;;
-;;; #define PANGO_PIXELS_CEIL(d) (((int)(d) + 1023) >> 10)
-;;;
-;;; Converts a dimension to device units by ceiling.
-;;;
-;;; d :
-;;;     a dimension in Pango units.
-;;;
-;;; Returns :
-;;;     ceiled dimension in device units.
-;;;
-;;; Since 1.14
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_UNITS_ROUND()
-;;;
-;;; #define PANGO_UNITS_ROUND(d)
-;;;
-;;; Rounds a dimension to whole device units, but does not convert it to device
-;;; units.
-;;;
-;;; d :
-;;;     a dimension in Pango units.
-;;;
-;;; Returns :
-;;;     rounded dimension in Pango units.
-;;;
-;;; Since 1.18
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_units_to_double ()
-;;;
-;;; double pango_units_to_double (int i);
-;;;
-;;; Converts a number in Pango units to floating-point: divides it by
-;;; PANGO_SCALE.
-;;;
-;;; i :
-;;;     value in Pango units
-;;;
-;;; Returns :
-;;;     the double value.
-;;;
-;;; Since 1.16
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_units_from_double ()
-;;;
-;;; int pango_units_from_double (double d);
-;;;
-;;; Converts a floating-point number to Pango units: multiplies it by
-;;; PANGO_SCALE and rounds to nearest integer.
-;;;
-;;; d :
-;;;     double floating-point value
-;;;
-;;; Returns :
-;;;     the value in Pango units.
-;;;
-;;; Since 1.16
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_ASCENT()
-;;;
-;;; #define PANGO_ASCENT(rect) (-(rect).y)
-;;;
-;;; Extracts the ascent from a PangoRectangle representing glyph extents. The
-;;; ascent is the distance from the baseline to the highest point of the
-;;; character. This is positive if the glyph ascends above the baseline.
-;;;
-;;; rect :
-;;;     a PangoRectangle
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_DESCENT()
-;;;
-;;; #define PANGO_DESCENT(rect) ((rect).y + (rect).height)
-;;;
-;;; Extracts the descent from a PangoRectangle representing glyph extents. The
-;;; descent is the distance from the baseline to the lowest point of the
-;;; character. This is positive if the glyph descends below the baseline.
-;;;
-;;; rect :
-;;;     a PangoRectangle
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_LBEARING()
-;;;
-;;; #define PANGO_LBEARING(rect) ((rect).x)
-;;;
-;;; Extracts the left bearing from a PangoRectangle representing glyph extents.
-;;; The left bearing is the distance from the horizontal origin to the farthest
-;;; left point of the character. This is positive for characters drawn
-;;; completely to the right of the glyph origin.
-;;;
-;;; rect :
-;;;     a PangoRectangle
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_RBEARING()
-;;;
-;;; #define PANGO_RBEARING(rect) ((rect).x + (rect).width)
-;;;
-;;; Extracts the right bearing from a PangoRectangle representing glyph extents.
-;;; The right bearing is the distance from the horizontal origin to the farthest
-;;; right point of the character. This is positive except for characters drawn
-;;; completely to the left of the horizontal origin.
-;;;
-;;; rect :
-;;;     a PangoRectangle
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_extents_to_pixels ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_extents_to_pixels" extents-to-pixels) :void
- #+liber-documentation
- "@version{2023-12-25}
-  @argument[inclusive]{a @symbol{pango:rectangle} instance to round to
-    pixels inclusively, or @code{NULL}}
-  @argument[nearest]{a @symbol{pango:rectangle} instance to round to
-    nearest pixels, or @code{NULL}}
-  @begin{short}
-    Converts extents from Pango units to device units, dividing by the
-    @var{pango:+pango-scale+} factor and performing rounding.
-  @end{short}
-
-  The @arg{inclusive} rectangle is converted by flooring the x/y coordinates
-  and extending width/height, such that the final rectangle completely includes
-  the original rectangle.
-
-  The @arg{nearest} rectangle is converted by rounding the coordinates of the
-  rectangle to the nearest device unit (pixel).
-
-  The rule to which argument to use is: if you want the resulting device-space
-  rectangle to completely contain the original rectangle, pass it in as
-  inclusive. If you want two touching-but-not-overlapping rectangles stay
-  touching-but-not-overlapping after rounding to device units, pass them in as
-  nearest.
-  @see-symbol{pango:rectangle}
-  @see-variable{pango:+pango-scale+}"
-  (inclusive (:pointer (:struct rectangle)))
-  (nearest (:pointer (:struct rectangle))))
-
-(export 'extents-to-pixels)
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_MATRIX_INIT
-;;; ----------------------------------------------------------------------------
-
-(defun matrix-init ()
- #+liber-documentation
- "@version{#2023-2-4}
-  @return{The newly allocated @class{pango:matrix} initialized to the identiy
-    transform.}
-  @begin{short}
-    Constant that can be used to initialize a Pango matrix to the identity
-    transform.
-  @end{short}
-  @begin[Example]{dictionary}
-    @begin{pre}
-(let ((matrix (pango:matrix-init)))
-  (pango:matrix-rotate matrix 45.0d0)
-  ... )
-    @end{pre}
-  @end{dictionary}
-  @see-class{pango:matrix}"
-  (make-matrix :xx 1.0d0 :yy 1.0d0))
-
-(export 'matrix-init)
-
-;;; ----------------------------------------------------------------------------
-;;; matrix-new
-;;; ----------------------------------------------------------------------------
-
-(defun matrix-new (&key (xx 0.0d0) (xy 0.0d0) (yx 0.0d0) (yy 0.0d0)
-                        (x0 0.0d0) (y0 0.0d0))
- #+liber-documentation
- "@version{2023-2-4}
-  @argument[xx, xy, yx, yy, x0, y0]{numbers coerced to double floats with the
-    components of the transformation matrix}
-  @return{The newly allocated @class{pango:matrix} instance.}
-  @short{Creates a new Pango matrix.}
-  @see-class{pango:matrix}"
-  (make-matrix :xx xx :xy xy :yx yx :yy yy :x0 x0 :y0 y0))
-
-(export 'matrix-new)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_copy ()
-;;; ----------------------------------------------------------------------------
-
-(defun matrix-copy (matrix)
- #+liber-documentation
- "@version{2023-2-4}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @return{The newly allocated @class{pango:matrix} instance.}
-  @short{Copies a Pango matrix.}
-  @see-class{pango:matrix}"
-  (copy-matrix matrix))
-
-(export 'matrix-copy)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_free ()
-;;;
-;;; void pango_matrix_free (PangoMatrix *matrix);
-;;;
-;;; Free a PangoMatrix created with pango_matrix_copy().
-;;;
-;;; matrix :
-;;;     a PangoMatrix, may be NULL
-;;;
-;;; Since 1.6
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_translate ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_matrix_translate" %matrix-translate) :void
-  (matrix (g:boxed matrix))
-  (tx :double)
-  (ty :double))
-
-(defun matrix-translate (matrix tx ty)
- #+liber-documentation
- "@version{#2021-1-4}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[tx]{a double float amount to translate in the x direction}
-  @argument[ty]{a double float amount to translate in the Y direction}
-  @begin{short}
-    Changes the transformation represented by @arg{matrix} to be the
-    transformation given by first translating by (@arg{tx}, @arg{ty}) then
-    applying the original transformation.
-  @end{short}
-  @see-class{pango:matrix}"
-  (%matrix-translate matrix
-                     (coerce tx 'double-float)
-                     (coerce ty 'double-float)))
-
-(export 'matrix-translate)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_scale ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_matrix_scale" %matrix-scale) :void
-  (matrix (g:boxed matrix))
-  (sx :double)
-  (sy :double))
-
-(defun matrix-scale (matrix sx sy)
- #+liber-documentation
- "@version{#2021-1-4}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[sx]{a double float amount to scale by in x direction}
-  @argument[sy]{a double float amount to scale by in y direction}
-  @begin{short}
-    Changes the transformation represented by @arg{matrix} to be the
-    transformation given by first scaling by @arg{x} in the x direction and
-    @arg{y} in the y direction then applying the original transformation.
-  @end{short}
-  @see-class{pango:matrix}"
-  (%matrix-scale matrix
-                 (coerce sx 'double-float)
-                 (coerce sy 'double-float)))
-
-(export 'matrix-scale)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_rotate ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_matrix_rotate" %matrix-rotate) :void
-  (matrix (g:boxed matrix))
-  (degrees :double))
-
-(defun matrix-rotate (matrix degrees)
- #+liber-documentation
- "@version{#2021-1-4}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[degrees]{a double float with the degrees to rotate
-    counter-clockwise}
-  @begin{short}
-    Changes the transformation represented by @arg{matrix} to be the
-    transformation given by first rotating by @arg{degrees} degrees
-    counter-clockwise then applying the original transformation.
-  @end{short}
-  @see-class{pango:matrix}"
-  (%matrix-rotate matrix (coerce degrees 'double-float)))
-
-(export 'matrix-rotate)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_concat ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_matrix_concat" matrix-concat) :void
- #+liber-documentation
- "@version{#2021-1-4}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[new-matrix]{a @class{pango:matrix} instance}
-  @begin{short}
-    Changes the transformation represented by @arg{matrix} to be the
-    transformation given by first applying transformation given by
-    @arg{new-matrix} then applying the original transformation.
-  @end{short}
-  @see-class{pango:matrix}"
-  (matrix (g:boxed matrix))
-  (new-matrix (g:boxed matrix)))
-
-(export 'matrix-concat)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_transform_point ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_matrix_transform_point" %matrix-transform-point) :void
-  (matrix (g:boxed matrix))
-  (x (:pointer :double))
-  (y (:pointer :double)))
-
-(defun matrix-transform-point (matrix x y)
- #+liber-documentation
- "@version{#2023-7-14}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[x]{a number coerced to a double float with the x position}
-  @argument[y]{a number coerced to a double float with the y position}
-  @return{The double float values for the transformed point (x,y).}
-  @begin{short}
-    Transforms the point (x, y) by @arg{matrix}.
-  @end{short}
-  @see-class{pango:matrix}"
-  (cffi:with-foreign-objects ((x-out :double) (y-out :double))
-    (setf (cffi:mem-ref x-out :double) (coerce x 'double-float)
-          (cffi:mem-ref y-out :double) (coerce y 'double-float))
-    (%matrix-transform-point matrix x y)
-    (values (cffi:mem-ref x-out :double)
-            (cffi:mem-ref y-out :double))))
-
-(export 'matrix-transform-point)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_transform_distance ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_matrix_transform_distance" %matrix-transform-distance)
-    :void
-  (matrix (g:boxed matrix))
-  (dx (:pointer :double))
-  (dy (:pointer :double)))
-
-(defun matrix-transform-distance (matrix dx dy)
- #+liber-documentation
- "@version{#2023-7-14}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[dx]{a number coerced to a double float with the x component}
-  @argument[dy]{a number coerced to a double float with the y component}
-  @return{The double float values for the transformed distance vector (dx,dy).}
-  @begin{short}
-    Transforms the distance vector (dx,dy) by @arg{matrix}.
-  @end{short}
-  This is similar to the @fun{pango:matrix-transform-point} function except
-  that the translation components of the transformation are ignored. The
-  calculation of the returned vector is as follows:
-  @begin{pre}
-dx2 = dx1 * xx + dy1 * xy;
-dy2 = dx1 * yx + dy1 * yy;
-  @end{pre}
-  Affine transformations are position invariant, so the same vector always
-  transforms to the same vector. If (x1,y1) transforms to (x2,y2) then
-  (x1+dx1,y1+dy1) will transform to (x1+dx2,y1+dy2) for all values of x1 and x2.
-  @see-class{pango:matrix}
-  @see-function{pango:matrix-transform-point}"
-  (cffi:with-foreign-objects ((dx-out :double) (dy-out :double))
-    (setf (cffi:mem-ref dx-out :double) (coerce dx 'double-float)
-          (cffi:mem-ref dy-out :double) (coerce dy 'double-float))
-    (%matrix-transform-distance matrix dx-out dy-out)
-    (values (cffi:mem-ref dx-out :double)
-            (cffi:mem-ref dy-out :double))))
-
-(export 'matrix-transform-distance)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_transform_rectangle ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_matrix_transform_rectangle" matrix-transform-rectangle)
-    :void
- #+liber-documentation
- "@version{#2023-7-14}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[rect]{a @class{pango:rectangle} instance}
-  @begin{short}
-    First transforms @arg{rect} using @arg{matrix}, then calculates the
-    bounding box of the transformed rectangle.
-  @end{short}
-  The rectangle should be in Pango units.
-
-  This function is useful for example when you want to draw a rotated
-  @class{pango:layout} object to an image buffer, and want to know how large
-  the image should be and how much you should shift the layout when rendering.
-
-  If you have a rectangle in device units (pixels), use the
-  @fun{pango:matrix-transform-pixel-rectangle} function.
-
-  If you have the rectangle in Pango units and want to convert to transformed
-  pixel bounding box, it is more accurate to transform it first (using this
-  function) and pass the result to the @fun{pango:extents-to-pixels} function,
-  first argument, for an inclusive rounded rectangle. However, there are valid
-  reasons that you may want to convert to pixels first and then transform, for
-  example when the transformed coordinates may overflow in Pango units (large
-  matrix translation for example).
-  @see-class{pango:matrix}
-  @see-symbol{pango:rectangle}
-  @see-function{pango:matrix-transform-pixel-rectangle}"
-  (matrix (g:boxed matrix))
-  (rect (:pointer (:struct rectangle))))
-
-(export 'matrix-transform-rectangle)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_transform_pixel_rectangle ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_matrix_transform_pixel_rectangle"
-                matrix-transform-pixel-rectangle) :void
- #+liber-documentation
- "@version{#2023-7-14}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[rect]{a @class{pango:rectangle} instance}
-  @begin{short}
-    First transforms @arg{rect} using @arg{matrix}, then calculates the
-    bounding box of the transformed rectangle. The rectangle should be in
-    device units (pixels).
-  @end{short}
-
-  This function is useful for example when you want to draw a rotated
-  @class{pango:layout} object to an image buffer, and want to know how large
-  the image should be and how much you should shift the layout when rendering.
-
-  For better accuracy, you should use the @fun{pango:matrix-transform-rectangle}
-  function on original rectangle in Pango units and convert to pixels afterward
-  using the @fun{pango:extents-to-pixels} functions first argument.
-  @see-class{pango:matrix}
-  @see-symbol{pango:rectangle}
-  @see-function{pango:matrix-transform-rectangle}
-  @see-function{pango:extents-to-pixels}"
-  (matrix (g:boxed matrix))
-  (rect (:pointer (:struct rectangle))))
-
-(export 'matrix-transform-pixel-rectangle)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_get_font_scale_factor ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_matrix_get_font_scale_factor" matrix-font-scale-factor)
-    :double
- #+liber-documentation
- "@version{#2023-7-14}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @return{The double float with the scale factor of @arg{matrix} on the height
-    of the font, or 1.0 if @arg{matrix} is @code{nil}.}
-  @begin{short}
-    Returns the scale factor of a matrix on the height of the font.
-  @end{short}
-  That is, the scale factor in the direction perpendicular to the vector that
-  the X coordinate is mapped to.
-  @see-class{pango:matrix}"
-  (matrix (g:boxed matrix)))
-
-(export 'matrix-font-scale-factor)
-
-;;; ----------------------------------------------------------------------------
-;;; pango_matrix_get_font_scale_factors ()
-;;; ----------------------------------------------------------------------------
-
-(cffi:defcfun ("pango_matrix_get_font_scale_factors" %matrix-font-scale-factors)
-    :void
-  (matrix (g:boxed matrix))
-  (xscale (:pointer :double))
-  (yscale (:pointer :double)))
-
-(defun matrix-font-scale-factors (matrix)
- #+liber-documentation
- "@version{#2023-7-14}
-  @argument[matrix]{a @class{pango:matrix} instance}
-  @return{The double float @arg{(xscale, yscale)} values with the scale factor
-    in the x direction and in the y direction}
-  @begin{short}
-    Calculates the scale factor of a matrix on the width and height of the font.
-  @end{short}
-  That is, @arg{xscale} is the scale factor in the direction of the X
-  coordinate, and @arg{yscale} is the scale factor in the direction
-  perpendicular to the vector that the X coordinate is mapped to.
-
-  Note that output numbers will always be non-negative.
-  @see-class{pango:matrix}"
-  (cffi:with-foreign-objects ((xscale :double) (yscale :double))
-    (%matrix-font-scale-factors matrix xscale yscale)
-    (values (cffi:mem-ref xscale :double)
-            (cffi:mem-ref yscale :double))))
-
-(export 'matrix-font-scale-factors)
 
 ;;; ----------------------------------------------------------------------------
 ;;; PANGO_GET_UNKNOWN_GLYPH()
@@ -1172,6 +345,11 @@ dy2 = dx1 * yx + dy1 * yy;
 
 (cffi:defcfun ("pango_glyph_string_new" %glyph-string-new) :pointer)
 
+(cffi:defcfun ("pango_glyph_string_new" glyph-string-new)
+    (g:boxed glyph-string :return))
+
+(export 'glyph-string-new)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_string_copy ()
 ;;;
@@ -1187,6 +365,12 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;     pango_glyph_string_free(), or NULL if string was NULL.
 ;;; ----------------------------------------------------------------------------
 
+(cffi:defcfun ("pango_glyph_string_copy" glyph-string-copy)
+    (g:boxed glyph-string :return)
+  (string (g:boxed glyph-string)))
+
+(export 'glyph-string-copy)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_string_set_size ()
 ;;;
@@ -1200,6 +384,12 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;; new_len :
 ;;;     the new length of the string.
 ;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_glyph_string_set_size" glyph-string-set-size) :void
+  (string (g:boxed glyph-string))
+  (len :int))
+
+(export 'glyph-string-set-size)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_string_free ()
@@ -1239,6 +429,20 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;     to indicate that the result is not needed
 ;;; ----------------------------------------------------------------------------
 
+(cffi:defcfun ("pango_glyph_string_extents" %glyph-string-extents) :void
+  (glyph (g:boxed glyph-string))
+  (font (g:object font))
+  (ink (:pointer (:struct rectangle)))
+  (logical (:pointer (:struct rectangle))))
+
+(defun glyph-string-extents (glyph font ink logical)
+  (%glyph-string-extents glyph
+                         font
+                         (or ink (cffi:null-pointer))
+                         (or logical (cffi:null-pointer))))
+
+(export 'glyph-string-extents)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_string_extents_range ()
 ;;;
@@ -1276,6 +480,25 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;     NULL to indicate that the result is not needed
 ;;; ----------------------------------------------------------------------------
 
+(cffi:defcfun ("pango_glyph_string_extents-range" %glyph-string-extents-range)
+    :void
+  (glyph (g:boxed glyph-string))
+  (start :int)
+  (end :int)
+  (font (g:object font))
+  (ink (:pointer (:struct rectangle)))
+  (logical (:pointer (:struct rectangle))))
+
+(defun glyph-string-extents-range (glyph start end font ink logical)
+  (%glyph-string-extents-range glyph
+                               start
+                               end
+                               font
+                               (or ink (cffi:null-pointer))
+                               (or logical (cffi:null-pointer))))
+
+(export 'glyph-string-extents-range)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_string_get_width ()
 ;;;
@@ -1291,9 +514,12 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;
 ;;; Returns :
 ;;;     the logical width of the glyph string.
-;;;
-;;; Since 1.14
 ;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_glyph_string_get_width" glyph-string-width) :int
+  (glyphs (g:boxed glyph-string)))
+
+(export 'glyph-string-width)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_string_index_to_x ()
@@ -1331,6 +557,30 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;
 ;;; x_pos :
 ;;;     location to store result
+;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_glyph_string_index_to_x" %glyph-string-index-to-x) :void
+  (glyphs (g:boxed glyph-string))
+  (text :string)
+  (len :int)
+  (analysis :pointer)
+  (index :int)
+  (trailing :boolean)
+  (xpos (:pointer :int)))
+
+(defun glyph-string-index-to-x (glyphs text len analysis index trailing)
+  (cffi:with-foreign-object (xpos :int)
+    (%glyph-string-index-to-x glyphs text len analysis index trailing xpos)
+    (values (cffi:mem-ref xpos :int))))
+
+(export 'glyph-string-index-to-x)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_glyph_string_index_to_x_full
+;;;
+;;; Converts from character position to x position.
+;;;
+;;; Since 1.50
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1374,6 +624,22 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;     leading or trailing edge of the character
 ;;; ----------------------------------------------------------------------------
 
+(cffi:defcfun ("pango_glyph_string_x_to_index" %glyph-string-x-to-index) :void
+  (glyphs (g:boxed glyph-string))
+  (text :string)
+  (len :int)
+  (analysis :pointer)
+  (xpos :int)
+  (index (:pointer :int))
+  (trailing :boolean))
+
+(defun glyph-string-x-to-index (glyphs text len analysis xpos trailing)
+  (cffi:with-foreign-object (index :int)
+    (%glyph-string-x-to-index glyphs text len analysis xpos index trailing)
+    (values (cffi:mem-ref index :int))))
+
+(export 'glyph-string-x-to-index)
+
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_string_get_logical_widths ()
 ;;;
@@ -1408,15 +674,17 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;     with the resulting character widths
 ;;; ----------------------------------------------------------------------------
 
-;;; ----------------------------------------------------------------------------
-;;; PANGO_TYPE_GLYPH_ITEM
-;;;
-;;; #define PANGO_TYPE_GLYPH_ITEM (pango_glyph_item_get_type ())
-;;;
-;;; The GObject type for PangoGlyphItem.
-;;;
-;;; Since 1.20
-;;; ----------------------------------------------------------------------------
+;; TODO: Finish the implementation
+
+(cffi:defcfun ("pango_glyph_string_get_logical_widths"
+               glyph-string-logical-widths) :void
+  (glyphs (g:boxed glyph-string))
+  (text :string)
+  (len :int)
+  (level :int)
+  (widths :pointer))
+
+(export 'glyph-string-logical-widths)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_item_copy ()
@@ -1431,9 +699,13 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;; Returns :
 ;;;     the newly allocated PangoGlyphItem, which should be freed with
 ;;;     pango_glyph_item_free(), or NULL if orig was NULL.
-;;;
-;;; Since 1.20
 ;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_glyph_item_copy" glyph-item-copy)
+    (g:boxed glyph-item :return)
+  (item (g:boxed glyph-item)))
+
+(export 'glyph-item-copy)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_item_free ()
@@ -1444,8 +716,6 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;
 ;;; glyph_item :
 ;;;     a PangoGlyphItem, may be NULL
-;;;
-;;; Since 1.6
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1477,9 +747,15 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;; Returns :
 ;;;     the newly allocated item representing text before split_index, which
 ;;;     should be freed with pango_glyph_item_free().
-;;;
-;;; Since 1.2
 ;;; ----------------------------------------------------------------------------
+
+(cffi:defcfun ("pango_glyph_item_split" glyph-item-split)
+    (g:boxed glyph-item :return)
+  (item (g:boxed glyph-item))
+  (text :string)
+  (index :int))
+
+(export 'glyph-item-split)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_item_apply_attrs ()
@@ -1516,9 +792,20 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;; Returns :
 ;;;     A list of glyph items resulting from splitting glyph_item. Free the
 ;;;     elements using pango_glyph_item_free(), the list using g_slist_free().
-;;;
-;;; Since 1.2
 ;;; ----------------------------------------------------------------------------
+
+;; TODO: We need pango:attr-list to compile the function. Consider to reorder
+;; the files for compilation.
+
+#+nil
+(cffi:defcfun ("pango_glyph_item_apply_attrs" glyph-item-apply-attrs)
+    (glib:list-t (g:boxed glyph-item :return))
+  (item (g:boxed glyph-item))
+  (text :string)
+  (attrs (g:boxed attr-list)))
+
+#+nil
+(export 'glyph-item-apply-attrs)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_glyph_item_letter_space ()
@@ -1545,8 +832,6 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;; letter_spacing :
 ;;;     amount of letter spacing to add in Pango units. May be negative, though
 ;;;     too large negative values will give ugly results.
-;;;
-;;; Since 1.6
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1574,18 +859,6 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;     an array whose length is the number of characters in glyph_item (equal
 ;;;     to glyph_item->item->num_chars) to be filled in with the resulting
 ;;;     character widths
-;;;
-;;; Since 1.26
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_TYPE_GLYPH_ITEM_ITER
-;;;
-;;; #define PANGO_TYPE_GLYPH_ITEM_ITER (pango_glyph_item_iter_get_type ())
-;;;
-;;; The GObject type for PangoGlyphItemIter.
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1601,8 +874,6 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;; Returns :
 ;;;     the newly allocated PangoGlyphItemIter, which should be freed with
 ;;;     pango_glyph_item_iter_free(), or NULL if orig was NULL.
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1614,8 +885,6 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;
 ;;; iter :
 ;;;     a PangoGlyphItemIter, may be NULL
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1639,8 +908,6 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;
 ;;; Returns :
 ;;;     FALSE if there are no clusters in the glyph item
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1664,8 +931,6 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;;
 ;;; Returns :
 ;;;     FALSE if there are no clusters in the glyph item
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -1682,8 +947,6 @@ dy2 = dx1 * yx + dy1 * yy;
 ;;; Returns :
 ;;;     TRUE if the iterator was advanced, FALSE if we were already on the last
 ;;;     cluster.
-;;;
-;;; Since 1.22
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
