@@ -1,7 +1,7 @@
 ;;; ----------------------------------------------------------------------------
 ;;; cl-cffi-pango.asd
 ;;;
-;;; Copyright (C) 2011 - 2023 Dieter Kaiser
+;;; Copyright (C) 2011 - 2024 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -34,9 +34,14 @@
     ((:file "pango.package")
      (:file "pango.init")
      (:file "pango.version")
+     (:file "pango.matrix")
+     (:file "pango.utils")
+     (:file "pango.color")
      (:file "pango.script")
      (:file "pango.glyph")
      (:file "pango.gravity")
+     (:file "pango.font-description")
+     (:file "pango.font-metrics")
      (:file "pango.font")
      (:file "pango.attributes")
      (:file "pango.tab-array")
@@ -62,7 +67,9 @@
   :author "Dieter Kaiser"
   :license "MIT"
   :depends-on (:cl-cffi-pango
-               :fiveam)
+               :fiveam
+               :babel
+               :cl-setlocale)
   :perform (test-op (o c)
                (uiop:symbol-call :fiveam :run!
                                  (uiop:find-symbol* :pango-suite
@@ -73,20 +80,26 @@
     :components
     ((:file "rtest-pango")
      (:file "rtest-pango-version")
+     (:file "rtest-pango-matrix")
+     (:file "rtest-pango-utils")
+     (:file "rtest-pango-color")
      (:file "rtest-pango-script")
      (:file "rtest-pango-glyph")
      (:file "rtest-pango-gravity")
+     (:file "rtest-pango-font-description")
+     (:file "rtest-pango-font-metrics")
      (:file "rtest-pango-font")
      (:file "rtest-pango-attributes")
      (:file "rtest-pango-tab-array")
-;    (:file "pango.bidirectional")
-;    (:file "pango.renderer")
+     (:file "rtest-pango-bidirectional")
+     (:file "rtest-pango-renderer")
      (:file "rtest-pango-item")
-;    (:file "pango.coverage")
+     (:file "rtest-pango-coverage")
      (:file "rtest-pango-context")
      (:file "rtest-pango-layout")
      (:file "rtest-pango-cairo-rendering")
-;    (:file "pango.markup")
+     (:file "rtest-pango-markup")
+     (:file "rtest-pango-finish")
     ))))
 
 ;;; --- End of file cl-cffi-pango.asd ------------------------------------------
