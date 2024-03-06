@@ -16,9 +16,15 @@
   ;; Check the type initializer
   (is (eq (g:gtype "PangoCairoFont")
           (g:gtype (cffi:foreign-funcall "pango_cairo_font_get_type" :size))))
+  ;; Check the interface prerequisites
+  (is (equal '("PangoFont")
+             (list-interface-prerequisites "PangoCairoFont")))
   ;; Check the interface properties
   (is (equal '()
              (list-interface-properties "PangoCairoFont")))
+  ;; Check the interface signals
+  (is (equal '()
+             (list-signals "PangoCairoFont")))
   ;; Get the interface definition
   (is (equal '(GOBJECT:DEFINE-G-INTERFACE "PangoCairoFont"
                                   PANGO-CAIRO-FONT
@@ -28,12 +34,6 @@
              (gobject:get-g-type-definition "PangoCairoFont"))))
 
 ;;;     PangoCairoFontMap
-
-;; FIXME: We get an error when getting the GType definition.
-
-;;  CAIRO-FONT-MAP-INTERFACE in PANGO-CAIRO-RENDERING []:
-;;       Unexpected Error: #<SB-SYS:MEMORY-FAULT-ERROR {1003972BA3}>
-;; Unhandled memory fault at #x0..
 
 (test pango-cairo-font-map-interface
   ;; Type check
@@ -45,9 +45,15 @@
   (is (eq (g:gtype "PangoCairoFontMap")
           (g:gtype (cffi:foreign-funcall "pango_cairo_font_map_get_type"
                                          :size))))
+  ;; Check the interface prerequisites
+  (is (equal '("PangoFontMap")
+             (list-interface-prerequisites "PangoCairoFontMap")))
   ;; Check the interface properties
   (is (equal '()
              (list-interface-properties "PangoCairoFontMap")))
+  ;; Check the interface signals
+  (is (equal '()
+             (list-signals "PangoCairoFontMap")))
   ;; Get the interface definition
   (is (equal '(GOBJECT:DEFINE-G-INTERFACE "PangoCairoFontMap"
                                   PANGO-CAIRO-FONT-MAP
@@ -114,8 +120,16 @@
 
 ;;;     pango_cairo_font_get_scaled_font
 
-;; TODO: The argument is a pango:font object, but how do we get it from a
-;; pango:font-map?
+#+nil
+(test pango-cairo-font-scaled-font
+  (let ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
+        (desc (pango:font-description-from-string "Sans"))
+        font)
+    (is (typep (setf font
+                     (pango:context-load-font context desc)) 'pango:font))
+    ;; font is of type pango:font but not pango:cairo-font
+    (is-false (pango:cairo-font-scaled-font font))
+))
 
 ;;;     pango_cairo_context_set_resolution
 ;;;     pango_cairo_context_get_resolution
@@ -176,13 +190,261 @@
       (is-false (pango:cairo-update-layout cr layout)))))
 
 ;;;     pango_cairo_show_glyph_string
+
+(test pango-cairo-show-glyph-string.1
+  (cairo:with-context-for-image-surface (cr :argb32 360 200)
+    (let* ((text "Zwölf Ägypter auf der Straße")
+           (context (pango:cairo-create-context cr))
+           (attrstr "0 31 size 16384, 7 15 weight bold, 16 19 style italic")
+           (attrs (pango:attr-list-from-string attrstr))
+           (iter (pango:attr-list-iterator attrs))
+           items analysis glyphs font)
+
+      ;; Clear the background
+      (cairo:set-source-rgb cr 1.0 1.0 1.0)
+      (cairo:paint cr)
+      ;; Set the color
+      (cairo:set-source-rgb cr 0.5 0.5 0.5)
+      ;; Move to the start position of the text
+      (cairo:move-to cr 24 36)
+
+      (setf items
+            (pango:itemize context
+                           text
+                           0 (babel:string-size-in-octets text)
+                           attrs
+                           iter))
+
+      (dolist (item items)
+
+        (let ((str (babel:octets-to-string
+                              (subseq (babel:string-to-octets text)
+                                      (pango:item-offset item)
+                                      (+ (pango:item-offset item)
+                                         (pango:item-length item))))))
+
+        (format t "     item : ~a~%" item)
+        (format t "   offset : ~a~%" (pango:item-offset item))
+        (format t "   length : ~a~%" (pango:item-length item))
+        (format t "      str : ~a~%" str)
+
+        (setf glyphs
+              (pango:shape (babel:octets-to-string
+                              (subseq (babel:string-to-octets text)
+                                      (pango:item-offset item)
+                                      (+ (pango:item-offset item)
+                                         (pango:item-length item))))
+                           (pango:item-length item)
+                           (pango:item-analysis item)))
+
+        (setf font (pango:analysis-font (pango:item-analysis item)))
+
+        ;; Print the text on the Cario context
+        (pango:cairo-show-glyph-string cr font glyphs)
+        (format t "    width : ~a~%" (/ (pango:glyph-string-width glyphs)
+                                        pango:+scale+))
+        (cairo:rel-move-to cr
+                           (/ (pango:glyph-string-width glyphs)
+                              pango:+scale+)
+                           0)
+      ))
+
+    ;; Create and save the PNG image
+    (cairo:surface-write-to-png (cairo:target cr)
+                                (sys-path "out/show-glyph-string.png")))))
+
+(test pango-cairo-show-glyph-string.2
+  (cairo:with-context-for-image-surface (cr :argb32 360 200)
+    (let* ((text "Zwölf Ägypter auf der Straße")
+           (context (pango:cairo-create-context cr))
+           (attrstr "0 31 size 16384, 7 15 weight bold, 16 19 style italic")
+           (attrs (pango:attr-list-from-string attrstr))
+           (iter (pango:attr-list-iterator attrs))
+           items analysis glyphs font)
+
+      ;; Clear the background
+      (cairo:set-source-rgb cr 1.0 1.0 1.0)
+      (cairo:paint cr)
+      ;; Set the color
+      (cairo:set-source-rgb cr 0.5 0.5 0.5)
+      ;; Move to the start position of the text
+      (cairo:move-to cr 24 36)
+
+      (setf items
+            (pango:itemize context
+                           text
+                           0 (babel:string-size-in-octets text)
+                           attrs
+                           iter))
+
+      (dolist (item items)
+
+        (let ((str (babel:octets-to-string
+                              (subseq (babel:string-to-octets text)
+                                      (pango:item-offset item)
+                                      (+ (pango:item-offset item)
+                                         (pango:item-length item))))))
+
+        (format t "     item : ~a~%" item)
+        (format t "   offset : ~a~%" (pango:item-offset item))
+        (format t "   length : ~a~%" (pango:item-length item))
+        (format t "      str : ~a~%" str)
+
+        (setf glyphs
+              (pango:shape-full str nil (pango:item-analysis item)))
+
+        (setf font (pango:analysis-font (pango:item-analysis item)))
+
+        ;; Print the text on the Cario context
+        (pango:cairo-show-glyph-string cr font glyphs)
+        (format t "    width : ~a~%" (/ (pango:glyph-string-width glyphs)
+                                        pango:+scale+))
+        (cairo:rel-move-to cr
+                           (/ (pango:glyph-string-width glyphs)
+                              pango:+scale+)
+                           0)
+      ))
+
+    ;; Create and save the PNG image
+    (cairo:surface-write-to-png (cairo:target cr)
+                                (sys-path "out/show-glyph-string2.png")))))
+
+(test pango-cairo-show-glyph-string.3
+  (cairo:with-context-for-image-surface (cr :argb32 360 200)
+    (let* ((text "Zwölf Ägypter auf der Straße")
+           (context (pango:cairo-create-context cr))
+           (attrstr "0 31 size 16384, 7 15 weight bold, 16 19 style italic")
+           (attrs (pango:attr-list-from-string attrstr))
+           (iter (pango:attr-list-iterator attrs))
+           items analysis glyphs font)
+
+      ;; Clear the background
+      (cairo:set-source-rgb cr 1.0 1.0 1.0)
+      (cairo:paint cr)
+      ;; Set the color
+      (cairo:set-source-rgb cr 0.5 0.5 0.5)
+      ;; Move to the start position of the text
+      (cairo:move-to cr 24 36)
+
+      (setf items
+            (pango:itemize context
+                           text
+                           0 (babel:string-size-in-octets text)
+                           attrs
+                           iter))
+
+      (dolist (item items)
+
+        (let ((str (babel:octets-to-string
+                              (subseq (babel:string-to-octets text)
+                                      (pango:item-offset item)
+                                      (+ (pango:item-offset item)
+                                         (pango:item-length item))))))
+
+        (format t "     item : ~a~%" item)
+        (format t "   offset : ~a~%" (pango:item-offset item))
+        (format t "   length : ~a~%" (pango:item-length item))
+        (format t "      str : ~a~%" str)
+
+        (setf glyphs
+              (pango:shape-with-flags str
+                                      nil
+                                      (pango:item-analysis item)
+                                      :round-positions))
+
+        (setf font (pango:analysis-font (pango:item-analysis item)))
+
+        ;; Print the text on the Cario context
+        (pango:cairo-show-glyph-string cr font glyphs)
+        (format t "    width : ~a~%" (/ (pango:glyph-string-width glyphs)
+                                        pango:+scale+))
+        (cairo:rel-move-to cr
+                           (/ (pango:glyph-string-width glyphs)
+                              pango:+scale+)
+                           0)
+      ))
+
+    ;; Create and save the PNG image
+    (cairo:surface-write-to-png (cairo:target cr)
+                                (sys-path "out/show-glyph-string3.png")))))
+
 ;;;     pango_cairo_show_glyph_item
+
+(test pango-cairo-show-glyph-item
+  (cairo:with-context-for-image-surface (cr :argb32 360 200)
+
+    (let* ((context (pango:cairo-create-context cr))
+           (layout (pango:layout-new context))
+           (text "Zwölf Ägypter auf der Straße")
+           (iter nil)
+           glyphitem)
+
+      (setf (pango:layout-text layout) text)
+      (setf iter (pango:layout-iter layout))
+      (setf glyphitem (pango:layout-iter-run iter))
+
+    ;; Clear the background
+    (cairo:set-source-rgb cr 1.0 1.0 1.0)
+    (cairo:paint cr)
+    ;; Set the color
+    (cairo:set-source-rgb cr 0.5 0.5 0.5)
+    ;; Set the font
+    (setf (pango:layout-font-description layout)
+          (pango:font-description-from-string "Courier Bold 16"))
+
+
+    ;; Move to the start position of the text
+    (cairo:move-to cr 24 24)
+
+    ;; Print the text on the Cario context
+    (pango:cairo-show-glyph-item cr text glyphitem)
+
+
+    ;; Create and save the PNG image
+    (cairo:surface-write-to-png (cairo:target cr)
+                                (sys-path "out/show-glyph-item.png")))))
+
+
+
+
+
 ;;;     pango_cairo_show_layout_line
+
 ;;;     pango_cairo_show_layout
+
+(test pango-cairo-show-layout
+  (cairo:with-context-for-image-surface (cr :argb32 360 200)
+
+    (let ((layout (pango:cairo-create-layout cr)))
+
+    ;; Clear the background
+    (cairo:set-source-rgb cr 1.0 1.0 1.0)
+    (cairo:paint cr)
+    ;; Set the color
+    (cairo:set-source-rgb cr 0.5 0.5 0.5)
+    ;; Set the font
+    (setf (pango:layout-font-description layout)
+          (pango:font-description-from-string "Courier Bold 14"))
+    ;; Set the text
+    (setf (pango:layout-text layout) "Zwölf Ägypter auf der Straße")
+
+    ;; Move to the start position of the text
+    (cairo:move-to cr 24 24)
+
+    ;; Print the text on the Cario context
+    (pango:cairo-show-layout cr layout)
+
+    )
+
+    ;; Create and save the PNG image
+    (cairo:surface-write-to-png (cairo:target cr)
+                                (sys-path "out/show-layout.png"))))
+
 ;;;     pango_cairo_show_error_underline
+
 ;;;     pango_cairo_glyph_string_path
 ;;;     pango_cairo_layout_line_path
 ;;;     pango_cairo_layout_path
 ;;;     pango_cairo_error_underline_path
 
-;;; --- 2023-7-18 --------------------------------------------------------------
+;;; 2024-3-3

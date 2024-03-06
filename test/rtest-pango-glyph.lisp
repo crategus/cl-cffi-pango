@@ -1,13 +1,10 @@
 (in-package :pango-test)
 
-(def-suite pango-glyph :in pango-suite)
-(in-suite pango-glyph)
+(def-suite pango-glyph-suite :in pango-suite)
+(in-suite pango-glyph-suite)
 
 ;;; --- Types and Values -------------------------------------------------------
-;;;
-;;;     PANGO_SCALE
 
-;;;     PangoRectangle
 ;;;     PangoGlyph
 ;;;     PANGO_GLYPH_EMPTY
 ;;;     PANGO_GLYPH_INVALID_INPUT
@@ -22,87 +19,6 @@
 ;;;     PANGO_TYPE_GLYPH_STRING
 
 ;;; --- Functions --------------------------------------------------------------
-
-;;;     PANGO_PIXELS
-;;;     PANGO_PIXELS_FLOOR
-;;;     PANGO_PIXELS_CEIL
-;;;     PANGO_UNITS_ROUND
-
-;;;     pango_units_to_double
-;;;     pango_units_from_double
-
-;;;     PANGO_ASCENT
-;;;     PANGO_DESCENT
-;;;     PANGO_LBEARING
-;;;     PANGO_RBEARING
-
-;;;     pango_extents_to_pixels
-
-(test pango-extents-to-pixels.1
-  (cffi:with-foreign-object (inclusive '(:struct pango:rectangle))
-    (cffi:with-foreign-slots ((pango::x pango::y pango::width pango::height)
-                              inclusive (:struct pango:rectangle))
-      (setf pango::x (* 10 pango:+pango-scale+))
-      (setf pango::y (* 20 pango:+pango-scale+))
-      (setf pango::width (* 30 pango:+pango-scale+))
-      (setf pango::height (* 40 pango:+pango-scale+))
-      (is-false (pango:extents-to-pixels inclusive (cffi:null-pointer)))
-      (is (= 10 pango::x))
-      (is (= 20 pango::y))
-      (is (= 30 pango::width))
-      (is (= 40 pango::height)))))
-
-(test pango-extents-to-pixels.2
-  (cffi:with-foreign-object (nearest '(:struct pango:rectangle))
-    (cffi:with-foreign-slots ((pango::x pango::y pango::width pango::height)
-                              nearest (:struct pango:rectangle))
-      (setf pango::x (* 10 pango:+pango-scale+))
-      (setf pango::y (* 20 pango:+pango-scale+))
-      (setf pango::width (* 30 pango:+pango-scale+))
-      (setf pango::height (* 40 pango:+pango-scale+))
-      (is-false (pango:extents-to-pixels (cffi:null-pointer) nearest))
-      (is (= 10 pango::x))
-      (is (= 20 pango::y))
-      (is (= 30 pango::width))
-      (is (= 40 pango::height)))))
-
-;;;     PangoMatrix
-
-(test pango-matrix-cstruct
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoMatrix") g:+g-type-boxed+))
-  ;; Check the type initializer
-  (is (eq (g:gtype "PangoMatrix")
-          (g:gtype (cffi:foreign-funcall "pango_matrix_get_type" :size)))))
-
-;;;     PANGO_MATRIX_INIT
-;;;     pango:matrix-new
-;;;     pango_matrix_copy
-
-#+nil
-(test pango-matrix-new/copy/init
-  (let* ((matrix1 (pango:matrix-init))
-         (matrix2 (pango:matrix-new :xx 1 :yy 2))
-         (matrix3 (pango:matrix-copy matrix2)))
-
-    (is-false (pango:matrix-xx matrix1))
-    (is-false (pango:matrix-xy matrix1))
-    (is-false (pango:matrix-yx matrix1))
-    (is-false (pango:matrix-yy matrix1))
-    (is-false (pango:matrix-x0 matrix1))
-    (is-false (pango:matrix-y0 matrix1))
-))
-
-;;;     pango_matrix_translate
-;;;     pango_matrix_scale
-;;;     pango_matrix_rotate
-;;;     pango_matrix_concat
-;;;     pango_matrix_transform_point
-;;;     pango_matrix_transform_distance
-;;;     pango_matrix_transform_rectangle
-;;;     pango_matrix_transform_pixel_rectangle
-;;;     pango_matrix_get_font_scale_factor
-;;;     pango_matrix_get_font_scale_factors
 
 ;;;     PANGO_GET_UNKNOWN_GLYPH
 
@@ -131,4 +47,4 @@
 ;;;     pango_glyph_item_iter_next_cluster
 ;;;     pango_glyph_item_iter_prev_cluster
 
-;;; 2024-1-6
+;;; 2024-2-29

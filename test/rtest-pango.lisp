@@ -7,6 +7,12 @@
 
 (in-package :pango-test)
 
+(defvar *first-run-pango-test* t)
+
+;; Set the local language, it is German for me
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (cl-setlocale:setlocale :LC-ALL ""))
+
 (defvar *sample-text-1*
   "Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien
 leben die Blindtexte. Abgeschieden wohnen Sie in Buchstabenhausen an der Küste
@@ -59,6 +65,16 @@ OpenType-Funktionalitäten. Je nach Software und Voreinstellungen können
 eingebaute Kapitälchen, Kerning oder Ligaturen (sehr pfi ffi g) nicht richtig
 dargestellt werden.")
 
+;; Ensure directory for the output of test results
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (ensure-directories-exist
+      (asdf:system-relative-pathname :cl-cffi-pango "test/out/")))
+
+;; Get the pathname for a file in the testsuite
+(defun sys-path (filename &optional (system :cl-cffi-pango))
+  (asdf:system-relative-pathname system
+                                 (concatenate 'string "test/" filename)))
+
 ;; See https://www.embeddeduse.com/2019/08/26/qt-compare-two-floats/
 (defun approx-equal (x y &optional (eps 1.0d-1))
   (or (< (abs (- x y)) eps)
@@ -80,6 +96,10 @@ dargestellt werden.")
                                   (g:type-parent gtype)))
                         :test #'string=)
         #'string<))
+
+(defun list-interface-prerequisites (gtype)
+  (mapcar #'g:type-name
+          (g:type-interface-prerequisites gtype)))
 
 (defun list-interface-properties (gtype)
   (mapcar #'g:param-spec-name
@@ -129,12 +149,4 @@ dargestellt werden.")
 (def-suite pango-suite)
 (in-suite pango-suite)
 
-#-windows
-(test version
-  (is (string= "1.51.0" (pango:version-string))))
-
-#+windows
-(test version
-  (is (string= "1.50.14" (pango:version-string))))
-
-;;; --- 2023-11-5 --------------------------------------------------------------
+;;; 2024-3-4

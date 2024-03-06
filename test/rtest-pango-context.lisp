@@ -7,7 +7,7 @@
 
 ;;;     PangoContext
 
-(test context-class
+(test pango-context-class
   ;; Type check
   (is (g:type-is-object "PangoContext"))
   ;; Check the registered name
@@ -39,24 +39,24 @@
 
 ;;;     pango_context_new
 
-(test context-new
+(test pango-context-new
   (is (typep (pango:context-new) 'pango:context)))
 
 ;;;     pango_context_changed
 
-(test context-changed
+(test pango-context-changed
   (is-false (pango:context-changed (pango:context-new))))
 
 ;;;     pango_context_get_serial
 
-(test context-serial
+(test pango-context-serial
   (let ((context (pango:context-new)))
     (is (= 1 (pango:context-serial context)))))
 
 ;;;     pango_context_set_font_map
 ;;;     pango_context_get_font_map
 
-(test context-font-map
+(test pango-context-font-map
   (let ((context (pango:context-new)))
     (is-false (pango:context-font-map context))
     (is (typep (setf (pango:context-font-map context)
@@ -66,7 +66,7 @@
 ;;;     pango_context_get_font_description
 ;;;     pango_context_set_font_description
 
-(test context-font-description
+(test pango-context-font-description
   (let ((context (pango:context-new)))
     (is (typep (pango:context-font-description context)
                'pango:font-description))
@@ -79,7 +79,7 @@
 ;;;     pango_context_get_language
 ;;;     pango_context_set_language
 
-(test context-language
+(test pango-context-language
   (let ((context (pango:context-new)))
     ;; No default Pango language for the context
     (is-false (pango:context-language context))
@@ -92,7 +92,7 @@
 ;;;     pango_context_get_base_dir
 ;;;     pango_context_set_base_dir
 
-(test context-base-dir
+(test pango-context-base-dir
   (let ((context (pango:context-new)))
     (is (eq :weak-ltr (pango:context-base-dir context)))
     (is (eq :ltr (setf (pango:context-base-dir context) :ltr)))
@@ -115,9 +115,45 @@
 ;;;     pango_context_set_matrix
 ;;;     pango_context_get_round_glyph_positions
 ;;;     pango_context_set_round_glyph_positions
+
 ;;;     pango_context_load_font
+
+(test pango-context-load-font.1
+  (let ((context (pango:context-new))
+        (desc (pango:font-description-new)))
+    (is-false (pango:context-load-font context desc))))
+
+(test pango-context-load-font.2
+  (let ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
+        (desc (pango:font-description-from-string "Sans"))
+        font)
+    (is (typep (setf font
+                     (pango:context-load-font context desc)) 'pango:font))))
+
 ;;;     pango_context_load_fontset
+
+(test pango-context-load-fontset.1
+  (let ((context (pango:context-new))
+        (desc (pango:font-description-new))
+        (lang (pango:language-default)))
+    (is-false (pango:context-load-fontset context desc lang))))
+
+(test pango-context-load-fontset.2
+  (let ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
+        (desc (pango:font-description-from-string "Sans"))
+        (lang (pango:language-default))
+        fontset)
+    (is (typep (setf fontset
+                     (pango:context-load-fontset context desc lang))
+               'pango:fontset))))
+
 ;;;     pango_context_get_metrics
+
+(test pango-context-metrics
+  (let* ((context (pango:context-new))
+         (desc (pango:context-font-description context))
+         (lang (pango:language-default)))
+    (is (typep (pango:context-metrics context desc lang) 'pango:font-metrics))))
 
 ;;;     pango_context_list_families
 
@@ -130,4 +166,4 @@
                (mapcar #'pango:font-family-name
                        (pango:context-list-families context))))))
 
-;;; --- 2023-7-14 --------------------------------------------------------------
+;;; 2024-2-23

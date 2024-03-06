@@ -79,13 +79,21 @@
 (test pango-gravity-for-matrix
   (let ((matrix (pango:matrix-init)))
     (is (eq :south (pango:gravity-for-matrix matrix)))
-    (is-false (pango:matrix-rotate matrix 90))
+    (is (every #'approx-equal
+               '(0 1 -1 0 0 0)
+               (pango:matrix-to-float (pango:matrix-rotate matrix 90))))
     (is (eq :west (pango:gravity-for-matrix matrix)))
-    (is-false (pango:matrix-rotate matrix 90))
+    (is (every #'approx-equal
+               '(-1 0 0 -1 0 0)
+               (pango:matrix-to-float (pango:matrix-rotate matrix 90))))
     (is (eq :north (pango:gravity-for-matrix matrix)))
-    (is-false (pango:matrix-rotate matrix 90))
+    (is (every #'approx-equal
+               '(0 -1 1 0 0 0)
+               (pango:matrix-to-float (pango:matrix-rotate matrix 90))))
     (is (eq :east (pango:gravity-for-matrix matrix)))
-    (is-false (pango:matrix-rotate matrix 90))
+    (is (every #'approx-equal
+               '(1 0 0 1 0 0)
+               (pango:matrix-to-float (pango:matrix-rotate matrix 90))))
     (is (eq :south (pango:gravity-for-matrix matrix)))))
 
 ;;;     pango_gravity_get_for_script
@@ -105,16 +113,24 @@
 (test pango-gravity-to-rotation
   (let ((matrix (pango:matrix-init)))
     (is (= 0 (pango:gravity-to-rotation (pango:gravity-for-matrix matrix))))
-    (is-false (pango:matrix-rotate matrix 90))
+    (is (every #'approx-equal
+               '(0 1 -1 0 0 0)
+               (pango:matrix-to-float (pango:matrix-rotate matrix 90))))
     (is (approx-equal (/ pi 2)
                  (pango:gravity-to-rotation (pango:gravity-for-matrix matrix))))
-    (is-false (pango:matrix-rotate matrix 90))
+    (is (every #'approx-equal
+               '(-1 0 0 -1 0 0)
+               (pango:matrix-to-float (pango:matrix-rotate matrix 90))))
     (is (approx-equal pi
                  (pango:gravity-to-rotation (pango:gravity-for-matrix matrix))))
-    (is-false (pango:matrix-rotate matrix 90))
+    (is (every #'approx-equal
+               '(0 -1 1 0 0 0)
+               (pango:matrix-to-float (pango:matrix-rotate matrix 90))))
     (is (approx-equal (/ pi -2)
                  (pango:gravity-to-rotation (pango:gravity-for-matrix matrix))))
-    (is-false (pango:matrix-rotate matrix 90))
+    (is (every #'approx-equal
+               '(1 0 0 1 0 0)
+               (pango:matrix-to-float (pango:matrix-rotate matrix 90))))
     (is (= 0 (pango:gravity-to-rotation (pango:gravity-for-matrix matrix))))))
 
-;;; 2024-2-22
+;;; 2024-2-29

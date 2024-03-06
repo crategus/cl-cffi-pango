@@ -30,4 +30,4 @@
   (is (string= "Pango version too old (micro mismatch)"
                (pango:version-check 1 52 0))))
 
-;;; --- 2023-11-5 --------------------------------------------------------------
+;;; 2024-2-24

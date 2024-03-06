@@ -226,7 +226,6 @@
 
     (is (every (lambda (x) (typep x 'pango:attribute))
                (pango:attr-list-attributes (pango:layout-attributes layout))))
-
     (is (equal '(:weight :scale)
                (mapcar #'pango:attribute-type
                        (pango:attr-list-attributes
@@ -299,63 +298,8 @@
 ;;;     pango_layout_get_single_paragraph_mode
 ;;;     pango_layout_get_unknown_glyphs_count
 
-;;;     pango_layout_get_log_attrs
-;;;     pango_layout_get_log_attrs_readonly
-
-;; FIXME: Do we need pango:log-attrs instances?! Is it sufficent to pass
-;; a pointer to the array of pango:log-attrs? Do more work later.
-
-#+nil
-(test pango-layout-log-attrs
-  (let* ((widget (make-instance 'gtk-label))
-         (context (gtk-widget-pango-context widget))
-         (layout (pango:layout-new context)))
-    (is (string= "some text"
-                 (setf (pango:layout-text layout) "some text")))
-
-    (is-false (pango:layout-log-attrs layout))
-))
-
-#+nil
-(test pango-layout-log-attrs
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context)))
-      (is-false (pango:layout-set-markup layout "<b>T<small>e</small>xt</b>"))
-
-      (cffi:with-foreign-objects ((attrs-ptr :pointer) (n-attrs :int))
-        (is-false (pango::%layout-log-attrs layout attrs-ptr n-attrs))
-        (is-false attrs-ptr)
-        (is-false (cffi:mem-ref n-attrs :int))
-))))
-
-#+nil
-(test pango-layout-log-attrs.1
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context)))
-      (is-false (pango:layout-set-markup layout "<b>T<small>e</small>xt</b>"))
-
-      (cffi:with-foreign-object (n-attrs :int)
-        (let ((attrs-ptr (pango::%layout-log-attrs-readonly layout n-attrs)))
-          (is-false attrs-ptr)
-          (is-false (cffi:mem-ref n-attrs :int))
-          (is-false
-            (loop for i from 0 below (cffi:mem-ref n-attrs :int)
-                  ;; This collects a list of pointers
-                  collect (cffi:mem-ref attrs-ptr :pointer i)
-                  finally (glib:free attrs-ptr)))
-)))))
-
-#+nil
-(test pango-layout-log-attrs.2
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context)))
-      (is-false (pango:layout-set-markup layout "<b>T<small>e</small>xt</b>"))
-
-      (is-false (pango:layout-log-attrs-readonly layout))
-)))
+;;;     pango_layout_get_log_attrs                         not exported
+;;;     pango_layout_get_log_attrs_readonly                not exported
 
 ;;;     pango_layout_index_to_pos
 
@@ -1060,4 +1004,4 @@
 
 ;;;     pango_layout_line_is-paragraph-start
 
-;;; --- 2024-1-20 --------------------------------------------------------------
+;;; 2024-3-2
