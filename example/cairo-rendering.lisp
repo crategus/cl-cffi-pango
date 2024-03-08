@@ -35,8 +35,8 @@
            (multiple-value-bind (width height)
                (pango:layout-size layout)
              (declare (ignore height))
-             (cairo:move-to cr (- (/ width 2 +pango-scale+)) (- circle)))
+             (cairo:move-to cr (- (/ width 2 pango:+scale+)) (- circle)))
              (pango:cairo-show-layout cr layout)
              (cairo:restore cr)))))
 
-;;; --- 2023-2-12 --------------------------------------------------------------
+;;; 2024-3-3

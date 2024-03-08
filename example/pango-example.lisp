@@ -1,7 +1,7 @@
 (defpackage :pango-example
   (:use :common-lisp)
   (:import-from :cairo)
-  (:import-from :pango #:+pango-scale+)
+  (:import-from :pango)
   (:export #:pango-png-image-draw
            #:pango-svg-draw
            #:pango-draw-text-centered

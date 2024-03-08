@@ -28,7 +28,7 @@
           (pango:font-description-from-string "Verdana Bold"))
     ;; Set the font size in Pango units
     (setf (pango:font-description-size (pango:layout-font-description layout))
-          (* font-size +pango-scale+))
+          (* font-size pango:+scale+))
     ;; Set the line spacing
     (setf (pango:layout-line-spacing layout) factor)
     ;; Set the text
@@ -196,8 +196,8 @@
             (pango:font-description-from-string "Courier Normal"))
       ;; Set the font size in Pango units
       (setf (pango:font-description-size (pango:layout-font-description layout))
-            (max (* 10 +pango-scale+)
-                 (* (truncate (/ font-size 10)) +pango-scale+)))
+            (max (* 10 pango:+scale+)
+                 (* (truncate (/ font-size 10)) pango:+scale+)))
       (cairo:set-source-rgb cr 0.0 0.0 0.0)
       (setf (pango:layout-text layout) "Ascent")
       (pango:cairo-update-layout cr layout)
