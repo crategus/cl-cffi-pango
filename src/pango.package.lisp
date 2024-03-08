@@ -788,6 +788,7 @@
       @about-function{rectangle-y}
       @about-function{rectangle-width}
       @about-function{rectangle-height}
+      @about-function{rectangle-to-float}
       @about-macro{with-rectangle}
       @about-macro{with-rectangles}
       @about-struct{matrix}

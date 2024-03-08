@@ -460,45 +460,136 @@
                      (pango:layout-move-cursor-visually layout t 2 0 1)))))))
 
 ;;;     pango_layout_get_extents
-;;;     pango_layout_get_pixel_extents
 
-(test pango-layout-extents/pixel-extents
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context)))
+#-windows
+(test pango-layout-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context)))
       (is (string= "Some text"
                    (setf (pango:layout-text layout) "Some text")))
-      (is (every #'integerp
-                 (flatten
-                     (multiple-value-list (pango:layout-extents layout)))))
-      (is (every #'integerp
-                 (flatten
-                     (multiple-value-list
-                         (pango:layout-pixel-extents layout))))))))
-
-#+crategus
-(test pango-layout-extents/pixel-extents
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context)))
-      (is (string= "Some text"
-                   (setf (pango:layout-text layout) "Some text")))
-      (is (equal '((0 6144 77824 12288) (0 0 77824 23552))
-                 (multiple-value-list (pango:layout-extents layout))))
-      (is (equal '((0 6 76 12) (0 0 76 23))
-                 (multiple-value-list (pango:layout-pixel-extents layout)))))))
+    (pango:with-rectangles (ink logical)
+      (is-false (pango:layout-extents layout ink logical))
+      (is (equal '(0 6144 77824 12288)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 0 77824 23552)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
 
 #+windows
-(test pango-layout-extents/pixel-extents
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context)))
+(test pango-layout-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context)))
       (is (string= "Some text"
                    (setf (pango:layout-text layout) "Some text")))
-      (is (equal '((0 3072 84992 13312) (0 0 81920 19456))
-                 (multiple-value-list (pango:layout-extents layout))))
-      (is (equal '((0 3 83 13) (0 0 80 19))
-                 (multiple-value-list (pango:layout-pixel-extents layout)))))))
+    (pango:with-rectangles (ink logical)
+      (is-false (pango:layout-extents layout ink logical))
+      (is (equal '(0 3072 84992 13312)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 0 81920 19456)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+
+#-windows
+(test pango-layout-extents.1
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+    (pango:with-rectangles (ink)
+      (is-false (pango:layout-extents layout ink nil))
+      (is (equal '(0 6144 77824 12288)
+                 (multiple-value-list (pango:rectangle-to-float ink)))))))
+
+#+windows
+(test pango-layout-extents.1
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+    (pango:with-rectangles (ink)
+      (is-false (pango:layout-extents layout ink nil))
+      (is (equal '(0 3072 84992 13312)
+                 (multiple-value-list (pango:rectangle-to-float ink)))))))
+
+#-windows
+(test pango-layout-extents.2
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+    (pango:with-rectangles (logical)
+      (is-false (pango:layout-extents layout nil logical))
+      (is (equal '(0 0 77824 23552)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+
+#+windows
+(test pango-layout-extents.2
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+    (pango:with-rectangles (logical)
+      (is-false (pango:layout-extents layout nil logical))
+      (is (equal '(0 0 81920 19456)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+
+;;;     pango_layout_get_pixel_extents
+
+#-windows
+(test pango-layout-pixel-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+    (pango:with-rectangles (ink logical)
+      (is-false (pango:layout-pixel-extents layout ink logical))
+      (is (equal '(0 6 76 12)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 0 76 23)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+
+#+windows
+(test pango-layout-pixel-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+    (pango:with-rectangles (ink logical)
+      (is-false (pango:layout-pixel-extents layout ink logical))
+      (is (equal '(0 3 83 13)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 0 80 19)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+
+#-windows
+(test pango-layout-pixel-extents.1
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+    (pango:with-rectangles (ink)
+      (is-false (pango:layout-pixel-extents layout ink nil))
+      (is (equal '(0 6 76 12)
+                 (multiple-value-list (pango:rectangle-to-float ink)))))))
+
+#-windows
+(test pango-layout-pixel-extents.2
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context)))
+      (is (string= "Some text"
+                   (setf (pango:layout-text layout) "Some text")))
+    (pango:with-rectangles (logical)
+      (is-false (pango:layout-pixel-extents layout nil logical))
+      (is (equal '(0 0 76 23)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
 
 ;;;     pango_layout_get_size
 ;;;     pango_layout_get_pixel_size
@@ -764,62 +855,88 @@
       (is (eq layout (pango:layout-iter-layout iter))))))
 
 ;;;     pango_layout_iter_get_char_extents
-;;;     pango_layout_iter_get_cluster_extents
-;;;     pango_layout_iter_get_run_extents
 
 #-windows
-(test pango-layout-iter-char/cluster/run-extents.1
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context))
-           (iter nil))
+(test pango-layout-iter-char-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (iter nil))
       (is (string= *sample-text-1*
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (every #'integerp
-                 (flatten
-                     (multiple-value-list
-                         (pango:layout-iter-char-extents iter)))))
-      (is (every #'integerp
-                 (flatten
-                     (multiple-value-list
-                         (pango:layout-iter-cluster-extents iter)))))
-      (is (every #'integerp
-                 (flatten
-                     (multiple-value-list
-                         (pango:layout-iter-run-extents iter))))))))
-
-#+crategus
-(test pango-layout-iter-char/cluster/run-extents.2
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context))
-           (iter nil))
-      (is (string= *sample-text-1*
-                   (setf (pango:layout-text layout) *sample-text-1*)))
-      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (equal '(0 0 16384 23552)
-                 (multiple-value-list (pango:layout-iter-char-extents iter))))
-      (is (equal '((0 6144 17408 12288) (0 0 16384 23552))
-                 (multiple-value-list (pango:layout-iter-cluster-extents iter))))
-      (is (equal '((0 5120 636928 17408) (0 0 636928 23552))
-                 (multiple-value-list (pango:layout-iter-run-extents iter)))))))
+      (pango:with-rectangles (ink)
+        (is-false (pango:layout-iter-char-extents iter ink))
+        (is (equal '(0 0 16384 23552)
+                   (multiple-value-list (pango:rectangle-to-float ink)))))))
 
 #+windows
-(test pango-layout-iter-char/cluster/run-extents
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context))
-           (iter nil))
+(test pango-layout-iter-char-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (iter nil))
       (is (string= *sample-text-1*
                    (setf (pango:layout-text layout) *sample-text-1*)))
       (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (equal '(0 0 15360 19456)
-                 (multiple-value-list (pango:layout-iter-char-extents iter))))
-      (is (equal '((-1024 3072 19456 12288) (0 0 15360 19456))
-                 (multiple-value-list (pango:layout-iter-cluster-extents iter))))
-      (is (equal '((-1024 2048 662528 16384) (0 0 659456 19456))
-                 (multiple-value-list (pango:layout-iter-run-extents iter)))))))
+      (pango:with-rectangles (ink)
+        (is-false (pango:layout-iter-char-extents iter ink))
+        (is (equal '(0 0 15360 19456)
+                   (multiple-value-list (pango:rectangle-to-float ink)))))))
+
+;;;     pango_layout_iter_get_cluster_extents
+
+#-windows
+(test pango-layout-iter-cluster-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (iter nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+
+      (pango:with-rectangles (ink logical)
+        (is-false (pango:layout-iter-cluster-extents iter ink logical))
+        (is (equal '(0 6144 17408 12288)
+                   (multiple-value-list (pango:rectangle-to-float ink))))
+        (is (equal '(0 0 16384 23552)
+                   (multiple-value-list (pango:rectangle-to-float logical)))))))
+
+#+windows
+(test pango-layout-iter-cluster-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (iter nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+
+      (pango:with-rectangles (ink logical)
+        (is-false (pango:layout-iter-cluster-extents iter ink logical))
+        (is (equal '(-1024 3072 19456 12288)
+                   (multiple-value-list (pango:rectangle-to-float ink))))
+        (is (equal '(0 0 15360 19456)
+                   (multiple-value-list (pango:rectangle-to-float logical)))))))
+
+;;;     pango_layout_iter_get_run_extents
+
+(test pango-layout-iter-run-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (iter nil))
+      (is (string= *sample-text-1*
+                   (setf (pango:layout-text layout) *sample-text-1*)))
+      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+
+      (pango:with-rectangles (ink logical)
+        (is-false (pango:layout-iter-run-extents iter ink logical))
+        (is (equal '(0 5120 636928 17408)
+                   (multiple-value-list (pango:rectangle-to-float ink))))
+        (is (equal '(0 0 636928 23552)
+                   (multiple-value-list (pango:rectangle-to-float logical)))))))
 
 ;;;     pango_layout_iter_get_line_yrange
 
@@ -847,103 +964,140 @@
                  (multiple-value-list (pango:layout-iter-line-yrange iter)))))))
 
 ;;;     pango_layout_iter_get_line_extents
+
+#-windows
+(test pango-layout-iter-line-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (iter nil))
+    (is (string= *sample-text-1*
+                 (setf (pango:layout-text layout) *sample-text-1*)))
+    (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+    (pango:with-rectangles (ink logical)
+      (pango:layout-iter-line-extents iter ink logical)
+      (is (equal '(0 5120 636928 17408)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 0 636928 23552)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+
+#+windows
+(test pango-layout-iter-line-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (iter nil))
+    (is (string= *sample-text-1*
+                 (setf (pango:layout-text layout) *sample-text-1*)))
+    (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+    (pango:with-rectangles (ink logical)
+      (pango:layout-iter-line-extents iter ink logical)
+      (is (equal '(-1024 2048 662528 16384)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 0 659456 19456)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+
 ;;;     pango_layout_iter_get_layout_extents
 
-(test pango-layout-iter-line/layout-extents.1
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context))
-           (iter nil))
-      (is (string= *sample-text-1*
-                   (setf (pango:layout-text layout) *sample-text-1*)))
-      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (every #'integerp
-                 (flatten
-                     (multiple-value-list
-                         (pango:layout-iter-line-extents iter)))))
-      (is (every #'integerp
-                 (flatten
-                     (multiple-value-list
-                         (pango:layout-iter-layout-extents iter))))))))
-
-#+crategus
-(test pango-layout-iter-line/layout-extents.2
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context))
-           (iter nil))
-      (is (string= *sample-text-1*
-                   (setf (pango:layout-text layout) *sample-text-1*)))
-      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (equal '((0 5120 636928 17408) (0 0 636928 23552))
-                 (multiple-value-list (pango:layout-iter-line-extents iter))))
-      (is (equal '((0 5120 636928 17408) (0 0 636928 23552))
-                 (multiple-value-list
-                     (pango:layout-iter-layout-extents iter)))))))
+#-windows
+(test pango-layout-iter-layout-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (iter nil))
+    (is (string= *sample-text-1*
+                 (setf (pango:layout-text layout) *sample-text-1*)))
+    (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+    (pango:with-rectangles (ink logical)
+      (pango:layout-iter-layout-extents iter ink logical)
+      (is (equal '(-1024 5120 681984 696320)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 0 680960 706560)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
 
 #+windows
-(test pango-layout-iter-line/layout-extents.2
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context))
-           (iter nil))
-      (is (string= *sample-text-1*
-                   (setf (pango:layout-text layout) *sample-text-1*)))
-      (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
-      (is (equal '((-1024 2048 662528 16384) (0 0 659456 19456))
-                 (multiple-value-list (pango:layout-iter-line-extents iter))))
-      (is (equal '((-1024 2048 662528 16384) (0 0 659456 19456))
-                 (multiple-value-list
-                     (pango:layout-iter-layout-extents iter)))))))
+(test pango-layout-iter-layout-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (iter nil))
+    (is (string= *sample-text-1*
+                 (setf (pango:layout-text layout) *sample-text-1*)))
+    (is (typep (setf iter (pango:layout-iter layout)) 'pango:layout-iter))
+    (pango:with-rectangles (ink logical)
+      (pango:layout-iter-layout-extents iter ink logical)
+      (is (equal '(-1024 2048 709632 578560)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 0 708608 583680)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
 
 ;;;     pango_layout_line_get_extents
-;;;     pango_layout_line_get_pixel_extents
 
-(test pango-layout-line-extents/pixel-extents.1
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context))
-           (line nil))
-      (is (string= *sample-text-1*
-                   (setf (pango:layout-text layout) *sample-text-1*)))
-      (is (typep (setf line (pango:layout-line layout 0)) 'pango:layout-line))
-      (is (every #'integerp
-                 (flatten
-                     (multiple-value-list (pango:layout-line-extents line)))))
-      (is (every #'integerp
-                 (flatten
-                     (multiple-value-list
-                         (pango:layout-line-pixel-extents line))))))))
-
-#+crategus
-(test pango-layout-line-extents/pixel-extents.2
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context))
-           (line nil))
-      (is (string= *sample-text-1*
-                   (setf (pango:layout-text layout) *sample-text-1*)))
-      (is (typep (setf line (pango:layout-line layout 0)) 'pango:layout-line))
-      (is (equal '((0 -13312 636928 17408) (0 -18432 636928 23552))
-                 (multiple-value-list (pango:layout-line-extents line))))
-      (is (equal '((0 -13 622 17) (0 -18 622 23))
-                 (multiple-value-list
-                     (pango:layout-line-pixel-extents line)))))))
+#-windows
+(test pango-layout-line-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (line nil))
+    (is (string= *sample-text-1*
+                 (setf (pango:layout-text layout) *sample-text-1*)))
+    (is (typep (setf line (pango:layout-line layout 0)) 'pango:layout-line))
+    (pango:with-rectangles (ink logical)
+      (pango:layout-line-extents line ink logical)
+      (is (equal '(0 -13312 636928 17408)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 -18432 636928 23552)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
 
 #+windows
-(test pango-layout-line-extents/pixel-extents.2
-  (cairo:with-context-for-image-surface (cr :rgb24 200 400)
-    (let* ((context (pango:cairo-create-context cr))
-           (layout (pango:layout-new context))
-           (line nil))
-      (is (string= *sample-text-1*
-                   (setf (pango:layout-text layout) *sample-text-1*)))
-      (is (typep (setf line (pango:layout-line layout 0)) 'pango:layout-line))
-      (is (equal '((-1024 -13312 662528 16384) (0 -15360 659456 19456))
-                 (multiple-value-list (pango:layout-line-extents line))))
-      (is (equal '((-1 -13 647 16) (0 -15 644 19))
-                 (multiple-value-list
-                     (pango:layout-line-pixel-extents line)))))))
+(test pango-layout-line-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (line nil))
+    (is (string= *sample-text-1*
+                 (setf (pango:layout-text layout) *sample-text-1*)))
+    (is (typep (setf line (pango:layout-line layout 0)) 'pango:layout-line))
+    (pango:with-rectangles (ink logical)
+      (pango:layout-line-extents line ink logical)
+      (is (equal '(-1024 -13312 662528 16384)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 -15360 659456 19456)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+
+;;;     pango_layout_line_get_pixel_extents
+
+#-windows
+(test pango-layout-line-pixel-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (line nil))
+    (is (string= *sample-text-1*
+                 (setf (pango:layout-text layout) *sample-text-1*)))
+    (is (typep (setf line (pango:layout-line layout 0)) 'pango:layout-line))
+    (pango:with-rectangles (ink logical)
+      (pango:layout-line-pixel-extents line ink logical)
+      (is (equal '(0 -13 622 17)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 -18 622 23)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+
+#+windows
+(test pango-layout-line-pixel-extents
+  (let* ((fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (layout (pango:layout-new context))
+         (line nil))
+    (is (string= *sample-text-1*
+                 (setf (pango:layout-text layout) *sample-text-1*)))
+    (is (typep (setf line (pango:layout-line layout 0)) 'pango:layout-line))
+    (pango:with-rectangles (ink logical)
+      (pango:layout-line-pixel-extents line ink logical)
+      (is (equal '(-1 -13 647 16)
+                 (multiple-value-list (pango:rectangle-to-float ink))))
+      (is (equal '(0 -15 644 19)
+                 (multiple-value-list (pango:rectangle-to-float logical)))))))
 
 ;;;     pango_layout_line_get_height
 
@@ -1004,4 +1158,4 @@
 
 ;;;     pango_layout_line_is-paragraph-start
 
-;;; 2024-3-2
+;;; 2024-3-7

@@ -1574,17 +1574,16 @@ baseline2 = baseline1 + factor * height2
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
 
-(defun layout-extents (layout)
+(defun layout-extents (layout ink logical)
  #+liber-documentation
- "@version{2023-2-7}
-  @syntax[]{(pango:layout-extents layout) => ink, logical}
+ "@version{2024-3-6}
   @argument[layout]{a @class{pango:layout} object}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values of the rectangle with the extents of the layout as drawn}
-  @argument[logical]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values of the rectangle with the logical extents of the layout}
+  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the extents
+    of the layout as drawn, @code{nil}}
+  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the
+    logical extents of the layout, or @code{nil}}
   @begin{short}
-    Computes the logical and ink extents of layout.
+    Computes the logical and ink extents of the Pango layout.
   @end{short}
   Logical extents are usually what you want for positioning things. Note that
   both extents may have non-zero @arg{x} and @arg{y}. You may want to use those
@@ -1594,16 +1593,11 @@ baseline2 = baseline1 + factor * height2
 
   The extents are given in layout coordinates and in Pango units. Layout
   coordinates begin at the top left corner of the layout.
-  @see-class{pango:layout}"
-  (cffi:with-foreign-objects ((ink '(:struct rectangle))
-                              (logical '(:struct rectangle)))
-    (%layout-extents layout ink logical)
-    (let (values1 values2)
-      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
-        (setf values1 (list x y width height)))
-      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
-        (setf values2 (list x y width height)))
-      (values values1 values2))))
+  @see-class{pango:layout}
+  @see-symbol{pango:rectangle}"
+  (%layout-extents layout
+                   (or ink (cffi:null-pointer))
+                   (or logical (cffi:null-pointer))))
 
 (export 'layout-extents)
 
@@ -1616,35 +1610,28 @@ baseline2 = baseline1 + factor * height2
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
 
-(defun layout-pixel-extents (layout)
+(defun layout-pixel-extents (layout ink logical)
  #+liber-documentation
- "@version{2023-2-7}
-  @syntax[]{(pango:layout-pixel-extents layout) => ink, logical}
+ "@version{2024-3-6}
   @argument[layout]{a @class{pango:layout} object}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values of the rectangle with the extents of the layout as drawn}
-  @argument[logical]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values of the rectangle with the logical extents of the layout}
+  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the extents
+    of the layout as drawn}
+  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the
+    logical extents of the layout}
   @begin{short}
-    Computes the logical and ink extents of layout in device units.
+    Computes the logical and ink extents of the Pango layout in device units.
   @end{short}
   This function just calls the @fun{pango:layout-extents} function followed by
-  two @fun{pango:extents-to-pixels} calls, rounding the @arg{ink} and
+  two @fun{pango:extents-to-pixels} function calls, rounding the @arg{ink} and
   @arg{logical} values such that the rounded rectangles fully contain the
   unrounded one, that is, passes them as first argument to the
   @fun{pango:extents-to-pixels} function.
   @see-class{pango:layout}
   @see-function{pango:layout-extents}
   @see-function{pango:extents-to-pixels}"
-  (cffi:with-foreign-objects ((ink '(:struct rectangle))
-                              (logical '(:struct rectangle)))
-    (%layout-pixel-extents layout ink logical)
-    (let (values1 values2)
-      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
-        (setf values1 (list x y width height)))
-      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
-        (setf values2 (list x y width height)))
-      (values values1 values2))))
+  (%layout-pixel-extents layout
+                         (or ink (cffi:null-pointer))
+                         (or logical (cffi:null-pointer))))
 
 (export 'layout-pixel-extents)
 
@@ -2176,28 +2163,22 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_iter_get_char_extents ()
 ;;; ----------------------------------------------------------------------------
 
-(cffi:defcfun ("pango_layout_iter_get_char_extents" %layout-iter-char-extents)
+(cffi:defcfun ("pango_layout_iter_get_char_extents" layout-iter-char-extents)
     :void
-  (iter (g:boxed layout-iter))
-  (extents (:pointer (:struct rectangle))))
-
-(defun layout-iter-char-extents (iter)
  #+liber-documentation
- "@version{2023-2-11}
+ "@version{2024-3-7}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{The list of integers with the @arg{x}, @arg{y}, @arg{width}, and
-    @arg{height} coordinates of the logical extents.}
+  @argument[extents]{a @symbol{pango:rectangle} instance to fill with logical
+    extents}
   @begin{short}
     Gets the extents of the current character, in layout coordinates.
   @end{short}
   Origin is the top left of the entire layout. Only logical extents can sensibly
-  be obtained for characters; ink extents make sense only down to the level of
+  be obtained for characters. Ink extents make sense only down to the level of
   clusters.
   @see-class{pango:layout-iter}"
-  (cffi:with-foreign-object (extents '(:struct rectangle))
-    (%layout-iter-char-extents iter extents)
-    (cffi:with-foreign-slots ((x y width height) extents (:struct rectangle))
-      (values x y width height))))
+  (iter (g:boxed layout-iter))
+  (extents (:pointer (:struct rectangle))))
 
 (export 'layout-iter-char-extents)
 
@@ -2211,29 +2192,22 @@ baseline2 = baseline1 + factor * height2
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
 
-(defun layout-iter-cluster-extents (iter)
+(defun layout-iter-cluster-extents (iter ink logical)
  #+liber-documentation
- "@version{2023-2-11}
-  @syntax[]{(pango:layout-iter-cluster-extents iter) => ink, logical}
+ "@version{2024-3-7}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values of the ink extents}
-  @argument[logical]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values of the logical extents}
+  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
+    of the ink extents,  or @code{nil}}
+  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the values
+    of the logical extents, or @code{nil}}
   @begin{short}
-    Gets the extents of the current cluster, in layout coordinates (origin is
-    the top left of the entire layout).
+    Gets the extents of the current cluster, in layout coordinates, origin is
+    the top left of the entire layout.
   @end{short}
   @see-class{pango:layout-iter}"
-  (cffi:with-foreign-objects ((ink '(:struct rectangle))
-                              (logical '(:struct rectangle)))
-    (%layout-iter-cluster-extents iter ink logical)
-    (let (values1 values2)
-      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
-        (setf values1 (list x y width height)))
-      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
-        (setf values2 (list x y width height)))
-      (values values1 values2))))
+  (%layout-iter-cluster-extents iter
+                                (or ink (cffi:null-pointer))
+                                (or logical (cffi:null-pointer))))
 
 (export 'layout-iter-cluster-extents)
 
@@ -2247,30 +2221,23 @@ baseline2 = baseline1 + factor * height2
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
 
-(defun layout-iter-run-extents (iter)
+(defun layout-iter-run-extents (iter ink logical)
  #+liber-documentation
- "@version{2023-2-11}
-  @syntax[]{pango:layout-iter-run-extents iter) => ink, logicall}
+ "@version{2024-3-7}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values of the ink extents}
-  @argument[logical]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values of the logical extents}
+  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
+    of the ink extents, or @code{nil}}
+  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the values
+    of the logical extents, or @code{nil}}
   @begin{short}
     Gets the extents of the current run in layout coordinates (origin is the
     top left of the entire layout).
   @end{short}
   @see-class{pango:layout-iter}
   @see-symbol{pango:rectangle}"
-  (cffi:with-foreign-objects ((ink '(:struct rectangle))
-                              (logical '(:struct rectangle)))
-    (%layout-iter-run-extents iter ink logical)
-    (let (values1 values2)
-      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
-        (setf values1 (list x y width height)))
-      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
-        (setf values2 (list x y width height)))
-      (values values1 values2))))
+  (%layout-iter-run-extents iter
+                            (or ink (cffi:null-pointer))
+                            (or logical (cffi:null-pointer))))
 
 (export 'layout-iter-run-extents)
 
@@ -2324,15 +2291,14 @@ baseline2 = baseline1 + factor * height2
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
 
-(defun layout-iter-line-extents (iter)
+(defun layout-iter-line-extents (iter ink logical)
  #+liber-documentation
- "@version{2023-2-11}
-  @syntax[]{(pango:layout-iter-line-extents iter) => ink, logical}
+ "@version{2024-3-7}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values with the ink extents}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values with the logical extents}
+  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
+    of the ink extents, or @code{nil}}
+  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
+    of the logical extents, or @code{nil}}
   @begin{short}
     Obtains the extents of the current line.
   @end{short}
@@ -2342,15 +2308,9 @@ baseline2 = baseline1 + factor * height2
   @fun{pango:layout-line-extents} function.
   @see-class{pango:layout-iter}
   @see-function{pango:layout-line-extents}"
-  (cffi:with-foreign-objects ((ink '(:struct rectangle))
-                              (logical '(:struct rectangle)))
-    (%layout-iter-line-extents iter ink logical)
-    (let (values1 values2)
-      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
-        (setf values1 (list x y width height)))
-      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
-        (setf values2 (list x y width height)))
-      (values values1 values2))))
+  (%layout-iter-line-extents iter
+                             (or ink (cffi:null-pointer))
+                             (or logical (cffi:null-pointer))))
 
 (export 'layout-iter-line-extents)
 
@@ -2364,29 +2324,22 @@ baseline2 = baseline1 + factor * height2
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
 
-(defun layout-iter-layout-extents (iter)
+(defun layout-iter-layout-extents (iter ink logical)
  #+liber-documentation
- "@version{2023-2-11}
-  @syntax[]{(pango:layout-iter-line-extents iter) => ink, logical}
+ "@version{2024-3-7}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values with the ink extents}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values with the logical extents}
+  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
+    of the ink extents, or @code{nil}}
+  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
+    of the logical extents, or @code{nil}}
   @begin{short}
     Obtains the extents of the Pango layout being iterated over.
   @end{short}
   @see-class{pango:layout-iter}
   @see-symbol{pango:rectangle}"
-  (cffi:with-foreign-objects ((ink '(:struct rectangle))
-                              (logical '(:struct rectangle)))
-    (%layout-iter-line-extents iter ink logical)
-    (let (values1 values2)
-      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
-        (setf values1 (list x y width height)))
-      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
-        (setf values2 (list x y width height)))
-      (values values1 values2))))
+  (%layout-iter-layout-extents iter
+                               (or ink (cffi:null-pointer))
+                               (or logical (cffi:null-pointer))))
 
 (export 'layout-iter-layout-extents)
 
@@ -2429,15 +2382,14 @@ baseline2 = baseline1 + factor * height2
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
 
-(defun layout-line-extents (line)
+(defun layout-line-extents (line ink logical)
  #+liber-documentation
- "@version{#2023-4-1}
-  @syntax[]{(pango:layout-line-extents line) => ink, logical}
+ "@version{2024-3-7}
   @argument[line]{a @class{pango:layout-line} instance}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values with the ink extents of the glyph string as drawn}
-  @argument[logical]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values with the logical extents of the glyph string as drawn}
+  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
+    of the ink extents of the glyph string as drawn,  or @code{nil}}
+  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the values
+    of the logical extents of the glyph string as drawn, or @code{nil}}
   @begin{short}
     Computes the logical and ink extents of a layout line.
   @end{short}
@@ -2445,15 +2397,9 @@ baseline2 = baseline1 + factor * height2
   interpretation of the rectangles.
   @see-class{pango:layout-line}
   @see-function{pango:font-glyph-extents}"
-  (cffi:with-foreign-objects ((ink '(:struct rectangle))
-                              (logical '(:struct rectangle)))
-    (%layout-line-extents line ink logical)
-    (let ((values1 nil) (values2 nil))
-      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
-        (setf values1 (list x y width height)))
-      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
-        (setf values2 (list x y width height)))
-      (values values1 values2))))
+  (%layout-line-extents line
+                        (or ink (cffi:null-pointer))
+                        (or logical (cffi:null-pointer))))
 
 (export 'layout-line-extents)
 
@@ -2518,35 +2464,28 @@ baseline2 = baseline1 + factor * height2
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
 
-(defun layout-line-pixel-extents (line)
+(defun layout-line-pixel-extents (line ink logical)
  #+liber-documentation
- "@version{#2023-2-11}
-  @syntax[]{(pango:layout-line-pixel-extents line) => ink, logical}
+ "@version{2024-3-7}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values with the ink extents of the glyph string as drawn}
-  @argument[ink]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
-    values with the logical extents of the glyph string as drawn}
+  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
+    of the ink extents of the glyph string as drawn, or @code{nil}}
+  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the values
+    of the logical extents of the glyph string as drawn, or @code{nil}}
   @begin{short}
     Computes the logical and ink extents of @arg{line} in device units.
   @end{short}
   This function just calls the @fun{pango:layout-line-extents} function
-  followed by two @fun{pango:extents-to-pixels} calls, rounding @arg{ink} and
-  @arg{logical} such that the rounded rectangles fully contain the
-  unrounded one, that is, passes them as first argument to the
+  followed by two @fun{pango:extents-to-pixels} function calls, rounding
+  @arg{ink} and @arg{logical} such that the rounded rectangles fully contain
+  the unrounded one, that is, passes them as first argument to the
   @fun{pango:extents-to-pixels} function.
   @see-class{pango:layout-line}
   @see-function{pango:layout-line-extents}
   @see-function{pango:extents-to-pixels}"
-  (cffi:with-foreign-objects ((ink '(:struct rectangle))
-                              (logical '(:struct rectangle)))
-    (%layout-line-pixel-extents line ink logical)
-    (let (values1 values2)
-      (cffi:with-foreign-slots ((x y width height) ink (:struct rectangle))
-        (setf values1 (list x y width height)))
-      (cffi:with-foreign-slots ((x y width height) logical (:struct rectangle))
-        (setf values2 (list x y width height)))
-      (values values1 values2))))
+  (%layout-line-pixel-extents line
+                              (or ink (cffi:null-pointer))
+                              (or logical (cffi:null-pointer))))
 
 (export 'layout-line-pixel-extents)
 

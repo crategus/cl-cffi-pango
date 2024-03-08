@@ -196,6 +196,16 @@
 
 (export 'rectangle-height)
 
+;;; --- pango:rectangle-to-float -----------------------------------------------
+
+(defun rectangle-to-float (rect)
+  (values (rectangle-x rect)
+          (rectangle-y rect)
+          (rectangle-width rect)
+          (rectangle-height rect)))
+
+(export 'rectangle-to-float)
+
 ;;; ----------------------------------------------------------------------------
 
 (defmacro with-rectangle ((var &rest args) &body body)
