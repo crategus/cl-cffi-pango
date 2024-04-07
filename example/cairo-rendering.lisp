@@ -1,3 +1,7 @@
+;;;; Draw Cairo rendering
+;;;;
+;;;; 2024-4-6
+
 (in-package :pango-example)
 
 (defun pango-draw-cairo-rendering (cr width height)
@@ -38,5 +42,3 @@
              (cairo:move-to cr (- (/ width 2 pango:+scale+)) (- circle)))
              (pango:cairo-show-layout cr layout)
              (cairo:restore cr)))))
-
-;;; 2024-3-3

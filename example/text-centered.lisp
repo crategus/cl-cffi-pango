@@ -1,3 +1,7 @@
+;;;; Draw centered text
+;;;;
+;;;; 2024-4-6
+
 (in-package :pango-example)
 
 (defun pango-draw-text-centered (cr width height)
@@ -22,5 +26,3 @@
       ;; Print the text on the Cario context
       (pango:cairo-show-layout cr layout)
       (cairo:restore cr))))
-
-;;; --- 2023-2-12 --------------------------------------------------------------

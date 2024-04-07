@@ -1,3 +1,7 @@
+;;;; Draw text metrics
+;;;;
+;;;; 2024-4-6
+
 (in-package :pango-example)
 
 (defparameter *example-text*
@@ -230,5 +234,3 @@
       (pango:cairo-show-layout cr layout)
       ;; Restore the Cairo context
       (cairo:restore cr))))
-
-;;; --- 2023-2-12 --------------------------------------------------------------
