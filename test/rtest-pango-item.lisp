@@ -32,24 +32,24 @@
 ;;;     PangoShapeFlags
 
 (test pango-shape-flags
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-flags "PangoShapeFlags"))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:shape-flags
           (glib:symbol-for-gtype "PangoShapeFlags")))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoShapeFlags")
           (g:gtype (cffi:foreign-funcall "pango_shape_flags_get_type" :size))))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_SHAPE_NONE" "PANGO_SHAPE_ROUND_POSITIONS")
              (list-flags-item-name "PangoShapeFlags")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1)
              (list-flags-item-value "PangoShapeFlags")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("none" "round-positions")
              (list-flags-item-nick "PangoShapeFlags")))
-  ;; Check the flags definition
+  ;; Check flags definition
   (is (equal '(GOBJECT:DEFINE-G-FLAGS "PangoShapeFlags" PANGO-SHAPE-FLAGS
                                       (:EXPORT T
                                        :TYPE-INITIALIZER
@@ -63,12 +63,15 @@
 
 ;;;     PangoItem
 
-(test pango-item-struct
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoItem") g:+g-type-boxed+))
-  ;; Check the type initializer
+(test pango-item-boxed
+  ;; Check type
+  (is (g:type-is-boxed "PangoItem"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoItem")
-          (g:gtype (cffi:foreign-funcall "pango_item_get_type" :size)))))
+          (g:gtype (cffi:foreign-funcall "pango_item_get_type" :size))))
+  ;; Check registered name
+  (is (eq 'pango:item
+          (glib:symbol-for-gtype "PangoItem"))))
 
 (test pango-item-properties
   (let ((item (pango:item-new)))
@@ -301,4 +304,4 @@
 ;;;     pango_shape_full
 ;;;     pango_shape_with_flags
 
-;;; 2024-3-3
+;;; 2024-5-25

@@ -5,12 +5,15 @@
 
 ;;;     PangoColor
 
-(test pango-color
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoColor") g:+g-type-boxed+))
-  ;; Check the type initializer
+(test pango-color-boxed
+  ;; Check type
+  (is (g:type-is-boxed "PangoColor"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoColor")
-          (g:gtype (cffi:foreign-funcall "pango_color_get_type" :size)))))
+          (g:gtype (cffi:foreign-funcall "pango_color_get_type" :size))))
+  ;; Check registered name
+  (is (eq 'pango:color
+          (glib:symbol-for-gtype "PangoColor"))))
 
 ;;;     color-red
 ;;;     color-green
@@ -57,4 +60,4 @@
     (is (string= "#ffff00000000" (pango:color-to-string color)))
     (is (= 65535 alpha))))
 
-;;; 2024-3-1
+;;; 2024-5-25

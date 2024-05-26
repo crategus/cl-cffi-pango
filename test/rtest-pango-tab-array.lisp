@@ -8,25 +8,25 @@
 ;;;     PangoTabAlign
 
 (test pango-tab-align
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoTabAlign"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoTabAlign")
           (g:gtype (cffi:foreign-funcall "pango_tab_align_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:tab-align
           (glib:symbol-for-gtype "PangoTabAlign")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_TAB_LEFT" "PANGO_TAB_RIGHT" "PANGO_TAB_CENTER"
                "PANGO_TAB_DECIMAL")
              (list-enum-item-name "PangoTabAlign")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1 2 3)
              (list-enum-item-value "PangoTabAlign")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("left" "right" "center" "decimal")
              (list-enum-item-nick "PangoTabAlign")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoTabAlign"
                                      PANGO-TAB-ALIGN
                                      (:EXPORT T
@@ -41,12 +41,12 @@
 ;;;     PangoTabArray
 
 (test pango-tab-array-boxed
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoTabArray") g:+g-type-boxed+))
-  ;; Check the type initializer
+  ;; Check type
+  (is (g:type-is-boxed "PangoTabArray"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoTabArray")
           (g:gtype (cffi:foreign-funcall "pango_tab_array_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:tab-array
           (glib:symbol-for-gtype "PangoTabArray"))))
 
@@ -191,4 +191,5 @@ right:290px"
 decimal:150px
 right:290px"
                  (pango:tab-array-to-string tabs)))))
-;;; 2024-2-24
+
+;;; 2024-5-25

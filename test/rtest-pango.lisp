@@ -9,8 +9,13 @@
 
 (defvar *first-run-pango-test* t)
 
-;; Set the local language, it is German for me
 (eval-when (:compile-toplevel :load-toplevel :execute)
+  ;; Set the current package
+  (setf (glib-sys:get-current-package) "cl-cffi-pango")
+  ;; Ensure directory for the output of test results
+  (ensure-directories-exist
+      (asdf:system-relative-pathname :cl-cffi-pango "test/out/"))
+  ;; Set the local language, it is German for me
   (cl-setlocale:setlocale :LC-ALL ""))
 
 (defvar *sample-text-1*
@@ -64,16 +69,6 @@ enthalten sind. Ein wichtiges, aber schwierig zu integrierendes Feld sind
 OpenType-Funktionalitäten. Je nach Software und Voreinstellungen können
 eingebaute Kapitälchen, Kerning oder Ligaturen (sehr pfi ffi g) nicht richtig
 dargestellt werden.")
-
-;; Ensure directory for the output of test results
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (ensure-directories-exist
-      (asdf:system-relative-pathname :cl-cffi-pango "test/out/")))
-
-;; Get the pathname for a file in the testsuite
-(defun sys-path (filename &optional (system :cl-cffi-pango))
-  (asdf:system-relative-pathname system
-                                 (concatenate 'string "test/" filename)))
 
 ;; See https://www.embeddeduse.com/2019/08/26/qt-compare-two-floats/
 (defun approx-equal (x y &optional (eps 1.0d-1))
@@ -149,4 +144,4 @@ dargestellt werden.")
 (def-suite pango-suite)
 (in-suite pango-suite)
 
-;;; 2024-3-4
+;;; 2024-5-25

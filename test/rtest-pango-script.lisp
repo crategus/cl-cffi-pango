@@ -6,15 +6,15 @@
 ;;;     PangoScript
 
 (test pango-script-enumeration
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoScript"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoScript")
           (g:gtype (cffi:foreign-funcall "pango_script_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:script
           (glib:symbol-for-gtype "PangoScript")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_SCRIPT_INVALID_CODE" "PANGO_SCRIPT_COMMON"
                "PANGO_SCRIPT_INHERITED" "PANGO_SCRIPT_ARABIC"
                "PANGO_SCRIPT_ARMENIAN" "PANGO_SCRIPT_BENGALI"
@@ -71,7 +71,7 @@
                "PANGO_SCRIPT_MULTANI" "PANGO_SCRIPT_OLD_HUNGARIAN"
                "PANGO_SCRIPT_SIGNWRITING")
              (list-enum-item-name "PangoScript")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(-1 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
                24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
                46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67
@@ -79,7 +79,7 @@
                90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108
                109 110 111 112 113 114 115 116)
              (list-enum-item-value "PangoScript")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("invalid-code" "common" "inherited" "arabic" "armenian" "bengali"
                "bopomofo" "cherokee" "coptic" "cyrillic" "deseret" "devanagari"
                "ethiopic" "georgian" "gothic" "greek" "gujarati" "gurmukhi"
@@ -103,7 +103,7 @@
                "anatolian-hieroglyphs" "hatran" "multani" "old-hungarian"
                "signwriting")
              (list-enum-item-nick "PangoScript")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoScript" PANGO-SCRIPT
                                      (:EXPORT T
                                       :TYPE-INITIALIZER "pango_script_get_type")
@@ -229,13 +229,13 @@
 
 ;;;     PangoLanguage
 
-(test pango-language-struct
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoLanguage") g:+g-type-boxed+))
-  ;; Check the type initializer
+(test pango-language-boxed
+  ;; Check type
+  (is (g:type-is-boxed "PangoLanguage"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoLanguage")
           (g:gtype (cffi:foreign-funcall "pango_language_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:language
           (glib:symbol-for-gtype "PangoLanguage"))))
 
@@ -304,4 +304,4 @@
 ;;;     pango_script_iter_next                             not implemented
 ;;;     pango_script_iter_free                             not implemented
 
-;;; 2024-3-4
+;;; 2024-5-25

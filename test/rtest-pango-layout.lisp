@@ -8,24 +8,24 @@
 ;;;     PangoWrapMode
 
 (test pango-wrap-mode
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoWrapMode"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoWrapMode")
           (g:gtype (cffi:foreign-funcall "pango_wrap_mode_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:wrap-mode
           (glib:symbol-for-gtype "PangoWrapMode")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_WRAP_WORD" "PANGO_WRAP_CHAR" "PANGO_WRAP_WORD_CHAR")
              (list-enum-item-name "PangoWrapMode")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1 2)
              (list-enum-item-value "PangoWrapMode")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("word" "char" "word-char")
              (list-enum-item-nick "PangoWrapMode")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoWrapMode"
                              PANGO-WRAP-MODE
                              (:EXPORT T
@@ -38,26 +38,26 @@
 ;;;     PangoEllipsizeMode
 
 (test pango-ellipsize-mode
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoEllipsizeMode"))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoEllipsizeMode")
           (g:gtype (cffi:foreign-funcall "pango_ellipsize_mode_get_type"
                                          :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:ellipsize-mode
           (glib:symbol-for-gtype "PangoEllipsizeMode")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_ELLIPSIZE_NONE" "PANGO_ELLIPSIZE_START"
                "PANGO_ELLIPSIZE_MIDDLE" "PANGO_ELLIPSIZE_END")
              (list-enum-item-name "PangoEllipsizeMode")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1 2 3)
              (list-enum-item-value "PangoEllipsizeMode")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("none" "start" "middle" "end")
              (list-enum-item-nick "PangoEllipsizeMode")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoEllipsizeMode"
                              PANGO-ELLIPSIZE-MODE
                              (:EXPORT T
@@ -71,24 +71,24 @@
 ;;;     PangoAlignment
 
 (test pango-alignment
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoAlignment"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoAlignment")
           (g:gtype (cffi:foreign-funcall "pango_alignment_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:alignment
           (glib:symbol-for-gtype "PangoAlignment")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_ALIGN_LEFT" "PANGO_ALIGN_CENTER" "PANGO_ALIGN_RIGHT")
              (list-enum-item-name "PangoAlignment")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1 2)
              (list-enum-item-value "PangoAlignment")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("left" "center" "right")
              (list-enum-item-nick "PangoAlignment")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoAlignment"
                              PANGO-ALIGNMENT
                              (:EXPORT T
@@ -103,48 +103,54 @@
 ;;;     PangoLayoutLine
 
 (test pango-layout-line-boxed
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoLayoutLine") g:+g-type-boxed+))
-  ;; Check the type initializer
+  ;; Check type
+  (is (g:type-is-boxed "PangoLayoutLine"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoLayoutLine")
-          (g:gtype (cffi:foreign-funcall "pango_layout_line_get_type" :size)))))
+          (g:gtype (cffi:foreign-funcall "pango_layout_line_get_type" :size))))
+  ;; Check registered name
+  (is (eq 'pango:layout-line
+          (glib:symbol-for-gtype "PangoLayoutLine"))))
 
 ;;;     PangoLayoutIter
 
 (test pango-layout-iter-boxed
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoLayoutIter") g:+g-type-boxed+))
-  ;; Check the type initializer
+  ;; Check type
+  (is (g:type-is-boxed "PangoLayoutIter"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoLayoutIter")
-          (g:gtype (cffi:foreign-funcall "pango_layout_iter_get_type" :size)))))
+          (g:gtype (cffi:foreign-funcall "pango_layout_iter_get_type" :size))))
+  ;; Check registered name
+  (is (eq 'pango:layout-iter
+          (glib:symbol-for-gtype "PangoLayoutIter"))))
 
 ;;;     PangoLayout
 
 (test pango-layout-class
-  ;; Type check
+  ;; Check type
   (is (g:type-is-object "PangoLayout"))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:layout
           (glib:symbol-for-gtype "PangoLayout")))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoLayout")
           (g:gtype (cffi:foreign-funcall "pango_layout_get_type" :size))))
-  ;; Check the parent
+  ;; Check parent
   (is (eq (g:gtype "GObject")
           (g:type-parent "PangoLayout")))
-  ;; Check the children
+  ;; Check children
   (is (equal '()
              (list-children "PangoLayout")))
-  ;; Check the interfaces
+  ;; Check interfaces
   (is (equal '()
              (list-interfaces "PangoLayout")))
-  ;; Check the class properties
+  ;; Check class properties
   (is (equal '()
              (list-properties "PangoLayout")))
-  ;; Check the signals
+  ;; Check signals
   (is (equal '()
              (list-signals "PangoLayout")))
-  ;; Check the class definition
+  ;; Check class definition
   (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoLayout" PANGO-LAYOUT
                        (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES NIL
                         :TYPE-INITIALIZER "pango_layout_get_type")
@@ -1158,4 +1164,4 @@
 
 ;;;     pango_layout_line_is-paragraph-start
 
-;;; 2024-3-7
+;;; 2024-5-25

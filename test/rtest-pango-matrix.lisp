@@ -35,12 +35,12 @@
 ;;;     PangoMatrix
 
 (test pango-matrix-boxed
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoMatrix") g:+g-type-boxed+))
-  ;; Check the type initializer
+  ;; Check type
+  (is (g:type-is-boxed "PangoMatrix"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoMatrix")
           (g:gtype (cffi:foreign-funcall "pango_matrix_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:matrix
           (glib:symbol-for-gtype "PangoMatrix"))))
 
@@ -184,4 +184,4 @@
   (let ((matrix (pango:matrix-new :xx 1 :xy 0 :yx 2 :yy 1 :x0 0 :y0 0)))
     (is (= 2.0d0 (pango:matrix-slant-ratio matrix)))))
 
-;;; 2024-3-1
+;;; 2024-5-25

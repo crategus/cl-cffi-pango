@@ -8,34 +8,34 @@
 ;;;     PangoFont
 
 (test pango-font-class
-  ;; Type check
+  ;; Check type
   (is (g:type-is-object "PangoFont"))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:font
           (glib:symbol-for-gtype "PangoFont")))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoFont")
           (g:gtype (cffi:foreign-funcall "pango_font_get_type" :size))))
-  ;; Check the parent
+  ;; Check parent
   (is (eq (g:gtype "GObject")
           (g:type-parent "PangoFont")))
-  ;; Check the children
+  ;; Check children
   #-windows
   (is (equal '("PangoFcFont")
              (list-children "PangoFont")))
   #+windows
   (is (equal '("PangoWin32Font")
              (list-children "PangoFont")))
-  ;; Check the interfaces
+  ;; Check interfaces
   (is (equal '()
              (list-interfaces "PangoFont")))
-  ;; Check the properties
+  ;; Check properties
   (is (equal '()
              (list-properties "PangoFont")))
-  ;; Check the signals
+  ;; Check signals
   (is (equal '()
              (list-signals "PangoFont")))
-  ;; Check the class definition
+  ;; Check class definition
   (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoFont" PANGO-FONT
                                (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES NIL
                                 :TYPE-INITIALIZER "pango_font_get_type")
@@ -45,18 +45,18 @@
 ;;;     PangoFontFamily
 
 (test pango-font-family-class
-  ;; Type check
+  ;; Check type
   (is (g:type-is-object "PangoFontFamily"))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:font-family
           (glib:symbol-for-gtype "PangoFontFamily")))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoFontFamily")
           (g:gtype (cffi:foreign-funcall "pango_font_family_get_type" :size))))
-  ;; Check the parent
+  ;; Check parent
   (is (eq (g:gtype "GObject")
           (g:type-parent "PangoFontFamily")))
-  ;; Check the children
+  ;; Check children
   #-windows
   (if *first-run-pango-test*
       (is (equal '()
@@ -66,41 +66,47 @@
   #+windows
   (is (equal '("PangoWin32Family")
              (list-children "PangoFontFamily")))
-  ;; Check the interfaces
+  ;; Check interfaces
   (is (equal '("GListModel")
              (list-interfaces "PangoFontFamily")))
-  ;; Check the properties
-  (is (equal '("item-type" "n-items")
+  ;; Check properties
+  (is (equal '("is-monospace" "is-variable" "item-type" "n-items" "name")
              (list-properties "PangoFontFamily")))
-  ;; Check the signals
+  ;; Check signals
   (is (equal '()
              (list-signals "PangoFontFamily")))
-  ;; Check the class definition
+  ;; Check class definition
   (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoFontFamily" PANGO-FONT-FAMILY
                                (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES
                                 ("GListModel") :TYPE-INITIALIZER
                                 "pango_font_family_get_type")
-                               ((ITEM-TYPE PANGO-FONT-FAMILY-ITEM-TYPE
+                               ((IS-MONOSPACE PANGO-FONT-FAMILY-IS-MONOSPACE
+                                 "is-monospace" "gboolean" T NIL)
+                                (IS-VARIABLE PANGO-FONT-FAMILY-IS-VARIABLE
+                                 "is-variable" "gboolean" T NIL)
+                                (ITEM-TYPE PANGO-FONT-FAMILY-ITEM-TYPE
                                  "item-type" "GType" T NIL)
                                 (N-ITEMS PANGO-FONT-FAMILY-N-ITEMS "n-items"
-                                 "guint" T NIL)))
+                                 "guint" T NIL)
+                                (NAME PANGO-FONT-FAMILY-NAME "name"
+                                 "gchararray" T NIL)))
              (gobject:get-g-type-definition "PangoFontFamily"))))
 
 ;;;     PangoFontFace
 
 (test pango-font-face-class
-  ;; Type check
+  ;; Check type
   (is (g:type-is-object "PangoFontFace"))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:font-face
           (glib:symbol-for-gtype "PangoFontFace")))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoFontFace")
           (g:gtype (cffi:foreign-funcall "pango_font_face_get_type" :size))))
-  ;; Check the parent
+  ;; Check parent
   (is (eq (g:gtype "GObject")
           (g:type-parent "PangoFontFace")))
-  ;; Check the children
+  ;; Check children
   #-windows
   (if *first-run-pango-test*
       (is (equal '()
@@ -110,16 +116,16 @@
   #+windows
   (is (equal '("PangoWin32Face")
              (list-children "PangoFontFace")))
-  ;; Check the interfaces
+  ;; Check interfaces
   (is (equal '()
              (list-interfaces "PangoFontFace")))
-  ;; Check the properties
+  ;; Check properties
   (is (equal '()
              (list-properties "PangoFontFace")))
-  ;; Check the signals
+  ;; Check signals
   (is (equal '()
              (list-signals "PangoFontFace")))
-  ;; Check the class definition
+  ;; Check class definition
   (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoFontFace" PANGO-FONT-FACE
                                (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES NIL
                                 :TYPE-INITIALIZER "pango_font_face_get_type")
@@ -129,18 +135,18 @@
 ;;;     PangoFontMap
 
 (test pango-font-map-class
-  ;; Type check
+  ;; Check type
   (is (g:type-is-object "PangoFontMap"))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:font-map
           (glib:symbol-for-gtype "PangoFontMap")))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoFontMap")
           (g:gtype (cffi:foreign-funcall "pango_font_map_get_type" :size))))
-  ;; Check the parent
+  ;; Check parent
   (is (eq (g:gtype "GObject")
           (g:type-parent "PangoFontMap")))
-  ;; Check the children
+  ;; Check children
   #-windows
   (is (equal '("PangoFcFontMap")
              (list-children "PangoFontMap")))
@@ -148,16 +154,16 @@
   (if *first-run-pango-test*
       (is (equal '("PangoWin32FontMap")
                  (list-children "PangoFontMap"))))
-  ;; Check the interfaces
+  ;; Check interfaces
   (is (equal '("GListModel")
              (list-interfaces "PangoFontMap")))
-  ;; Check the properties
+  ;; Check properties
   (is (equal '("item-type" "n-items")
              (list-properties "PangoFontMap")))
-  ;; Check the signals
+  ;; Check signals
   (is (equal '()
              (list-signals "PangoFontMap")))
-  ;; Check the class definition
+  ;; Check class definition
   (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoFontMap" PANGO-FONT-MAP
                                (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES
                                 ("GListModel") :TYPE-INITIALIZER
@@ -171,34 +177,34 @@
 ;;;     PangoFontset
 
 (test pango-fontset-class
-  ;; Type check
+  ;; Check type
   (is (g:type-is-object "PangoFontset"))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:fontset
           (glib:symbol-for-gtype "PangoFontset")))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoFontset")
           (g:gtype (cffi:foreign-funcall "pango_fontset_get_type" :size))))
-  ;; Check the parent
+  ;; Check parent
   (is (eq (g:gtype "GObject")
           (g:type-parent "PangoFontset")))
-  ;; Check the children
+  ;; Check children
   #-windows
   (is (equal '("PangoFcFontset")
              (list-children "PangoFontset")))
   #+windows
   (is (equal '("PangoFontsetSimple")
              (list-children "PangoFontset")))
-  ;; Check the interfaces
+  ;; Check interfaces
   (is (equal '()
              (list-interfaces "PangoFontset")))
-  ;; Check the properties
+  ;; Check properties
   (is (equal '()
              (list-properties "PangoFontset")))
-  ;; Check the signals
+  ;; Check signals
   (is (equal '()
              (list-signals "PangoFontset")))
-  ;; Check the class definition
+  ;; Check class definition
   (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoFontset" PANGO-FONTSET
                                (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES NIL
                                 :TYPE-INITIALIZER "pango_fontset_get_type")
@@ -787,4 +793,4 @@
         #+windows
         (is (= 5 count)))))
 
-;;; 2024-3-4
+;;; 2024-5-25

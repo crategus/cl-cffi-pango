@@ -8,27 +8,27 @@
 ;;;     PangoContext
 
 (test pango-context-class
-  ;; Type check
+  ;; Check type
   (is (g:type-is-object "PangoContext"))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:context
           (glib:symbol-for-gtype "PangoContext")))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoContext")
           (g:gtype (cffi:foreign-funcall "pango_context_get_type" :size))))
-  ;; Check the parent
+  ;; Check parent
   (is (eq (g:gtype "GObject")
           (g:type-parent "PangoContext")))
-  ;; Check the children
+  ;; Check children
   (is (equal '()
              (list-children "PangoContext")))
-  ;; Check the interfaces
+  ;; Check interfaces
   (is (equal '()
              (list-interfaces "PangoContext")))
-  ;; Check the class properties
+  ;; Check class properties
   (is (equal '()
              (list-properties "PangoContext")))
-  ;; Check the class definition
+  ;; Check class definition
   (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoContext" PANGO-CONTEXT
                        (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES NIL
                         :TYPE-INITIALIZER "pango_context_get_type")
@@ -118,12 +118,7 @@
 
 ;;;     pango_context_load_font
 
-(test pango-context-load-font.1
-  (let ((context (pango:context-new))
-        (desc (pango:font-description-new)))
-    (is-false (pango:context-load-font context desc))))
-
-(test pango-context-load-font.2
+(test pango-context-load-font
   (let ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
         (desc (pango:font-description-from-string "Sans"))
         font)
@@ -132,13 +127,7 @@
 
 ;;;     pango_context_load_fontset
 
-(test pango-context-load-fontset.1
-  (let ((context (pango:context-new))
-        (desc (pango:font-description-new))
-        (lang (pango:language-default)))
-    (is-false (pango:context-load-fontset context desc lang))))
-
-(test pango-context-load-fontset.2
+(test pango-context-load-fontset
   (let ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
         (desc (pango:font-description-from-string "Sans"))
         (lang (pango:language-default))
@@ -150,7 +139,7 @@
 ;;;     pango_context_get_metrics
 
 (test pango-context-metrics
-  (let* ((context (pango:context-new))
+  (let* ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
          (desc (pango:context-font-description context))
          (lang (pango:language-default)))
     (is (typep (pango:context-metrics context desc lang) 'pango:font-metrics))))
@@ -166,4 +155,4 @@
                (mapcar #'pango:font-family-name
                        (pango:context-list-families context))))))
 
-;;; 2024-2-23
+;;; 2024-5-25

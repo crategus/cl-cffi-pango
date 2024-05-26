@@ -26,15 +26,15 @@
 ;;;     PangoAttrType
 
 (test pango-attr-type
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoAttrType"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoAttrType")
           (g:gtype (cffi:foreign-funcall "pango_attr_type_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:attr-type
           (glib:symbol-for-gtype "PangoAttrType")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_ATTR_INVALID" "PANGO_ATTR_LANGUAGE" "PANGO_ATTR_FAMILY"
                "PANGO_ATTR_STYLE" "PANGO_ATTR_WEIGHT" "PANGO_ATTR_VARIANT"
                "PANGO_ATTR_STRETCH" "PANGO_ATTR_SIZE" "PANGO_ATTR_FONT_DESC"
@@ -53,11 +53,11 @@
                "PANGO_ATTR_WORD" "PANGO_ATTR_SENTENCE"
                "PANGO_ATTR_BASELINE_SHIFT" "PANGO_ATTR_FONT_SCALE")
              (list-enum-item-name "PangoAttrType")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
                25 26 27 28 29 30 31 32 33 34 35 36 37)
              (list-enum-item-value "PangoAttrType")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("invalid" "language" "family" "style" "weight" "variant"
                "stretch" "size" "font-desc" "foreground" "background"
                "underline" "strikethrough" "rise" "shape" "scale" "fallback"
@@ -68,7 +68,7 @@
                "absolute-line-height" "text-transform" "word" "sentence"
                "baseline-shift" "font-scale")
              (list-enum-item-nick "PangoAttrType")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoAttrType"
                              PANGO-ATTR-TYPE
                              (:EXPORT T
@@ -116,28 +116,28 @@
 ;;;     PangoUnderline
 
 (test pango-underline
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoUnderline"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoUnderline")
           (g:gtype (cffi:foreign-funcall "pango_underline_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:underline
           (glib:symbol-for-gtype "PangoUnderline")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_UNDERLINE_NONE" "PANGO_UNDERLINE_SINGLE"
                "PANGO_UNDERLINE_DOUBLE" "PANGO_UNDERLINE_LOW"
                "PANGO_UNDERLINE_ERROR" "PANGO_UNDERLINE_SINGLE_LINE"
                "PANGO_UNDERLINE_DOUBLE_LINE" "PANGO_UNDERLINE_ERROR_LINE")
              (list-enum-item-name "PangoUnderline")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1 2 3 4 5 6 7)
              (list-enum-item-value "PangoUnderline")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("none" "single" "double" "low" "error" "single-line"
                "double-line" "error-line")
              (list-enum-item-nick "PangoUnderline")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoUnderline"
                              PANGO-UNDERLINE
                              (:EXPORT T
@@ -155,24 +155,24 @@
 ;;;     PangoOverline
 
 (test pango-overline
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoOverline"))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoOverline")
           (g:gtype (cffi:foreign-funcall "pango_overline_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:overline
           (glib:symbol-for-gtype "PangoOverline")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_OVERLINE_NONE" "PANGO_OVERLINE_SINGLE")
              (list-enum-item-name "PangoOverline")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1)
              (list-enum-item-value "PangoOverline")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("none" "single")
              (list-enum-item-nick "PangoOverline")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoOverline"
                              PANGO-OVERLINE
                              (:EXPORT T
@@ -184,25 +184,25 @@
 ;;;     PangoShowFlags
 
 (test pango-show-flags
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-flags "PangoShowFlags"))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:show-flags
           (glib:symbol-for-gtype "PangoShowFlags")))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoShowFlags")
           (g:gtype (cffi:foreign-funcall "pango_show_flags_get_type" :size))))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_SHOW_NONE" "PANGO_SHOW_SPACES" "PANGO_SHOW_LINE_BREAKS"
                "PANGO_SHOW_IGNORABLES")
              (list-flags-item-name "PangoShowFlags")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1 2 4)
              (list-flags-item-value "PangoShowFlags")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("none" "spaces" "line-breaks" "ignorables")
              (list-flags-item-nick "PangoShowFlags")))
-  ;; Check the flags definition
+  ;; Check flags definition
   (is (equal '(GOBJECT:DEFINE-G-FLAGS "PangoShowFlags"
                               PANGO-SHOW-FLAGS
                               (:EXPORT T
@@ -216,13 +216,13 @@
 ;;;     PangoTextTransform                                 Since 1.50
 
 (test pango-text-transform
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoTextTransform"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoTextTransform")
           (g:gtype (cffi:foreign-funcall "pango_text_transform_get_type"
                                          :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:text-transform
           (glib:symbol-for-gtype "PangoTextTransform")))
   ;; Check the names
@@ -230,13 +230,13 @@
                "PANGO_TEXT_TRANSFORM_UPPERCASE"
                "PANGO_TEXT_TRANSFORM_CAPITALIZE")
              (list-enum-item-name "PangoTextTransform")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1 2 3)
              (list-enum-item-value "PangoTextTransform")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("none" "lowercase" "uppercase" "capitalize")
              (list-enum-item-nick "PangoTextTransform")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoTextTransform"
                              PANGO-TEXT-TRANSFORM
                              (:EXPORT T
@@ -250,26 +250,26 @@
 ;;;     PangoBaselineShift                                 Since 1.50
 
 (test pango-baseline-shift
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoBaselineShift"))
   ;; Check the type initializer
   (is (eq (g:gtype "PangoBaselineShift")
           (g:gtype (cffi:foreign-funcall "pango_baseline_shift_get_type"
                                          :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:baseline-shift
           (glib:symbol-for-gtype "PangoBaselineShift")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_BASELINE_SHIFT_NONE" "PANGO_BASELINE_SHIFT_SUPERSCRIPT"
                "PANGO_BASELINE_SHIFT_SUBSCRIPT")
              (list-enum-item-name "PangoBaselineShift")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1 2)
              (list-enum-item-value "PangoBaselineShift")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("none" "superscript" "subscript")
              (list-enum-item-nick "PangoBaselineShift")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoBaselineShift"
                              PANGO-BASELINE-SHIFT
                              (:EXPORT T
@@ -282,25 +282,25 @@
 ;;;     PangoFontScale                                     Since 1.50
 
 (test pango-font-scale
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoFontScale"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoFontScale")
           (g:gtype (cffi:foreign-funcall "pango_font_scale_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:font-scale
           (glib:symbol-for-gtype "PangoFontScale")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_FONT_SCALE_NONE" "PANGO_FONT_SCALE_SUPERSCRIPT"
                "PANGO_FONT_SCALE_SUBSCRIPT" "PANGO_FONT_SCALE_SMALL_CAPS")
              (list-enum-item-name "PangoFontScale")))
-  ;; Check the values
+  ;; Check values
   (is (equal '(0 1 2 3)
              (list-enum-item-value "PangoFontScale")))
-  ;; Check the nick names
+  ;; Check nick names
   (is (equal '("none" "superscript" "subscript" "small-caps")
              (list-enum-item-nick "PangoFontScale")))
-  ;; Check the enum definition
+  ;; Check enum definition
   (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoFontScale"
                              PANGO-FONT-SCALE
                              (:EXPORT T
@@ -315,13 +315,13 @@
 
 ;;;     PangoAttribute
 
-(test pango-attribute
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoAttribute") g:+g-type-boxed+))
-  ;; Check the type initializer
+(test pango-attribute-boxed
+  ;; Check type
+  (is (g:type-is-boxed "PangoAttribute"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoAttribute")
           (g:gtype (cffi:foreign-funcall "pango_attribute_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:attribute
           (glib:symbol-for-gtype "PangoAttribute"))))
 
@@ -360,10 +360,10 @@
 
 ;;;     PangoAttrList
 
-(test pango-attr-list
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoAttrList") g:+g-type-boxed+))
-  ;; Check the type initializer
+(test pango-attr-list-boxed
+  ;; Check type
+  (is (g:type-is-boxed "PangoAttrList"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoAttrList")
           (g:gtype (cffi:foreign-funcall "pango_attr_list_get_type" :size))))
   ;; Check the registered name
@@ -372,14 +372,14 @@
 
 ;;;     PangoAttrIterator
 
-(test pango-attr-iterator
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoAttrIterator") g:+g-type-boxed+))
-  ;; Check the type initializer
+(test pango-attr-iterator-boxed
+  ;; Check type
+  (is (g:type-is-boxed "PangoAttrIterator"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoAttrIterator")
           (g:gtype (cffi:foreign-funcall "pango_attr_iterator_get_type"
                                          :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:attr-iterator
           (glib:symbol-for-gtype "PangoAttrIterator"))))
 
@@ -1068,4 +1068,4 @@
 
 ;;;     pango_attr_iterator_destroy
 
-;;; 2024-3-1
+;;; 2024-5-25

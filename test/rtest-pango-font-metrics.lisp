@@ -8,13 +8,12 @@
 ;;;     PangoFontMetrics
 
 (test pango-font-metrics-boxed
-  ;; Type check
-  (is (g:type-is-a (g:gtype "PangoFontMetrics") g:+g-type-boxed+))
-  ;; Check the type initializer
+  ;; Check type
+  (is (g:type-is-boxed "PangoFontMetrics"))
+  ;; Check type initializer
   (is (eq (g:gtype "PangoFontMetrics")
-          (g:gtype (cffi:foreign-funcall "pango_font_metrics_get_type"
-                                         :size))))
-  ;; Check the registered name
+          (g:gtype (cffi:foreign-funcall "pango_font_metrics_get_type" :size))))
+  ;; Check registered name
   (is (eq 'pango:font-metrics
           (glib:symbol-for-gtype "PangoFontMetrics"))))
 
@@ -117,4 +116,4 @@
     (is (=  2048 (pango:font-metrics-strikethrough-thickness metrics)))
     (is (=  7168 (pango:font-metrics-strikethrough-position metrics)))))
 
-;;; 2024-3-4
+;;; 2024-5-25
