@@ -1,13 +1,13 @@
 (in-package :pango-test)
 
-(def-suite pango-version :in pango-suite)
-(in-suite pango-version)
+(def-suite pango-version-suite :in pango-suite)
+(in-suite pango-version-suite)
 
 ;;;     pango_version
 
 #-windows
 (test pango-version
-  (is (= 15100 (pango:version))))
+  (is (= 15201 (pango:version))))
 
 #+windows
 (test pango-version
@@ -17,7 +17,7 @@
 
 #-windows
 (test pango-version-string
-  (is (string= "1.51.0" (pango:version-string))))
+  (is (string= "1.52.1" (pango:version-string))))
 
 #+windows
 (test pango-version-string
@@ -28,6 +28,6 @@
 (test pango-version-check
   (is-false (pango:version-check 1 48 0))
   (is (string= "Pango version too old (micro mismatch)"
-               (pango:version-check 1 52 0))))
+               (pango:version-check 1 54 0))))
 
-;;; 2024-2-24
+;;; 2024-5-25

@@ -24,7 +24,7 @@
 
 (defsystem :cl-cffi-pango
   :name "cl-cffi-gtk-pango"
-  :version "0.5.0"
+  :version "0.6.0"
   :author "Dieter Kaiser"
   :license "MIT"
   :components
@@ -63,7 +63,7 @@
 
 (defsystem :cl-cffi-pango/test
   :name "cl-cffi-pango/test"
-  :version "0.5.0"
+  :version "0.6.0"
   :author "Dieter Kaiser"
   :license "MIT"
   :depends-on (:cl-cffi-pango

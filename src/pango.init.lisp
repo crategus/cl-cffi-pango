@@ -61,17 +61,17 @@
 (glib-init:push-library-version-features
   pango
   +pango-major-version+ +pango-minor-version+
-  1 42  ;       12-03-2018
   1 44  ;       27-07-2019
   1 46  ;       10-08-2020
   1 48  ;       08-11-2020
   1 50  ;       03-12-2021
   1 51  ;       11-08-2023
+  1 52  ;       25-02-2024
 )
 
 (glib-init:require-library-version
   "Pango"
-  1 42  ; Since 12-03-2018
+  1 44  ; Since 27-07-2019
   +pango-major-version+
   +pango-minor-version+)
 

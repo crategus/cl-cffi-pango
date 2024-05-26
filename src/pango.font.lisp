@@ -124,7 +124,7 @@
   @see-class{pango:font-map}")
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoFontFamily
+;;; PangoFontFamily
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-object-class "PangoFontFamily" font-family
@@ -132,30 +132,105 @@
     :export t
     :interfaces ("GListModel")
     :type-initializer "pango_font_family_get_type")
-  ((item-type
+  (#+pango-1-52
+   (is-monospace
+    font-family-is-monospace
+    "is-monospace" "gboolean" t nil)
+   #+pango-1-52
+   (is-variable
+    font-family-is-variable
+    "is-variable" "gboolean" t nil)
+   (item-type
     font-family-item-type
     "item-type" "GType" t nil)
    (n-items
     font-family-n-items
-    "n-items" "guint" t nil)))
+    "n-items" "guint" t nil)
+   #+pango-1-52
+   (name
+    font-family-name
+    "name" "gchararray" t nil)))
 
 #+liber-documentation
 (setf (documentation 'font-family 'type)
- "@version{2024-3-5}
+ "@version{2024-5-25}
   @begin{short}
     The @class{pango:font-family} class is used to represent a family of
     related font faces.
   @end{short}
   The faces in a family share a common design, but differ in slant, weight,
   width and other aspects.
+  @see-slot{pango:font-family-is-monospace}
+  @see-slot{pango:font-family-is-variable}
   @see-slot{pango:font-family-item-type}
   @see-slot{pango:font-family-n-items}
+  @see-slot{pango:font-family-name}
   @see-class{pango:font}
   @see-class{pango:font-face}")
 
 ;;; ----------------------------------------------------------------------------
 ;;; Property and Accessor Details
 ;;; ----------------------------------------------------------------------------
+
+;;; --- pango:font-family-is-monospace -----------------------------------------
+
+#+(and pango-1-52 liber-documentation)
+(setf (documentation (liber:slot-documentation "is-monospace" 'font-family) t)
+ "The @code{is-monospace} property of type @code{:boolean} (Read) @br{}
+  Whether this is a monospace font. Since 1.52 @br{}
+  Default value: @em{false}")
+
+#+(and pango-1-52 liber-documentation)
+(setf (liber:alias-for-function 'font-family-is-monospace)
+      "Accessor"
+      (documentation 'font-family-is-monospace 'function)
+ "@version{2024-5-25}
+  @syntax{(pango:font-family-is-monospace object) => setting}
+  @argument[object]{a @class{pango:font-family} object}
+  @argument[setting]{@em{true} if @arg{object} is monospace}
+  @begin{short}
+    A monospace font is a font designed for text display where the characters
+    form a regular grid.
+  @end{short}
+  For Western languages this would mean that the advance width of all characters
+  are the same, but this categorization also includes Asian fonts which include
+  double-width characters. The @code{g_unichar_iswide()} function returns a
+  result that indicates whether a character is typically double-width in a
+  monospace font.
+
+  The best way to find out the grid-cell size is to call the
+  @fun{pango:font-metrics-approximate-digit-width} function, since the results
+  of the @fun{pango:font-metrics-approximate-char-width} function may be
+  affected by double-width characters.
+
+  Since 1.52
+  @see-class{pango:font-family}
+  @see-function{pango:font-metrics-approximate-digit-width}
+  @see-function{pango:font-metrics-approximate-char-width}")
+
+;;; --- pango:font-family-is-variable ------------------------------------------
+
+#+(and pango-1-52 liber-documentation)
+(setf (documentation (liber:slot-documentation "is-variable" 'font-family) t)
+ "The @code{is-variable} property of type @code{:boolean} (Read) @br{}
+  Whether this is a variable font. Since 1.52 @br{}
+  Default value: @em{false}")
+
+#+(and pango-1-52 liber-documentation)
+(setf (liber:alias-for-function 'font-family-is-variable)
+      "Accessor"
+      (documentation 'font-family-is-variable 'function)
+ "@version{2024-5-25}
+  @syntax{(pango:font-family-is-variable object) => setting}
+  @argument[object]{a @class{pango:font-family} object}
+  @argument[setting]{@em{true} if @arg{object} is variable}
+  @begin{short}
+    A variable font is a font which has axes that can be modified to produce
+    different faces.
+  @end{short}
+
+  Since 1.52
+  @see-class{pango:font-family}")
 
 ;;; --- pango:font-family-item-type --------------------------------------------
 
@@ -169,7 +244,7 @@
       "Accessor"
       (documentation 'font-family-item-type 'function)
  "@version{2024-3-5}
-  @syntax[]{(pango:font-family-item-type object) => type}
+  @syntax{(pango:font-family-item-type object) => type}
   @argument[object]{a @class{pango:font-family} object}
   @argument[type]{a @class{g:type-t} type}
   @begin{short}
@@ -200,7 +275,7 @@
       "Accessor"
       (documentation 'font-family-n-items 'function)
  "@version{2024-3-5}
-  @syntax[]{(pango:font-family-n-items object) => n-items}
+  @syntax{(pango:font-family-n-items object) => n-items}
   @argument[object]{a @class{pango:font-family} object}
   @argument[n-items]{an unsigned integer}
   @begin{short}
@@ -211,8 +286,35 @@
   contained in the list.
   @see-class{pango:font-family}")
 
+;;; --- pango:font-family-name -------------------------------------------------
+
+#+(and pango-1-52 liber-documentation)
+(setf (documentation (liber:slot-documentation "name" 'font-family) t)
+ "The @code{name} property of type @code{:string} (Read) @br{}
+  The name of the the font family. Since 1.52 @br{}
+  Default value: @code{nil}")
+
+#+(and pango-1-52 liber-documentation)
+(setf (liber:alias-for-function 'font-family-name)
+      "Accessor"
+      (documentation 'font-family-name 'function)
+ "@version{2024-5-25}
+  @syntax{(pango:font-family-name object) => name}
+  @argument[object]{a @class{pango:font-family} object}
+  @argument[name]{a string with the name of @arg{object}}
+  @begin{short}
+    Gets the name of the font family.
+  @end{short}
+  The name is unique among all fonts for the font backend and can be used in a
+  @class{pango:font-description} instance to specify that a face from this
+  family is desired.
+
+  Since 1.52
+  @see-class{pango:font-family}
+  @see-class{pango:font-description}")
+
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoFontFace
+;;; PangoFontFace
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-object-class "PangoFontFace" font-face
@@ -276,7 +378,7 @@
       "Accessor"
       (documentation 'font-map-item-type 'function)
  "@version{2024-3-5}
-  @syntax[]{(pango:font-map-item-type object) => type}
+  @syntax{(pango:font-map-item-type object) => type}
   @argument[object]{a @class{pango:font-map} object}
   @argument[type]{a @class{g:type-t} type}
   @begin{short}
@@ -307,7 +409,7 @@
       "Accessor"
       (documentation 'font-map-n-items 'function)
  "@version{2024-3-5}
-  @syntax[]{(pango:font-map-n-items object) => n-items}
+  @syntax{(pango:font-map-n-items object) => n-items}
   @argument[object]{a @class{pango:font-map} object}
   @argument[n-items]{an unsigned integer}
   @begin{short}
@@ -319,7 +421,7 @@
   @see-class{pango:font-map}")
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoFontset
+;;; PangoFontset
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-object-class "PangoFontset" fontset
@@ -357,7 +459,7 @@
   @see-class{pango:font-description}")
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_describe ()
+;;; pango_font_describe
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_describe" font-describe) (g:boxed font-description)
@@ -378,7 +480,7 @@
 (export 'font-describe)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_describe_with_absolute_size ()
+;;; pango_font_describe_with_absolute_size
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_describe_with_absolute_size"
@@ -400,7 +502,7 @@
 (export 'font-describe-with-absolute-size)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_get_face ()
+;;; pango_font_get_face
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-46
@@ -422,7 +524,7 @@
 (export 'font-face)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_get_coverage ()
+;;; pango_font_get_coverage
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_get_coverage" font-coverage) (g:object coverage)
@@ -443,7 +545,7 @@
 (export 'font-coverage)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_has_char ()
+;;; pango_font_has_char
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-44
@@ -466,7 +568,7 @@
 (export 'font-has-char)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_get_glyph_extents ()
+;;; pango_font_get_glyph_extents
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_get_glyph_extents" %font-glyph-extents) :void
@@ -508,7 +610,7 @@
 (export 'font-glyph-extents)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_get_metrics ()
+;;; pango_font_get_metrics
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_get_metrics" font-metrics)
@@ -540,7 +642,7 @@
 (export 'font-metrics)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_get_font_map ()
+;;; pango_font_get_font_map
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_get_font_map" font-font-map) (g:object font-map)
@@ -613,7 +715,7 @@
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_get_languages ()
+;;; pango_font_get_languages
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
@@ -648,7 +750,7 @@
 (export 'font-languages)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_serialize ()
+;;; pango_font_serialize
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
@@ -679,7 +781,7 @@
 (export 'font-serialize)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_deserialize ()
+;;; pango_font_deserialize
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
@@ -717,9 +819,10 @@
 (export 'font-deserialize)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_family_get_name ()
+;;; pango_font_family_get_name
 ;;; ----------------------------------------------------------------------------
 
+#-pango-1-52
 (cffi:defcfun ("pango_font_family_get_name" font-family-name) :string
  #+liber-documentation
  "@version{2024-3-5}
@@ -735,12 +838,14 @@
   @see-class{pango:font-description}"
   (family (g:object font-family)))
 
+#-pango-1-52
 (export 'font-family-name)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_family_is_monospace ()
+;;; pango_font_family_is_monospace
 ;;; ----------------------------------------------------------------------------
 
+#-pango-1-52
 (cffi:defcfun ("pango_font_family_is_monospace" font-family-is-monospace)
     :boolean
  #+liber-documentation
@@ -766,13 +871,14 @@
   @see-function{pango:font-metrics-approximate-char-width}"
   (family (g:object font-family)))
 
+#-pango-1-52
 (export 'font-family-is-monospace)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_family_is_variable ()
+;;; pango_font_family_is_variable
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
+#+(and pango-1-44 (not pango-1-52))
 (cffi:defcfun ("pango_font_family_is_variable" font-family-is-variable) :boolean
  #+liber-documentation
  "@version{2024-3-5}
@@ -787,11 +893,11 @@
   @see-class{pango:font-family}"
   (family (g:object font-family)))
 
-#+pango-1-44
+#+(and pango-1-44 (not pango-1-52))
 (export 'font-family-is-variable)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_family_list_faces ()
+;;; pango_font_family_list_faces
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_family_list_faces" %font-family-list-faces) :void
@@ -827,7 +933,7 @@
 (export 'font-family-list-faces)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_family_get_face ()
+;;; pango_font_family_get_face
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-46
@@ -859,7 +965,7 @@
 (export 'font-family-face)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_face_get_face_name ()
+;;; pango_font_face_get_face_name
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_face_get_face_name" font-face-face-name) :string
@@ -882,7 +988,7 @@
 (export 'font-face-face-name)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_face_list_sizes ()
+;;; pango_font_face_list_sizes
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_face_list_sizes" %font-face-list-sizes) :void
@@ -912,7 +1018,7 @@
 (export 'font-face-list-sizes)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_face_describe ()
+;;; pango_font_face_describe
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_face_describe" font-face-describe)
@@ -935,7 +1041,7 @@
 (export 'font-face-describe)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_face_is_synthesized ()
+;;; pango_font_face_is_synthesized
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_face_is_synthesized" font-face-is-synthesized)
@@ -955,7 +1061,7 @@
 (export 'font-face-is-synthesized)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_face_get_family ()
+;;; pango_font_face_get_family
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-46
@@ -978,7 +1084,7 @@
 (export 'font-face-family)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_map_create_context ()
+;;; pango_font_map_create_context
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_map_create_context" font-map-create-context)
@@ -1008,7 +1114,7 @@
 (export 'font-map-create-context)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_map_load_font ()
+;;; pango_font_map_load_font
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_map_load_font" font-map-load-font) (g:object font)
@@ -1036,7 +1142,7 @@
 (export 'font-map-load-font)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_map_load_fontset ()
+;;; pango_font_map_load_fontset
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_map_load_fontset" font-map-load-fontset)
@@ -1071,7 +1177,7 @@
 (export 'font-map-load-fontset)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_map_list_families ()
+;;; pango_font_map_list_families
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_map_list_families" %font-map-list-families) :void
@@ -1103,7 +1209,7 @@
 (export 'font-map-list-families)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_map_get_family ()
+;;; pango_font_map_get_family
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-46
@@ -1128,7 +1234,7 @@
 (export 'font-map-family)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_map_get_serial ()
+;;; pango_font_map_get_serial
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_map_get_serial" font-map-serial) :uint
@@ -1156,7 +1262,7 @@
 (export 'font-map-serial)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_map_changed ()
+;;; pango_font_map_changed
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_map_changed" font-map-changed) :void
@@ -1177,7 +1283,7 @@
 (export 'font-map-changed)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_fontset_get_font ()
+;;; pango_fontset_get_font
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_fontset_get_font" fontset-font) (g:object font)
@@ -1198,7 +1304,7 @@
 (export 'fontset-font)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_fontset_get_metrics ()
+;;; pango_fontset_get_metrics
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_fontset_get_metrics" fontset-metrics)
@@ -1219,7 +1325,7 @@
 (export 'fontset-metrics)
 
 ;;; ----------------------------------------------------------------------------
-;;; PangoFontsetForeachFunc ()
+;;; PangoFontsetForeachFunc
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcallback fontset-foreach-func :boolean
@@ -1234,26 +1340,22 @@
 (setf (liber:alias-for-symbol 'fontset-foreach-func)
       "Callback"
       (liber:symbol-documentation 'fontset-foreach-func)
- "@version{2024-3-4}
+ "@version{2024-5-25}
+  @syntax{lambda (fontset font) => result}
+  @argument[fontset]{a @class{pango:fontset} object}
+  @argument[font]{a @class{pango:font} object from @arg{fontset}}
+  @argument[result]{if @em{true}, stop iteration and return immediately}
   @begin{short}
     A callback function used by the @fun{pango:fontset-foreach} function when
     enumerating the fonts in a fontset.
   @end{short}
-  @begin{pre}
-lambda (fontset font)
-  @end{pre}
-  @begin[code]{table}
-    @entry[fontset]{A @class{pango:fontset} object.}
-    @entry[font]{A @class{pango:font} object from @arg{fontset}.}
-    @entry[Return]{If @em{true}, stop iteration and return immediately.}
-  @end{table}
   @see-class{pango:fontset}
   @see-function{pango:fontset-foreach}")
 
 (export 'fontset-foreach-func)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_fontset_foreach ()
+;;; pango_fontset_foreach
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_fontset_foreach" %fontset-foreach) :void
@@ -1263,7 +1365,7 @@ lambda (fontset font)
 
 (defun fontset-foreach (fontset func)
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2024-5-25}
   @argument[fontset]{a @class{pango:fontset} object}
   @argument[func]{a @symbol{pango:fontset-foreach-func} callback function}
   @begin{short}
@@ -1271,7 +1373,7 @@ lambda (fontset font)
     one.
   @end{short}
   If @arg{func} returns @em{true}, that stops the iteration.
-  @begin[Example]{dictionary}
+  @begin{examples}
     Code fragment for counting the fonts in a fontset and for printing a list
     of the font descriptions.
     @begin{pre}
@@ -1286,7 +1388,7 @@ lambda (fontset font)
               nil)))
   count)
     @end{pre}
-  @end{dictionary}
+  @end{examples}
   @see-class{pango:fontset}
   @see-symbol{pango:fontset-foreach-func}"
   (glib:with-stable-pointer (ptr func)

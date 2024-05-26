@@ -155,8 +155,11 @@
       @about-function{font-serialize}
       @about-function{font-deserialize}
       @about-class{font-family}
+      @about-generic{font-family-is-monospace}
+      @about-generic{font-family-is-variable}
       @about-generic{font-family-item-type}
       @about-generic{font-family-n-items}
+      @about-generic{font-family-name}
       @about-function{font-family-name}
       @about-function{font-family-is-monospace}
       @about-function{font-family-is-variable}
