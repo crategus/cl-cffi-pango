@@ -242,7 +242,7 @@
 ;;; struct PangoGlyphItem
 ;;; ----------------------------------------------------------------------------
 
-(glib:define-g-boxed-opaque glyph-item "PangoGlyphitem"
+(glib:define-g-boxed-opaque glyph-item "PangoGlyphItem"
   :export t
   :type-initializer "pango_glyph_item_get_type"
   :alloc (error "PangoGlyphItem cannot be created from the Lisp side."))
