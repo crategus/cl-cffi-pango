@@ -90,7 +90,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoStyle
+;;; PangoStyle
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoStyle" style
@@ -105,27 +105,29 @@
       "GEnum"
       (liber:symbol-documentation 'style)
  "@version{2023-8-27}
-  @begin{short}
-    An enumeration specifying the various slant styles possible for a font.
-  @end{short}
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoStyle\" style
   (:export t
    :type-initializer \"pango_style_get_type\")
   (:normal 0)
   (:oblique 1)
   (:italic 2))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:normal]{The font is upright.}
-    @entry[:oblique]{The font is slanted, but in a roman style.}
-    @entry[:italic]{The font is slanted in an italic style.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:normal]{The font is upright.}
+      @entry[:oblique]{The font is slanted, but in a roman style.}
+      @entry[:italic]{The font is slanted in an italic style.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    An enumeration specifying the various slant styles possible for a font.
+  @end{short}
   @see-class{pango:font-description}
   @see-function{pango:font-description-style}")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoWeight
+;;; PangoWeight
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoWeight" weight
@@ -150,16 +152,7 @@
       "GEnum"
       (liber:symbol-documentation 'weight)
  "@version{2024-3-3}
-  @begin{short}
-    An enumeration specifying the weight (boldness) of a font.
-  @end{short}
-  This is a numerical value ranging from 100 to 1000, but there are some
-  predefined values.
-  @begin[Note]{dictionary}
-    The enumeration allows undeclared values. Therefore, it is possible to pass
-    any integer value to functions that expect a @symbol{pango:weight} value.
-  @end{dictionary}
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoWeight\" weight
   (:export t
    :allow-undeclared-values t
@@ -176,26 +169,37 @@
   (:ultrabold 800)
   (:heavy 900)
   (:ultraheavy 1000))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:thin]{The thin weight.}
-    @entry[:ultralight]{The ultralight weight.}
-    @entry[:light]{The light weight.}
-    @entry[:semilight]{The semilight weight.}
-    @entry[:book]{The book weight.}
-    @entry[:normal]{The default weight.}
-    @entry[:medium]{The normal weight.}
-    @entry[:semibold]{The semibold weight.}
-    @entry[:bold]{The bold weight.}
-    @entry[:ultrabold]{The ultrabold weight.}
-    @entry[:heavy]{The heavy weight.}
-    @entry[:ultraheavy]{The ultraheavy weight.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:thin]{The thin weight.}
+      @entry[:ultralight]{The ultralight weight.}
+      @entry[:light]{The light weight.}
+      @entry[:semilight]{The semilight weight.}
+      @entry[:book]{The book weight.}
+      @entry[:normal]{The default weight.}
+      @entry[:medium]{The normal weight.}
+      @entry[:semibold]{The semibold weight.}
+      @entry[:bold]{The bold weight.}
+      @entry[:ultrabold]{The ultrabold weight.}
+      @entry[:heavy]{The heavy weight.}
+      @entry[:ultraheavy]{The ultraheavy weight.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    An enumeration specifying the weight (boldness) of a font.
+  @end{short}
+  This is a numerical value ranging from 100 to 1000, but there are some
+  predefined values.
+  @begin[Note]{dictionary}
+    The enumeration allows undeclared values. Therefore, it is possible to pass
+    any integer value to functions that expect a @symbol{pango:weight} value.
+  @end{dictionary}
   @see-class{pango:font-description}
   @see-function{pango:font-description-weight}")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoVariant
+;;; PangoVariant
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoVariant" variant
@@ -219,10 +223,7 @@
       "GEnum"
       (liber:symbol-documentation 'variant)
  "@version{2024-3-3}
-  @begin{short}
-    An enumeration specifying capitalization variant of the font.
-  @end{short}
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoVariant\" variant
   (:export t
    :type-initializer \"pango_variant_get_type\")
@@ -238,29 +239,34 @@
   (:unicase 5)
   #+pango-1-50
   (:title-caps 6))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:normal]{A normal font.}
-    @entry[:small-caps]{A font with the lower case characters replaced by
-      smaller variants of the capital characters.}
-    @entry[:all-small-caps]{A font with all characters replaced by smaller
-      variants of the capital characters. Since 1.50}
-    @entry[:petite-caps]{A font with the lower case characters replaced by
-      smaller variants of the capital characters. Petite Caps can be even
-      smaller than Small Caps. Since 1.50}
-    @entry[:all-petite-caps]{A font with all characters replaced by smaller
-      variants of the capital characters. Petite Caps can be even smaller than
-        Small Caps. Since 1.50}
-    @entry[:unicase]{A font with the upper case characters replaced by smaller
-      variants of the capital letters. Since 1.50}
-    @entry[:title-caps]{A font with capital letters that are more suitable for
-      all-uppercase title. Since 1.50}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:normal]{A normal font.}
+      @entry[:small-caps]{A font with the lower case characters replaced by
+        smaller variants of the capital characters.}
+      @entry[:all-small-caps]{A font with all characters replaced by smaller
+        variants of the capital characters. Since 1.50}
+      @entry[:petite-caps]{A font with the lower case characters replaced by
+        smaller variants of the capital characters. Petite Caps can be even
+        smaller than Small Caps. Since 1.50}
+      @entry[:all-petite-caps]{A font with all characters replaced by smaller
+        variants of the capital characters. Petite Caps can be even smaller
+        than Small Caps. Since 1.50}
+      @entry[:unicase]{A font with the upper case characters replaced by
+        smaller variants of the capital letters. Since 1.50}
+      @entry[:title-caps]{A font with capital letters that are more suitable
+        for all-uppercase title. Since 1.50}
+    @end{table}
+  @end{values}
+  @begin{short}
+    An enumeration specifying capitalization variant of the font.
+  @end{short}
   @see-class{pango:font-description}
   @see-function{pango:font-description-variant}")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoStretch
+;;; PangoStretch
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoStretch" stretch
@@ -281,11 +287,7 @@
       "GEnum"
       (liber:symbol-documentation 'stretch)
  "@version{2024-3-3}
-  @begin{short}
-    An enumeration specifying the width of the font relative to other designs
-    within a family.
-  @end{short}
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoStretch\" stretch
   (:export t
    :type-initializer \"pango_stretch_get_type\")
@@ -298,23 +300,29 @@
   (:expanded 6)
   (:extra-expanded 7)
   (:ultra-expanded 8))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:ultra-condensed]{Ultra condensed width.}
-    @entry[:extra-condensed]{Extra condensed width.}
-    @entry[:condensed]{Condensed width.}
-    @entry[:semi-condensed]{Semi condensed width.}
-    @entry[:normal]{The normal widt.}
-    @entry[:semi-expanded]{Semi expanded width.}
-    @entry[:expanded]{Expanded width.}
-    @entry[:extra-expanded]{Extra expanded width.}
-    @entry[:ultra-expanded]{Ultra expanded width.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:ultra-condensed]{Ultra condensed width.}
+      @entry[:extra-condensed]{Extra condensed width.}
+      @entry[:condensed]{Condensed width.}
+      @entry[:semi-condensed]{Semi condensed width.}
+      @entry[:normal]{The normal widt.}
+      @entry[:semi-expanded]{Semi expanded width.}
+      @entry[:expanded]{Expanded width.}
+      @entry[:extra-expanded]{Extra expanded width.}
+      @entry[:ultra-expanded]{Ultra expanded width.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    An enumeration specifying the width of the font relative to other designs
+    within a family.
+  @end{short}
   @see-class{pango:font-description}
   @see-function{pango:font-description-stretch}")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoFontMask
+;;; PangoFontMask
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-flags "PangoFontMask" font-mask
@@ -334,11 +342,7 @@
       "GFlags"
       (liber:symbol-documentation 'font-mask)
  "@version{2023-8-27}
-  @begin{short}
-    The bits correspond to fields in a @class{pango:font-description} instance
-    that have been set.
-  @end{short}
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-flags \"PangoFontMask\" font-mask
   (:export t
    :type-initializer \"pango_font_mask_get_type\")
@@ -350,17 +354,23 @@
   (:size #.(ash 1 5))
   (:gravity #.(ash 1 6))
   (:variations #.(ash 1 7)))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:family]{The font family is specified.}
-    @entry[:style]{The font style is specified.}
-    @entry[:variant]{The font variant is specified.}
-    @entry[:weight]{The font weight is specified.}
-    @entry[:stretch]{The font stretch is specified.}
-    @entry[:size]{The font size is specified.}
-    @entry[:gravity]{The font gravity is specified.}
-    @entry[:variations]{OpenType font variations are specified.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:family]{The font family is specified.}
+      @entry[:style]{The font style is specified.}
+      @entry[:variant]{The font variant is specified.}
+      @entry[:weight]{The font weight is specified.}
+      @entry[:stretch]{The font stretch is specified.}
+      @entry[:size]{The font size is specified.}
+      @entry[:gravity]{The font gravity is specified.}
+      @entry[:variations]{OpenType font variations are specified.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The bits correspond to fields in a @class{pango:font-description} instance
+    that have been set.
+  @end{short}
   @see-class{pango:font-description}
   @see-function{pango:font-description-set-fields}
   @see-function{pango:font-description-unset-fields}")
@@ -381,6 +391,12 @@
       "GBoxed"
       (documentation 'font-description 'type)
  "@version{2023-8-27}
+  @begin{declaration}
+(glib:define-g-boxed-opaque font-description \"PangoFontDescription\"
+  :export t
+  :type-initializer \"pango_font_description_get_type\"
+  :alloc (%font-description-new))
+  @end{declaration}
   @begin{short}
     The @class{pango:font-description} structure represents the description of
     an ideal font.
@@ -542,8 +558,8 @@
     :string
  #+liber-documentation
  "@version{2024-3-3}
-  @syntax[]{(pango:font-description-family desc) => family}
-  @syntax[]{(setf (pango:font-description-family desc) family)}
+  @syntax{(pango:font-description-family desc) => family}
+  @syntax{(setf (pango:font-description-family desc) family)}
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[family]{a string representing the family name}
   @begin{short}
@@ -600,8 +616,8 @@
 (cffi:defcfun ("pango_font_description_get_style" font-description-style) style
  #+liber-documentation
  "@version{2024-3-3}
-  @syntax[]{(pango:font-description-style desc) => style}
-  @syntax[]{(setf (pango:font-description-style desc) style)}
+  @syntax{(pango:font-description-style desc) => style}
+  @syntax{(setf (pango:font-description-style desc) style)}
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[style]{a @symbol{pango:style} value with the style for the font
     description}
@@ -638,8 +654,8 @@
     variant
  #+liber-documentation
  "@version{2024-3-3}
-  @syntax[]{(pango:font-description-variant desc) => variant}
-  @syntax[]{(setf (pango:font-description-variant desc) variant)}
+  @syntax{(pango:font-description-variant desc) => variant}
+  @syntax{(setf (pango:font-description-variant desc) variant)}
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[variant]{a @symbol{pango:variant} value with the variant type for
     the font description}
@@ -672,8 +688,8 @@
     weight
  #+liber-documentation
  "@version{2024-3-3}
-  @syntax[]{(pango:font-description-weight desc) => weight}
-  @syntax[]{(setf (pango:font-description-weight desc) weight)}
+  @syntax{(pango:font-description-weight desc) => weight}
+  @syntax{(setf (pango:font-description-weight desc) weight)}
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[weight]{a @symbol{pango:weight} value or an integer for the weight
     of the font description}
@@ -719,8 +735,8 @@
     stretch
  #+liber-documentation
  "@version{2024-3-3}
-  @syntax[]{(pango:font-description-stretch desc) => stretch}
-  @syntax[]{(setf (pango:font-description-stretch desc) stretch)}
+  @syntax{(pango:font-description-stretch desc) => stretch}
+  @syntax{(setf (pango:font-description-stretch desc) stretch)}
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[stretch]{a @symbol{pango:stretch} value for the stretch for the
     font description}
@@ -751,8 +767,8 @@
 (cffi:defcfun ("pango_font_description_get_size" font-description-size) :int
  #+liber-documentation
  "@version{2024-3-3}
-  @syntax[]{(pango:font-description-size desc) => size}
-  @syntax[]{(setf (pango:font-description-size desc) size)}
+  @syntax{(pango:font-description-size desc) => size}
+  @syntax{(setf (pango:font-description-size desc) size)}
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[size]{an integer with the size of the font in points, scaled by
     the @var{pango:+scale+} constant}
@@ -860,8 +876,8 @@
     gravity
  #+liber-documentation
  "@version{2024-3-3}
-  @syntax[]{(pango:font-description-gravity desc) => gravity}
-  @syntax[]{(setf (pango:font-description-gravity desc) gravity)}
+  @syntax{(pango:font-description-gravity desc) => gravity}
+  @syntax{(setf (pango:font-description-gravity desc) gravity)}
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[gravity]{a @symbol{pango:gravity} value for the gravity for the
     font description}
@@ -898,8 +914,8 @@
                 font-description-variations) :string
  #+liber-documentation
  "@version{2024-3-3}
-  @syntax[]{(pango:font-description-variations desc) => variations}
-  @syntax[]{(setf (pango:font-description-variations desc) variations)}
+  @syntax{(pango:font-description-variations desc) => variations}
+  @syntax{(setf (pango:font-description-variations desc) variations)}
   @argument[desc]{a @class{pango:font-description} instance}
   @argument[variations]{a string representing the variations}
   @begin{short}

@@ -60,7 +60,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoCoverageLevel
+;;; PangoCoverageLevel
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoCoverageLevel" coverage-level
@@ -76,12 +76,7 @@
       "GEnum"
       (liber:symbol-documentation 'coverage-level)
  "@version{2024-2-24}
-  @begin{short}
-    Used to indicate how well a font can represent a particular Unicode
-    character point for a particular script.
-  @end{short}
-  Since 1.44, only the @code{:none} and @code{:exact} values will be returned.
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoCoverageLevel\" coverage-level
   (:export t
    :type-initializer \"pango_coverage_level_get_type\")
@@ -89,18 +84,26 @@
   (:fallback 1)
   (:approximate 2)
   (:exact 3))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:none]{The character is not representable with the font.}
-    @entry[:fallback]{The character is represented in a way that may be
-      comprehensible but is not the correct graphical form. For instance, a
-      Hangul character represented as a a sequence of Jamos, or a Latin
-      transliteration of a Cyrillic word.}
-    @entry[:approximage]{The character is represented as basically the correct
-      graphical form, but with a stylistic variant inappropriate for the current
-      script.}
-    @entry[:exact]{The character is represented as the correct graphical form.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:none]{The character is not representable with the font.}
+      @entry[:fallback]{The character is represented in a way that may be
+        comprehensible but is not the correct graphical form. For instance, a
+        Hangul character represented as a a sequence of Jamos, or a Latin
+        transliteration of a Cyrillic word.}
+      @entry[:approximage]{The character is represented as basically the correct
+        graphical form, but with a stylistic variant inappropriate for the
+        current script.}
+      @entry[:exact]{The character is represented as the correct graphical
+        form.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    Used to indicate how well a font can represent a particular Unicode
+    character point for a particular script.
+  @end{short}
+  Since 1.44, only the @code{:none} and @code{:exact} values will be returned.
   @see-symbol{pango:coverage}")
 
 ;;; ----------------------------------------------------------------------------

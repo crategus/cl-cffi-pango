@@ -99,7 +99,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoGravity
+;;; PangoGravity
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoGravity" gravity
@@ -116,6 +116,25 @@
       "GEnum"
       (liber:symbol-documentation 'gravity)
  "@version{2024-2-22}
+  @begin{declaration}
+(gobject:define-g-enum \"PangoGravity\" gravity
+  (:export t
+   :type-initializer \"pango_gravity_get_type\")
+  (:south 0)
+  (:east 1)
+  (:north 2)
+  (:west 3)
+  (:auto 4))
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:south]{Glyphs stand upright (default).}
+      @entry[:east]{Glyphs are rotated 90 degrees clockwise.}
+      @entry[:north]{Glyphs are upside-down.}
+      @entry[:west]{Glyphs are rotated 90 degrees counter-clockwise.}
+      @entry[:auto]{Gravity is resolved from the context matrix.}
+    @end{table}
+  @end{values}
   @begin{short}
     The @symbol{pango:gravity} enumeration represents the orientation of glyphs
     in a segment of text.
@@ -126,29 +145,12 @@
   Not every value in this enumeration makes sense for every usage. For example,
   the @code{:auto} value only can be passed to and returned by the
   @fun{pango:context-base-gravity} function.
-  @begin{pre}
-(gobject:define-g-enum \"PangoGravity\" gravity
-  (:export t
-   :type-initializer \"pango_gravity_get_type\")
-  (:south 0)
-  (:east 1)
-  (:north 2)
-  (:west 3)
-  (:auto 4))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:south]{Glyphs stand upright (default).}
-    @entry[:east]{Glyphs are rotated 90 degrees clockwise.}
-    @entry[:north]{Glyphs are upside-down.}
-    @entry[:west]{Glyphs are rotated 90 degrees counter-clockwise.}
-    @entry[:auto]{Gravity is resolved from the context matrix.}
-  @end{table}
   @see-symbol{pango:gravity-hint}
   @see-class{pango:matrix}
   @see-function{pango:context-base-gravity}")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoGravityHint
+;;; PangoGravityHint
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoGravityHint" gravity-hint
@@ -164,28 +166,31 @@
       (liber:symbol-documentation 'gravity-hint)
  #+liber-documentation
  "@version{2024-2-22}
-  @begin{short}
-    The @symbol{pango:gravity-hint} enumeration defines how horizontal scripts
-    should behave in a vertical context.
-  @end{short}
-  That is, English excerpt in a vertical paragraph for example.
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoGravityHint\" gravity-hint
   (:export t
    :type-initializer \"pango_gravity_hint_get_type\")
   (:natural 0)
   (:strong 1)
   (:line 2))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:natural]{Scripts will take their natural gravity based on the base
-      gravity and the script. This is the default.}
-    @entry[:strong]{Always use the base gravity set, regardless of the script.}
-    @entry[:line]{For scripts not in their natural direction, e.g. Latin in East
-      gravity, choose per-script gravity such that every script respects the
-      line progression. This means, Latin and Arabic will take opposite
-      gravities and both flow top-to-bottom for example.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:natural]{Scripts will take their natural gravity based on the
+        base gravity and the script. This is the default.}
+      @entry[:strong]{Always use the base gravity set, regardless of the
+        script.}
+      @entry[:line]{For scripts not in their natural direction, e.g. Latin in
+        East gravity, choose per-script gravity such that every script respects
+        the line progression. This means, Latin and Arabic will take opposite
+        gravities and both flow top-to-bottom for example.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @symbol{pango:gravity-hint} enumeration defines how horizontal scripts
+    should behave in a vertical context.
+  @end{short}
+  That is, English excerpt in a vertical paragraph for example.
   @see-symbol{pango:gravity}")
 
 ;;; ----------------------------------------------------------------------------

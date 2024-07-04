@@ -53,7 +53,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoDirection
+;;; PangoDirection
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoDirection" direction
@@ -72,6 +72,29 @@
       "GEnum"
       (liber:symbol-documentation 'direction)
  "@version{2024-2-25}
+  @begin{declaration}
+(gobject:define-g-enum \"PangoDirection\" direction
+  (:export t
+   :type-initializer \"pango_direction_get_type\")
+  (:ltr 0)
+  (:rtl 1)
+  (:ttb-ltr 2)
+  (:ttb-rtl 3)
+  (:weak-ltr 4)
+  (:weak-rtl 5)
+  (:neutral 6))
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:ltr]{A strong left-to-right direction.}
+      @entry[:rtl]{A strong right-to-left direction.}
+      @entry[:ttb-ltr]{Deprecated value; treated the same as @code{:rtl}.}
+      @entry[:ttb-rtl]{Deprecated value; treated the same as @code{:ltr}.}
+      @entry[:weak-ltr]{A weak left-to-right direction.}
+      @entry[:wek-rtl]{A weak right-to-left direction.}
+      @entry[:neutral]{No direction specified.}
+    @end{table}
+  @end{values}
   @begin{short}
     The @symbol{pango:direction} enumeration represents a direction in the
     Unicode bidirectional algorithm.
@@ -87,27 +110,6 @@
   interpretation of this enumeration as the writing direction of a block of
   text and are no longer used. See the @symbol{pango:gravity} enumeration for
   how vertical text is handled in Pango.
-  @begin{pre}
-(gobject:define-g-enum \"PangoDirection\" direction
-  (:export t
-   :type-initializer \"pango_direction_get_type\")
-  (:ltr 0)
-  (:rtl 1)
-  (:ttb-ltr 2)
-  (:ttb-rtl 3)
-  (:weak-ltr 4)
-  (:weak-rtl 5)
-  (:neutral 6))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:ltr]{A strong left-to-right direction.}
-    @entry[:rtl]{A strong right-to-left direction.}
-    @entry[:ttb-ltr]{Deprecated value; treated the same as @code{:rtl}.}
-    @entry[:ttb-rtl]{Deprecated value; treated the same as @code{:ltr}.}
-    @entry[:weak-ltr]{A weak left-to-right direction.}
-    @entry[:wek-rtl]{A weak right-to-left direction.}
-    @entry[:neutral]{No direction specified.}
-  @end{table}
   @see-symbol{pango:gravity}
   @see-function{pango:unichar-direction}
   @see-function{pango:find-base-dir}

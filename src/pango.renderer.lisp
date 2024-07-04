@@ -73,7 +73,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoRenderPart
+;;; PangoRenderPart
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoRenderPart" render-part
@@ -90,11 +90,7 @@
       "GEnum"
       (liber:symbol-documentation 'render-part)
  "@version{2024-2-24}
-  @begin{short}
-    The @sym{pango:render-part} enumeration defines different items to render
-    for such purposes as setting colors.
-  @end{short}
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoRenderPart\" pango:render-part
   (:export t
    :type-initializer \"pango_render_part_get_type\")
@@ -103,14 +99,20 @@
   (:underline 2)
   (:strikethrough 3)
   (:overline 4))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:foreground]{The text itself.}
-    @entry[:background]{The area behind the text.}
-    @entry[:underline]{Underlines.}
-    @entry[:strikethrough]{Strikethrough lines.}
-    @entry[:overline]{Overlines.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:foreground]{The text itself.}
+      @entry[:background]{The area behind the text.}
+      @entry[:underline]{Underlines.}
+      @entry[:strikethrough]{Strikethrough lines.}
+      @entry[:overline]{Overlines.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @sym{pango:render-part} enumeration defines different items to render
+    for such purposes as setting colors.
+  @end{short}
   @see-class{pango:renderer}")
 
 ;;; ----------------------------------------------------------------------------

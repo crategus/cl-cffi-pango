@@ -298,7 +298,7 @@
 (export '+scale-xx-large+)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoAttrType
+;;; PangoAttrType
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoAttrType" attr-type
@@ -361,15 +361,7 @@
       "GEnum"
       (liber:symbol-documentation 'attr-type)
  "@version{2024-2-27}
-  @begin{short}
-    The @symbol{pango:attr-type} enumeration distinguishes between different
-    types of attributes.
-  @end{short}
-  Along with the predefined values, it is possible to allocate additional
-  values for custom attributes using the @fun{pango:attr-type-register}
-  function. The predefined values are given below. The type of structure used
-  to store the attribute is listed in parentheses after the description.
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoAttrType\" attr-type
   (:export t
    :allow-undeclared-values t
@@ -412,58 +404,69 @@
   (:sentence 35)
   (:baseline-shift 36)
   (:font-scale 37))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:invalid]{Does not happen.}
-    @entry[:language]{Language.}
-    @entry[:family]{Font family name list.}
-    @entry[:style]{Font slant style.}
-    @entry[:weight]{Font weight.}
-    @entry[:variant]{Font variant, normal or small caps.}
-    @entry[:stretch]{Font stretch.}
-    @entry[:size]{Font size in points scaled by the @var{pango:+scale+} value.}
-    @entry[:font-desc]{Font description.}
-    @entry[:foreground]{Foreground color.}
-    @entry[:background]{Background color.}
-    @entry[:underline]{Whether the text has an underline.}
-    @entry[:strikethrough]{Whether the text is struck-through.}
-    @entry[:rise]{Baseline displacement.}
-    @entry[:shape]{Shape.}
-    @entry[:scale]{Font size scale factor.}
-    @entry[:fallback]{Whether fallback is enabled.}
-    @entry[:letter-spacing]{Letter spacing.}
-    @entry[:underline-color]{Underline colo.}
-    @entry[:strikethrough-color]{Strikethrough color.}
-    @entry[:absolute-size]{Font size in pixels scaled by the
-      @var{pango:+scale+} value.}
-    @entry[:gravity]{Base text gravity.}
-    @entry[:gravity-hint]{Gravity hint.}
-    @entry[:font-features]{OpenType font features.}
-    @entry[:foreground-alpha]{Foreground alpha.}
-    @entry[:background-alpha]{Background alpha.}
-    @entry[:allow-breaks]{Whether breaks are allowed. Since 1.44}
-    @entry[:show]{How to render invisible characters. Since 1.44}
-    @entry[:insert-hyphens]{Whether to insert hyphens at intra-word line breaks.
-      Since 1.44}
-    @entry[:overline]{Whether the text has an overline. Since 1.46}
-    @entry[:overline-color]{Overline color. Since 1.46}
-    @entry[:line-height]{Line height factor. Since 1.50}
-    @entry[:absolute-line-height]{Line height. Since 1.50}
-    @entry[:text-transform]{How Pango treats characters during shaping.
-      Since 1.50}
-    @entry[:word]{Override segmentation to classify the range of the attribute
-      as a single word. Since 1.50}
-    @entry[:sentence]{Override segmentation to classify the range of the
-      attribute as a single sentence. Since 1.50}
-    @entry[:baseline-shift]{Baseline displacement. Since 1.50}
-    @entry[:font-scale]{Font-relative size change. Since 1.50}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:invalid]{Does not happen.}
+      @entry[:language]{Language.}
+      @entry[:family]{Font family name list.}
+      @entry[:style]{Font slant style.}
+      @entry[:weight]{Font weight.}
+      @entry[:variant]{Font variant, normal or small caps.}
+      @entry[:stretch]{Font stretch.}
+      @entry[:size]{Font size in points scaled by the @var{pango:+scale+}
+        value.}
+      @entry[:font-desc]{Font description.}
+      @entry[:foreground]{Foreground color.}
+      @entry[:background]{Background color.}
+      @entry[:underline]{Whether the text has an underline.}
+      @entry[:strikethrough]{Whether the text is struck-through.}
+      @entry[:rise]{Baseline displacement.}
+      @entry[:shape]{Shape.}
+      @entry[:scale]{Font size scale factor.}
+      @entry[:fallback]{Whether fallback is enabled.}
+      @entry[:letter-spacing]{Letter spacing.}
+      @entry[:underline-color]{Underline colo.}
+      @entry[:strikethrough-color]{Strikethrough color.}
+      @entry[:absolute-size]{Font size in pixels scaled by the
+        @var{pango:+scale+} value.}
+      @entry[:gravity]{Base text gravity.}
+      @entry[:gravity-hint]{Gravity hint.}
+      @entry[:font-features]{OpenType font features.}
+      @entry[:foreground-alpha]{Foreground alpha.}
+      @entry[:background-alpha]{Background alpha.}
+      @entry[:allow-breaks]{Whether breaks are allowed. Since 1.44}
+      @entry[:show]{How to render invisible characters. Since 1.44}
+      @entry[:insert-hyphens]{Whether to insert hyphens at intra-word line
+        breaks. Since 1.44}
+      @entry[:overline]{Whether the text has an overline. Since 1.46}
+      @entry[:overline-color]{Overline color. Since 1.46}
+      @entry[:line-height]{Line height factor. Since 1.50}
+      @entry[:absolute-line-height]{Line height. Since 1.50}
+      @entry[:text-transform]{How Pango treats characters during shaping.
+        Since 1.50}
+      @entry[:word]{Override segmentation to classify the range of the
+        attribute as a single word. Since 1.50}
+      @entry[:sentence]{Override segmentation to classify the range of the
+        attribute as a single sentence. Since 1.50}
+      @entry[:baseline-shift]{Baseline displacement. Since 1.50}
+      @entry[:font-scale]{Font-relative size change. Since 1.50}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @symbol{pango:attr-type} enumeration distinguishes between different
+    types of attributes.
+  @end{short}
+  Along with the predefined values, it is possible to allocate additional
+  values for custom attributes using the @fun{pango:attr-type-register}
+  function. The predefined values are given below. The type of structure used
+  to store the attribute is listed in parentheses after the description.
   @see-class{pango:attribute}
   @see-class{pango:attr-list}
   @see-function{pango:attr-type-register}")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoUnderline
+;;; PangoUnderline
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoUnderline" underline
@@ -486,11 +489,7 @@
       "GEnum"
       (liber:symbol-documentation 'underline)
  "@version{2023-1-19}
-  @begin{short}
-    The @symbol{pango:underline} enumeration is used to specify whether text
-    should be underlined, and if so, the type of underlining.
-  @end{short}
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoUnderline\" underline
   (:export t
    :type-initializer \"pango_underline_get_type\")
@@ -502,29 +501,35 @@
   (:single-line 5)
   (:double-line 6)
   (:error-line 7))
-  @end{pre}
+  @end{declaration}
+  @begin{values}
   @begin[code]{table}
-    @entry[:none]{No underline should be drawn.}
-    @entry[:single]{A single underline should be drawn.}
-    @entry[:double]{A double underline should be drawn.}
-    @entry[:low]{A single underline should be drawn at a position beneath the
-      ink extents of the text being underlined. This should be used only for
-      underlining single characters, such as for keyboard accelerators. The
-      @code{:single} value should be used for extended portions of text.}
-    @entry[:error]{A wavy underline should be drawn below. This underline is
-      typically used to indicate an error such as a possible mispelling. In
-      some cases a contrasting color may automatically be used.}
-    @entry[:single-line]{Like the @code{:single} value, but drawn continuously
-      across multiple runs. Since 1.46}
-    @entry[:double-line]{Like the @code{:double} value, but drawn continuously
-      across multiple runs. Since 1.46}
-    @entry[:error-line]{Like the @code{:error} value, but drawn continuously
-      across multiple runs. Since 1.46}
-  @end{table}
+      @entry[:none]{No underline should be drawn.}
+      @entry[:single]{A single underline should be drawn.}
+      @entry[:double]{A double underline should be drawn.}
+      @entry[:low]{A single underline should be drawn at a position beneath the
+        ink extents of the text being underlined. This should be used only for
+        underlining single characters, such as for keyboard accelerators. The
+        @code{:single} value should be used for extended portions of text.}
+      @entry[:error]{A wavy underline should be drawn below. This underline is
+        typically used to indicate an error such as a possible mispelling. In
+        some cases a contrasting color may automatically be used.}
+      @entry[:single-line]{Like the @code{:single} value, but drawn continuously
+        across multiple runs. Since 1.46}
+      @entry[:double-line]{Like the @code{:double} value, but drawn continuously
+        across multiple runs. Since 1.46}
+      @entry[:error-line]{Like the @code{:error} value, but drawn continuously
+        across multiple runs. Since 1.46}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @symbol{pango:underline} enumeration is used to specify whether text
+    should be underlined, and if so, the type of underlining.
+  @end{short}
   @see-symbol{pango:overline}")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoOverline
+;;; PangoOverline
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-46
@@ -539,27 +544,29 @@
       "GEnum"
       (liber:symbol-documentation 'overline)
  "@version{2023-1-19}
-  @begin{short}
-    The @symbol{pango:overline} enumeration is used to specify whether text
-    should be overlined, and if so, the type of line.
-  @end{short}
-  Since 1.46
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoOverline\" overline
   (:export t
    :type-initializer \"pango_overline_get_type\")
   (:none 0)
   (:single 1))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:none]{No overline should be drawn.}
-    @entry[:single]{Draw a single line above the ink extents of the text being
-      underlined.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:none]{No overline should be drawn.}
+      @entry[:single]{Draw a single line above the ink extents of the text
+        being underlined.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @symbol{pango:overline} enumeration is used to specify whether text
+    should be overlined, and if so, the type of line.
+  @end{short}
+  Since 1.46
   @see-symbol{pango:underline}")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoShowFlags
+;;; PangoShowFlags
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-flags "PangoShowFlags" show-flags
@@ -575,11 +582,7 @@
       "GFlags"
       (liber:symbol-documentation 'show-flags)
  "@version{2023-1-19}
-  @begin{short}
-    These flags affect how Pango treats characters that are normally not
-    visible in the output.
-  @end{short}
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-flags \"PangoShowFlags\" show-flags
   (:export t
    :type-initializer \"pango_show_flags_get_type\")
@@ -587,17 +590,23 @@
   (:spaces #.(ash 1 0))
   (:line-breaks #.(ash 1 1))
   (:ignorables #.(ash 1 2)))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:none]{No special treatment for invisible characters.}
-    @entry[:spaces]{Render spaces, tabs and newlines visibly.}
-    @entry[:line-breaks]{Render line breaks visibly.}
-    @entry[:ignorables]{Render default-ignorable Unicode characters visibly.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:none]{No special treatment for invisible characters.}
+      @entry[:spaces]{Render spaces, tabs and newlines visibly.}
+      @entry[:line-breaks]{Render line breaks visibly.}
+      @entry[:ignorables]{Render default-ignorable Unicode characters visibly.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    These flags affect how Pango treats characters that are normally not
+    visible in the output.
+  @end{short}
   @see-function{pango:attr-show-new}")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoTextTransform
+;;; PangoTextTransform
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoTextTransform" text-transform
@@ -613,11 +622,7 @@
       "GEnum"
       (liber:symbol-documentation 'text-transform)
  "@version{2023-1-19}
-  @begin{short}
-    An enumeration that affects how Pango treats characters during shaping.
-  @end{short}
-  Since 1.50
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoTextTransform\" text-transform
   (:export t
    :type-initializer \"pango_text_transform_get_type\")
@@ -625,16 +630,22 @@
   :lowercase
   :uppercase
   :capitalize)
-  @end{pre}
-  @begin[code]{table}
-    @entry[:none]{Leave text unchanged.}
-    @entry[:lowercase]{Display letters and numbers as lowercase.}
-    @entry[:uppercase]{Display letters and numbers as uppercase.}
-    @entry[:capitalize]{Display the first character of a word in titlecase.}
-  @end{table}")
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:none]{Leave text unchanged.}
+      @entry[:lowercase]{Display letters and numbers as lowercase.}
+      @entry[:uppercase]{Display letters and numbers as uppercase.}
+      @entry[:capitalize]{Display the first character of a word in titlecase.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    An enumeration that affects how Pango treats characters during shaping.
+  @end{short}
+  Since 1.50")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoBaselineShift
+;;; PangoBaselineShift
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoBaselineShift" baseline-shift
@@ -649,28 +660,30 @@
       "GEnum"
       (liber:symbol-documentation 'baseline-shift)
  "@version{2023-1-19}
-  @begin{short}
-    An enumeration that affects baseline shifts between runs.
-  @end{short}
-  Since 1.50
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoBaselineShift\" baseline-shift
   (:export t
    :type-initializer \"pango_baseline_shift_get_type\")
   :none
   :superscript
   :subscript)
-  @end{pre}
-  @begin[code]{table}
-    @entry[:none]{Leave the baseline unchanged.}
-    @entry[:superscript]{Shift the baseline to the superscript position,
-      relative to the previous run.}
-    @entry[:subscript]{Shift the baseline to the subscript position, relative
-      to the previous run.}
-  @end{table}")
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:none]{Leave the baseline unchanged.}
+      @entry[:superscript]{Shift the baseline to the superscript position,
+        relative to the previous run.}
+      @entry[:subscript]{Shift the baseline to the subscript position, relative
+        to the previous run.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    An enumeration that affects baseline shifts between runs.
+  @end{short}
+  Since 1.50")
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoFontScale
+;;; PangoFontScale
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoFontScale" font-scale
@@ -686,12 +699,7 @@
       "GEnum"
       (liber:symbol-documentation 'font-scale)
  "@version{2023-1-19}
-  @begin{short}
-    An enumeration that affects font sizes for superscript and subscript
-    positioning and for (emulated) Small Caps.
-  @end{short}
-  Since 1.50
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoFontScale\" font-scale
   (:export t
    :type-initializer \"pango_font_scale_get_type\")
@@ -699,13 +707,20 @@
   :superscript
   :subscript
   :small-caps)
-  @end{pre}
-  @begin[code]{table}
-    @entry[:none]{Leave the font size unchanged.}
-    @entry[:superscript]{Change the font to a size suitable for superscripts.}
-    @entry[:subscript]{Change the font to a size suitable for subscripts.}
-    @entry[:small-caps]{Change the font to a size suitable for Small Caps.}
-  @end{table}")
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:none]{Leave the font size unchanged.}
+      @entry[:superscript]{Change the font to a size suitable for superscripts.}
+      @entry[:subscript]{Change the font to a size suitable for subscripts.}
+      @entry[:small-caps]{Change the font to a size suitable for Small Caps.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    An enumeration that affects font sizes for superscript and subscript
+    positioning and for (emulated) Small Caps.
+  @end{short}
+  Since 1.50")
 
 ;;; ----------------------------------------------------------------------------
 ;;; struct PangoAttrClass                                  not exported
@@ -766,7 +781,7 @@
       "Accessor"
       (documentation 'attribute-type 'function)
  "@version{2024-2-27}
-  @syntax[]{(pango:attribute-type instance) => type}
+  @syntax{(pango:attribute-type instance) => type}
   @argument[instance]{a @class{pango:attribute} instance}
   @argument[type]{a @symbol{pango:attr-type} value}
   @begin{short}
@@ -793,8 +808,8 @@
       "Accessor"
       (documentation 'attribute-start-index 'function)
  "@version{2024-2-27}
-  @syntax[]{(pango:attribute-start-index instance) => index}
-  @syntax[]{(setf (pango:attribute-start-index instance) index)}
+  @syntax{(pango:attribute-start-index instance) => index}
+  @syntax{(setf (pango:attribute-start-index instance) index)}
   @argument[instance]{a @class{pango:attribute} instance}
   @argument[index]{an integer with the start index}
   @begin{short}
@@ -821,8 +836,8 @@
       "Accessor"
       (documentation 'attribute-end-index 'function)
  "@version{2024-2-27}
-  @syntax[]{(pango:attribute-end-index instance) => index}
-  @syntax[]{(setf (pango:attribute-end-index instance) index)}
+  @syntax{(pango:attribute-end-index instance) => index}
+  @syntax{(setf (pango:attribute-end-index instance) index)}
   @argument[instance]{a @class{pango:attribute} instance}
   @argument[index]{an integer with the start index}
   @begin{short}

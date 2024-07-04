@@ -113,8 +113,8 @@
       "Accessor"
       (documentation 'rectangle-x 'function)
  "@version{2024-3-1}
-  @syntax[]{(pango:rectangle-x instance) => x}
-  @syntax[]{(setf (pango:rectangle-x instance) x)}
+  @syntax{(pango:rectangle-x instance) => x}
+  @syntax{(setf (pango:rectangle-x instance) x)}
   @argument[instance]{a @class{pango:rectangle} instance}
   @argument[x]{an integer with the x component of the rectangle}
   @begin{short}
@@ -137,8 +137,8 @@
       "Accessor"
       (documentation 'rectangle-y 'function)
  "@version{2024-3-1}
-  @syntax[]{(pango:rectangle-y instance) => y}
-  @syntax[]{(setf (pango:rectangle-y instance) y)}
+  @syntax{(pango:rectangle-y instance) => y}
+  @syntax{(setf (pango:rectangle-y instance) y)}
   @argument[instance]{a @class{pango:rectangle} instance}
   @argument[y]{an integer with the y component of the rectangle}
   @begin{short}
@@ -161,8 +161,8 @@
       "Accessor"
       (documentation 'rectangle-width 'function)
  "@version{2024-3-1}
-  @syntax[]{(pango:rectangle-width instance) => width}
-  @syntax[]{(setf (pango:rectangle-width instance) width)}
+  @syntax{(pango:rectangle-width instance) => width}
+  @syntax{(setf (pango:rectangle-width instance) width)}
   @argument[instance]{a @class{pango:rectangle} instance}
   @argument[width]{an integer with the width component of the rectangle}
   @begin{short}
@@ -185,8 +185,8 @@
       "Accessor"
       (documentation 'rectangle-height 'function)
  "@version{2024-3-1}
-  @syntax[]{(pango:rectangle-height instance) => heigth}
-  @syntax[]{(setf (pango:rectangle-height instance) height)}
+  @syntax{(pango:rectangle-height instance) => heigth}
+  @syntax{(setf (pango:rectangle-height instance) height)}
   @argument[instance]{a @class{pango:rectangle} instance}
   @argument[height]{an integer with the height component of the rectangle}
   @begin{short}
@@ -339,8 +339,8 @@ ydevice = xuser * yx + yuser * yy + y0
       "Accessor"
       (documentation 'matrix-xx 'function)
  "@version{2024-3-1}
-  @syntax[]{(pango:matrix-xx instance) => xx}
-  @syntax[]{(setf (pango:matrix-xx instance) xx)}
+  @syntax{(pango:matrix-xx instance) => xx}
+  @syntax{(setf (pango:matrix-xx instance) xx)}
   @argument[instance]{a @class{pango:matrix} instance}
   @argument[xx]{an double float with the xx component of the transformation
     matrix}
@@ -356,8 +356,8 @@ ydevice = xuser * yx + yuser * yy + y0
       "Accessor"
       (documentation 'matrix-xy 'function)
  "@version{2024-3-1}
-  @syntax[]{(pango:matrix-xy instance) => xy}
-  @syntax[]{(setf (pango:matrix-xy instance) xy)}
+  @syntax{(pango:matrix-xy instance) => xy}
+  @syntax{(setf (pango:matrix-xy instance) xy)}
   @argument[instance]{a @class{pango:matrix} instance}
   @argument[xy]{an double float with the xy component of the transformation
     matrix}
@@ -373,8 +373,8 @@ ydevice = xuser * yx + yuser * yy + y0
       "Accessor"
       (documentation 'matrix-yx 'function)
  "@version{2024-3-1}
-  @syntax[]{(pango:matrix-yx instance) => yx}
-  @syntax[]{(setf (pango:matrix-yx instance) yx)}
+  @syntax{(pango:matrix-yx instance) => yx}
+  @syntax{(setf (pango:matrix-yx instance) yx)}
   @argument[instance]{a @class{pango:matrix} instance}
   @argument[yx]{an double float with the yx component of the transformation
     matrix}
@@ -390,8 +390,8 @@ ydevice = xuser * yx + yuser * yy + y0
       "Accessor"
       (documentation 'matrix-yy 'function)
  "@version{2024-3-1}
-  @syntax[]{(pango:matrix-yy instance) => yy}
-  @syntax[]{(setf (pango:matrix-yy instance) yy)}
+  @syntax{(pango:matrix-yy instance) => yy}
+  @syntax{(setf (pango:matrix-yy instance) yy)}
   @argument[instance]{a @class{pango:matrix} instance}
   @argument[yy]{an double float with the yy component of the transformation
     matrix}
@@ -407,8 +407,8 @@ ydevice = xuser * yx + yuser * yy + y0
       "Accessor"
       (documentation 'matrix-x0 'function)
  "@version{2024-3-1}
-  @syntax[]{(pango:matrix-x0 instance) => x0}
-  @syntax[]{(setf (pango:matrix-x0 instance) x0)}
+  @syntax{(pango:matrix-x0 instance) => x0}
+  @syntax{(setf (pango:matrix-x0 instance) x0)}
   @argument[instance]{a @class{pango:matrix} instance}
   @argument[x0]{an double float with the x0 component of the transformation
     matrix}
@@ -424,8 +424,8 @@ ydevice = xuser * yx + yuser * yy + y0
       "Accessor"
       (documentation 'matrix-y0 'function)
  "@version{2024-3-1}
-  @syntax[]{(pango:matrix-y0 instance) => y0}
-  @syntax[]{(setf (pango:matrix-y0 instance) y0)}
+  @syntax{(pango:matrix-y0 instance) => y0}
+  @syntax{(setf (pango:matrix-y0 instance) y0)}
   @argument[instance]{a @class{pango:matrix} instance}
   @argument[y0]{an double float with the y0 component of the transformation
     matrix}

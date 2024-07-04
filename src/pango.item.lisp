@@ -102,7 +102,7 @@
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoShapeFlags
+;;; PangoShapeFlags
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-flags "PangoShapeFlags" shape-flags
@@ -116,23 +116,25 @@
       "GFlags"
       (liber:symbol-documentation 'shape-flags)
  "@version{2023-7-14}
-  @begin{short}
-    Flags influencing the shaping process.
-  @end{short}
-  These can be passed to the @fun{pango:shape-with-flags} function.
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-flags \"PangoShapeFlags\" shape-flags
   (:export t
    :type-initializer \"pango_shape_flags_get_type\")
   (:none 0)
   (:round-positions #.(ash 1 0)))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:none]{Default value.}
-    @entry[:round-positions]{Round glyph positions and widths to whole device
-      units. This option should be set if the target renderer cannot do
-      subpixel positioning of glyphs.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:none]{Default value.}
+      @entry[:round-positions]{Round glyph positions and widths to whole device
+        units. This option should be set if the target renderer cannot do
+        subpixel positioning of glyphs.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    Flags influencing the shaping process.
+  @end{short}
+  These can be passed to the @fun{pango:shape-with-flags} function.
   @see-function{pango:shape-with-flags}")
 
 ;;; ----------------------------------------------------------------------------
@@ -296,7 +298,7 @@
       "Accessor"
       (documentation 'analysis-font 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:analysis-font instance) => font}
+  @syntax{(pango:analysis-font instance) => font}
   @argument[instance]{a @symbol{pango:analysis} instance}
   @argument[font]{a @class{pango:font} instance}
   @begin{short}
@@ -317,7 +319,7 @@
       "Accessor"
       (documentation 'analysis-level 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:analysis-level instance) => level}
+  @syntax{(pango:analysis-level instance) => level}
   @argument[instance]{a @symbol{pango:analysis} instance}
   @argument[font]{an unsigned integer with the bidrectional level for this
     segment}
@@ -340,7 +342,7 @@
       "Accessor"
       (documentation 'analysis-gravity 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:analysis-gravity instance) => gravity}
+  @syntax{(pango:analysis-gravity instance) => gravity}
   @argument[instance]{a @symbol{pango:analysis} instance}
   @argument[gravity]{a @symbol{pango:gravity} value with the glyph orientation}
   @begin{short}
@@ -365,7 +367,7 @@
       "Accessor"
       (documentation 'analysis-flags 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:analysis-flags instance) => flags}
+  @syntax{(pango:analysis-flags instance) => flags}
   @argument[instance]{a @symbol{pango:analysis} instance}
   @argument[flags]{an unsigned integer with the boolean flags for this
     segment}
@@ -388,7 +390,7 @@
       "Accessor"
       (documentation 'analysis-script 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:analysis-script instance) => script}
+  @syntax{(pango:analysis-script instance) => script}
   @argument[instance]{a @symbol{pango:analysis} instance}
   @argument[script]{a @symbol{pango:script} value with the detected script}
   @begin{short}
@@ -409,7 +411,7 @@
       "Accessor"
       (documentation 'analysis-language 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:analysis-language instance) => language}
+  @syntax{(pango:analysis-language instance) => language}
   @argument[instance]{a @symbol{pango:analysis} instance}
   @argument[language]{a @class{pango:language} instance with the detected
     language}
@@ -436,7 +438,7 @@
       "Accessor"
       (documentation 'analysis-extra-attrs 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:analysis-extra-attrs instance) => attrs}
+  @syntax{(pango:analysis-extra-attrs instance) => attrs}
   @argument[instance]{a @symbol{pango:analysis} instance}
   @argument[attrs]{a list of @class{pango:attribute} instances with extra
     attributes}
@@ -520,7 +522,7 @@
       "Accessor"
       (documentation 'item-analysis 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:item-analysis instance) => analysis}
+  @syntax{(pango:item-analysis instance) => analysis}
   @argument[instance]{a @class{pango:item} instance}
   @argument[analysis]{a @symbol{pango:analysis} instance}
   @begin{short}
@@ -542,7 +544,7 @@
       "Accessor"
       (documentation 'item-length 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:item-length instance) => length}
+  @syntax{(pango:item-length instance) => length}
   @argument[instance]{a @class{pango:item} instance}
   @argument[length]{an integer with the length of the item in bytes}
   @begin{short}
@@ -563,7 +565,7 @@
       "Accessor"
       (documentation 'item-num-chars 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:item-num-chars instance) => num}
+  @syntax{(pango:item-num-chars instance) => num}
   @argument[instance]{a @class{pango:item} instance}
   @argument[num]{an integer with the number of Unicode characters in the item}
   @begin{short}
@@ -584,7 +586,7 @@
       "Accessor"
       (documentation 'item-offset 'function)
  "@version{2024-3-2}
-  @syntax[]{(pango:item-offset instance) => offset}
+  @syntax{(pango:item-offset instance) => offset}
   @argument[instance]{a @class{pango:item} instance}
   @argument[offset]{an integer with the byte offset of the start of this item
     in the text}

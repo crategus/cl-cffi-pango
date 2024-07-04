@@ -187,8 +187,8 @@
     (g:object font-map)
  #+liber-documentation
  "@version{2024-2-23}
-  @syntax[]{(pango:context-font-map context) => fontmap}
-  @syntax[]{(setf (pango:context-font-map context) fontmap)}
+  @syntax{(pango:context-font-map context) => fontmap}
+  @syntax{(setf (pango:context-font-map context) fontmap)}
   @argument[context]{a @class{pango:context} object}
   @argument[fontmap]{a @class{pango:font-map} object}
   @begin{short}
@@ -221,8 +221,8 @@
     (g:boxed font-description)
  #+liber-documentation
  "@version{2024-2-23}
-  @syntax[]{(pango:context-font-description context) => desc}
-  @syntax[]{(setf (pango:context-font-description context) desc)}
+  @syntax{(pango:context-font-description context) => desc}
+  @syntax{(setf (pango:context-font-description context) desc)}
   @argument[context]{a @class{pango:context} object}
   @argument[desc]{a @class{pango:font-description} instance}
   @begin{short}
@@ -251,8 +251,8 @@
 (cffi:defcfun ("pango_context_get_language" context-language) (g:boxed language)
  #+liber-documentation
  "@version{2024-2-23}
-  @syntax[]{(pango:context-language context) => language}
-  @syntax[]{(setf (pango:context-language context) language)}
+  @syntax{(pango:context-language context) => language}
+  @syntax{(setf (pango:context-language context) language)}
   @argument[context]{a @class{pango:context} object}
   @argument[language]{a @class{pango:language} instance, or @code{nil}}
   @begin{short}
@@ -284,8 +284,8 @@
 (cffi:defcfun ("pango_context_get_base_dir" context-base-dir) direction
  #+liber-documentation
  "@version{2024-2-23}
-  @syntax[]{(pango:context-base-dir context) => direction}
-  @syntax[]{(setf (pango:context-base-dir context) direction)}
+  @syntax{(pango:context-base-dir context) => direction}
+  @syntax{(setf (pango:context-base-dir context) direction)}
   @argument[context]{a @class{pango:context}}
   @argument[direction]{a @symbol{pango:direction} value with the base direction}
   @begin{short}
@@ -320,8 +320,8 @@
 (cffi:defcfun ("pango_context_get_base_gravity" context-base-gravity) gravity
  #+liber-documentation
  "@version{2024-2-23}
-  @syntax[]{(pango:context-base-gravity context) => gravity}
-  @syntax[]{(setf (pango:context-base-gravity context) gravity)}
+  @syntax{(pango:context-base-gravity context) => gravity}
+  @syntax{(setf (pango:context-base-gravity context) gravity)}
   @argument[context]{a @class{pango:context} object}
   @argument[gravity]{a @symbol{pango:gravity} value with the base gravity}
   @begin{short}
@@ -380,8 +380,8 @@
     gravity-hint
  #+liber-documentation
  "@version{#2024-2-23}
-  @syntax[]{(pango:context-gravity-hint context) => hint}
-  @syntax[]{(setf (pango:context-gravity-hint context) hint)}
+  @syntax{(pango:context-gravity-hint context) => hint}
+  @syntax{(setf (pango:context-gravity-hint context) hint)}
   @argument[context]{a @class{pango:context} object}
   @argument[hint]{a @symbol{pango:gravity-hint} value with the gravity hint}
   @begin{short}
@@ -414,8 +414,8 @@
 (cffi:defcfun ("pango_context_get_matrix" context-matrix) (g:boxed matrix)
  #+liber-documentation
  "@version{#2024-2-23}
-  @syntax[]{(pango:context-matrix context) => matrix}
-  @syntax[]{(setf (pango:context-matrix context) matrix)}
+  @syntax{(pango:context-matrix context) => matrix}
+  @syntax{(setf (pango:context-matrix context) matrix)}
   @argument[context]{a @class{pango:context} object}
   @argument[matrix]{a @class{pango:matrix} instance, or @code{nil} to unset any
     existing matrix, no matrix set is the same as setting the identity matrix}
@@ -453,8 +453,8 @@
                 context-round-glyph-positions) :boolean
  #+liber-documentation
  "@version{#2024-2-23}
-  @syntax[]{(pango:context-round-glyph-positions context) => setting}
-  @syntax[]{(setf (pango:context-round-glyph-positions context) setting)}
+  @syntax{(pango:context-round-glyph-positions context) => setting}
+  @syntax{(setf (pango:context-round-glyph-positions context) setting)}
   @argument[context]{a @class{pango:context} object}
   @argument[setting]{a boolean whether to round glyph positions}
   @begin{short}

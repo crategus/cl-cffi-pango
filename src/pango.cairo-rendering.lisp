@@ -146,8 +146,8 @@
     (g:object font-map)
  #+liber-documentation
  "@version{2024-2-23}
-  @syntax[]{(pango:cairo-font-map-default) => fontmap}
-  @syntax[]{(setf (pango:cairo-font-map-default) fontmap)}
+  @syntax{(pango:cairo-font-map-default) => fontmap}
+  @syntax{(setf (pango:cairo-font-map-default) fontmap)}
   @argument[fontmap]{a @class{pango:font-map} object, or @code{nil}}
   @begin{short}
     The @symbol{pango:cairo-font-map-default} function gets a default PangoCairo
@@ -380,8 +380,8 @@
     :double
  #+liber-documentation
  "@version{2024-2-23}
-  @syntax[]{(pango:cairo-context-resolution context) => dpi}
-  @syntax[]{(setf (pango:cairo-context-resolution context) dpi)}
+  @syntax{(pango:cairo-context-resolution context) => dpi}
+  @syntax{(setf (pango:cairo-context-resolution context) dpi)}
   @argument[context]{a @class{pango:context} object, from a PangoCairo font map}
   @argument[dpi]{a number coerced to a double float with the resolution in
     \"dots per inch\", physical inches are not actually involved, the
@@ -513,8 +513,8 @@ lambda (cr attr dopath)
 (defun cairo-context-shape-renderer (context)
  #+liber-documentation
  "@version{#2023-7-18}
-  @syntax[]{(pango:cairo-context-shape-renderer context) func}
-  @syntax[]{(setf (pango:cairo-context-shape-renderer context) func)}
+  @syntax{(pango:cairo-context-shape-renderer context) func}
+  @syntax{(setf (pango:cairo-context-shape-renderer context) func)}
   @argument[context]{a @class{pango:context} object, from a PangoCairo font map}
   @argument[func]{a @symbol{pango:cairo-shape-renderer-func} callback function
     for rendering attributes of @symbol{pango:attr-shape} type, or @code{nil}

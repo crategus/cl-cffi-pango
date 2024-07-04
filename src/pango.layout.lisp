@@ -157,7 +157,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoWrapMode
+;;; PangoWrapMode
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoWrapMode" wrap-mode
@@ -172,30 +172,32 @@
       "GEnum"
       (liber:symbol-documentation 'wrap-mode)
  "@version{2023-2-6}
-  @begin{short}
-    The @symbol{pango:wrap-mode} enumeration describes how to wrap the lines of
-    a @class{pango:layout} object to the desired width.
-  @end{short}
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoWrapMode\" wrap-mode
   (:export t
    :type-initializer \"pango_wrap_mode_get_type\")
   (:word 0)
   (:char 1)
   (:word-char 2))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:word]{Wrap lines at word boundaries.}
-    @entry[:char]{Wrap lines at character boundaries.}
-    @entry[:word-char]{Wrap lines at word boundaries, but fall back to
-      character boundaries if there is not enough space for a full word.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:word]{Wrap lines at word boundaries.}
+      @entry[:char]{Wrap lines at character boundaries.}
+      @entry[:word-char]{Wrap lines at word boundaries, but fall back to
+        character boundaries if there is not enough space for a full word.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @symbol{pango:wrap-mode} enumeration describes how to wrap the lines of
+    a @class{pango:layout} object to the desired width.
+  @end{short}
   @see-class{pango:layout}")
 
 (export 'wrap-mode)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoEllipsizeMode
+;;; PangoEllipsizeMode
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoEllipsizeMode" ellipsize-mode
@@ -211,13 +213,7 @@
       "GEnum"
       (liber:symbol-documentation 'ellipsize-mode)
  "@version{2023-2-6}
-  @begin{short}
-    The @symbol{pango:ellipsize-mode} enumeration describes what sort of (if
-    any) ellipsization should be applied to a line of text.
-  @end{short}
-  In the ellipsization process characters are removed from the text in order to
-  make it fit to a given width and replaced with an ellipsis.
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoEllipsizeMode\" ellipsize-mode
   (:export t
    :type-initializer \"pango_ellipsize_mode_get_type\")
@@ -225,19 +221,27 @@
   (:start 1)
   (:middle 2)
   (:end 3))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:none]{No ellipsization.}
-    @entry[:start]{Omit characters at the start of the text.}
-    @entry[:middle]{Omit characters in the middle of the text.}
-    @entry[:end]{Omit characters at the end of the text.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:none]{No ellipsization.}
+      @entry[:start]{Omit characters at the start of the text.}
+      @entry[:middle]{Omit characters in the middle of the text.}
+      @entry[:end]{Omit characters at the end of the text.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @symbol{pango:ellipsize-mode} enumeration describes what sort of (if
+    any) ellipsization should be applied to a line of text.
+  @end{short}
+  In the ellipsization process characters are removed from the text in order to
+  make it fit to a given width and replaced with an ellipsis.
   @see-class{pango:layout}")
 
 (export 'ellipsize-mode)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoAlignment
+;;; PangoAlignment
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoAlignment" alignment
@@ -252,25 +256,27 @@
       "GEnum"
       (liber:symbol-documentation 'alignment)
  "@version{2023-2-6}
-  @begin{short}
-    The @symbol{pango:alignment} enumeration describes how to align the lines
-    of a @class{pango:layout} object within the available space.
-  @end{short}
-  If the @class{pango:layout} object is set to justify using the
-  @fun{pango:layout-justify} function, this only has effect for partial lines.
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoAlignment\" alignment
   (:export t
    :type-initializer \"pango_alignment_get_type\")
   (:left 0)
   (:center 1)
   (:right 2))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:left]{Put all available space on the right.}
-    @entry[:center]{Center the line within the available space.}
-    @entry[:right]{Put all available space on the left.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:left]{Put all available space on the right.}
+      @entry[:center]{Center the line within the available space.}
+      @entry[:right]{Put all available space on the left.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @symbol{pango:alignment} enumeration describes how to align the lines
+    of a @class{pango:layout} object within the available space.
+  @end{short}
+  If the @class{pango:layout} object is set to justify using the
+  @fun{pango:layout-justify} function, this only has effect for partial lines.
   @see-class{pango:layout}
   @see-function{pango:layout-justify}")
 
@@ -532,8 +538,8 @@
 (cffi:defcfun ("pango_layout_get_text" layout-text) :string
  #+liber-documentation
  "@version{2023-2-6}
-  @syntax[]{(pango:layout-text layout) => text}
-  @syntax[]{(setf (pango:layout-text layout) text)}
+  @syntax{(pango:layout-text layout) => text}
+  @syntax{(setf (pango:layout-text layout) text)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[text]{a valid UTF-8 string}
   @begin{short}
@@ -658,8 +664,8 @@
     (g:boxed attr-list)
  #+liber-documentation
  "@version{2023-2-6}
-  @syntax[]{(pango:layout-attributes layout) => attrs}
-  @syntax[]{(setf (pango:layout-attributes layout) attrs)}
+  @syntax{(pango:layout-attributes layout) => attrs}
+  @syntax{(setf (pango:layout-attributes layout) attrs)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[attrs]{a @class{pango:attr-list} instance, can be @code{nil}}
   @begin{short}
@@ -689,8 +695,8 @@
     (g:boxed font-description)
  #+liber-documentation
  "@version{2023-2-6}
-  @syntax[]{(pango:layout-font-description layout) => desc}
-  @syntax[]{(setf (pango:layout-font-description layout) desc)}
+  @syntax{(pango:layout-font-description layout) => desc}
+  @syntax{(setf (pango:layout-font-description layout) desc)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[desc]{a @class{pango:font-description} instance, or @code{nil} to
     unset the current font description}
@@ -724,8 +730,8 @@
 (cffi:defcfun ("pango_layout_get_width" layout-width) :int
  #+liber-documentation
  "@version{2023-2-6}
-  @syntax[]{(pango:layout-width layout) => width}
-  @syntax[]{(setf (pango:layout-width layout) width)}
+  @syntax{(pango:layout-width layout) => width}
+  @syntax{(setf (pango:layout-width layout) width)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[width]{an integer with the desired width in Pango units, or -1 to
     indicate that no wrapping or ellipsization should be performed}
@@ -756,8 +762,8 @@
 (cffi:defcfun ("pango_layout_get_height" layout-height) :int
  #+liber-documentation
  "@version{2023-2-6}
-  @syntax[]{(pango:layout-height layout) => height}
-  @syntax[]{(setf (pango:layout-height layout) height)}
+  @syntax{(pango:layout-height layout) => height}
+  @syntax{(setf (pango:layout-height layout) height)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[height]{an integer with the desired height of the layout in Pango
     units if positive, or desired number of lines if negative}
@@ -807,8 +813,8 @@
 (cffi:defcfun ("pango_layout_get_wrap" layout-wrap) wrap-mode
  #+liber-documentation
  "@version{#2023-2-6}
-  @syntax[]{(pango:layout-wrap layout) => wrap}
-  @syntax[]{(setf (pango:layout-wrap layout) wrap)}
+  @syntax{(pango:layout-wrap layout) => wrap}
+  @syntax{(setf (pango:layout-wrap layout) wrap)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[wrap]{a value of the @symbol{pango:wrap-mode} enumeration}
   @begin{short}
@@ -865,8 +871,8 @@
 (cffi:defcfun ("pango_layout_get_ellipsize" layout-ellipsize) ellipsize-mode
  #+liber-documentation
  "@version{#2023-2-6}
-  @syntax[]{(pango:layout-ellipsize layout) => ellipsize}
-  @syntax[]{(setf (pango:layout-ellipsize layout) ellipsize)}
+  @syntax{(pango:layout-ellipsize layout) => ellipsize}
+  @syntax{(setf (pango:layout-ellipsize layout) ellipsize)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[ellipsize]{a value of the @symbol{pango:ellipsize-mode} enumeration}
   @begin{short}
@@ -931,8 +937,8 @@
 (cffi:defcfun ("pango_layout_get_ident" layout-indent) :int
  #+liber-documentation
  "@version{#2023-2-6}
-  @syntax[]{(pango:layout-indent layout) => indent}
-  @syntax[]{(setf (pango:layout-indent layout) indent)}
+  @syntax{(pango:layout-indent layout) => indent}
+  @syntax{(setf (pango:layout-indent layout) indent)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[indent]{an integer with the amount by which to indent}
   @begin{short}
@@ -967,8 +973,8 @@
 (cffi:defcfun ("pango_layout_get_spacing" layout-spacing) :int
  #+liber-documentation
  "@version{#2023-2-6}
-  @syntax[]{(pango:layout-spacing layout) => spacing}
-  @syntax[]{(setf (pango:layout-spacing layout) spacing)}
+  @syntax{(pango:layout-spacing layout) => spacing}
+  @syntax{(setf (pango:layout-spacing layout) spacing)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[spacing]{an integer with the amount of spacing}
   @begin{short}
@@ -1011,8 +1017,8 @@ line2.top = line1.bottom + spacing
 (cffi:defcfun ("pango_layout_get_line_spacing" layout-line-spacing) :float
  #+liber-documentation
  "@version{2023-12-3}
-  @syntax[]{(pango:layout-line-spacing layout) => factor}
-  @syntax[]{(setf (pango:layout-line-spacing layout) factor)}
+  @syntax{(pango:layout-line-spacing layout) => factor}
+  @syntax{(setf (pango:layout-line-spacing layout) factor)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[factor]{a number coerced to a float with the new line spacing
     factor}
@@ -1056,8 +1062,8 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_get_justify" layout-justify) :boolean
  #+liber-documentation
  "@version{#2023-2-6}
-  @syntax[]{(pango:layout-justify layout) => justify}
-  @syntax[]{(setf (pango:layout-justify layout) justify)}
+  @syntax{(pango:layout-justify layout) => justify}
+  @syntax{(setf (pango:layout-justify layout) justify)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[justify]{a boolean whether the lines in the layout should be
     justified}
@@ -1090,8 +1096,8 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_get_auto_dir" layout-auto-dir) :boolean
  #+liber-documentation
  "@version{#2023-2-6}
-  @syntax[]{(pango:layout-auto-dir layout) => auto-dir}
-  @syntax[]{(setf (pango:layout-auto-dir layout) auto-dir)}
+  @syntax{(pango:layout-auto-dir layout) => auto-dir}
+  @syntax{(setf (pango:layout-auto-dir layout) auto-dir)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[auto-dir]{if @em{true}, compute the bidirectional base direction
     from the layout's contents}
@@ -1161,8 +1167,8 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_get_alignment" layout-alignment) alignment
  #+liber-documentation
  "@version{#2023-2-6}
-  @syntax[]{(pango:layout-alignment layout) => alignment}
-  @syntax[]{(setf (pango:layout-alignment layout) alignment)}
+  @syntax{(pango:layout-alignment layout) => alignment}
+  @syntax{(setf (pango:layout-alignment layout) alignment)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[alignment]{a @symbol{pango:alignment} value}
   @begin{short}
@@ -1192,8 +1198,8 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_get_tabs" layout-tabs) (g:boxed tab-array :return)
  #+liber-documentation
  "@version{#2023-2-6}
-  @syntax[]{(pango:layout-tabs layout) => tabs}
-  @syntax[]{(setf (pango:layout-tabs layout) tabs)}
+  @syntax{(pango:layout-tabs layout) => tabs}
+  @syntax{(setf (pango:layout-tabs layout) tabs)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[tabs]{a @class{pango:tab-array} instance, or @code{nil}}
   @begin{short}
@@ -1227,8 +1233,8 @@ baseline2 = baseline1 + factor * height2
                 layout-single-paragraph-mode) :boolean
  #+liber-documentation
  "@version{#2023-2-6}
-  @syntax[]{(pango:layout-tabs layout) => tabs}
-  @syntax[]{(setf (pango:layout-tabs layout) tabs)}
+  @syntax{(pango:layout-tabs layout) => tabs}
+  @syntax{(setf (pango:layout-tabs layout) tabs)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[setting]{whether the layout does not break paragraphs at paragraph
     separator characters}
@@ -1342,7 +1348,7 @@ baseline2 = baseline1 + factor * height2
 (defun layout-index-to-pos (layout index)
  #+liber-documentation
  "@version{2023-2-7}
-  @syntax[]{(pango:layout-index-to-pos layout index) => x, y, width, height}
+  @syntax{(pango:layout-index-to-pos layout index) => x, y, width, height}
   @argument[layout]{a @class{pango:layout} object}
   @argument[index]{an integer with the byte index within @arg{layout}}
   @argument[x]{an integer with the x coordinate}
@@ -1463,7 +1469,7 @@ baseline2 = baseline1 + factor * height2
 (defun layout-cursor-pos (layout index)
  #+liber-documentation
  "@version{2023-2-7}
-  @syntax[]{(pango:layout-cursor-pos layout index) => strong, weak}
+  @syntax{(pango:layout-cursor-pos layout index) => strong, weak}
   @argument[layout]{a @class{pango:layout} object}
   @argument[index]{an integer with the byte index of the cursor}
   @argument[strong]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}

@@ -95,8 +95,8 @@
       "Accessor"
       (documentation 'color-red 'function)
  "@version{2023-2-5}
-  @syntax[]{(pango:color-red instance) => red}
-  @syntax[]{(setf (pango:color-red instance) red)}
+  @syntax{(pango:color-red instance) => red}
+  @syntax{(setf (pango:color-red instance) red)}
   @begin{short}
     Accessor of the @code{red} slot of the @class{pango:color} color.
   @end{short}
@@ -111,8 +111,8 @@
       "Accessor"
       (documentation 'color-green 'function)
  "@version{2023-2-5}
-  @syntax[]{(pango:color-green instance) => green}
-  @syntax[]{(setf (pango:color-green instance) green)}
+  @syntax{(pango:color-green instance) => green}
+  @syntax{(setf (pango:color-green instance) green)}
   @begin{short}
     Accessor of the @code{green} slot of the @class{pango:color} color.
   @end{short}
@@ -127,8 +127,8 @@
       "Accessor"
       (documentation 'color-blue 'function)
  "@version{2023-2-5}
-  @syntax[]{(pango:color-blue instance) => blue}
-  @syntax[]{(setf (pango:color-blue instance) blue)}
+  @syntax{(pango:color-blue instance) => blue}
+  @syntax{(setf (pango:color-blue instance) blue)}
   @begin{short}
     Accessor of the @code{blue} slot of the @class{pango:color} color.
   @end{short}
@@ -244,7 +244,7 @@
 (defun color-parse-with-alpha (spec)
  #+liber-documentation
  "@version{2023-2-5}
-  @syntax[]{(pango:color-parse-with-alpha spec) => color, alpha}
+  @syntax{(pango:color-parse-with-alpha spec) => color, alpha}
   @argument[spec]{a string specifying a color}
   @argument[color]{a newly created @class{pango:color} instance with the result,
     or @code{nil}}

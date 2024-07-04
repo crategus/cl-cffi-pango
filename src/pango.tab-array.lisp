@@ -70,7 +70,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoTabAlign
+;;; PangoTabAlign
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoTabAlign" tab-align
@@ -89,11 +89,7 @@
       "GEnum"
       (liber:symbol-documentation 'tab-align)
  "@version{2024-2-24}
-  @begin{short}
-    The @symbol{pango:tab-align} enumeration specifies where the text appears
-    relative to the tab stop position.
-  @end{short}
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoTabAlign\" tab-align
   (:export t
    :type-initializer \"pango_tab_align_get_type\")
@@ -101,17 +97,23 @@
   (:right 1)
   (:center 2)
   (:decimal 3))
-  @end{pre}
-  @begin[code]{table}
-    @entry[:left]{The text appears to the right of the tab stop position.}
-    @entry[:right]{The text appears to the left of the tab stop position until
-      the available space is filled. Since 1.50}
-    @entry[:center]{The text is centered at the tab stop position until the
-      available space is filled. Since 1.50}
-    @entry[:decimal]{Text before the first occurrence of the decimal point
-      character appears to the left of the tab stop position, until the
-      available space is filled, the rest to the right. Since 1.50}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[:left]{The text appears to the right of the tab stop position.}
+      @entry[:right]{The text appears to the left of the tab stop position
+        until the available space is filled. Since 1.50}
+      @entry[:center]{The text is centered at the tab stop position until the
+        available space is filled. Since 1.50}
+      @entry[:decimal]{Text before the first occurrence of the decimal point
+        character appears to the left of the tab stop position, until the
+        available space is filled, the rest to the right. Since 1.50}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @symbol{pango:tab-align} enumeration specifies where the text appears
+    relative to the tab stop position.
+  @end{short}
   @see-class{pango:tab-array}")
 
 ;;; ----------------------------------------------------------------------------
@@ -132,6 +134,12 @@
       "GBoxed"
       (documentation 'tab-array 'type)
  "@version{2024-2-24}
+  @begin{declaration}
+(glib:define-g-boxed-opaque tab-array \"PangoTabArray\"
+  :export t
+  :type-initializer \"pango_tab_array_get_type\"
+  :alloc (%tab-array-new 0 nil))
+  @end{declaration}
   @begin{short}
     The @class{pango:tab-array} structure contains an array of tab stops.
   @end{short}

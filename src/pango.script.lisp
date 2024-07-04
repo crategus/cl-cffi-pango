@@ -76,7 +76,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; enum PangoScript
+;;; PangoScript
 ;;; ----------------------------------------------------------------------------
 
 (gobject:define-g-enum "PangoScript" script
@@ -207,17 +207,7 @@
       (liber:symbol-documentation 'script)
  #+liber-documentation
  "@version{2024-2-25}
-  @begin{short}
-    The @symbol{pango:script} enumeration identifies different writing systems.
-  @end{short}
-  The values correspond to the names as defined in the Unicode standard. See
-  @url[http://www.unicode.org/reports/tr24/]{Unicode Standard Annex 24}.
-
-  Note that this enumeration is deprecated and will not be updated to include
-  values in newer versions of the Unicode standard. Applications should use
-  the @code{GUnicodeScript} enumeration instead, whose values are
-  interchangeable with the @symbol{pango:script} enumeration.
-  @begin{pre}
+  @begin{declaration}
 (gobject:define-g-enum \"PangoScript\" script
   (:export t
    :type-initializer \"pango_script_get_type\")
@@ -339,7 +329,17 @@
   (:MULTANI 114)
   (:OLD-HUNGARIAN 115)
   (:SIGNWRITING 116))
-  @end{pre}")
+  @end{declaration}
+  @begin{short}
+    The @symbol{pango:script} enumeration identifies different writing systems.
+  @end{short}
+  The values correspond to the names as defined in the Unicode standard. See
+  @url[http://www.unicode.org/reports/tr24/]{Unicode Standard Annex 24}.
+
+  Note that this enumeration is deprecated and will not be updated to include
+  values in newer versions of the Unicode standard. Applications should use
+  the @code{GUnicodeScript} enumeration instead, whose values are
+  interchangeable with the @symbol{pango:script} enumeration.")
 
 ;;; ----------------------------------------------------------------------------
 ;;; PangoLanguage
