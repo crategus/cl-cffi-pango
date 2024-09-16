@@ -246,7 +246,7 @@
  "@version{2024-3-5}
   @syntax{(pango:font-family-item-type object) => type}
   @argument[object]{a @class{pango:font-family} object}
-  @argument[type]{a @class{g:type-t} type}
+  @argument[type]{a @class{g:type-t} type ID}
   @begin{short}
     Accessor of the @slot[pango:font-family]{item-type} slot of the
     @class{pango:font-family} class.
@@ -380,7 +380,7 @@
  "@version{2024-3-5}
   @syntax{(pango:font-map-item-type object) => type}
   @argument[object]{a @class{pango:font-map} object}
-  @argument[type]{a @class{g:type-t} type}
+  @argument[type]{a @class{g:type-t} type ID}
   @begin{short}
     Accessor of the @slot[pango:font-map]{item-type} slot of the
     @class{pango:font-map} class.
