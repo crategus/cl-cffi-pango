@@ -42,21 +42,21 @@
           (g:gtype (cffi:foreign-funcall "pango_shape_flags_get_type" :size))))
   ;; Check names
   (is (equal '("PANGO_SHAPE_NONE" "PANGO_SHAPE_ROUND_POSITIONS")
-             (list-flags-item-name "PangoShapeFlags")))
+             (glib-test:list-flags-item-names "PangoShapeFlags")))
   ;; Check values
   (is (equal '(0 1)
-             (list-flags-item-value "PangoShapeFlags")))
+             (glib-test:list-flags-item-values "PangoShapeFlags")))
   ;; Check nick names
   (is (equal '("none" "round-positions")
-             (list-flags-item-nick "PangoShapeFlags")))
+             (glib-test:list-flags-item-nicks "PangoShapeFlags")))
   ;; Check flags definition
-  (is (equal '(GOBJECT:DEFINE-G-FLAGS "PangoShapeFlags" PANGO-SHAPE-FLAGS
-                                      (:EXPORT T
-                                       :TYPE-INITIALIZER
-                                       "pango_shape_flags_get_type")
-                                      (:NONE 0)
-                                      (:ROUND-POSITIONS 1))
-             (gobject:get-g-type-definition "PangoShapeFlags"))))
+  (is (equal '(GOBJECT:DEFINE-GFLAGS "PangoShapeFlags" PANGO:SHAPE-FLAGS
+                                     (:EXPORT T
+                                      :TYPE-INITIALIZER
+                                      "pango_shape_flags_get_type")
+                                     (:NONE 0)
+                                     (:ROUND-POSITIONS 1))
+             (gobject:get-gtype-definition "PangoShapeFlags"))))
 
 ;;;     PangoLogAttr
 ;;;     PangoAnalysis
@@ -304,4 +304,4 @@
 ;;;     pango_shape_full
 ;;;     pango_shape_with_flags
 
-;;; 2024-5-25
+;;; 2024-9-18

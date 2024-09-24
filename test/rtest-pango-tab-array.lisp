@@ -19,24 +19,23 @@
   ;; Check names
   (is (equal '("PANGO_TAB_LEFT" "PANGO_TAB_RIGHT" "PANGO_TAB_CENTER"
                "PANGO_TAB_DECIMAL")
-             (list-enum-item-name "PangoTabAlign")))
+             (glib-test:list-enum-item-names "PangoTabAlign")))
   ;; Check values
   (is (equal '(0 1 2 3)
-             (list-enum-item-value "PangoTabAlign")))
+             (glib-test:list-enum-item-values "PangoTabAlign")))
   ;; Check nick names
   (is (equal '("left" "right" "center" "decimal")
-             (list-enum-item-nick "PangoTabAlign")))
+             (glib-test:list-enum-item-nicks "PangoTabAlign")))
   ;; Check enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoTabAlign"
-                                     PANGO-TAB-ALIGN
-                                     (:EXPORT T
-                                      :TYPE-INITIALIZER
-                                      "pango_tab_align_get_type")
-                                     (:LEFT 0)
-                                     (:RIGHT 1)
-                                     (:CENTER 2)
-                                     (:DECIMAL 3))
-             (gobject:get-g-type-definition "PangoTabAlign"))))
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoTabAlign" PANGO:TAB-ALIGN
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_tab_align_get_type")
+                                    (:LEFT 0)
+                                    (:RIGHT 1)
+                                    (:CENTER 2)
+                                    (:DECIMAL 3))
+             (gobject:get-gtype-definition "PangoTabAlign"))))
 
 ;;;     PangoTabArray
 
@@ -192,4 +191,4 @@ decimal:150px
 right:290px"
                  (pango:tab-array-to-string tabs)))))
 
-;;; 2024-5-25
+;;; 2024-9-18

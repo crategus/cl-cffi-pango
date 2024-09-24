@@ -18,22 +18,22 @@
           (glib:symbol-for-gtype "PangoWrapMode")))
   ;; Check names
   (is (equal '("PANGO_WRAP_WORD" "PANGO_WRAP_CHAR" "PANGO_WRAP_WORD_CHAR")
-             (list-enum-item-name "PangoWrapMode")))
+             (glib-test:list-enum-item-names "PangoWrapMode")))
   ;; Check values
   (is (equal '(0 1 2)
-             (list-enum-item-value "PangoWrapMode")))
+             (glib-test:list-enum-item-values "PangoWrapMode")))
   ;; Check nick names
   (is (equal '("word" "char" "word-char")
-             (list-enum-item-nick "PangoWrapMode")))
+             (glib-test:list-enum-item-nicks "PangoWrapMode")))
   ;; Check enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoWrapMode"
-                             PANGO-WRAP-MODE
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_wrap_mode_get_type")
-                             (:WORD 0)
-                             (:CHAR 1)
-                             (:WORD-CHAR 2))
-             (gobject:get-g-type-definition "PangoWrapMode"))))
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoWrapMode" PANGO:WRAP-MODE
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_wrap_mode_get_type")
+                                    (:WORD 0)
+                                    (:CHAR 1)
+                                    (:WORD-CHAR 2))
+             (gobject:get-gtype-definition "PangoWrapMode"))))
 
 ;;;     PangoEllipsizeMode
 
@@ -50,23 +50,23 @@
   ;; Check names
   (is (equal '("PANGO_ELLIPSIZE_NONE" "PANGO_ELLIPSIZE_START"
                "PANGO_ELLIPSIZE_MIDDLE" "PANGO_ELLIPSIZE_END")
-             (list-enum-item-name "PangoEllipsizeMode")))
+             (glib-test:list-enum-item-names "PangoEllipsizeMode")))
   ;; Check values
   (is (equal '(0 1 2 3)
-             (list-enum-item-value "PangoEllipsizeMode")))
+             (glib-test:list-enum-item-values "PangoEllipsizeMode")))
   ;; Check nick names
   (is (equal '("none" "start" "middle" "end")
-             (list-enum-item-nick "PangoEllipsizeMode")))
+             (glib-test:list-enum-item-nicks "PangoEllipsizeMode")))
   ;; Check enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoEllipsizeMode"
-                             PANGO-ELLIPSIZE-MODE
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_ellipsize_mode_get_type")
-                             (:NONE 0)
-                             (:START 1)
-                             (:MIDDLE 2)
-                             (:END 3))
-             (gobject:get-g-type-definition "PangoEllipsizeMode"))))
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoEllipsizeMode" PANGO:ELLIPSIZE-MODE
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_ellipsize_mode_get_type")
+                                    (:NONE 0)
+                                    (:START 1)
+                                    (:MIDDLE 2)
+                                    (:END 3))
+             (gobject:get-gtype-definition "PangoEllipsizeMode"))))
 
 ;;;     PangoAlignment
 
@@ -81,22 +81,22 @@
           (glib:symbol-for-gtype "PangoAlignment")))
   ;; Check names
   (is (equal '("PANGO_ALIGN_LEFT" "PANGO_ALIGN_CENTER" "PANGO_ALIGN_RIGHT")
-             (list-enum-item-name "PangoAlignment")))
+             (glib-test:list-enum-item-names "PangoAlignment")))
   ;; Check values
   (is (equal '(0 1 2)
-             (list-enum-item-value "PangoAlignment")))
+             (glib-test:list-enum-item-values "PangoAlignment")))
   ;; Check nick names
   (is (equal '("left" "center" "right")
-             (list-enum-item-nick "PangoAlignment")))
+             (glib-test:list-enum-item-nicks "PangoAlignment")))
   ;; Check enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoAlignment"
-                             PANGO-ALIGNMENT
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_alignment_get_type")
-                             (:LEFT 0)
-                             (:CENTER 1)
-                             (:RIGHT 2))
-             (gobject:get-g-type-definition "PangoAlignment"))))
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoAlignment" PANGO:ALIGNMENT
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_alignment_get_type")
+                                    (:LEFT 0)
+                                    (:CENTER 1)
+                                    (:RIGHT 2))
+             (gobject:get-gtype-definition "PangoAlignment"))))
 
 ;;;     PangoLayoutRun
 
@@ -140,22 +140,24 @@
           (g:type-parent "PangoLayout")))
   ;; Check children
   (is (equal '()
-             (list-children "PangoLayout")))
+             (glib-test:list-children "PangoLayout")))
   ;; Check interfaces
   (is (equal '()
-             (list-interfaces "PangoLayout")))
+             (glib-test:list-interfaces "PangoLayout")))
   ;; Check class properties
   (is (equal '()
-             (list-properties "PangoLayout")))
+             (glib-test:list-properties "PangoLayout")))
   ;; Check signals
   (is (equal '()
-             (list-signals "PangoLayout")))
+             (glib-test:list-signals "PangoLayout")))
   ;; Check class definition
-  (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoLayout" PANGO-LAYOUT
-                       (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES NIL
+  (is (equal '(GOBJECT:DEFINE-GOBJECT "PangoLayout" PANGO:LAYOUT
+                       (:SUPERCLASS GOBJECT:OBJECT
+                        :EXPORT T
+                        :INTERFACES NIL
                         :TYPE-INITIALIZER "pango_layout_get_type")
                        NIL)
-             (gobject:get-g-type-definition "PangoLayout"))))
+             (gobject:get-gtype-definition "PangoLayout"))))
 
 ;;; --- Functions --------------------------------------------------------------
 
@@ -939,9 +941,17 @@
 
       (pango:with-rectangles (ink logical)
         (is-false (pango:layout-iter-run-extents iter ink logical))
+        #-windows
         (is (equal '(0 5120 636928 17408)
                    (multiple-value-list (pango:rectangle-to-float ink))))
+        #+windows
+        (is (equal '(-1024 2048 662528 16384)
+                   (multiple-value-list (pango:rectangle-to-float ink))))
+        #-windows
         (is (equal '(0 0 636928 23552)
+                   (multiple-value-list (pango:rectangle-to-float logical))))
+        #+windows
+        (is (equal '(0 0 659456 19456)
                    (multiple-value-list (pango:rectangle-to-float logical)))))))
 
 ;;;     pango_layout_iter_get_line_yrange
@@ -1164,4 +1174,4 @@
 
 ;;;     pango_layout_line_is-paragraph-start
 
-;;; 2024-5-25
+;;; 2024-9-19

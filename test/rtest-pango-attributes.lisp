@@ -52,11 +52,11 @@
                "PANGO_ATTR_ABSOLUTE_LINE_HEIGHT" "PANGO_ATTR_TEXT_TRANSFORM"
                "PANGO_ATTR_WORD" "PANGO_ATTR_SENTENCE"
                "PANGO_ATTR_BASELINE_SHIFT" "PANGO_ATTR_FONT_SCALE")
-             (list-enum-item-name "PangoAttrType")))
+             (glib-test:list-enum-item-names "PangoAttrType")))
   ;; Check values
   (is (equal '(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
                25 26 27 28 29 30 31 32 33 34 35 36 37)
-             (list-enum-item-value "PangoAttrType")))
+             (glib-test:list-enum-item-values "PangoAttrType")))
   ;; Check nick names
   (is (equal '("invalid" "language" "family" "style" "weight" "variant"
                "stretch" "size" "font-desc" "foreground" "background"
@@ -67,51 +67,51 @@
                "insert-hyphens" "overline" "overline-color" "line-height"
                "absolute-line-height" "text-transform" "word" "sentence"
                "baseline-shift" "font-scale")
-             (list-enum-item-nick "PangoAttrType")))
+             (glib-test:list-enum-item-nicks "PangoAttrType")))
   ;; Check enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoAttrType"
-                             PANGO-ATTR-TYPE
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_attr_type_get_type")
-                             (:INVALID 0)
-                             (:LANGUAGE 1)
-                             (:FAMILY 2)
-                             (:STYLE 3)
-                             (:WEIGHT 4)
-                             (:VARIANT 5)
-                             (:STRETCH 6)
-                             (:SIZE 7)
-                             (:FONT-DESC 8)
-                             (:FOREGROUND 9)
-                             (:BACKGROUND 10)
-                             (:UNDERLINE 11)
-                             (:STRIKETHROUGH 12)
-                             (:RISE 13)
-                             (:SHAPE 14)
-                             (:SCALE 15)
-                             (:FALLBACK 16)
-                             (:LETTER-SPACING 17)
-                             (:UNDERLINE-COLOR 18)
-                             (:STRIKETHROUGH-COLOR 19)
-                             (:ABSOLUTE-SIZE 20)
-                             (:GRAVITY 21)
-                             (:GRAVITY-HINT 22)
-                             (:FONT-FEATURES 23)
-                             (:FOREGROUND-ALPHA 24)
-                             (:BACKGROUND-ALPHA 25)
-                             (:ALLOW-BREAKS 26)
-                             (:SHOW 27)
-                             (:INSERT-HYPHENS 28)
-                             (:OVERLINE 29)
-                             (:OVERLINE-COLOR 30)
-                             (:LINE-HEIGHT 31)
-                             (:ABSOLUTE-LINE-HEIGHT 32)
-                             (:TEXT-TRANSFORM 33)
-                             (:WORD 34)
-                             (:SENTENCE 35)
-                             (:BASELINE-SHIFT 36)
-                             (:FONT-SCALE 37))
-             (gobject:get-g-type-definition "PangoAttrType"))))
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoAttrType" PANGO:ATTR-TYPE
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_attr_type_get_type")
+                                    (:INVALID 0)
+                                    (:LANGUAGE 1)
+                                    (:FAMILY 2)
+                                    (:STYLE 3)
+                                    (:WEIGHT 4)
+                                    (:VARIANT 5)
+                                    (:STRETCH 6)
+                                    (:SIZE 7)
+                                    (:FONT-DESC 8)
+                                    (:FOREGROUND 9)
+                                    (:BACKGROUND 10)
+                                    (:UNDERLINE 11)
+                                    (:STRIKETHROUGH 12)
+                                    (:RISE 13)
+                                    (:SHAPE 14)
+                                    (:SCALE 15)
+                                    (:FALLBACK 16)
+                                    (:LETTER-SPACING 17)
+                                    (:UNDERLINE-COLOR 18)
+                                    (:STRIKETHROUGH-COLOR 19)
+                                    (:ABSOLUTE-SIZE 20)
+                                    (:GRAVITY 21)
+                                    (:GRAVITY-HINT 22)
+                                    (:FONT-FEATURES 23)
+                                    (:FOREGROUND-ALPHA 24)
+                                    (:BACKGROUND-ALPHA 25)
+                                    (:ALLOW-BREAKS 26)
+                                    (:SHOW 27)
+                                    (:INSERT-HYPHENS 28)
+                                    (:OVERLINE 29)
+                                    (:OVERLINE-COLOR 30)
+                                    (:LINE-HEIGHT 31)
+                                    (:ABSOLUTE-LINE-HEIGHT 32)
+                                    (:TEXT-TRANSFORM 33)
+                                    (:WORD 34)
+                                    (:SENTENCE 35)
+                                    (:BASELINE-SHIFT 36)
+                                    (:FONT-SCALE 37))
+             (gobject:get-gtype-definition "PangoAttrType"))))
 
 ;;;     PangoUnderline
 
@@ -129,28 +129,28 @@
                "PANGO_UNDERLINE_DOUBLE" "PANGO_UNDERLINE_LOW"
                "PANGO_UNDERLINE_ERROR" "PANGO_UNDERLINE_SINGLE_LINE"
                "PANGO_UNDERLINE_DOUBLE_LINE" "PANGO_UNDERLINE_ERROR_LINE")
-             (list-enum-item-name "PangoUnderline")))
+             (glib-test:list-enum-item-names "PangoUnderline")))
   ;; Check values
   (is (equal '(0 1 2 3 4 5 6 7)
-             (list-enum-item-value "PangoUnderline")))
+             (glib-test:list-enum-item-values "PangoUnderline")))
   ;; Check nick names
   (is (equal '("none" "single" "double" "low" "error" "single-line"
                "double-line" "error-line")
-             (list-enum-item-nick "PangoUnderline")))
+             (glib-test:list-enum-item-nicks "PangoUnderline")))
   ;; Check enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoUnderline"
-                             PANGO-UNDERLINE
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_underline_get_type")
-                             (:NONE 0)
-                             (:SINGLE 1)
-                             (:DOUBLE 2)
-                             (:LOW 3)
-                             (:ERROR 4)
-                             (:SINGLE-LINE 5)
-                             (:DOUBLE-LINE 6)
-                             (:ERROR-LINE 7))
-             (gobject:get-g-type-definition "PangoUnderline"))))
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoUnderline" PANGO:UNDERLINE
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_underline_get_type")
+                                    (:NONE 0)
+                                    (:SINGLE 1)
+                                    (:DOUBLE 2)
+                                    (:LOW 3)
+                                    (:ERROR 4)
+                                    (:SINGLE-LINE 5)
+                                    (:DOUBLE-LINE 6)
+                                    (:ERROR-LINE 7))
+             (gobject:get-gtype-definition "PangoUnderline"))))
 
 ;;;     PangoOverline
 
@@ -165,21 +165,21 @@
           (glib:symbol-for-gtype "PangoOverline")))
   ;; Check names
   (is (equal '("PANGO_OVERLINE_NONE" "PANGO_OVERLINE_SINGLE")
-             (list-enum-item-name "PangoOverline")))
+             (glib-test:list-enum-item-names "PangoOverline")))
   ;; Check values
   (is (equal '(0 1)
-             (list-enum-item-value "PangoOverline")))
+             (glib-test:list-enum-item-values "PangoOverline")))
   ;; Check nick names
   (is (equal '("none" "single")
-             (list-enum-item-nick "PangoOverline")))
+             (glib-test:list-enum-item-nicks "PangoOverline")))
   ;; Check enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoOverline"
-                             PANGO-OVERLINE
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_overline_get_type")
-                             (:NONE 0)
-                             (:SINGLE 1))
-             (gobject:get-g-type-definition "PangoOverline"))))
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoOverline" PANGO:OVERLINE
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_overline_get_type")
+                                    (:NONE 0)
+                                    (:SINGLE 1))
+             (gobject:get-gtype-definition "PangoOverline"))))
 
 ;;;     PangoShowFlags
 
@@ -195,23 +195,23 @@
   ;; Check names
   (is (equal '("PANGO_SHOW_NONE" "PANGO_SHOW_SPACES" "PANGO_SHOW_LINE_BREAKS"
                "PANGO_SHOW_IGNORABLES")
-             (list-flags-item-name "PangoShowFlags")))
+             (glib-test:list-flags-item-names "PangoShowFlags")))
   ;; Check values
   (is (equal '(0 1 2 4)
-             (list-flags-item-value "PangoShowFlags")))
+             (glib-test:list-flags-item-values "PangoShowFlags")))
   ;; Check nick names
   (is (equal '("none" "spaces" "line-breaks" "ignorables")
-             (list-flags-item-nick "PangoShowFlags")))
+             (glib-test:list-flags-item-nicks "PangoShowFlags")))
   ;; Check flags definition
-  (is (equal '(GOBJECT:DEFINE-G-FLAGS "PangoShowFlags"
-                              PANGO-SHOW-FLAGS
-                              (:EXPORT T
-                               :TYPE-INITIALIZER "pango_show_flags_get_type")
-                              (:NONE 0)
-                              (:SPACES 1)
-                              (:LINE-BREAKS 2)
-                              (:IGNORABLES 4))
-             (gobject:get-g-type-definition "PangoShowFlags"))))
+  (is (equal '(GOBJECT:DEFINE-GFLAGS "PangoShowFlags" PANGO:SHOW-FLAGS
+                                     (:EXPORT T
+                                      :TYPE-INITIALIZER
+                                      "pango_show_flags_get_type")
+                                     (:NONE 0)
+                                     (:SPACES 1)
+                                     (:LINE-BREAKS 2)
+                                     (:IGNORABLES 4))
+             (gobject:get-gtype-definition "PangoShowFlags"))))
 
 ;;;     PangoTextTransform                                 Since 1.50
 
@@ -229,23 +229,23 @@
   (is (equal '("PANGO_TEXT_TRANSFORM_NONE" "PANGO_TEXT_TRANSFORM_LOWERCASE"
                "PANGO_TEXT_TRANSFORM_UPPERCASE"
                "PANGO_TEXT_TRANSFORM_CAPITALIZE")
-             (list-enum-item-name "PangoTextTransform")))
+             (glib-test:list-enum-item-names "PangoTextTransform")))
   ;; Check values
   (is (equal '(0 1 2 3)
-             (list-enum-item-value "PangoTextTransform")))
+             (glib-test:list-enum-item-values "PangoTextTransform")))
   ;; Check nick names
   (is (equal '("none" "lowercase" "uppercase" "capitalize")
-             (list-enum-item-nick "PangoTextTransform")))
+             (glib-test:list-enum-item-nicks "PangoTextTransform")))
   ;; Check enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoTextTransform"
-                             PANGO-TEXT-TRANSFORM
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_text_transform_get_type")
-                             (:NONE 0)
-                             (:LOWERCASE 1)
-                             (:UPPERCASE 2)
-                             (:CAPITALIZE 3))
-             (gobject:get-g-type-definition "PangoTextTransform"))))
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoTextTransform" PANGO:TEXT-TRANSFORM
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_text_transform_get_type")
+                                    (:NONE 0)
+                                    (:LOWERCASE 1)
+                                    (:UPPERCASE 2)
+                                    (:CAPITALIZE 3))
+             (gobject:get-gtype-definition "PangoTextTransform"))))
 
 ;;;     PangoBaselineShift                                 Since 1.50
 
@@ -262,22 +262,22 @@
   ;; Check names
   (is (equal '("PANGO_BASELINE_SHIFT_NONE" "PANGO_BASELINE_SHIFT_SUPERSCRIPT"
                "PANGO_BASELINE_SHIFT_SUBSCRIPT")
-             (list-enum-item-name "PangoBaselineShift")))
+             (glib-test:list-enum-item-names "PangoBaselineShift")))
   ;; Check values
   (is (equal '(0 1 2)
-             (list-enum-item-value "PangoBaselineShift")))
+             (glib-test:list-enum-item-values "PangoBaselineShift")))
   ;; Check nick names
   (is (equal '("none" "superscript" "subscript")
-             (list-enum-item-nick "PangoBaselineShift")))
+             (glib-test:list-enum-item-nicks "PangoBaselineShift")))
   ;; Check enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoBaselineShift"
-                             PANGO-BASELINE-SHIFT
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_baseline_shift_get_type")
-                             (:NONE 0)
-                             (:SUPERSCRIPT 1)
-                             (:SUBSCRIPT 2))
-             (gobject:get-g-type-definition "PangoBaselineShift"))))
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoBaselineShift" PANGO:BASELINE-SHIFT
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_baseline_shift_get_type")
+                                    (:NONE 0)
+                                    (:SUPERSCRIPT 1)
+                                    (:SUBSCRIPT 2))
+             (gobject:get-gtype-definition "PangoBaselineShift"))))
 
 ;;;     PangoFontScale                                     Since 1.50
 
@@ -293,23 +293,23 @@
   ;; Check names
   (is (equal '("PANGO_FONT_SCALE_NONE" "PANGO_FONT_SCALE_SUPERSCRIPT"
                "PANGO_FONT_SCALE_SUBSCRIPT" "PANGO_FONT_SCALE_SMALL_CAPS")
-             (list-enum-item-name "PangoFontScale")))
+             (glib-test:list-enum-item-names "PangoFontScale")))
   ;; Check values
   (is (equal '(0 1 2 3)
-             (list-enum-item-value "PangoFontScale")))
+             (glib-test:list-enum-item-values "PangoFontScale")))
   ;; Check nick names
   (is (equal '("none" "superscript" "subscript" "small-caps")
-             (list-enum-item-nick "PangoFontScale")))
+             (glib-test:list-enum-item-nicks "PangoFontScale")))
   ;; Check enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoFontScale"
-                             PANGO-FONT-SCALE
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_font_scale_get_type")
-                             (:NONE 0)
-                             (:SUPERSCRIPT 1)
-                             (:SUBSCRIPT 2)
-                             (:SMALL-CAPS 3))
-             (gobject:get-g-type-definition "PangoFontScale"))))
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoFontScale" PANGO:FONT-SCALE
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_font_scale_get_type")
+                                    (:NONE 0)
+                                    (:SUPERSCRIPT 1)
+                                    (:SUBSCRIPT 2)
+                                    (:SMALL-CAPS 3))
+             (gobject:get-gtype-definition "PangoFontScale"))))
 
 ;;;     PangoAttrClass
 
@@ -1068,4 +1068,4 @@
 
 ;;;     pango_attr_iterator_destroy
 
-;;; 2024-5-25
+;;; 2024-9-18

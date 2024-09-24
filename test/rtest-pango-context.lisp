@@ -21,19 +21,21 @@
           (g:type-parent "PangoContext")))
   ;; Check children
   (is (equal '()
-             (list-children "PangoContext")))
+             (glib-test:list-children "PangoContext")))
   ;; Check interfaces
   (is (equal '()
-             (list-interfaces "PangoContext")))
+             (glib-test:list-interfaces "PangoContext")))
   ;; Check class properties
   (is (equal '()
-             (list-properties "PangoContext")))
+             (glib-test:list-properties "PangoContext")))
   ;; Check class definition
-  (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoContext" PANGO-CONTEXT
-                       (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES NIL
+  (is (equal '(GOBJECT:DEFINE-GOBJECT "PangoContext" PANGO:CONTEXT
+                       (:SUPERCLASS G:OBJECT
+                        :EXPORT T
+                        :INTERFACES NIL
                         :TYPE-INITIALIZER "pango_context_get_type")
                        NIL)
-             (gobject:get-g-type-definition "PangoContext"))))
+             (gobject:get-gtype-definition "PangoContext"))))
 
 ;;; --- Functions --------------------------------------------------------------
 
@@ -155,4 +157,4 @@
                (mapcar #'pango:font-family-name
                        (pango:context-list-families context))))))
 
-;;; 2024-5-25
+;;; 2024-9-18

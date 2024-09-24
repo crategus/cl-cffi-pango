@@ -8,71 +8,73 @@
 ;;;     PangoCoverageLevel
 
 (test pango-coverage-level
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoCoverageLevel"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoCoverageLevel")
           (g:gtype (cffi:foreign-funcall "pango_coverage_level_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:coverage-level
           (glib:symbol-for-gtype "PangoCoverageLevel")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_COVERAGE_NONE" "PANGO_COVERAGE_FALLBACK"
                "PANGO_COVERAGE_APPROXIMATE" "PANGO_COVERAGE_EXACT")
-             (list-enum-item-name "PangoCoverageLevel")))
-  ;; Check the values
+             (glib-test:list-enum-item-names "PangoCoverageLevel")))
+  ;; Check values
   (is (equal '(0 1 2 3)
-             (list-enum-item-value "PangoCoverageLevel")))
-  ;; Check the nick names
+             (glib-test:list-enum-item-values "PangoCoverageLevel")))
+  ;; Check nick names
   (is (equal '("none" "fallback" "approximate" "exact")
-             (list-enum-item-nick "PangoCoverageLevel")))
-  ;; Check the enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoCoverageLevel" PANGO-COVERAGE-LEVEL
-                                     (:EXPORT T
-                                      :TYPE-INITIALIZER
-                                      "pango_coverage_level_get_type")
-                                     (:NONE 0)
-                                     (:FALLBACK 1)
-                                     (:APPROXIMATE 2)
-                                     (:EXACT 3))
-             (gobject:get-g-type-definition "PangoCoverageLevel"))))
+             (glib-test:list-enum-item-nicks "PangoCoverageLevel")))
+  ;; Check enum definition
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoCoverageLevel" PANGO:COVERAGE-LEVEL
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_coverage_level_get_type")
+                                    (:NONE 0)
+                                    (:FALLBACK 1)
+                                    (:APPROXIMATE 2)
+                                    (:EXACT 3))
+             (gobject:get-gtype-definition "PangoCoverageLevel"))))
 
 ;;;     PangoCoverage
 
 (test pango-coverage-class
-  ;; Type check
+  ;; Check type
   (is (g:type-is-object "PangoCoverage"))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:coverage
           (glib:symbol-for-gtype "PangoCoverage")))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoCoverage")
           (g:gtype (cffi:foreign-funcall "pango_coverage_get_type" :size))))
-  ;; Check the parent
+  ;; Check parent
   (is (eq (g:gtype "GObject")
           (g:type-parent "PangoCoverage")))
-  ;; Check the children
+  ;; Check children
   #-windows
   (is (equal '("PangoFcCoverage")
-             (list-children "PangoCoverage")))
+             (glib-test:list-children "PangoCoverage")))
   #+windows
   (is (equal '()
-             (list-children "PangoCoverage")))
-  ;; Check the interfaces
+             (glib-test:list-children "PangoCoverage")))
+  ;; Check interfaces
   (is (equal '()
-             (list-interfaces "PangoCoverage")))
-  ;; Check the properties
+             (glib-test:list-interfaces "PangoCoverage")))
+  ;; Check properties
   (is (equal '()
-             (list-properties "PangoCoverage")))
-  ;; Check the signals
+             (glib-test:list-properties "PangoCoverage")))
+  ;; Check signals
   (is (equal '()
-             (list-signals "PangoCoverage")))
-  ;; Check the class definition
-  (is (equal '(GOBJECT:DEFINE-G-OBJECT-CLASS "PangoCoverage" PANGO-COVERAGE
-                               (:SUPERCLASS G-OBJECT :EXPORT T :INTERFACES NIL
-                                :TYPE-INITIALIZER "pango_coverage_get_type")
-                               NIL)
-             (gobject:get-g-type-definition "PangoCoverage"))))
+             (glib-test:list-signals "PangoCoverage")))
+  ;; Check class definition
+  (is (equal '(GOBJECT:DEFINE-GOBJECT "PangoCoverage" PANGO:COVERAGE
+                       (:SUPERCLASS G:OBJECT
+                        :EXPORT T
+                        :INTERFACES NIL
+                        :TYPE-INITIALIZER "pango_coverage_get_type")
+                       NIL)
+             (gobject:get-gtype-definition "PangoCoverage"))))
 
 ;;; --- Functions --------------------------------------------------------------
 
@@ -98,4 +100,4 @@
 ;;;     pango_coverage_to_bytes                            Deprecated 1.44
 ;;;     pango_coverage_from_bytes                          Deprecated 1.44
 
-;;; 2024-2-24
+;;; 2024-9-18

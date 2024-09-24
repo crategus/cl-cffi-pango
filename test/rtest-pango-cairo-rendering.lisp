@@ -20,20 +20,18 @@
           (g:gtype (cffi:foreign-funcall "pango_cairo_font_get_type" :size))))
   ;; Check interface prerequisites
   (is (equal '("PangoFont")
-             (list-interface-prerequisites "PangoCairoFont")))
+             (glib-test:list-interface-prerequisites "PangoCairoFont")))
   ;; Check interface properties
   (is (equal '()
-             (list-interface-properties "PangoCairoFont")))
+             (glib-test:list-interface-properties "PangoCairoFont")))
   ;; Check interface signals
   (is (equal '()
-             (list-signals "PangoCairoFont")))
+             (glib-test:list-signals "PangoCairoFont")))
   ;; Check interface definition
-  (is (equal '(GOBJECT:DEFINE-G-INTERFACE "PangoCairoFont"
-                                  PANGO-CAIRO-FONT
-                                  (:EXPORT T
-                                   :TYPE-INITIALIZER
-                                   "pango_cairo_font_get_type"))
-             (gobject:get-g-type-definition "PangoCairoFont"))))
+  (is (equal '(GOBJECT:DEFINE-GINTERFACE "PangoCairoFont" PANGO:CAIRO-FONT
+                       (:EXPORT T
+                        :TYPE-INITIALIZER "pango_cairo_font_get_type"))
+             (gobject:get-gtype-definition "PangoCairoFont"))))
 
 ;;;     PangoCairoFontMap
 
@@ -49,20 +47,18 @@
                                          :size))))
   ;; Check interface prerequisites
   (is (equal '("PangoFontMap")
-             (list-interface-prerequisites "PangoCairoFontMap")))
+             (glib-test:list-interface-prerequisites "PangoCairoFontMap")))
   ;; Check interface properties
   (is (equal '()
-             (list-interface-properties "PangoCairoFontMap")))
+             (glib-test:list-interface-properties "PangoCairoFontMap")))
   ;; Check interface signals
   (is (equal '()
-             (list-signals "PangoCairoFontMap")))
+             (glib-test:list-signals "PangoCairoFontMap")))
   ;; Check interface definition
-  (is (equal '(GOBJECT:DEFINE-G-INTERFACE "PangoCairoFontMap"
-                                  PANGO-CAIRO-FONT-MAP
-                                  (:EXPORT T
-                                   :TYPE-INITIALIZER
-                                   "pango_cairo_font_map_get_type"))
-             (gobject:get-g-type-definition "PangoCairoFontMap"))))
+  (is (equal '(GOBJECT:DEFINE-GINTERFACE "PangoCairoFontMap" PANGO:CAIRO-FONT-MAP
+                       (:EXPORT T
+                        :TYPE-INITIALIZER "pango_cairo_font_map_get_type"))
+             (gobject:get-gtype-definition "PangoCairoFontMap"))))
 
 ;;; --- Functions --------------------------------------------------------------
 
@@ -406,4 +402,4 @@
 ;;;     pango_cairo_layout_path
 ;;;     pango_cairo_error_underline_path
 
-;;; 2024-5-25
+;;; 2024-9-18

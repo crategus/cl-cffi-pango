@@ -67,6 +67,7 @@
   :author "Dieter Kaiser"
   :license "MIT"
   :depends-on (:cl-cffi-pango
+               :cl-cffi-glib/test
                :fiveam
                :babel
                :cl-setlocale)

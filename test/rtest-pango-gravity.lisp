@@ -8,66 +8,65 @@
 ;;;     PangoGravity
 
 (test pango-gravity
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoGravity"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoGravity")
           (g:gtype (cffi:foreign-funcall "pango_gravity_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:gravity
           (glib:symbol-for-gtype "PangoGravity")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_GRAVITY_SOUTH" "PANGO_GRAVITY_EAST" "PANGO_GRAVITY_NORTH"
                "PANGO_GRAVITY_WEST" "PANGO_GRAVITY_AUTO")
-             (list-enum-item-name "PangoGravity")))
-  ;; Check the values
+             (glib-test:list-enum-item-names "PangoGravity")))
+  ;; Check values
   (is (equal '(0 1 2 3 4)
-             (list-enum-item-value "PangoGravity")))
-  ;; Check the nick names
+             (glib-test:list-enum-item-values "PangoGravity")))
+  ;; Check nick names
   (is (equal '("south" "east" "north" "west" "auto")
-             (list-enum-item-nick "PangoGravity")))
-  ;; Check the enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoGravity"
-                             PANGO-GRAVITY
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_gravity_get_type")
-                             (:SOUTH 0)
-                             (:EAST 1)
-                             (:NORTH 2)
-                             (:WEST 3)
-                             (:AUTO 4))
-             (gobject:get-g-type-definition "PangoGravity"))))
+             (glib-test:list-enum-item-nicks "PangoGravity")))
+  ;; Check enum definition
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoGravity" PANGO:GRAVITY
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER "pango_gravity_get_type")
+                                    (:SOUTH 0)
+                                    (:EAST 1)
+                                    (:NORTH 2)
+                                    (:WEST 3)
+                                    (:AUTO 4))
+             (gobject:get-gtype-definition "PangoGravity"))))
 
 ;;;     PangoGravityHint
 
 (test pango-gravity-hint
-  ;; Check the type
+  ;; Check type
   (is (g:type-is-enum "PangoGravityHint"))
-  ;; Check the type initializer
+  ;; Check type initializer
   (is (eq (g:gtype "PangoGravityHint")
           (g:gtype (cffi:foreign-funcall "pango_gravity_hint_get_type" :size))))
-  ;; Check the registered name
+  ;; Check registered name
   (is (eq 'pango:gravity-hint
           (glib:symbol-for-gtype "PangoGravityHint")))
-  ;; Check the names
+  ;; Check names
   (is (equal '("PANGO_GRAVITY_HINT_NATURAL" "PANGO_GRAVITY_HINT_STRONG"
                "PANGO_GRAVITY_HINT_LINE")
-             (list-enum-item-name "PangoGravityHint")))
-  ;; Check the values
+             (glib-test:list-enum-item-names "PangoGravityHint")))
+  ;; Check values
   (is (equal '(0 1 2)
-             (list-enum-item-value "PangoGravityHint")))
-  ;; Check the nick names
+             (glib-test:list-enum-item-values "PangoGravityHint")))
+  ;; Check nick names
   (is (equal '("natural" "strong" "line")
-             (list-enum-item-nick "PangoGravityHint")))
-  ;; Check the enum definition
-  (is (equal '(GOBJECT:DEFINE-G-ENUM "PangoGravityHint"
-                             PANGO-GRAVITY-HINT
-                             (:EXPORT T
-                              :TYPE-INITIALIZER "pango_gravity_hint_get_type")
-                             (:NATURAL 0)
-                             (:STRONG 1)
-                             (:LINE 2))
-             (gobject:get-g-type-definition "PangoGravityHint"))))
+             (glib-test:list-enum-item-nicks "PangoGravityHint")))
+  ;; Check enum definition
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoGravityHint" PANGO:GRAVITY-HINT
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_gravity_hint_get_type")
+                                    (:NATURAL 0)
+                                    (:STRONG 1)
+                                    (:LINE 2))
+             (gobject:get-gtype-definition "PangoGravityHint"))))
 
 ;;; --- Functions --------------------------------------------------------------
 
@@ -133,4 +132,4 @@
                (pango:matrix-to-float (pango:matrix-rotate matrix 90))))
     (is (= 0 (pango:gravity-to-rotation (pango:gravity-for-matrix matrix))))))
 
-;;; 2024-2-29
+;;; 2024-9-18
