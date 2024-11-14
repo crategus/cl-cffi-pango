@@ -93,7 +93,7 @@
 ;;; PangoStyle
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoStyle" style
+(gobject:define-genum "PangoStyle" style
   (:export t
    :type-initializer "pango_style_get_type")
   (:normal 0)
@@ -106,7 +106,7 @@
       (liber:symbol-documentation 'style)
  "@version{2023-8-27}
   @begin{declaration}
-(gobject:define-g-enum \"PangoStyle\" style
+(gobject:define-genum \"PangoStyle\" style
   (:export t
    :type-initializer \"pango_style_get_type\")
   (:normal 0)
@@ -130,7 +130,7 @@
 ;;; PangoWeight
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoWeight" weight
+(gobject:define-genum "PangoWeight" weight
   (:export t
    :allow-undeclared-values t
    :type-initializer "pango_weight_get_type")
@@ -153,7 +153,7 @@
       (liber:symbol-documentation 'weight)
  "@version{2024-3-3}
   @begin{declaration}
-(gobject:define-g-enum \"PangoWeight\" weight
+(gobject:define-genum \"PangoWeight\" weight
   (:export t
    :allow-undeclared-values t
    :type-initializer \"pango_weight_get_type\")
@@ -202,7 +202,7 @@
 ;;; PangoVariant
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoVariant" variant
+(gobject:define-genum "PangoVariant" variant
   (:export t
    :type-initializer "pango_variant_get_type")
   (:normal 0)
@@ -224,7 +224,7 @@
       (liber:symbol-documentation 'variant)
  "@version{2024-3-3}
   @begin{declaration}
-(gobject:define-g-enum \"PangoVariant\" variant
+(gobject:define-genum \"PangoVariant\" variant
   (:export t
    :type-initializer \"pango_variant_get_type\")
   (:normal 0)
@@ -269,7 +269,7 @@
 ;;; PangoStretch
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoStretch" stretch
+(gobject:define-genum "PangoStretch" stretch
   (:export t
    :type-initializer "pango_stretch_get_type")
   (:ultra-condensed 0)
@@ -288,7 +288,7 @@
       (liber:symbol-documentation 'stretch)
  "@version{2024-3-3}
   @begin{declaration}
-(gobject:define-g-enum \"PangoStretch\" stretch
+(gobject:define-genum \"PangoStretch\" stretch
   (:export t
    :type-initializer \"pango_stretch_get_type\")
   (:ultra-condensed 0)
@@ -325,7 +325,7 @@
 ;;; PangoFontMask
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-flags "PangoFontMask" font-mask
+(gobject:define-gflags "PangoFontMask" font-mask
   (:export t
    :type-initializer "pango_font_mask_get_type")
   (:family #.(ash 1 0))
@@ -343,7 +343,7 @@
       (liber:symbol-documentation 'font-mask)
  "@version{2023-8-27}
   @begin{declaration}
-(gobject:define-g-flags \"PangoFontMask\" font-mask
+(gobject:define-gflags \"PangoFontMask\" font-mask
   (:export t
    :type-initializer \"pango_font_mask_get_type\")
   (:family #.(ash 1 0))
@@ -381,7 +381,7 @@
 
 (cffi:defcfun ("pango_font_description_new" %font-description-new) :pointer)
 
-(glib:define-g-boxed-opaque font-description "PangoFontDescription"
+(glib:define-gboxed-opaque font-description "PangoFontDescription"
   :export t
   :type-initializer "pango_font_description_get_type"
   :alloc (%font-description-new))
@@ -392,7 +392,7 @@
       (documentation 'font-description 'type)
  "@version{2023-8-27}
   @begin{declaration}
-(glib:define-g-boxed-opaque font-description \"PangoFontDescription\"
+(glib:define-gboxed-opaque font-description \"PangoFontDescription\"
   :export t
   :type-initializer \"pango_font_description_get_type\"
   :alloc (%font-description-new))

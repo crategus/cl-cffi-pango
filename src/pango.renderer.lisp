@@ -76,7 +76,7 @@
 ;;; PangoRenderPart
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoRenderPart" render-part
+(gobject:define-genum "PangoRenderPart" render-part
   (:export t
    :type-initializer "pango_render_part_get_type")
   (:foreground 0)
@@ -91,7 +91,7 @@
       (liber:symbol-documentation 'render-part)
  "@version{2024-2-24}
   @begin{declaration}
-(gobject:define-g-enum \"PangoRenderPart\" pango:render-part
+(gobject:define-genum \"PangoRenderPart\" pango:render-part
   (:export t
    :type-initializer \"pango_render_part_get_type\")
   (:foreground 0)
@@ -130,7 +130,7 @@
 ;;;     should be treated the same as the identity matrix.
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-object-class "PangoRenderer" renderer
+(gobject:define-gobject "PangoRenderer" renderer
   (:superclass g:object
    :export t
    :interfaces nil

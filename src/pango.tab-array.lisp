@@ -73,7 +73,7 @@
 ;;; PangoTabAlign
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoTabAlign" tab-align
+(gobject:define-genum "PangoTabAlign" tab-align
   (:export t
    :type-initializer "pango_tab_align_get_type")
   (:left 0)
@@ -90,7 +90,7 @@
       (liber:symbol-documentation 'tab-align)
  "@version{2024-2-24}
   @begin{declaration}
-(gobject:define-g-enum \"PangoTabAlign\" tab-align
+(gobject:define-genum \"PangoTabAlign\" tab-align
   (:export t
    :type-initializer \"pango_tab_align_get_type\")
   (:left 0)
@@ -124,7 +124,7 @@
   (initial-size :int)
   (positions-in-pixels :boolean))
 
-(glib:define-g-boxed-opaque tab-array "PangoTabArray"
+(glib:define-gboxed-opaque tab-array "PangoTabArray"
   :export t
   :type-initializer "pango_tab_array_get_type"
   :alloc (%tab-array-new 0 nil))
@@ -135,7 +135,7 @@
       (documentation 'tab-array 'type)
  "@version{2024-2-24}
   @begin{declaration}
-(glib:define-g-boxed-opaque tab-array \"PangoTabArray\"
+(glib:define-gboxed-opaque tab-array \"PangoTabArray\"
   :export t
   :type-initializer \"pango_tab_array_get_type\"
   :alloc (%tab-array-new 0 nil))

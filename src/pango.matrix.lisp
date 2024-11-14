@@ -286,7 +286,7 @@
 ;;; struct PangoMatrix
 ;;; ----------------------------------------------------------------------------
 
-(glib:define-g-boxed-cstruct matrix "PangoMatrix"
+(glib:define-gboxed-cstruct matrix "PangoMatrix"
   (:export t
    :type-initializer "pango_matrix_get_type")
   (xx :double :initform 0.0d0)
@@ -311,7 +311,7 @@ xdevice = xuser * xx + yuser * xy + x0
 ydevice = xuser * yx + yuser * yy + y0
   @end{pre}
   @begin{pre}
-(glib:define-g-boxed-cstruct matrix \"PangoMatrix\"
+(glib:define-gboxed-cstruct matrix \"PangoMatrix\"
   (:export t
    :type-initializer \"pango_matrix_get_type\")
   (xx :double :initform 0.0d0)

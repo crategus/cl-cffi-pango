@@ -56,7 +56,7 @@
 ;;; PangoDirection
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoDirection" direction
+(gobject:define-genum "PangoDirection" direction
   (:export t
    :type-initializer "pango_direction_get_type")
   (:ltr 0)
@@ -73,7 +73,7 @@
       (liber:symbol-documentation 'direction)
  "@version{2024-2-25}
   @begin{declaration}
-(gobject:define-g-enum \"PangoDirection\" direction
+(gobject:define-genum \"PangoDirection\" direction
   (:export t
    :type-initializer \"pango_direction_get_type\")
   (:ltr 0)

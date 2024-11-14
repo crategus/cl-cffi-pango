@@ -107,7 +107,7 @@
 ;;; PangoFont
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-object-class "PangoFont" font
+(gobject:define-gobject "PangoFont" font
   (:superclass g:object
    :export t
    :interfaces nil
@@ -127,7 +127,7 @@
 ;;; PangoFontFamily
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-object-class "PangoFontFamily" font-family
+(gobject:define-gobject "PangoFontFamily" font-family
   (:superclass g:object
     :export t
     :interfaces ("GListModel")
@@ -317,7 +317,7 @@
 ;;; PangoFontFace
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-object-class "PangoFontFace" font-face
+(gobject:define-gobject "PangoFontFace" font-face
   (:superclass g:object
     :export t
     :interfaces nil
@@ -338,7 +338,7 @@
 ;;; PangoFontMap
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-object-class "PangoFontMap" font-map
+(gobject:define-gobject "PangoFontMap" font-map
   (:superclass g:object
    :export t
    :interfaces nil
@@ -424,7 +424,7 @@
 ;;; PangoFontset
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-object-class "PangoFontset" fontset
+(gobject:define-gobject "PangoFontset" fontset
   (:superclass g:object
    :export t
    :interfaces nil
@@ -1373,7 +1373,7 @@
     one.
   @end{short}
   If @arg{func} returns @em{true}, that stops the iteration.
-  @begin{examples}
+  @begin[Examples]{dictionary}
     Code fragment for counting the fonts in a fontset and for printing a list
     of the font descriptions.
     @begin{pre}
@@ -1388,7 +1388,7 @@
               nil)))
   count)
     @end{pre}
-  @end{examples}
+  @end{dictionary}
   @see-class{pango:fontset}
   @see-symbol{pango:fontset-foreach-func}"
   (glib:with-stable-pointer (ptr func)

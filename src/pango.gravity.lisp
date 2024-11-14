@@ -102,7 +102,7 @@
 ;;; PangoGravity
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoGravity" gravity
+(gobject:define-genum "PangoGravity" gravity
   (:export t
    :type-initializer "pango_gravity_get_type")
   (:south 0)
@@ -117,7 +117,7 @@
       (liber:symbol-documentation 'gravity)
  "@version{2024-2-22}
   @begin{declaration}
-(gobject:define-g-enum \"PangoGravity\" gravity
+(gobject:define-genum \"PangoGravity\" gravity
   (:export t
    :type-initializer \"pango_gravity_get_type\")
   (:south 0)
@@ -153,7 +153,7 @@
 ;;; PangoGravityHint
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoGravityHint" gravity-hint
+(gobject:define-genum "PangoGravityHint" gravity-hint
   (:export t
    :type-initializer "pango_gravity_hint_get_type")
   (:natural 0)
@@ -167,7 +167,7 @@
  #+liber-documentation
  "@version{2024-2-22}
   @begin{declaration}
-(gobject:define-g-enum \"PangoGravityHint\" gravity-hint
+(gobject:define-genum \"PangoGravityHint\" gravity-hint
   (:export t
    :type-initializer \"pango_gravity_hint_get_type\")
   (:natural 0)

@@ -89,7 +89,7 @@
 ;;; PangoCairoFont
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-interface "PangoCairoFont" cairo-font
+(gobject:define-ginterface "PangoCairoFont" cairo-font
   (:export t
    :type-initializer "pango_cairo_font_get_type")
   nil)
@@ -111,7 +111,7 @@
 ;;; PangoCairoFontMap
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-interface "PangoCairoFontMap" cairo-font-map
+(gobject:define-ginterface "PangoCairoFontMap" cairo-font-map
   (:export t
    :type-initializer "pango_cairo_font_map_get_type")
   nil)

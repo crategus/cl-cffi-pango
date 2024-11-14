@@ -74,7 +74,7 @@
 ;;; PangoContext
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-object-class "PangoContext" context
+(gobject:define-gobject "PangoContext" context
   (:superclass g:object
    :export t
    :interfaces nil

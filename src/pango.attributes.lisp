@@ -301,7 +301,7 @@
 ;;; PangoAttrType
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoAttrType" attr-type
+(gobject:define-genum "PangoAttrType" attr-type
   (:export t
    :allow-undeclared-values t
    :type-initializer "pango_attr_type_get_type")
@@ -362,7 +362,7 @@
       (liber:symbol-documentation 'attr-type)
  "@version{2024-2-27}
   @begin{declaration}
-(gobject:define-g-enum \"PangoAttrType\" attr-type
+(gobject:define-genum \"PangoAttrType\" attr-type
   (:export t
    :allow-undeclared-values t
    :type-initializer \"pango_attr_type_get_type\")
@@ -469,7 +469,7 @@
 ;;; PangoUnderline
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoUnderline" underline
+(gobject:define-genum "PangoUnderline" underline
   (:export t
    :type-initializer "pango_underline_get_type")
   (:none 0)
@@ -490,7 +490,7 @@
       (liber:symbol-documentation 'underline)
  "@version{2023-1-19}
   @begin{declaration}
-(gobject:define-g-enum \"PangoUnderline\" underline
+(gobject:define-genum \"PangoUnderline\" underline
   (:export t
    :type-initializer \"pango_underline_get_type\")
   (:none 0)
@@ -533,7 +533,7 @@
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-46
-(gobject:define-g-enum "PangoOverline" overline
+(gobject:define-genum "PangoOverline" overline
   (:export t
    :type-initializer "pango_overline_get_type")
   (:none 0)
@@ -545,7 +545,7 @@
       (liber:symbol-documentation 'overline)
  "@version{2023-1-19}
   @begin{declaration}
-(gobject:define-g-enum \"PangoOverline\" overline
+(gobject:define-genum \"PangoOverline\" overline
   (:export t
    :type-initializer \"pango_overline_get_type\")
   (:none 0)
@@ -569,7 +569,7 @@
 ;;; PangoShowFlags
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-flags "PangoShowFlags" show-flags
+(gobject:define-gflags "PangoShowFlags" show-flags
   (:export t
    :type-initializer "pango_show_flags_get_type")
   (:none 0)
@@ -583,7 +583,7 @@
       (liber:symbol-documentation 'show-flags)
  "@version{2023-1-19}
   @begin{declaration}
-(gobject:define-g-flags \"PangoShowFlags\" show-flags
+(gobject:define-gflags \"PangoShowFlags\" show-flags
   (:export t
    :type-initializer \"pango_show_flags_get_type\")
   (:none 0)
@@ -609,7 +609,7 @@
 ;;; PangoTextTransform
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoTextTransform" text-transform
+(gobject:define-genum "PangoTextTransform" text-transform
   (:export t
    :type-initializer "pango_text_transform_get_type")
   :none
@@ -623,7 +623,7 @@
       (liber:symbol-documentation 'text-transform)
  "@version{2023-1-19}
   @begin{declaration}
-(gobject:define-g-enum \"PangoTextTransform\" text-transform
+(gobject:define-genum \"PangoTextTransform\" text-transform
   (:export t
    :type-initializer \"pango_text_transform_get_type\")
   :none
@@ -648,7 +648,7 @@
 ;;; PangoBaselineShift
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoBaselineShift" baseline-shift
+(gobject:define-genum "PangoBaselineShift" baseline-shift
   (:export t
    :type-initializer "pango_baseline_shift_get_type")
   :none
@@ -661,7 +661,7 @@
       (liber:symbol-documentation 'baseline-shift)
  "@version{2023-1-19}
   @begin{declaration}
-(gobject:define-g-enum \"PangoBaselineShift\" baseline-shift
+(gobject:define-genum \"PangoBaselineShift\" baseline-shift
   (:export t
    :type-initializer \"pango_baseline_shift_get_type\")
   :none
@@ -686,7 +686,7 @@
 ;;; PangoFontScale
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoFontScale" font-scale
+(gobject:define-genum "PangoFontScale" font-scale
   (:export t
    :type-initializer "pango_font_scale_get_type")
   :none
@@ -700,7 +700,7 @@
       (liber:symbol-documentation 'font-scale)
  "@version{2023-1-19}
   @begin{declaration}
-(gobject:define-g-enum \"PangoFontScale\" font-scale
+(gobject:define-genum \"PangoFontScale\" font-scale
   (:export t
    :type-initializer \"pango_font_scale_get_type\")
   :none
@@ -741,7 +741,7 @@
   (start-index :uint)
   (end-index :uint))
 
-(glib:define-g-boxed-opaque attribute "PangoAttribute"
+(glib:define-gboxed-opaque attribute "PangoAttribute"
    :export t
    :type-initializer "pango_attribute_get_type"
    :alloc (error "PangoAttribute cannot be created from the Lisp side"))
@@ -1783,7 +1783,7 @@
 ;;; PangoAttrIterator
 ;;; ----------------------------------------------------------------------------
 
-(glib:define-g-boxed-opaque attr-iterator "PangoAttrIterator"
+(glib:define-gboxed-opaque attr-iterator "PangoAttrIterator"
   :export t
   :type-initializer "pango_attr_iterator_get_type"
   :alloc (error "PangoAttrIterator cannot be created from the Lisp side."))
@@ -1812,7 +1812,7 @@
 ;;; PangoAttrList
 ;;; ----------------------------------------------------------------------------
 
-(glib:define-g-boxed-opaque attr-list "PangoAttrList"
+(glib:define-gboxed-opaque attr-list "PangoAttrList"
   :type-initializer "pango_attr_list_get_type"
   :alloc (%attr-list-new))
 

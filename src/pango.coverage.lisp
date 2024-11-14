@@ -63,7 +63,7 @@
 ;;; PangoCoverageLevel
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoCoverageLevel" coverage-level
+(gobject:define-genum "PangoCoverageLevel" coverage-level
   (:export t
    :type-initializer "pango_coverage_level_get_type")
   (:none 0)
@@ -77,7 +77,7 @@
       (liber:symbol-documentation 'coverage-level)
  "@version{2024-2-24}
   @begin{declaration}
-(gobject:define-g-enum \"PangoCoverageLevel\" coverage-level
+(gobject:define-genum \"PangoCoverageLevel\" coverage-level
   (:export t
    :type-initializer \"pango_coverage_level_get_type\")
   (:none 0)
@@ -110,7 +110,7 @@
 ;;; PangoCoverage
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-object-class "PangoCoverage" coverage
+(gobject:define-gobject "PangoCoverage" coverage
   (:superclass g:object
    :export t
    :interfaces nil

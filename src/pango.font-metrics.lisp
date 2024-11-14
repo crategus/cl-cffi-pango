@@ -57,7 +57,7 @@
 ;;; struct PangoFontMetrics
 ;;; ----------------------------------------------------------------------------
 
-(glib:define-g-boxed-opaque font-metrics "PangoFontMetrics"
+(glib:define-gboxed-opaque font-metrics "PangoFontMetrics"
   :export t
   :type-initializer "pango_font_metrics_get_type"
   :alloc (error "PangoFontMetrics cannot be created from the Lisp side."))

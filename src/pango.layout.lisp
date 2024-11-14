@@ -160,7 +160,7 @@
 ;;; PangoWrapMode
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoWrapMode" wrap-mode
+(gobject:define-genum "PangoWrapMode" wrap-mode
   (:export t
    :type-initializer "pango_wrap_mode_get_type")
   (:word 0)
@@ -173,7 +173,7 @@
       (liber:symbol-documentation 'wrap-mode)
  "@version{2023-2-6}
   @begin{declaration}
-(gobject:define-g-enum \"PangoWrapMode\" wrap-mode
+(gobject:define-genum \"PangoWrapMode\" wrap-mode
   (:export t
    :type-initializer \"pango_wrap_mode_get_type\")
   (:word 0)
@@ -200,7 +200,7 @@
 ;;; PangoEllipsizeMode
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoEllipsizeMode" ellipsize-mode
+(gobject:define-genum "PangoEllipsizeMode" ellipsize-mode
   (:export t
    :type-initializer "pango_ellipsize_mode_get_type")
   (:none 0)
@@ -214,7 +214,7 @@
       (liber:symbol-documentation 'ellipsize-mode)
  "@version{2023-2-6}
   @begin{declaration}
-(gobject:define-g-enum \"PangoEllipsizeMode\" ellipsize-mode
+(gobject:define-genum \"PangoEllipsizeMode\" ellipsize-mode
   (:export t
    :type-initializer \"pango_ellipsize_mode_get_type\")
   (:none 0)
@@ -244,7 +244,7 @@
 ;;; PangoAlignment
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoAlignment" alignment
+(gobject:define-genum "PangoAlignment" alignment
   (:export t
    :type-initializer "pango_alignment_get_type")
   (:left 0)
@@ -257,7 +257,7 @@
       (liber:symbol-documentation 'alignment)
  "@version{2023-2-6}
   @begin{declaration}
-(gobject:define-g-enum \"PangoAlignment\" alignment
+(gobject:define-genum \"PangoAlignment\" alignment
   (:export t
    :type-initializer \"pango_alignment_get_type\")
   (:left 0)
@@ -296,10 +296,10 @@
 
 ;; TODO: This implementation does not work. There seems to be a problem, when
 ;; the C structure contains bitfields. For this case the implementation of
-;; define-g-boxed-cstruct does not work.
+;; define-gboxed-cstruct does not work.
 
 #+nil
-(gobject:define-g-boxed-cstruct layout-line "PangoLayoutLine"
+(gobject:define-gboxed-cstruct layout-line "PangoLayoutLine"
   (:export t
    :type-initializer "pango_layout_line_get_type")
   (layout (g:object layout))
@@ -309,7 +309,7 @@
   (is-paragraph-start :ushort) ; is bitfield : 1
   (resolved-dir :ushort)) ; is bitfield : 3
 
-(glib:define-g-boxed-opaque layout-line "PangoLayoutLine"
+(glib:define-gboxed-opaque layout-line "PangoLayoutLine"
   :export t
   :type-initializer "pango_layout_line_get_type"
   :alloc (error "PANGO:LAYOUT-LINE cannot be created from the Lisp side."))
@@ -329,7 +329,7 @@
   modified. Routines for rendering @class{pango:layout} objects are provided in
   code specific to each rendering system.
   @begin{pre}
-(gobject:define-g-boxed-cstruct layout-line \"PangoLayoutLine\"
+(gobject:define-gboxed-cstruct layout-line \"PangoLayoutLine\"
   (:export t
    :type-initializer \"pango_layout_line_get_type\")
   (layout (g:object layout))
@@ -357,7 +357,7 @@
 ;;; PangoLayoutIter
 ;;; ----------------------------------------------------------------------------
 
-(glib:define-g-boxed-opaque layout-iter "PangoLayoutIter"
+(glib:define-gboxed-opaque layout-iter "PangoLayoutIter"
   :export t
   :type-initializer "pango_layout_iter_get_type"
   :alloc (error "PANGO:LAYOUT-ITER cannot be created from the Lisp side."))
@@ -383,7 +383,7 @@
 ;;; PangoLayout
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-object-class "PangoLayout" layout
+(gobject:define-gobject "PangoLayout" layout
   (:superclass g:object
    :export t
    :interfaces nil

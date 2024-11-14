@@ -79,7 +79,7 @@
 ;;; PangoScript
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-enum "PangoScript" script
+(gobject:define-genum "PangoScript" script
   (:export t
    :type-initializer "pango_script_get_type")
   (:INVALID-CODE -1)
@@ -208,7 +208,7 @@
  #+liber-documentation
  "@version{2024-2-25}
   @begin{declaration}
-(gobject:define-g-enum \"PangoScript\" script
+(gobject:define-genum \"PangoScript\" script
   (:export t
    :type-initializer \"pango_script_get_type\")
   (:INVALID-CODE -1)
@@ -345,7 +345,7 @@
 ;;; PangoLanguage
 ;;; ----------------------------------------------------------------------------
 
-(glib:define-g-boxed-opaque language "PangoLanguage"
+(glib:define-gboxed-opaque language "PangoLanguage"
   :export t
   :type-initializer "pango_language_get_type"
   :alloc (error "PangoLanguage cannot be created from the Lisp side."))

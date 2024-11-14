@@ -105,7 +105,7 @@
 ;;; PangoShapeFlags
 ;;; ----------------------------------------------------------------------------
 
-(gobject:define-g-flags "PangoShapeFlags" shape-flags
+(gobject:define-gflags "PangoShapeFlags" shape-flags
   (:export t
    :type-initializer "pango_shape_flags_get_type")
   (:none 0)
@@ -117,7 +117,7 @@
       (liber:symbol-documentation 'shape-flags)
  "@version{2023-7-14}
   @begin{declaration}
-(gobject:define-g-flags \"PangoShapeFlags\" shape-flags
+(gobject:define-gflags \"PangoShapeFlags\" shape-flags
   (:export t
    :type-initializer \"pango_shape_flags_get_type\")
   (:none 0)
@@ -470,7 +470,7 @@
 
 (cffi:defcfun ("pango_item_new" %item-new) :pointer)
 
-(glib:define-g-boxed-opaque item "PangoItem"
+(glib:define-gboxed-opaque item "PangoItem"
    :export t
    :type-initializer "pango_item_get_type"
    :alloc (%item-new))
@@ -491,7 +491,7 @@
   (num-chars :int)
   (analysis analysis))
 
-(glib:define-g-boxed-opaque item \"PangoItem\"
+(glib:define-gboxed-opaque item \"PangoItem\"
    :export t
    :type-initializer \"pango_item_get_type\"
    :alloc (%item-new))

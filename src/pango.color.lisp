@@ -51,7 +51,7 @@
 ;;; struct PangoColor
 ;;; ----------------------------------------------------------------------------
 
-(glib:define-g-boxed-cstruct color "PangoColor"
+(glib:define-gboxed-cstruct color "PangoColor"
   (:export t
    :type-initializer "pango_color_get_type")
   (red :uint16 :initform 0)
@@ -68,7 +68,7 @@
     uncalibrated RGB color space.
   @end{short}
   @begin{pre}
-(glib:define-g-boxed-cstruct color \"PangoColor\"
+(glib:define-gboxed-cstruct color \"PangoColor\"
   (:export t
    :type-initializer \"pango_color_get_type\")
   (red :uint16 :initform 0)
