@@ -39,9 +39,9 @@
 
 (defun generate-html ()
   (let* ((base (asdf:component-pathname (asdf:find-system :cl-cffi-pango)))
-         (output-directory (merge-pathnames "../books/cl-cffi-pango/" base)))
+         (output-directory (merge-pathnames "../books/cl-cffi-pango/" base))
+         (figures (merge-pathnames "../books/cl-cffi-pango/figures/" base)))
     (format t "Generate HTML to ~a~%" output-directory)
-    (ensure-directories-exist output-directory)
     (liber:generate-html-documentation
       '(:pango)
       output-directory
@@ -60,7 +60,6 @@
          (output-directory
              (merge-pathnames "../books/cl-cffi-pango/single-page/" base)))
     (format t "Generate Single PAGE HTML to ~a~%" output-directory)
-    (ensure-directories-exist output-directory)
     (liber:generate-html-documentation
       '(:pango)
       output-directory
