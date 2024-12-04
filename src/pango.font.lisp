@@ -793,7 +793,7 @@
 #+pango-1-50
 (defun font-deserialize (context bytes)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-11-21}
   @argument[context]{a @class{pango:context} object}
   @argument[bytes]{a @class{g:bytes} object containing the data}
   @return{The new @class{pango:font} object.}
@@ -812,7 +812,7 @@
   @see-class{pango:context}
   @see-class{g:bytes}
   @see-function{pango:font-serialize}"
-  (glib:with-g-error (err)
+  (glib:with-error (err)
     (%font-deserialize context bytes err)))
 
 #+pango-1-50

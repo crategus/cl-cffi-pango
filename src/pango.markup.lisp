@@ -41,7 +41,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_parse_markup ()
+;;; pango_parse_markup
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_parse_markup" %parse-markup) :boolean
@@ -55,7 +55,7 @@
 
 (defun parse-markup (markup marker)
  #+liber-documentation
- "@version{2024-2-27}
+ "@version{2024-11-21}
   @argument[markup]{a string with the parkup to parse}
   @argument[marker]{a character that precedes an accelerator, or 0 for none}
   @begin{return}
@@ -103,7 +103,7 @@
     @end{pre}
   @end{dictionary}
   @see-class{pango:attr-list}"
-  (glib:with-g-error (err)
+  (glib:with-error (err)
     (cffi:with-foreign-objects ((text :string)
                                 (char 'g:unichar)
                                 (attrlist :pointer))
