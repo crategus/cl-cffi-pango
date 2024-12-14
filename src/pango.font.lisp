@@ -1088,7 +1088,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_map_create_context" font-map-create-context)
-    (g:object context)
+    (g:object context :already-referenced)
  #+liber-documentation
  "@version{2024-3-6}
   @argument[fontmap]{a @class{pango:font-map} object}
@@ -1146,7 +1146,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_map_load_fontset" font-map-load-fontset)
-    (g:object fontset)
+    (g:object fontset :already-referenced)
  #+liber-documentation
  "@version{2024-3-6}
   @argument[fontmap]{a @class{pango:font-map} object}

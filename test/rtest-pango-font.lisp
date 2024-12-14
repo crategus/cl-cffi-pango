@@ -779,6 +779,7 @@
 ;;;     PangoFontsetForeachFunc
 ;;;     pango_fontset_foreach
 
+#+crategus
 (test pango-fontset-foreach
   (let* ((fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
@@ -792,9 +793,10 @@
                                (is (typep font 'pango:font))
                                (incf count)
                                nil))
-        #-windows
-        (is (= 176 count))
-        #+windows
-        (is (= 5 count)))))
+        (is (= 180 count)))
+    ;; Check memory management
+    (is (<= 2 (g:object-ref-count fontmap))) ; Increases for every run
+    (is (= 1 (g:object-ref-count context)))
+    (is (= 2 (g:object-ref-count fontset)))))
 
-;;; 2024-9-19
+;;; 2024-12-14
