@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
 ;;; pango.font-metrics.lisp
 ;;;
-;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.51 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
+;;; The documentation in this file is taken from the Pango Reference Manual
+;;; Version 1.54 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2024 Dieter Kaiser
+;;; Copyright (C) 2011 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -54,7 +54,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoFontMetrics
+;;; PangoFontMetrics
 ;;; ----------------------------------------------------------------------------
 
 (glib:define-gboxed-opaque font-metrics "PangoFontMetrics"
@@ -86,46 +86,15 @@
   @see-function{pango:font-metrics-strikethrough-position}")
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_ref ()                              not needed
+;;; pango_font_metrics_ref                                  not needed
 ;;; ----------------------------------------------------------------------------
 
-#+nil
-(cffi:defcfun ("pango_font_metrics_ref" font-metrics-ref)
-    (g:boxed font-metrics)
- #+liber-documentation
- "@version{#2021-1-8}
-  @argument[metrics]{a @class{pango:font-metrics} instance}
-  @return{a @class{pango:font-metrics} instance}
-  @begin{short}
-    Increase the reference count of a font metrics instance by one.
-  @end{short}
-  @see-class{pango:font-metrics}"
-  (metrics (g:boxed font-metrics)))
-
-#+nil
-(export 'font-metrics-ref)
-
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_unref ()                            not needed
+;;; pango_font_metrics_unref                                not needed
 ;;; ----------------------------------------------------------------------------
 
-#+nil
-(cffi:defcfun ("pango_font_metrics_unref" font-metrics-unref) :void
- #+liber-documentation
- "@version{#2021-1-8}
-  @argument[metrics]{a @class{pango:font-metrics} instance}
-  @begin{short}
-    Decrease the reference count of a font metrics instance by one.
-  @end{short}
-  If the result is zero, frees the instance and any associated memory.
-  @see-class{pango:font-metrics}"
-  (metrics (g:boxed font-metrics)))
-
-#+nil
-(export 'font-metrics-unref)
-
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_get_ascent ()
+;;; pango_font_metrics_get_ascent
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_metrics_get_ascent" font-metrics-ascent) :int
@@ -145,7 +114,7 @@
 (export 'font-metrics-ascent)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_get_descent ()
+;;; pango_font_metrics_get_descent
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_metrics_get_descent" font-metrics-descent) :int
@@ -166,7 +135,7 @@
 (export 'font-metrics-descent)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_get_height ()
+;;; pango_font_metrics_get_height
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-44
@@ -189,7 +158,7 @@
 (export 'font-metrics-height)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_get_approximate_char_width ()
+;;; pango_font_metrics_get_approximate_char_width
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_metrics_get_approximate_char_width"
@@ -210,7 +179,7 @@
 (export 'font-metrics-approximate-char-width)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_get_approximate_digit_width ()
+;;; pango_font_metrics_get_approximate_digit_width
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_metrics_get_approximate_digit_width"
@@ -234,7 +203,7 @@
 (export 'font-metrics-approximate-digit-width)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_get_underline_thickness ()
+;;; pango_font_metrics_get_underline_thickness
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_metrics_get_underline_thickness"
@@ -252,7 +221,7 @@
 (export 'font-metrics-underline-thickness)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_get_underline_position ()
+;;; pango_font_metrics_get_underline_position
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_metrics_get_underline_position"
@@ -273,7 +242,7 @@
 (export 'font-metrics-underline-position)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_get_strikethrough_thickness ()
+;;; pango_font_metrics_get_strikethrough_thickness
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_metrics_get_strikethrough_thickness"
@@ -293,7 +262,7 @@
 (export 'font-metrics-strikethrough-thickness)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_font_metrics_get_strikethrough_position ()
+;;; pango_font_metrics_get_strikethrough_position
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_font_metrics_get_strikethrough_position"

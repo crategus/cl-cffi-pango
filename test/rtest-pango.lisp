@@ -2,7 +2,9 @@
   (:use :fiveam :common-lisp)
   (:export #:run!
            #:approx-equal)
-  (:import-from :glib-test #:approx-equal)
+  (:import-from :glib-test  #:*first-run-testsuite*
+                            #:run-repeat
+                            #:approx-equal)
   (:import-from :pango)
   (:import-from :cairo)
   (:import-from :gobject))
@@ -87,4 +89,4 @@ dargestellt werden.")
 (def-suite pango-suite)
 (in-suite pango-suite)
 
-;;; 2024-9-19
+;;; 2025-1-1

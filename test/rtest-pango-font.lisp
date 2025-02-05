@@ -484,17 +484,7 @@
     (is (= 4 (g:list-model-n-items family)))
     #+windows
     (is (= 8 (g:list-model-n-items family)))
-    ;; Get the properties for PangoFontFamily
-    ;; TODO: This seems to be a bug in the C implementation. We do not get
-    ;; an integer with the GType, but a pointer with the address of the GType
-    #-windows
-    (is (eq (g:gtype "PangoFontFace")
-            (g:gtype (cffi:pointer-address
-                         (pango:font-family-item-type family)))))
-    #+windows
-    (is (eq (g:gtype "PangoFontFace")
-            (g:gtype (cffi:pointer-address
-                         (pango:font-family-item-type family)))))
+    (is (eq (g:gtype "PangoFontFace") (pango:font-family-item-type family)))
     #-windows
     (is (= 4 (pango:font-family-n-items family)))
     #+windows

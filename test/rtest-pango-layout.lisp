@@ -479,9 +479,9 @@
     (pango:with-rectangles (ink logical)
       (is-false (pango:layout-extents layout ink logical))
       (is (equal '(0 6144 77824 12288)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 0 77824 23552)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 #+windows
 (test pango-layout-extents
@@ -493,9 +493,9 @@
     (pango:with-rectangles (ink logical)
       (is-false (pango:layout-extents layout ink logical))
       (is (equal '(0 3072 84992 13312)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 0 81920 19456)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 #-windows
 (test pango-layout-extents.1
@@ -507,7 +507,7 @@
     (pango:with-rectangles (ink)
       (is-false (pango:layout-extents layout ink nil))
       (is (equal '(0 6144 77824 12288)
-                 (multiple-value-list (pango:rectangle-to-float ink)))))))
+                 (multiple-value-list (pango:rectangle-to-integer ink)))))))
 
 #+windows
 (test pango-layout-extents.1
@@ -519,7 +519,7 @@
     (pango:with-rectangles (ink)
       (is-false (pango:layout-extents layout ink nil))
       (is (equal '(0 3072 84992 13312)
-                 (multiple-value-list (pango:rectangle-to-float ink)))))))
+                 (multiple-value-list (pango:rectangle-to-integer ink)))))))
 
 #-windows
 (test pango-layout-extents.2
@@ -531,7 +531,7 @@
     (pango:with-rectangles (logical)
       (is-false (pango:layout-extents layout nil logical))
       (is (equal '(0 0 77824 23552)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 #+windows
 (test pango-layout-extents.2
@@ -543,7 +543,7 @@
     (pango:with-rectangles (logical)
       (is-false (pango:layout-extents layout nil logical))
       (is (equal '(0 0 81920 19456)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 ;;;     pango_layout_get_pixel_extents
 
@@ -557,9 +557,9 @@
     (pango:with-rectangles (ink logical)
       (is-false (pango:layout-pixel-extents layout ink logical))
       (is (equal '(0 6 76 12)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 0 76 23)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 #+windows
 (test pango-layout-pixel-extents
@@ -571,9 +571,9 @@
     (pango:with-rectangles (ink logical)
       (is-false (pango:layout-pixel-extents layout ink logical))
       (is (equal '(0 3 83 13)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 0 80 19)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 #-windows
 (test pango-layout-pixel-extents.1
@@ -585,7 +585,7 @@
     (pango:with-rectangles (ink)
       (is-false (pango:layout-pixel-extents layout ink nil))
       (is (equal '(0 6 76 12)
-                 (multiple-value-list (pango:rectangle-to-float ink)))))))
+                 (multiple-value-list (pango:rectangle-to-integer ink)))))))
 
 #-windows
 (test pango-layout-pixel-extents.2
@@ -597,7 +597,7 @@
     (pango:with-rectangles (logical)
       (is-false (pango:layout-pixel-extents layout nil logical))
       (is (equal '(0 0 76 23)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 ;;;     pango_layout_get_size
 ;;;     pango_layout_get_pixel_size
@@ -876,7 +876,7 @@
       (pango:with-rectangles (ink)
         (is-false (pango:layout-iter-char-extents iter ink))
         (is (equal '(0 0 16384 23552)
-                   (multiple-value-list (pango:rectangle-to-float ink)))))))
+                   (multiple-value-list (pango:rectangle-to-integer ink)))))))
 
 #+windows
 (test pango-layout-iter-char-extents
@@ -890,7 +890,7 @@
       (pango:with-rectangles (ink)
         (is-false (pango:layout-iter-char-extents iter ink))
         (is (equal '(0 0 15360 19456)
-                   (multiple-value-list (pango:rectangle-to-float ink)))))))
+                   (multiple-value-list (pango:rectangle-to-integer ink)))))))
 
 ;;;     pango_layout_iter_get_cluster_extents
 
@@ -907,9 +907,9 @@
       (pango:with-rectangles (ink logical)
         (is-false (pango:layout-iter-cluster-extents iter ink logical))
         (is (equal '(0 6144 17408 12288)
-                   (multiple-value-list (pango:rectangle-to-float ink))))
+                   (multiple-value-list (pango:rectangle-to-integer ink))))
         (is (equal '(0 0 16384 23552)
-                   (multiple-value-list (pango:rectangle-to-float logical)))))))
+                   (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 #+windows
 (test pango-layout-iter-cluster-extents
@@ -924,9 +924,9 @@
       (pango:with-rectangles (ink logical)
         (is-false (pango:layout-iter-cluster-extents iter ink logical))
         (is (equal '(-1024 3072 19456 12288)
-                   (multiple-value-list (pango:rectangle-to-float ink))))
+                   (multiple-value-list (pango:rectangle-to-integer ink))))
         (is (equal '(0 0 15360 19456)
-                   (multiple-value-list (pango:rectangle-to-float logical)))))))
+                   (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 ;;;     pango_layout_iter_get_run_extents
 
@@ -943,16 +943,16 @@
         (is-false (pango:layout-iter-run-extents iter ink logical))
         #-windows
         (is (equal '(0 5120 636928 17408)
-                   (multiple-value-list (pango:rectangle-to-float ink))))
+                   (multiple-value-list (pango:rectangle-to-integer ink))))
         #+windows
         (is (equal '(-1024 2048 662528 16384)
-                   (multiple-value-list (pango:rectangle-to-float ink))))
+                   (multiple-value-list (pango:rectangle-to-integer ink))))
         #-windows
         (is (equal '(0 0 636928 23552)
-                   (multiple-value-list (pango:rectangle-to-float logical))))
+                   (multiple-value-list (pango:rectangle-to-integer logical))))
         #+windows
         (is (equal '(0 0 659456 19456)
-                   (multiple-value-list (pango:rectangle-to-float logical)))))))
+                   (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 ;;;     pango_layout_iter_get_line_yrange
 
@@ -993,9 +993,9 @@
     (pango:with-rectangles (ink logical)
       (pango:layout-iter-line-extents iter ink logical)
       (is (equal '(0 5120 636928 17408)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 0 636928 23552)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 #+windows
 (test pango-layout-iter-line-extents
@@ -1009,9 +1009,9 @@
     (pango:with-rectangles (ink logical)
       (pango:layout-iter-line-extents iter ink logical)
       (is (equal '(-1024 2048 662528 16384)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 0 659456 19456)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 ;;;     pango_layout_iter_get_layout_extents
 
@@ -1027,9 +1027,9 @@
     (pango:with-rectangles (ink logical)
       (pango:layout-iter-layout-extents iter ink logical)
       (is (equal '(-1024 5120 681984 696320)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 0 680960 706560)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 #+windows
 (test pango-layout-iter-layout-extents
@@ -1043,9 +1043,9 @@
     (pango:with-rectangles (ink logical)
       (pango:layout-iter-layout-extents iter ink logical)
       (is (equal '(-1024 2048 709632 578560)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 0 708608 583680)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 ;;;     pango_layout_line_get_extents
 
@@ -1061,9 +1061,9 @@
     (pango:with-rectangles (ink logical)
       (pango:layout-line-extents line ink logical)
       (is (equal '(0 -13312 636928 17408)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 -18432 636928 23552)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 #+windows
 (test pango-layout-line-extents
@@ -1077,9 +1077,9 @@
     (pango:with-rectangles (ink logical)
       (pango:layout-line-extents line ink logical)
       (is (equal '(-1024 -13312 662528 16384)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 -15360 659456 19456)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 ;;;     pango_layout_line_get_pixel_extents
 
@@ -1095,9 +1095,9 @@
     (pango:with-rectangles (ink logical)
       (pango:layout-line-pixel-extents line ink logical)
       (is (equal '(0 -13 622 17)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 -18 622 23)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 #+windows
 (test pango-layout-line-pixel-extents
@@ -1111,9 +1111,9 @@
     (pango:with-rectangles (ink logical)
       (pango:layout-line-pixel-extents line ink logical)
       (is (equal '(-1 -13 647 16)
-                 (multiple-value-list (pango:rectangle-to-float ink))))
+                 (multiple-value-list (pango:rectangle-to-integer ink))))
       (is (equal '(0 -15 644 19)
-                 (multiple-value-list (pango:rectangle-to-float logical)))))))
+                 (multiple-value-list (pango:rectangle-to-integer logical)))))))
 
 ;;;     pango_layout_line_get_height
 
@@ -1174,4 +1174,4 @@
 
 ;;;     pango_layout_line_is-paragraph-start
 
-;;; 2024-9-19
+;;; 2025-1-3

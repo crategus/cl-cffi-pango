@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
 ;;; pango.font.lisp
 ;;;
-;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.51 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
+;;; The documentation in this file is taken from the Pango Reference Manual
+;;; Version 1.54 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2024 Dieter Kaiser
+;;; Copyright (C) 2011 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -581,7 +581,7 @@
  #+liber-documentation
  "@version{2024-3-5}
   @argument[font]{a @class{pango:font} object}
-  @argument[glyph]{an unsigned integer with the glyph index}
+  @argument[glyph]{an unsigned integer for the glyph index}
   @argument[ink]{a @symbol{pango:rectangle} instance used to store the extents
     of the glyph as drawn or @code{nil} to indicate that the result is not
     needed}
@@ -1027,7 +1027,7 @@
  "@version{2024-3-5}
   @argument[face]{a @class{pango:font-face} object}
   @begin{return}
-    A newly created @class{pango:font-description} instance holding the
+    The newly created @class{pango:font-description} instance holding the
     description of @arg{face}.
   @end{return}
   @begin{short}
@@ -1190,7 +1190,7 @@
  "@version{2024-3-6}
   @argument[fontmap]{a @class{pango:font-map} object}
   @begin{return}
-    A list of @class{pango:font-family} objects, or @code{nil}.
+    The list of @class{pango:font-family} objects, or @code{nil}.
   @end{return}
   @begin{short}
     List all families for a font map.
@@ -1313,7 +1313,7 @@
  "@version{2024-3-4}
   @argument[fontset]{a @class{pango:fontset} object}
   @begin{return}
-    A @class{pango:font-metrics} instance.
+    The @class{pango:font-metrics} instance.
   @end{return}
   @begin{short}
     Get overall metric information for the fonts in the fontset.

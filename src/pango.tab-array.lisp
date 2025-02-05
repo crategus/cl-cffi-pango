@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
 ;;; pango.tab-array.lisp
 ;;;
-;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.51 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
+;;; The documentation in this file is taken from the Pango Reference Manual
+;;; Version 1.54 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2013 - 2024 Dieter Kaiser
+;;; Copyright (C) 2013 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -50,13 +50,13 @@
 ;;;     pango_tab_array_get_tabs
 ;;;
 ;;;     pango_tab_array_get_positions_in_pixels
-;;;     pango_tab_array_set_positions_in_pixels            Since 1.50
+;;;     pango_tab_array_set_positions_in_pixels             Since 1.50
 ;;;
-;;;     pango_tab_array_get_decimal_point                  Since 1.50
-;;;     pango_tab_array_set_decimal_point                  Since 1.50
-;;;     pango_tab_array_sort                               Since 1.50
-;;;     pango_tab_array_from_string                        Since 1.50
-;;;     pango_tab_array_to_string                          Since 1.50
+;;;     pango_tab_array_get_decimal_point                   Since 1.50
+;;;     pango_tab_array_set_decimal_point                   Since 1.50
+;;;     pango_tab_array_sort                                Since 1.50
+;;;     pango_tab_array_from_string                         Since 1.50
+;;;     pango_tab_array_to_string                           Since 1.50
 ;;;
 ;;; Object Hierarchy
 ;;;
@@ -156,13 +156,13 @@
 (export 'tab-array)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_new ()
+;;; pango_tab_array_new
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_tab_array_new" tab-array-new) (g:boxed tab-array :return)
  #+liber-documentation
  "@version{2024-2-24}
-  @argument[size]{an integer with the initial number of tab stops to allocate,
+  @argument[size]{an integer for the initial number of tab stops to allocate,
     can be 0}
   @argument[positions-in-pixels]{a boolean whether positions are in pixel units}
   @return{The newly allocated @class{pango:tab-array} instance.}
@@ -178,13 +178,13 @@
 (export 'tab-array-new)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_new_with_positions ()
+;;; pango_tab_array_new_with_positions
 ;;; ----------------------------------------------------------------------------
 
 (defun tab-array-new-with-positions (size positions-in-pixel &rest args)
  #+liber-documentation
  "@version{2024-2-24}
-  @argument[size]{an integer with the initial number of tab stops to allocate,
+  @argument[size]{an integer for the initial number of tab stops to allocate,
     can be 0}
   @argument[positions-in-pixels]{a boolean whether positions are in pixel units}
   @argument[args]{a list of pairs with the @symbol{pango:tab-align} value and
@@ -207,7 +207,7 @@
 (export 'tab-array-new-with-positions)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_copy ()
+;;; pango_tab_array_copy
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_tab_array_copy" tab-array-copy)
@@ -223,18 +223,13 @@
 (export 'tab-array-copy)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_free ()
-;;;
-;;; void pango_tab_array_free (PangoTabArray *tab_array);
+;;; pango_tab_array_free
 ;;;
 ;;; Frees a tab array and associated resources.
-;;;
-;;; tab_array :
-;;;     a PangoTabArray
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_get_size ()
+;;; pango_tab_array_get_size
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_tab_array_get_size" tab-array-size) :int
@@ -249,14 +244,14 @@
 (export 'tab-array-size)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_resize ()
+;;; pango_tab_array_resize
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_tab_array_resize" tab-array-resize) :void
  #+liber-documentation
  "@version{2024-2-24}
   @argument[tabs]{a @class{pango:tab-array} instance}
-  @argument[size]{an integer with the new size of @arg{tabs}}
+  @argument[size]{an integer for the new size of @arg{tabs}}
   @begin{short}
     Resizes a tab array.
   @end{short}
@@ -269,8 +264,8 @@
 (export 'tab-array-resize)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_get_tab ()
-;;; pango_tab_array_set_tab ()
+;;; pango_tab_array_get_tab
+;;; pango_tab_array_set_tab
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf tab-array-tab) (value tabs index)
@@ -295,9 +290,9 @@
   @syntax{(pango:tab-array-tab tabs index} => align, pos
   @syntax{(setf (pango:tab-array-tab tabs index) (list align pos))}
   @argument[tabs]{a @class{pango:tab-array} instance}
-  @argument[index]{an integer with the index of the tab stop}
+  @argument[index]{an integer for the index of the tab stop}
   @argument[align]{a @symbol{pango:tab-align} value}
-  @argument[pos]{an integer with the tab position}
+  @argument[pos]{an integer for the tab position}
   @begin{short}
     The @fun{pango:tab-array-tab} function gets the alignment and position of
     a tab stop.
@@ -314,7 +309,7 @@
 (export 'tab-array-tab)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_get_tabs ()
+;;; pango_tab_array_get_tabs
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_tab_array_get_tabs" %tab-array-tabs) :void
@@ -358,8 +353,8 @@
 (export 'tab-array-tabs)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_set_positions_in_pixels ()
-;;; pango_tab_array_get_positions_in_pixels ()
+;;; pango_tab_array_set_positions_in_pixels
+;;; pango_tab_array_get_positions_in_pixels
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
@@ -394,8 +389,8 @@
 (export 'tab-array-positions-in-pixels)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_get_decimal_point ()
-;;; pango_tab_array_set_decimal_point ()
+;;; pango_tab_array_get_decimal_point
+;;; pango_tab_array_set_decimal_point
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
@@ -415,8 +410,8 @@
   @syntax{(pango:tab-array-decimal-point tabs index) => char}
   @syntax{(setf (pango:tab-array-decimal-point tabs index) char)}
   @argument[tabs]{a @class{pango:tab-array} instance}
-  @argument[index]{an integer with the index of a tab stop}
-  @argument[char]{a character with the decimal point to use}
+  @argument[index]{an integer for the index of a tab stop}
+  @argument[char]{a character for the decimal point to use}
   @begin{short}
    The @fun{pango:tab-array-decimal-point} function gets the Unicode character
    to use as decimal point.
@@ -438,7 +433,7 @@
 (export 'tab-array-decimal-point)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_sort ()
+;;; pango_tab_array_sort
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
@@ -458,7 +453,7 @@
 (export 'tab-array-sort)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_from_string ()
+;;; pango_tab_array_from_string
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50
@@ -483,7 +478,7 @@
 (export 'tab-array-from-string)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tab_array_to_string ()
+;;; pango_tab_array_to_string
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-50

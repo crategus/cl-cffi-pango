@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
 ;;; pango.matrix.lisp
 ;;;
-;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.51 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
+;;; The documentation in this file is taken from the Pango Reference Manual
+;;; Version 1.54 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2024 Dieter Kaiser
+;;; Copyright (C) 2011 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -26,10 +26,8 @@
 ;;; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 ;;; ----------------------------------------------------------------------------
-
-;;; Types and Values
 ;;;
-;;;     PANGO_SCALE
+;;; Types and Values
 ;;;
 ;;;     PangoRectangle
 ;;;     PangoMatrix
@@ -50,7 +48,7 @@
 ;;;     pango_matrix_transform_pixel_rectangle
 ;;;     pango_matrix_get_font_scale_factor
 ;;;     pango_matrix_get_font_scale_factors
-;;;     pango_matrix_get_slant_ratio                       Since 1.50
+;;;     pango_matrix_get_slant_ratio                        Since 1.50
 ;;;
 ;;; Object Hierarchy
 ;;;
@@ -61,10 +59,8 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoRectangle
+;;; PangoRectangle
 ;;; ----------------------------------------------------------------------------
-
-;; TODO: Consider to implement pango:rectangle more lispy!?
 
 (cffi:defcstruct rectangle
   (x :int)
@@ -76,26 +72,42 @@
 (setf (liber:alias-for-symbol 'rectangle)
       "CStruct"
       (liber:symbol-documentation 'rectangle)
- "@version{2024-2-29}
-  @begin{short}
-    The @symbol{pango:rectangle} structure represents a rectangle.
-  @end{short}
-  It is frequently used to represent the logical or ink extents of a single
-  glyph or section of text. See, for instance, the
-  @fun{pango:font-glyph-extents} function.
-  @begin{pre}
+ "@version{2025-1-1}
+  @begin{declaration}
 (cffi:defcstruct rectangle
   (x :int)
   (y :int)
   (width :int)
   (height :int))
-  @end{pre}
-  @begin[code]{table}
-    @entry[x]{The x coordinate of the left side of the rectangle.}
-    @entry[y]{The y coordinate of the the top side of the rectangle.}
-    @entry[width]{The width of the rectangle.}
-    @entry[height]{The height of the rectangle.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[x]{The x coordinate of the left side of the rectangle.}
+      @entry[y]{The y coordinate of the the top side of the rectangle.}
+      @entry[width]{The width of the rectangle.}
+      @entry[height]{The height of the rectangle.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @symbol{pango:rectangle} structure represents a rectangle.
+  @end{short}
+  It is frequently used to represent the logical or ink extents of a single
+  glyph or section of text. See, for example, the
+  @fun{pango:font-glyph-extents} function.
+  @begin[Notes]{dictionary}
+    The @symbol{pango:rectangle} structure is implemented as a CFFI structure
+    type. It can be created using the @code{cffi:with-foreign-object} macro and
+    the slots can be accessed using the @code{cffi:foreign-slot-value} function.
+    For convenience, the @macro{pango:with-rectangle} and
+    @macro{pango:with-rectangles} macros create and initialize a
+    @symbol{pango:rectangle} instance for use.
+  @end{dictionary}
+  @see-slot{pango:rectangle-x}
+  @see-slot{pango:rectangle-y}
+  @see-slot{pango:rectangle-width}
+  @see-slot{pango:rectangle-height}
+  @see-macro{pango:with-rectangle}
+  @see-macro{pango:with-rectangles}
   @see-function{pango:font-glyph-extents}")
 
 (export 'rectangle)
@@ -112,11 +124,11 @@
 (setf (liber:alias-for-function 'rectangle-x)
       "Accessor"
       (documentation 'rectangle-x 'function)
- "@version{2024-3-1}
-  @syntax{(pango:rectangle-x instance) => x}
-  @syntax{(setf (pango:rectangle-x instance) x)}
-  @argument[instance]{a @class{pango:rectangle} instance}
-  @argument[x]{an integer with the x component of the rectangle}
+ "@version{2025-1-1}
+  @syntax{(pango:rectangle-x rect) => x}
+  @syntax{(setf (pango:rectangle-x rect) x)}
+  @argument[rect]{a @class{pango:rectangle} instance}
+  @argument[x]{an integer for the x component of the rectangle}
   @begin{short}
     Accessor of the @code{x} slot of the @class{pango:rectangle} structure.
   @end{short}
@@ -136,11 +148,11 @@
 (setf (liber:alias-for-function 'rectangle-y)
       "Accessor"
       (documentation 'rectangle-y 'function)
- "@version{2024-3-1}
-  @syntax{(pango:rectangle-y instance) => y}
-  @syntax{(setf (pango:rectangle-y instance) y)}
-  @argument[instance]{a @class{pango:rectangle} instance}
-  @argument[y]{an integer with the y component of the rectangle}
+ "@version{2025-1-1}
+  @syntax{(pango:rectangle-y rect) => y}
+  @syntax{(setf (pango:rectangle-y rect) y)}
+  @argument[rect]{a @class{pango:rectangle} instance}
+  @argument[y]{an integer for the y component of the rectangle}
   @begin{short}
     Accessor of the @code{y} slot of the @class{pango:rectangle} structure.
   @end{short}
@@ -160,11 +172,11 @@
 (setf (liber:alias-for-function 'rectangle-width)
       "Accessor"
       (documentation 'rectangle-width 'function)
- "@version{2024-3-1}
-  @syntax{(pango:rectangle-width instance) => width}
-  @syntax{(setf (pango:rectangle-width instance) width)}
-  @argument[instance]{a @class{pango:rectangle} instance}
-  @argument[width]{an integer with the width component of the rectangle}
+ "@version{2025-1-1}
+  @syntax{(pango:rectangle-width rect) => width}
+  @syntax{(setf (pango:rectangle-width rect) width)}
+  @argument[rect]{a @class{pango:rectangle} instance}
+  @argument[width]{an integer for the width of the rectangle}
   @begin{short}
     Accessor of the @code{width} slot of the @class{pango:rectangle} structure.
   @end{short}
@@ -184,11 +196,11 @@
 (setf (liber:alias-for-function 'rectangle-height)
       "Accessor"
       (documentation 'rectangle-height 'function)
- "@version{2024-3-1}
-  @syntax{(pango:rectangle-height instance) => heigth}
-  @syntax{(setf (pango:rectangle-height instance) height)}
-  @argument[instance]{a @class{pango:rectangle} instance}
-  @argument[height]{an integer with the height component of the rectangle}
+ "@version{2025-1-1}
+  @syntax{(pango:rectangle-height rect) => heigth}
+  @syntax{(setf (pango:rectangle-height rect) height)}
+  @argument[rect]{a @class{pango:rectangle} instance}
+  @argument[height]{an integer for the height of the rectangle}
   @begin{short}
     Accessor of the @code{height} slot of the @class{pango:rectangle} structure.
   @end{short}
@@ -196,28 +208,42 @@
 
 (export 'rectangle-height)
 
-;;; --- pango:rectangle-to-float -----------------------------------------------
+;;; --- pango:rectangle-to-integer ---------------------------------------------
 
-(defun rectangle-to-float (rect)
+(defun rectangle-to-integer (rect)
+ #+liber-documentation
+ "@version{2025-1-1}
+  @syntax{(pango:rectangle-to-integer rect) => x, y, width, height}
+  @argument[rect]{a @symbol{pango:rectangle} instance}
+  @argument[x]{an integer for the x component of the rectangle}
+  @argument[y]{an integer for the y component of the rectangle}
+  @argument[width]{an integer for the width of the rectangle}
+  @argument[height]{an integer for the height of the rectangle}
+  @begin{short}
+    Retrieves the components of @arg{rect} as integers.
+  @end{short}
+  @see-symbol{pango:rectangle}"
   (values (rectangle-x rect)
           (rectangle-y rect)
           (rectangle-width rect)
           (rectangle-height rect)))
 
-(export 'rectangle-to-float)
+(export 'rectangle-to-integer)
 
 ;;; ----------------------------------------------------------------------------
 
 (defmacro with-rectangle ((var &rest args) &body body)
  #+liber-documentation
- "@version{2024-2-29}
+ "@version{2025-1-1}
   @syntax{(pango:with-rectangle (rect) body) => result}
+  @syntax{(pango:with-rectangle (rect rect1) body) => result}
   @syntax{(pango:with-rectangle (rect x y width height) body) => result}
   @argument[rect]{a @symbol{pango:rectangle} instance to create and initialize}
-  @argument[x]{an integer with the x coordinate of the rectangle}
-  @argument[y]{an integer with the y coordinate of the rectangle}
-  @argument[width]{an integer with the width of the rectangle}
-  @argument[height]{an integer with the height of the rectangle}
+  @argument[rect1]{a @symbol{pango:rectangle} instance for initialization}
+  @argument[x]{an integer for the x coordinate of the rectangle}
+  @argument[y]{an integer for the y coordinate of the rectangle}
+  @argument[width]{an integer for the width of the rectangle}
+  @argument[height]{an integer for the height of the rectangle}
   @begin{short}
     The @fun{pango:with-rectangle} macro allocates a new
     @symbol{pango:rectangle} instance, initializes the rectangle with the given
@@ -227,21 +253,33 @@
   released.
 
   When no argument is given the components of the rectangle are initialized to
-  zero. The initialization with four integer values initializes the @arg{x},
-  @arg{y}, @arg{width}, and @arg{height} slots with the given values.
+  zero. One argument is another rectangle for initialization. The initialization
+  with four integers initializes the @arg{x}, @arg{y}, @arg{width}, and
+  @arg{height} slots with the given values.
   @see-symbol{pango:rectangle}
   @see-macro{pango:with-rectangles}"
   (cond ((null args)
-         ;; We have no arguments, the default is initialization with zeros.
+         ;; No arguments, the default is initialization with zeros
          `(cffi:with-foreign-object (,var '(:struct rectangle))
             (cffi:with-foreign-slots ((x y width height)
                                       ,var
                                       (:struct rectangle))
               (setf x 0 y 0 width 0 height 0))
-              (progn ,@body)))
-
+            (progn ,@body)))
+        ((null (second args))
+         ;; One argument with a rectangle for initialization
+         (let ((rect (first args)))
+           `(cffi:with-foreign-object (,var '(:struct rectangle))
+              (cffi:with-foreign-slots ((x y width heigt)
+                                        ,var
+                                        (:struct rectangle))
+                (setf x (rectangle-x ,rect))
+                (setf y (rectangle-y ,rect))
+                (setf width (rectangle-width ,rect))
+                (setf height (rectangle-height ,rect)))
+              (progn ,@body))))
         ((null (fifth args))
-         ;; We have a list of four arguments with x, y, width, height values
+         ;; Four arguments with the x, y, width, height values
          (destructuring-bind (x1 y1 width1 height1) args
            `(cffi:with-foreign-object (,var '(:struct rectangle))
               (cffi:with-foreign-slots ((x y width height)
@@ -258,10 +296,9 @@
 
 (defmacro with-rectangles (vars &body body)
  #+liber-documentation
- "@version{2024-2-29}
-  @syntax{(pango:with-rectangles (rect1 rect2 ... rectn) body) => result}
-  @argument[rect1 ... rectn]{the newly created @symbol{pango:rectangle}
-    instances}
+ "@version{2025-1-1}
+  @syntax{(pango:with-rectangles (rect1 ... rectn) body) => result}
+  @argument[rect1 ... rectn]{newly created @symbol{pango:rectangle} instances}
   @argument[body]{a body that uses the bindings @arg{rect1 ... rectn}}
   @begin{short}
     The @fun{pango:with-rectangles} macro creates new variable bindings and
@@ -283,7 +320,7 @@
 (export 'with-rectangles)
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoMatrix
+;;; PangoMatrix
 ;;; ----------------------------------------------------------------------------
 
 (glib:define-gboxed-cstruct matrix "PangoMatrix"
@@ -300,17 +337,8 @@
 (setf (liber:alias-for-class 'matrix)
       "GBoxed"
       (documentation 'matrix 'type)
- "@version{2024-3-1}
-  @begin{short}
-    A structure specifying a transformation between user-space coordinates and
-    device coordinates.
-  @end{short}
-  The transformation is given by
-  @begin{pre}
-xdevice = xuser * xx + yuser * xy + x0
-ydevice = xuser * yx + yuser * yy + y0
-  @end{pre}
-  @begin{pre}
+ "@version{2025-1-3}
+  @begin{declaration}
 (glib:define-gboxed-cstruct matrix \"PangoMatrix\"
   (:export t
    :type-initializer \"pango_matrix_get_type\")
@@ -320,17 +348,35 @@ ydevice = xuser * yx + yuser * yy + y0
   (yy :double :initform 0.0d0)
   (x0 :double :initform 0.0d0)
   (y0 :double :initform 0.0d0))
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[xx]{1st component of the transformation matrix.}
+      @entry[xy]{2nd component of the transformation matrix.}
+      @entry[yx]{3rd component of the transformation matrix.}
+      @entry[yy]{4th component of the transformation matrix.}
+      @entry[x0]{x translation.}
+      @entry[y0]{y translation.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    A structure specifying a transformation between user-space coordinates and
+    device coordinates.
+  @end{short}
+  The transformation is given by
+  @begin{pre}
+xdevice = xuser * xx + yuser * xy + x0
+ydevice = xuser * yx + yuser * yy + y0
   @end{pre}
-  @begin[code]{table}
-    @entry[xx]{1st component of the transformation matrix.}
-    @entry[xy]{2nd component of the transformation matrix.}
-    @entry[yx]{3rd component of the transformation matrix.}
-    @entry[yy]{4th component of the transformation matrix.}
-    @entry[x0]{x translation.}
-    @entry[y0]{y translation.}
-  @end{table}
+  @see-constructor{pango:matrix-new}
   @see-constructor{pango:matrix-init}
-  @see-constructor{pango:matrix-new}")
+  @see-constructor{pango:matrix-copy}
+  @see-slot{pango:matrix-xx}
+  @see-slot{pango:matrix-xy}
+  @see-slot{pango:matrix-yx}
+  @see-slot{pango:matrix-yy}
+  @see-slot{pango:matrix-x0}
+  @see-slot{pango:matrix-y0}")
 
 ;;; --- pango:matrix-xx --------------------------------------------------------
 
@@ -338,11 +384,11 @@ ydevice = xuser * yx + yuser * yy + y0
 (setf (liber:alias-for-function 'matrix-xx)
       "Accessor"
       (documentation 'matrix-xx 'function)
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @syntax{(pango:matrix-xx instance) => xx}
   @syntax{(setf (pango:matrix-xx instance) xx)}
   @argument[instance]{a @class{pango:matrix} instance}
-  @argument[xx]{an double float with the xx component of the transformation
+  @argument[xx]{a double float for the xx component of the transformation
     matrix}
   @begin{short}
     Accessor of the @code{xx} slot of the @class{pango:matrix} structure.
@@ -355,11 +401,11 @@ ydevice = xuser * yx + yuser * yy + y0
 (setf (liber:alias-for-function 'matrix-xy)
       "Accessor"
       (documentation 'matrix-xy 'function)
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @syntax{(pango:matrix-xy instance) => xy}
   @syntax{(setf (pango:matrix-xy instance) xy)}
   @argument[instance]{a @class{pango:matrix} instance}
-  @argument[xy]{an double float with the xy component of the transformation
+  @argument[xy]{a double float for the xy component of the transformation
     matrix}
   @begin{short}
     Accessor of the @code{xy} slot of the @class{pango:matrix} structure.
@@ -372,11 +418,11 @@ ydevice = xuser * yx + yuser * yy + y0
 (setf (liber:alias-for-function 'matrix-yx)
       "Accessor"
       (documentation 'matrix-yx 'function)
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @syntax{(pango:matrix-yx instance) => yx}
   @syntax{(setf (pango:matrix-yx instance) yx)}
   @argument[instance]{a @class{pango:matrix} instance}
-  @argument[yx]{an double float with the yx component of the transformation
+  @argument[yx]{a double float for the yx component of the transformation
     matrix}
   @begin{short}
     Accessor of the @code{yx} slot of the @class{pango:matrix} structure.
@@ -389,11 +435,11 @@ ydevice = xuser * yx + yuser * yy + y0
 (setf (liber:alias-for-function 'matrix-yy)
       "Accessor"
       (documentation 'matrix-yy 'function)
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @syntax{(pango:matrix-yy instance) => yy}
   @syntax{(setf (pango:matrix-yy instance) yy)}
   @argument[instance]{a @class{pango:matrix} instance}
-  @argument[yy]{an double float with the yy component of the transformation
+  @argument[yy]{a double float for the yy component of the transformation
     matrix}
   @begin{short}
     Accessor of the @code{yy} slot of the @class{pango:matrix} structure.
@@ -406,11 +452,11 @@ ydevice = xuser * yx + yuser * yy + y0
 (setf (liber:alias-for-function 'matrix-x0)
       "Accessor"
       (documentation 'matrix-x0 'function)
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @syntax{(pango:matrix-x0 instance) => x0}
   @syntax{(setf (pango:matrix-x0 instance) x0)}
   @argument[instance]{a @class{pango:matrix} instance}
-  @argument[x0]{an double float with the x0 component of the transformation
+  @argument[x0]{a double float for the x0 component of the transformation
     matrix}
   @begin{short}
     Accessor of the @code{x0} slot of the @class{pango:matrix} structure.
@@ -423,11 +469,11 @@ ydevice = xuser * yx + yuser * yy + y0
 (setf (liber:alias-for-function 'matrix-y0)
       "Accessor"
       (documentation 'matrix-y0 'function)
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @syntax{(pango:matrix-y0 instance) => y0}
   @syntax{(setf (pango:matrix-y0 instance) y0)}
   @argument[instance]{a @class{pango:matrix} instance}
-  @argument[y0]{an double float with the y0 component of the transformation
+  @argument[y0]{a double float for the y0 component of the transformation
     matrix}
   @begin{short}
     Accessor of the @code{y0} slot of the @class{pango:matrix} structure.
@@ -440,12 +486,11 @@ ydevice = xuser * yx + yuser * yy + y0
 
 (defun matrix-init ()
  #+liber-documentation
- "@version{2024-2-29}
-  @return{The newly allocated @class{pango:matrix} initialized to the identiy
-    transform.}
+ "@version{2025-1-3}
+  @return{The newly allocated @class{pango:matrix} initialized to the identity
+    transformation.}
   @begin{short}
-    Constant that can be used to initialize a Pango matrix to the identity
-    transform.
+    Returns a Pango matrix initialized to the identity transformation
   @end{short}
   @begin[Example]{dictionary}
     @begin{pre}
@@ -466,11 +511,12 @@ ydevice = xuser * yx + yuser * yy + y0
 (defun matrix-new (&key (xx 0.0d0) (xy 0.0d0) (yx 0.0d0) (yy 0.0d0)
                         (x0 0.0d0) (y0 0.0d0))
  #+liber-documentation
- "@version{2024-2-29}
-  @argument[xx, xy, yx, yy, x0, y0]{numbers coerced to double floats with the
-    components of the transformation matrix}
+ "@version{2025-1-3}
+  @argument[xx, xy, yx, yy, x0, y0]{numbers coerced to double floats for the
+    components of the transformation matrix, the default values are
+    @code{0.0d0}}
   @return{The newly allocated @class{pango:matrix} instance.}
-  @short{Creates a new Pango matrix.}
+  @short{Creates a new Pango matrix with the given values.}
   @see-class{pango:matrix}"
   (make-matrix :xx (coerce xx 'double-float)
                :xy (coerce xy 'double-float)
@@ -482,12 +528,12 @@ ydevice = xuser * yx + yuser * yy + y0
 (export 'matrix-new)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_copy ()
+;;; pango_matrix_copy
 ;;; ----------------------------------------------------------------------------
 
 (defun matrix-copy (matrix)
  #+liber-documentation
- "@version{2024-2-29}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
   @return{The newly allocated @class{pango:matrix} instance.}
   @short{Copies a Pango matrix.}
@@ -497,14 +543,7 @@ ydevice = xuser * yx + yuser * yy + y0
 (export 'matrix-copy)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_free ()
-;;;
-;;; void pango_matrix_free (PangoMatrix *matrix);
-;;;
-;;; Free a PangoMatrix created with pango_matrix_copy().
-;;;
-;;; matrix :
-;;;     a PangoMatrix, may be NULL
+;;; pango_matrix_free                                       not needed
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -513,11 +552,14 @@ ydevice = xuser * yx + yuser * yy + y0
 
 (defun matrix-to-float (matrix)
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
-  @return{The list with the floating point values.}
-  @short{Converts the matrix to al list of floating point values.}
-  @note{This function is a Lisp extension and not present in the C library.}
+  @return{The list with the components of @arg{matrix} as floating point
+    values.}
+  @short{Converts the matrix to a list with the components.}
+  @begin[Notes]{dictionary}
+    This function is a Lisp extension and not present in the C library.
+  @end{dictionary}
   @see-class{pango:matrix}"
   (list (matrix-xx matrix)
         (matrix-xy matrix)
@@ -529,7 +571,7 @@ ydevice = xuser * yx + yuser * yy + y0
 (export 'matrix-to-float)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_translate ()
+;;; pango_matrix_translate
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_matrix_translate" %matrix-translate) :void
@@ -539,17 +581,17 @@ ydevice = xuser * yx + yuser * yy + y0
 
 (defun matrix-translate (matrix tx ty)
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[tx]{a number coerced to a double float with the amount to translate
+  @argument[tx]{a number coerced to a double float for the amount to translate
     in the x direction}
-  @argument[ty]{a number coerced to a double float with the amount to translate
-    in the Y direction}
+  @argument[ty]{a number coerced to a double float for the amount to translate
+    in the y direction}
   @return{The @class{pango:matrix} instance with the transformation.}
   @begin{short}
     Changes the transformation represented by @arg{matrix} to be the
-    transformation given by first translating by (@arg{tx}, @arg{ty}) then
-    applying the original transformation.
+    transformation given by first translating by @code{(tx,ty)} then applying
+    the original transformation.
   @end{short}
   @see-class{pango:matrix}"
   (%matrix-translate matrix
@@ -560,7 +602,7 @@ ydevice = xuser * yx + yuser * yy + y0
 (export 'matrix-translate)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_scale ()
+;;; pango_matrix_scale
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_matrix_scale" %matrix-scale) :void
@@ -570,11 +612,11 @@ ydevice = xuser * yx + yuser * yy + y0
 
 (defun matrix-scale (matrix sx sy)
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[sx]{a number coerced to a double float with the amount to scale by
+  @argument[sx]{a number coerced to a double float for the amount to scale by
     in x direction}
-  @argument[sy]{a number coerced to a double float with the amount to scale by
+  @argument[sy]{a number coerced to a double float for the amount to scale by
     in y direction}
   @return{The @class{pango:matrix} instance with the transformation.}
   @begin{short}
@@ -591,7 +633,7 @@ ydevice = xuser * yx + yuser * yy + y0
 (export 'matrix-scale)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_rotate ()
+;;; pango_matrix_rotate
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_matrix_rotate" %matrix-rotate) :void
@@ -600,15 +642,15 @@ ydevice = xuser * yx + yuser * yy + y0
 
 (defun matrix-rotate (matrix degrees)
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[degrees]{a number coerced to a double float with the degrees to
-    rotate counter-clockwise}
+  @argument[degrees]{a number coerced to a double float for the degrees
+    to rotate counter-clockwise}
   @return{The @class{pango:matrix} instance with the transformation.}
   @begin{short}
     Changes the transformation represented by @arg{matrix} to be the
-    transformation given by first rotating by @arg{degrees} degrees
-    counter-clockwise then applying the original transformation.
+    transformation given by first rotating by @arg{degrees} counter-clockwise
+    then applying the original transformation.
   @end{short}
   @see-class{pango:matrix}"
   (%matrix-rotate matrix (coerce degrees 'double-float))
@@ -617,7 +659,7 @@ ydevice = xuser * yx + yuser * yy + y0
 (export 'matrix-rotate)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_concat ()
+;;; pango_matrix_concat
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_matrix_concat" %matrix-concat) :void
@@ -626,12 +668,13 @@ ydevice = xuser * yx + yuser * yy + y0
 
 (defun matrix-concat (matrix other)
  #+liber-documentation
- "@version{2024-1-3}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
   @argument[other]{a @class{pango:matrix} instance}
+  @return{The @class{pango:matrix} instance with the transformation.}
   @begin{short}
     Changes the transformation represented by @arg{matrix} to be the
-    transformation given by first applying transformation given by
+    transformation given by first applying the transformation given by
     @arg{other} then applying the original transformation.
   @end{short}
   @see-class{pango:matrix}"
@@ -641,7 +684,7 @@ ydevice = xuser * yx + yuser * yy + y0
 (export 'matrix-concat)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_transform_point ()
+;;; pango_matrix_transform_point
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_matrix_transform_point" %matrix-transform-point) :void
@@ -651,13 +694,13 @@ ydevice = xuser * yx + yuser * yy + y0
 
 (defun matrix-transform-point (matrix x y)
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[x]{a number coerced to a double float with the x position}
-  @argument[y]{a number coerced to a double float with the y position}
-  @return{The double float values for the transformed point @code{(x, y)}.}
+  @argument[x]{a number coerced to a double float for the x position}
+  @argument[y]{a number coerced to a double float for the y position}
+  @return{The double floats for the transformed point @code{(x,y)}.}
   @begin{short}
-    Transforms the point @code{(x, y)} by @arg{matrix}.
+    Transforms the point @code{(x,y)} by @arg{matrix}.
   @end{short}
   @see-class{pango:matrix}"
   (cffi:with-foreign-objects ((xout :double) (yout :double))
@@ -670,7 +713,7 @@ ydevice = xuser * yx + yuser * yy + y0
 (export 'matrix-transform-point)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_transform_distance ()
+;;; pango_matrix_transform_distance
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_matrix_transform_distance" %matrix-transform-distance)
@@ -681,12 +724,11 @@ ydevice = xuser * yx + yuser * yy + y0
 
 (defun matrix-transform-distance (matrix dx dy)
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
-  @argument[dx]{a number coerced to a double float with the x component}
-  @argument[dy]{a number coerced to a double float with the y component}
-  @return{The double float values for the transformed distance vector
-    @code{(dx, dy)}.}
+  @argument[dx]{a number coerced to a double float for the x component}
+  @argument[dy]{a number coerced to a double float for the y component}
+  @return{The double floats for the transformed distance vector @code{(dx,dy)}.}
   @begin{short}
     Transforms the distance vector @code{(dx,dy)} by @arg{matrix}.
   @end{short}
@@ -698,7 +740,7 @@ dx2 = dx1 * xx + dy1 * xy;
 dy2 = dx1 * yx + dy1 * yy;
   @end{pre}
   Affine transformations are position invariant, so the same vector always
-  transforms to the same vector. If @code{(x1, y1)} transforms to
+  transforms to the same vector. If @code{(x1,y1)} transforms to
   @code{(x2,y2)} then @code{(x1+dx1, y1+dy1)} will transform to
   @code{(x1+dx2, y1+dy2)} for all values of @code{x1} and @code{x2}.
   @see-class{pango:matrix}
@@ -713,7 +755,7 @@ dy2 = dx1 * yx + dy1 * yy;
 (export 'matrix-transform-distance)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_transform_rectangle ()
+;;; pango_matrix_transform_rectangle
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_matrix_transform_rectangle" %matrix-transform-rectangle)
@@ -723,7 +765,7 @@ dy2 = dx1 * yx + dy1 * yy;
 
 (defun matrix-transform-rectangle (matrix rect)
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
   @argument[rect]{a @class{pango:rectangle} instance}
   @return{The transformed @class{pango:rectangle} instance with the bounding
@@ -740,7 +782,7 @@ dy2 = dx1 * yx + dy1 * yy;
 
   If you have the rectangle in Pango units and want to convert to transformed
   pixel bounding box, it is more accurate to transform it first using this
-  function and pass the result to the @fun{pango:extents-to-pixels} function,
+  function and pass the result to the @fun{pango:extents-to-pixels} functions
   first argument, for an inclusive rounded rectangle. However, there are valid
   reasons that you may want to convert to pixels first and then transform, for
   example when the transformed coordinates may overflow in Pango units, large
@@ -756,7 +798,7 @@ dy2 = dx1 * yx + dy1 * yy;
 (export 'matrix-transform-rectangle)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_transform_pixel_rectangle ()
+;;; pango_matrix_transform_pixel_rectangle
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_matrix_transform_pixel_rectangle"
@@ -766,7 +808,7 @@ dy2 = dx1 * yx + dy1 * yy;
 
 (defun matrix-transform-pixel-rectangle (matrix rect)
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
   @argument[rect]{a @class{pango:rectangle} instance}
   @return{The transformed @class{pango:rectangle} instance with the bounding
@@ -781,8 +823,8 @@ dy2 = dx1 * yx + dy1 * yy;
   should shift the layout when rendering.
 
   For better accuracy, you should use the @fun{pango:matrix-transform-rectangle}
-  function on original rectangle in Pango units and convert to pixels afterward
-  using the @fun{pango:extents-to-pixels} functions first argument.
+  function on the original rectangle in Pango units and convert to pixels
+  afterward using the @fun{pango:extents-to-pixels} functions first argument.
   @see-class{pango:matrix}
   @see-symbol{pango:rectangle}
   @see-class{pango:layout}
@@ -794,16 +836,18 @@ dy2 = dx1 * yx + dy1 * yy;
 (export 'matrix-transform-pixel-rectangle)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_get_font_scale_factor ()
+;;; pango_matrix_get_font_scale_factor
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_matrix_get_font_scale_factor" matrix-font-scale-factor)
     :double
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
-  @return{The double float with the scale factor of @arg{matrix} on the height
-    of the font, or 1.0 if @arg{matrix} is @code{nil}.}
+  @begin{return}
+    The double float with the scale factor of @arg{matrix} on the height of
+    the font, or 1.0 if @arg{matrix} is @code{nil}.
+  @end{return}
   @begin{short}
     Returns the scale factor of a matrix on the height of the font.
   @end{short}
@@ -815,7 +859,7 @@ dy2 = dx1 * yx + dy1 * yy;
 (export 'matrix-font-scale-factor)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_matrix_get_font_scale_factors ()
+;;; pango_matrix_get_font_scale_factors
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_matrix_get_font_scale_factors" %matrix-font-scale-factors)
@@ -826,12 +870,13 @@ dy2 = dx1 * yx + dy1 * yy;
 
 (defun matrix-font-scale-factors (matrix)
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
-  @return{The double float @arg{xscale}, @arg{yscale} values with the scale
-    factor in the x direction and in the y direction.}
+  @return{The double floats with the @arg{xscale} scale factor in the x
+    direction and @arg{yscale} scale factor in the y direction.}
   @begin{short}
-    Calculates the scale factor of a matrix on the width and height of the font.
+    Calculates the scale factors of a matrix on the width and height of the
+    font.
   @end{short}
   That is, @arg{xscale} is the scale factor in the direction of the x
   coordinate, and @arg{yscale} is the scale factor in the direction
@@ -853,7 +898,7 @@ dy2 = dx1 * yx + dy1 * yy;
 #+pango-1-50
 (cffi:defcfun ("pango_matrix_get_slant_ratio" matrix-slant-ratio) :double
  #+liber-documentation
- "@version{2024-3-1}
+ "@version{2025-1-3}
   @argument[matrix]{a @class{pango:matrix} instance}
   @return{The double float with the slant ration of @arg{matrix}.}
   @short{Gets the slant ratio of the matrix.}

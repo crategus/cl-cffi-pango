@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
 ;;; pango.script.lisp
 ;;;
-;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.50 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
+;;; The documentation in this file is taken from the Pango Reference Manual
+;;; Version 1.54 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2012 - 2023 Dieter Kaiser
+;;; Copyright (C) 2012 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -36,7 +36,7 @@
 ;;;     PangoScript
 ;;;     PangoLanguage
 ;;;
-;;;     PangoScriptIter                                    not implemented
+;;;     PangoScriptIter                                     not implemented
 ;;;
 ;;; Functions
 ;;;
@@ -49,13 +49,13 @@
 ;;;     pango_language_get_preferred
 ;;;     pango_language_get_sample_string
 ;;;
-;;;     pango_script_for_unichar                           Deprecated
+;;;     pango_script_for_unichar                            Deprecated
 ;;;     pango_script_get_sample_language
 ;;;
-;;;     pango_script_iter_new                              not implemented
-;;;     pango_script_iter_get_range                        not implemented
-;;;     pango_script_iter_next                             not implemented
-;;;     pango_script_iter_free                             not implemented
+;;;     pango_script_iter_new                               not implemented
+;;;     pango_script_iter_get_range                         not implemented
+;;;     pango_script_iter_next                              not implemented
+;;;     pango_script_iter_free                              not implemented
 ;;;
 ;;; Object Hierarchy
 ;;;
@@ -363,7 +363,7 @@
   @see-function{pango:language-default}")
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_from_string ()
+;;; pango_language_from_string
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_from_string" language-from-string)
@@ -396,16 +396,14 @@
 (export 'language-from-string)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_to_string ()
+;;; pango_language_to_string
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_to_string" language-to-string) :string
  #+liber-documentation
  "@version{2024-2-25}
   @argument[language]{a @class{pango:language} instance}
-  @begin{return}
-    A string representing the Pango language tag.
-  @end{return}
+  @return{The string representing the Pango language tag.}
   @begin{short}
     Gets the RFC-3066 format string representing the given Pango language tag.
   @end{short}
@@ -416,7 +414,7 @@
 (export 'language-to-string)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_matches ()
+;;; pango_language_matches
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_matches" language-matches) :boolean
@@ -448,7 +446,7 @@
 (export 'language-matches)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_includes_script ()
+;;; pango_language_includes_script
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_includes_script" %language-includes-script)
@@ -486,7 +484,7 @@
 (export 'language-includes-script)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_get_scripts ()
+;;; pango_language_get_scripts
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_get_scripts" %language-scripts) :pointer
@@ -525,7 +523,7 @@
 (export 'language-scripts)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_get_default ()
+;;; pango_language_get_default
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_get_default" language-default) (g:boxed language)
@@ -571,7 +569,7 @@
 (export 'language-default)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_get_preferred ()
+;;; pango_language_get_preferred
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_get_preferred" %language-preferred) :pointer)
@@ -604,7 +602,7 @@
 (export 'language-preferred)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_language_get_sample_string ()
+;;; pango_language_get_sample_string
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_language_get_sample_string" language-sample-string)
@@ -612,9 +610,7 @@
  #+liber-documentation
  "@version{2023-2-6}
   @argument[language]{a @class{pango:language} instance, or @code{nil}}
-  @begin{return}
-    The sample string.
-  @end{return}
+  @return{The sample string.}
   @begin{short}
     Get a string that is representative of the characters needed to render
     a particular language.
@@ -642,31 +638,16 @@
 (export 'language-sample-string)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_script_for_unichar ()
-;;;
-;;; PangoScript pango_script_for_unichar (gunichar ch);
+;;; pango_script_for_unichar
 ;;;
 ;;; Warning
 ;;;
 ;;; pango_script_for_unichar has been deprecated since version 1.44. and should
 ;;; not be used in newly written code. Use g_unichar_get_script()
-;;;
-;;; Looks up the PangoScript for a particular character (as defined by Unicode
-;;; Standard Annex 24). No check is made for ch being a valid Unicode character;
-;;; if you pass in invalid character, the result is undefined.
-;;;
-;;; As of Pango 1.18, this function simply returns the return value of
-;;; g_unichar_get_script().
-;;;
-;;; ch :
-;;;     a Unicode character
-;;;
-;;; Returns :
-;;;     the PangoScript for the character
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_script_get_sample_language ()
+;;; pango_script_get_sample_language
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_script_get_sample_language" script-sample-language)

@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
 ;;; pango.item.lisp
 ;;;
-;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.51 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
+;;; The documentation in this file is taken from the Pango Reference Manual
+;;; Version 1.54 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
 ;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2020 - 2024 Dieter Kaiser
+;;; Copyright (C) 2020 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -33,12 +33,8 @@
 ;;;
 ;;; Types and Values
 ;;;
-;;;     PANGO_ANALYSIS_FLAG_CENTERED_BASELINE
-;;;     PANGO_ANALYSIS_FLAG_IS_ELLIPSIS
-;;;     PANGO_ANALYSIS_FLAG_NEED_HYPHEN
-;;;
 ;;;     PangoShapeFlags
-;;;     PangoLogAttr                                       not exported
+;;;     PangoLogAttr                                        not exported
 ;;;     PangoAnalysis
 ;;;     PangoItem
 ;;;
@@ -46,18 +42,18 @@
 ;;;
 ;;;     pango_item_new
 ;;;     pango_item_copy
-;;;     pango_item_free                                    not needed
+;;;     pango_item_free                                     not needed
 ;;;     pango_item_split
 ;;;     pango_item_apply_attrs
 ;;;
 ;;;     pango_itemize
 ;;;     pango_itemize_with_base_dir
-;;;     pango_reorder_items                                not implemented
-;;;     pango_break                                        not implemented
-;;;     pango_get_log_attrs                                not implemented
-;;;     pango_find_paragraph_boundary                      not implemented
-;;;     pango_default_break                                not exported
-;;;     pango_tailor_break                                 not exported
+;;;     pango_reorder_items                                 not implemented
+;;;     pango_break                                         not implemented
+;;;     pango_get_log_attrs                                 not implemented
+;;;     pango_find_paragraph_boundary                       not implemented
+;;;     pango_default_break                                 not exported
+;;;     pango_tailor_break                                  not exported
 ;;;     pango_shape
 ;;;     pango_shape_full
 ;;;     pango_shape_with_flags
@@ -72,34 +68,6 @@
 ;;; ----------------------------------------------------------------------------
 
 (in-package :pango)
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_ANALYSIS_FLAG_CENTERED_BASELINE
-;;;
-;;; #define PANGO_ANALYSIS_FLAG_CENTERED_BASELINE (1 << 0)
-;;;
-;;; Whether the segment should be shifted to center around the baseline. Used
-;;; in vertical writing directions mostly.
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_ANALYSIS_FLAG_IS_ELLIPSIS
-;;;
-;;; #define PANGO_ANALYSIS_FLAG_IS_ELLIPSIS (1 << 1)
-;;;
-;;; This flag is used to mark runs that hold ellipsized text, in an ellipsized
-;;; layout.
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; PANGO_ANALYSIS_FLAG_NEED_HYPHEN
-;;;
-;;; #define PANGO_ANALYSIS_FLAG_NEED_HYPHEN (1 << 2)
-;;;
-;;; This flag tells Pango to add a hyphen at the end of the run during shaping.
-;;;
-;;; Since 1.44
-;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
 ;;; PangoShapeFlags
@@ -138,7 +106,7 @@
   @see-function{pango:shape-with-flags}")
 
 ;;; ----------------------------------------------------------------------------
-;;; PangoLogAttr                                           not exported
+;;; PangoLogAttr                                            not exported
 ;;; ----------------------------------------------------------------------------
 
 ;; TODO: Consider to remove the implementation
@@ -224,7 +192,7 @@
   @see-class{pango:layout}")
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoAnalysis
+;;; PangoAnalysis
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcstruct analysis
@@ -321,7 +289,7 @@
  "@version{2024-3-2}
   @syntax{(pango:analysis-level instance) => level}
   @argument[instance]{a @symbol{pango:analysis} instance}
-  @argument[font]{an unsigned integer with the bidrectional level for this
+  @argument[font]{an unsigned integer for the bidirectional level for this
     segment}
   @begin{short}
     Accessor of the @code{level} slot of the @symbol{pango:analysis} structure.
@@ -369,8 +337,7 @@
  "@version{2024-3-2}
   @syntax{(pango:analysis-flags instance) => flags}
   @argument[instance]{a @symbol{pango:analysis} instance}
-  @argument[flags]{an unsigned integer with the boolean flags for this
-    segment}
+  @argument[flags]{an unsigned integer for the boolean flags for this segment}
   @begin{short}
     Accessor of the @code{flags} slot of the @symbol{pango:analysis} structure.
   @end{short}
@@ -452,7 +419,7 @@
 (export 'analysis-extra-attrs)
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoItem
+;;; PangoItem
 ;;; ----------------------------------------------------------------------------
 
 ;; This declaration is necessary to allow the usage of pango:analysis in a
@@ -546,7 +513,7 @@
  "@version{2024-3-2}
   @syntax{(pango:item-length instance) => length}
   @argument[instance]{a @class{pango:item} instance}
-  @argument[length]{an integer with the length of the item in bytes}
+  @argument[length]{an integer for the length of the item in bytes}
   @begin{short}
     Accessor of the @code{length} slot of the @class{pango:item} structure.
   @end{short}
@@ -567,7 +534,7 @@
  "@version{2024-3-2}
   @syntax{(pango:item-num-chars instance) => num}
   @argument[instance]{a @class{pango:item} instance}
-  @argument[num]{an integer with the number of Unicode characters in the item}
+  @argument[num]{an integer for the number of Unicode characters in the item}
   @begin{short}
     Accessor of the @code{num-chars} slot of the @class{pango:item} structure.
   @end{short}
@@ -588,7 +555,7 @@
  "@version{2024-3-2}
   @syntax{(pango:item-offset instance) => offset}
   @argument[instance]{a @class{pango:item} instance}
-  @argument[offset]{an integer with the byte offset of the start of this item
+  @argument[offset]{an integer for the byte offset of the start of this item
     in the text}
   @begin{short}
     Accessor of the @code{offset} slot of the @class{pango:item} structure.
@@ -598,7 +565,7 @@
 (export 'item-offset)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_item_new ()
+;;; pango_item_new
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_item_new" item-new) (g:boxed item :return)
@@ -614,7 +581,7 @@
 (export 'item-new)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_item_copy ()
+;;; pango_item_copy
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_item_copy" item-copy) (g:boxed item :return)
@@ -632,25 +599,25 @@
 (export 'item-copy)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_item_free ()                                     not needed
+;;; pango_item_free                                         not needed
 ;;;
 ;;; Free a PangoItem and all associated memory.
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_item_split ()
+;;; pango_item_split
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_item_split" item-split) (g:boxed item :return)
  #+liber-documentation
  "@version{2024-3-2}
   @argument[item]{a @class{pango:item} instance}
-  @argument[index]{an integer with the byte index of the position to split
+  @argument[index]{an integer for the byte index of the position to split
     @arg{item}, relative to the start of the item}
-  @argument[offset]{an integer with the number of chars between the start of
+  @argument[offset]{an integer for the number of chars between the start of
     @arg{item} and @arg{index}}
   @begin{return}
-    New @class{pango:item} instance representing text before @arg{index}.
+    The new @class{pango:item} instance representing text before @arg{index}.
   @end{return}
   @begin{short}
     Modifies @arg{item} to cover only the text after @arg{index}, and returns a
@@ -675,7 +642,7 @@
 (export 'item-split)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_item_apply_attrs ()
+;;; pango_item_apply_attrs
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-44
@@ -708,7 +675,7 @@
 (export 'item-apply-attrs)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_itemize ()
+;;; pango_itemize
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_itemize" itemize) (g:list-t (g:boxed item :return))
@@ -716,15 +683,15 @@
  "@version{2024-3-2}
   @argument[context]{a @class{pango:context} object holding information that
     affects the itemization process}
-  @argument[text]{a string with the text to itemize, must be valid UTF-8}
-  @argument[start]{an integer with the first byte in @arg{text} to process}
-  @argument[length]{an integer with the number of bytes, (not characters, to
+  @argument[text]{a string for the text to itemize, must be valid UTF-8}
+  @argument[start]{an integer for the first byte in @arg{text} to process}
+  @argument[length]{an integer for the number of bytes, (not characters, to
     process after @arg{start}, this must be >= 0}
-  @argument[attrs]{a @class{pango:attr-list} instance with the set of
-    attributes that apply to @arg{text}}
+  @argument[attrs]{a @class{pango:attr-list} instance for the set of attributes
+    that apply to @arg{text}}
   @argument[iter]{a cached @class{pango:attr-iterator} attribute iterator, or
     @code{nil}}
-  @return{A list of @class{pango:item} instances.}
+  @return{The list of @class{pango:item} instances.}
   @begin{short}
     Breaks a piece of text into segments with consistent directional level and
     shaping engine.
@@ -753,7 +720,7 @@
 (export 'itemize)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_itemize_with_base_dir ()
+;;; pango_itemize_with_base_dir
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_itemize_with_base_dir" itemize-with-base-dir)
@@ -762,17 +729,17 @@
  "@version{2024-3-2}
   @argument[context]{a @class{pango:context} object holding information that
     affects the itemization process}
-  @argument[direction]{a @symbol{pango:direction} value with the base direction
+  @argument[direction]{a @symbol{pango:direction} value for the base direction
     to use for bidirectional processing}
-  @argument[text]{a string with the text to itemize, must be valid UTF-8}
-  @argument[start]{an integer with the first byte in @arg{text} to process}
-  @argument[length]{an integer with the number of bytes, not characters, to
+  @argument[text]{a string for the text to itemize, must be valid UTF-8}
+  @argument[start]{an integer for the first byte in @arg{text} to process}
+  @argument[length]{an integer for the number of bytes, not characters, to
     process after @arg{start}, this must be >= 0}
-  @argument[attrs]{a @class{pango:attr-list} instance with the set of
+  @argument[attrs]{a @class{pango:attr-list} instance for the set of
     attributes that apply to @arg{text}}
   @argument[iter]{a cached @class{pango:attr-iterator} attribute iterator, or
     @code{nil}}
-  @return{A list of @class{pango:item} instances.}
+  @return{The list of @class{pango:item} instances.}
   @begin{short}
     Like the @fun{pango:itemize} function, but the base direction to use when
     computing bidirectional levels, is specified explicitly rather than gotten
@@ -797,13 +764,13 @@
 (export 'itemize-with-base-dir)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_reorder_items ()
+;;; pango_reorder_items
 ;;;
 ;;; Reorder items from logical order to visual order.
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_break ()
+;;; pango_break
 ;;;
 ;;; Determines possible line, word, and character breaks for a string of
 ;;; Unicode text with a single analysis.
@@ -812,19 +779,19 @@
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_get_log_attrs ()
+;;; pango_get_log_attrs
 ;;;
 ;;; Computes a PangoLogAttr for each character in text.
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_find_paragraph_boundary ()
+;;; pango_find_paragraph_boundary
 ;;;
 ;;; Locates a paragraph boundary in text.
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_default_break ()                                 not exported
+;;; pango_default_break                                     not exported
 ;;; ----------------------------------------------------------------------------
 
 ;; TODO: Consider to remove the implementation
@@ -838,17 +805,17 @@
 
 (defun default-break (text analysis attrs len)
  #+liber-documentation
- "@version{#2023-1-7}
-  @argument[text]{a string with the text to break, must be valid UTF-8}
+ "@version{#2024-12-29}
+  @argument[text]{a string for the text to break, must be valid UTF-8}
   @argument[analysis]{a @symbol{pango:analysis} instance from the
     @fun{pango:itemize} function for the text}
   @argument[attrs]{logical @symbol{pango:log-attr} attributes to fill in}
-  @argument[len]{an integer with the size of the array passed as @arg{attrs}}
+  @argument[len]{an integer for the size of the array passed as @arg{attrs}}
   @begin{short}
     This is the default break algorithm.
   @end{short}
   It applies Unicode rules without language-specific tailoring, therefore the
-  analyis argument is unused and can be @code{null-pointer}.
+  analyis argument is unused and can be @code{cffi:null-pointer}.
 
   See the @fun{pango:tailor-break} function for language-specific breaks.
   @see-symbol{pango:analysis}
@@ -858,7 +825,7 @@
   (%default-break text -1 analysis attrs len))
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_tailor_break ()                                  not exported
+;;; pango_tailor_break                                      not exported
 ;;; ----------------------------------------------------------------------------
 
 ;; TODO: Consider to remove the implementation
@@ -867,15 +834,15 @@
 (cffi:defcfun ("pango_tailor_break" tailor-break) :void
  #+liber-documentation
  "@version{#2021-1-12}
-  @argument[text]{a string with the text to process, must be valid UTF-8}
-  @argument[length]{an integer with the length in bytes of @arg{text}}
+  @argument[text]{a string for the text to process, must be valid UTF-8}
+  @argument[length]{an integer for the length in bytes of @arg{text}}
   @argument[analysis]{a @symbol{pango:analysis} instance from the function
     @fun{pango:itemize} for @arg{text}}
-  @argument[offset]{an integer with the byte offset of @arg{text} from the
+  @argument[offset]{an integer for the byte offset of @arg{text} from the
     beginning of the paragraph, or -1 to ignore attributes from analysis}
   @argument[log-attrs]{array with one @symbol{pango:log-attr} instance per
     character in @arg{text}, plus one extra, to be filled in}
-  @argument[log-attrs-len]{an integer with the length of @arg{log-attrs} array}
+  @argument[log-attrs-len]{an integer for the length of @arg{log-attrs} array}
   @begin{short}
     Apply language-specific tailoring to the breaks in @arg{log-attrs}, which
     are assumed to have been produced by the function
@@ -898,7 +865,7 @@
   (log-attrs-len :int))
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_shape ()
+;;; pango_shape
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_shape" %shape) :void
@@ -910,8 +877,8 @@
 (defun shape (text len analysis)
  #+liber-documentation
  "@version{2024-3-3}
-  @argument[text]{a string with the text to process}
-  @argument[len]{an integer with the length (in bytes) of @arg{text}}
+  @argument[text]{a string for the text to process}
+  @argument[len]{an integer for the length (in bytes) of @arg{text}}
   @argument[analysis]{a @symbol{pango:analysis} instance from the
   @fun{pango:itemize} function}
   @return[glyphs]{The @class{pango:glyph-string} instance with the results}
@@ -956,7 +923,7 @@
 (export 'shape)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_shape_full ()
+;;; pango_shape_full
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_shape_full" %shape-full) :void
@@ -1007,7 +974,7 @@
 (export 'shape-full)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_shape_with_flags ()
+;;; pango_shape_with_flags
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-44

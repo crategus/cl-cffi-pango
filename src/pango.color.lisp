@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
 ;;; pango.color.lisp
 ;;;
-;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.51 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
+;;; The documentation in this file is taken from the Pango Reference Manual
+;;; Version 1.54 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2024 Dieter Kaiser
+;;; Copyright (C) 2011 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -34,7 +34,7 @@
 ;;; Functions
 ;;;
 ;;;     pango_color_copy
-;;;     pango_color_free
+;;;     pango_color_free                                    not implemented
 ;;;     pango_color_to_string
 ;;;     pango_color_parse
 ;;;     pango_color_parse_with_alpha
@@ -48,7 +48,7 @@
 (in-package :pango)
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoColor
+;;; PangoColor
 ;;; ----------------------------------------------------------------------------
 
 (glib:define-gboxed-cstruct color "PangoColor"
@@ -76,9 +76,9 @@
   (blue :uint16 :initform 0))
   @end{pre}
   @begin[code]{table}
-    @entry[red]{An unsigned integer with the red component of the color.}
-    @entry[green]{An unsigned integer with the green component of the color.}
-    @entry[blue]{An unsigned integer with the blue component of the color.}
+    @entry[red]{The unsigned integer with the red component of the color.}
+    @entry[green]{The unsigned integer with the green component of the color.}
+    @entry[blue]{The unsigned integer with the blue component of the color.}
   @end{table}
   @see-constructor{pango:color-new}
   @see-constructor{pango:color-copy}
@@ -145,9 +145,9 @@
 (defun color-new (&key (red 0) (green 0) (blue 0))
  #+liber-documentation
  "@version{2023-2-5}
-  @argument[red]{an unsigned integer with the red component of the color}
-  @argument[green]{an unsigned integer with the green component of the color}
-  @argument[blue]{an unsigned integer with the blue component of the color}
+  @argument[red]{an unsigned integer for the red component of the color}
+  @argument[green]{an unsigned integer for the green component of the color}
+  @argument[blue]{an unsigned integer for the blue component of the color}
   @begin{short}
     Creates a new @class{pango:color} color.
   @end{short}
@@ -159,7 +159,7 @@
 (export 'color-new)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_color_copy ()
+;;; pango_color_copy
 ;;; ----------------------------------------------------------------------------
 
 (declaim (inline color-copy))
@@ -179,18 +179,13 @@
 (export 'color-copy)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_color_free ()
-;;;
-;;; void pango_color_free (PangoColor *color);
+;;; pango_color_free
 ;;;
 ;;; Frees a color allocated by pango_color_copy().
-;;;
-;;; color :
-;;;     an allocated PangoColor, may be NULL
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_color_parse ()
+;;; pango_color_parse
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_color_parse" %color-parse) :boolean
@@ -233,7 +228,7 @@
 (export 'color-parse)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_color_parse_with_alpha ()
+;;; pango_color_parse_with_alpha
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_color_parse_with_alpha" %color-parse-with-alpha) :boolean
@@ -248,7 +243,7 @@
   @argument[spec]{a string specifying a color}
   @argument[color]{a newly created @class{pango:color} instance with the result,
     or @code{nil}}
-  @argument[alpha]{an unsigned integer with the alpha value}
+  @argument[alpha]{an unsigned integer for the alpha value}
   @begin{short}
     Fill in the fields of a color from a string specification.
   @end{short}
@@ -273,7 +268,7 @@
 (export 'color-parse-with-alpha)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_color_to_string ()
+;;; pango_color_to_string
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_color_to_string" color-to-string) :string

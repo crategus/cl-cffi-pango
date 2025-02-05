@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
 ;;; pango.package.lisp
 ;;;
-;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.51 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
+;;; The documentation in this file is taken from the Pango Reference Manual
+;;; Version 1.54 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2024 Dieter Kaiser
+;;; Copyright (C) 2011 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -233,6 +233,8 @@
       input to the itemization process and also when creating a Pango layout.
       The data types and functions in this section are used to represent and
       manipulate sets of attributes applied to a portion of text.
+    @end{subsection}
+    @begin[Types and functions for text attributes]{subsection}
       @about-variable{+scale-xx-small+}
       @about-variable{+scale-x-small+}
       @about-variable{+scale-small+}
@@ -256,6 +258,8 @@
       @about-function{attribute-copy}
       @about-function{attribute-equal}
       @about-function{attribute-destroy}
+      @about-function{attr-type-register}
+      @about-function{attr-type-name}
       @about-symbol{attr-string}
       @about-symbol{attr-language}
       @about-symbol{attr-color}
@@ -297,8 +301,6 @@
       @about-function{attr-allow-breaks-new}
       @about-function{attr-insert-hyphens-new}
       @about-function{attr-show-new}
-      @about-function{attr-type-register}
-      @about-function{attr-type-name}
       @about-class{attr-list}
       @about-function{attr-list-new}
       @about-function{attr-list-ref}
@@ -602,7 +604,7 @@
     @end{subsection}
   @end{section}
   @begin[Rendering with Pango]{section}
-    @begin[Cairo Rendering]{subsection}
+    @begin[Introduction to Cairo Rendering]{subsection}
       The Cairo library is a vector graphics library with a powerful rendering
       model. It has such features as anti-aliased primitives, alpha-compositing,
       and gradients. Multiple backends for Cairo are available, to allow
@@ -630,7 +632,7 @@
       transformation matrix. Note that the basic metrics functions in Pango
       report results in integer Pango units. To get to the floating point units
       used in Cairo divide by the @var{pango:+scale+} value.
-      @begin[Example]{dictionary}
+      @begin[Examples]{dictionary}
         Using Pango with Cairo
         @begin{pre}
 (defun draw-cairo-rendering (cr width height)
@@ -673,6 +675,8 @@
              (cairo:restore cr)))))
         @end{pre}
       @end{dictionary}
+    @end{subsection}
+    @begin[Types and functions for Cairo rendering]{subsection}
       @about-class{cairo-font}
       @about-class{cairo-font-map}
       @about-function{cairo-font-map-default}
@@ -791,9 +795,9 @@
       @about-function{rectangle-y}
       @about-function{rectangle-width}
       @about-function{rectangle-height}
-      @about-function{rectangle-to-float}
       @about-macro{with-rectangle}
       @about-macro{with-rectangles}
+      @about-function{rectangle-to-integer}
       @about-struct{matrix}
       @about-function{matrix-xx}
       @about-function{matrix-xy}
@@ -801,8 +805,8 @@
       @about-function{matrix-yy}
       @about-function{matrix-x0}
       @about-function{matrix-y0}
-      @about-function{matrix-init}
       @about-function{matrix-new}
+      @about-function{matrix-init}
       @about-function{matrix-copy}
       @about-function{matrix-free}
       @about-function{matrix-to-float}

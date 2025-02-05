@@ -1,4 +1,4 @@
-Content from the Pango 1.50 Reference Manual
+Content from the Pango 1.54 Reference Manual
 
     *   - needs update
     %   - not fully implemented
@@ -11,7 +11,7 @@ Basic Pango Interfaces
   pango.font-metrics.lisp - PangoFontMetrics                      - Pango 1.51
   pango.font.lisp - Structures representing abstract fonts        - Pango 1.51
   pango.glyph.lisp - Storing information about glyphs             - Pango 1.51 &
-  pango.attributes.lisp - Attributes for annotating text          - Pango 1.51
+  pango.attributes.lisp - Attributes for annotating text          - Pango 1.54
   pango.markup.lisp - Markup language for text with attributes    - Pango 1.51 &
   pango.layout.lisp - High-level layout driver objects            - Pango 1.51
   pango.script.lisp - Scripts and Languages                       - Pango 1.51 &
@@ -20,7 +20,7 @@ Basic Pango Interfaces
 
 Rendering with Pango
 
-  pango.cairo-rendering - Rendering with the Cairo backend        - Pango 1.51
+  pango.cairo-rendering - Rendering with the Cairo backend        - Pango 1.54
 
   not implemented - Win32 Fonts and Rendering
   not implemented - CoreText Fonts and Rendering
@@ -54,4 +54,4 @@ Deprecated APIs
   not implemented - PangoEngineShape
   not implemented - Modules
 
-;;; 2024-3-4
+2025-1-1

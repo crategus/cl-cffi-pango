@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
 ;;; pango.coverage.lisp
 ;;;
-;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.51 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
+;;; The documentation in this file is taken from the Pango Reference Manual
+;;; Version 1.54 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2024 Dieter Kaiser
+;;; Copyright (C) 2011 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -39,14 +39,14 @@
 ;;; Functions
 ;;;
 ;;;     pango_coverage_new
-;;;     pango_coverage_ref                                 Deprecated 1.52
-;;;     pango_coverage_unref                               Deprecated 1.52
-;;;     pango_coverage_copy                                not needed
+;;;     pango_coverage_ref                                  Deprecated 1.52
+;;;     pango_coverage_unref                                Deprecated 1.52
+;;;     pango_coverage_copy                                 not needed
 ;;;     pango_coverage_get
-;;;     pango_coverage_max                                 Deprecated 1.44
+;;;     pango_coverage_max                                  Deprecated 1.44
 ;;;     pango_coverage_set
-;;;     pango_coverage_to_bytes                            Deprecated 1.44
-;;;     pango_coverage_from_bytes                          Deprecated 1.44
+;;;     pango_coverage_to_bytes                             Deprecated 1.44
+;;;     pango_coverage_from_bytes                           Deprecated 1.44
 ;;;
 ;;; Object Hierarchy
 ;;;
@@ -132,7 +132,7 @@
   @see-symbol{pango:coverage-level}")
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_coverage_new ()
+;;; pango_coverage_new
 ;;; ----------------------------------------------------------------------------
 
 (declaim (inline coverage-new))
@@ -152,52 +152,26 @@
 (export 'coverage-new)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_coverage_ref ()
-;;;
-;;; PangoCoverage *
-;;; pango_coverage_ref (PangoCoverage *coverage);
+;;; pango_coverage_ref
 ;;;
 ;;; Increase the reference count on the PangoCoverage by one
-;;;
-;;; coverage :
-;;;     a PangoCoverage.
-;;;
-;;; Returns :
-;;;     coverage .
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_coverage_unref ()
-;;;
-;;; void
-;;; pango_coverage_unref (PangoCoverage *coverage);
+;;; pango_coverage_unref
 ;;;
 ;;; Decrease the reference count on the PangoCoverage by one. If the result is
 ;;; zero, free the coverage and all associated memory.
-;;;
-;;; coverage :
-;;;     a PangoCoverage.
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_coverage_copy ()
+;;; pango_coverage_copy
 ;;;
-;;; PangoCoverage *
-;;; pango_coverage_copy (PangoCoverage *coverage);
-;;;
-;;; Copy an existing PangoCoverage. (This function may now be unnecessary since
-;;; we refcount the structure. File a bug if you use it.)
-;;;
-;;; coverage :
-;;;     a PangoCoverage
-;;;
-;;; Returns :
-;;;     the newly allocated PangoCoverage, with a reference count of one, which
-;;;     should be freed with pango_coverage_unref().
+;;; Copy an existing PangoCoverage.
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_coverage_get ()
+;;; pango_coverage_get
 ;;; ----------------------------------------------------------------------------
 
 ;; TODO: Can we use the char code for a character as the index!?
@@ -221,30 +195,16 @@
 (export 'coverage-get)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_coverage_max ()
-;;;
-;;; void
-;;; pango_coverage_max (PangoCoverage *coverage,
-;;;                     PangoCoverage *other);
+;;; pango_coverage_max
 ;;;
 ;;; pango_coverage_max has been deprecated since version 1.44 and should not be
 ;;; used in newly written code.
 ;;;
 ;;; This function does nothing
-;;;
-;;; Set the coverage for each index in coverage to be the max (better) value of
-;;; the current coverage for the index and the coverage for the corresponding
-;;; index in other .
-;;;
-;;; coverage :
-;;;     a PangoCoverage
-;;;
-;;; other :
-;;;     another PangoCoverage
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_coverage_set ()
+;;; pango_coverage_set
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_coverage_set" coverage-set) :void
@@ -266,53 +226,21 @@
 (export 'coverage-set)
 
 ;;; ----------------------------------------------------------------------------
-;;;pango_coverage_to_bytes ()
-;;;
-;;; void
-;;; pango_coverage_to_bytes (PangoCoverage *coverage,
-;;;                          guchar **bytes,
-;;;                          int *n_bytes);
+;;;pango_coverage_to_bytes
 ;;;
 ;;; pango_coverage_to_bytes has been deprecated since version 1.44 and should
 ;;; not be used in newly written code.
 ;;;
 ;;; This returns NULL
-;;;
-;;; Convert a PangoCoverage structure into a flat binary format
-;;;
-;;; coverage :
-;;;     a PangoCoverage
-;;;
-;;; bytes :
-;;;     location to store result (must be freed with g_free()).
-;;;
-;;; n_bytes :
-;;;     location to store size of result.
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_coverage_from_bytes ()
-;;;
-;;; PangoCoverage *
-;;; pango_coverage_from_bytes (guchar *bytes,
-;;;                            int n_bytes);
+;;; pango_coverage_from_bytes
 ;;;
 ;;; pango_coverage_from_bytes has been deprecated since version 1.44 and should
 ;;; not be used in newly written code.
 ;;;
 ;;; This returns NULL
-;;;
-;;; Convert data generated from pango_coverage_to_bytes() back to a
-;;; PangoCoverage
-;;;
-;;; bytes :
-;;;     binary data representing a PangoCoverage.
-;;;
-;;; n_bytes :
-;;;     the size of bytes in bytes
-;;;
-;;; Returns :
-;;;     a newly allocated PangoCoverage, or NULL if the data was invalid.
 ;;; ----------------------------------------------------------------------------
 
 ;;; --- End of file pango.coverage.lisp ----------------------------------------

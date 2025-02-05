@@ -15,13 +15,13 @@
 
 (test pango-scale-values
   (let ((eps 1.0d-6))
-    (is (approx-equal (/ 1.0d0 (* 1.2d0 1.2d0 1.2d0)) pango:+scale-xx-small+ eps))
-    (is (approx-equal (/ 1.0d0 (* 1.2d0 1.2d0)) pango:+scale-x-small+ eps))
-    (is (approx-equal (/ 1.0d0 1.2d0) pango:+scale-small+ eps))
-    (is (approx-equal 1.0d0 pango:+scale-medium+ eps))
-    (is (approx-equal 1.2d0 pango:+scale-large+ eps))
-    (is (approx-equal (* 1.2d0 1.2d0) pango:+scale-x-large+ eps))
-    (is (approx-equal (* 1.2d0 1.2d0 1.2d0) pango:+scale-xx-large+ eps))))
+    (is (approx-equal pango:+scale-xx-small+ (/ 1.0d0 (* 1.2d0 1.2d0 1.2d0)) eps))
+    (is (approx-equal pango:+scale-x-small+ (/ 1.0d0 (* 1.2d0 1.2d0)) eps))
+    (is (approx-equal pango:+scale-small+ (/ 1.0d0 1.2d0) eps))
+    (is (approx-equal pango:+scale-medium+ 1.0d0 eps))
+    (is (approx-equal pango:+scale-large+ 1.2d0 eps))
+    (is (approx-equal pango:+scale-x-large+ (* 1.2d0 1.2d0) eps))
+    (is (approx-equal pango:+scale-xx-large+ (* 1.2d0 1.2d0 1.2d0) eps))))
 
 ;;;     PangoAttrType
 
@@ -311,8 +311,6 @@
                                     (:SMALL-CAPS 3))
              (gobject:get-gtype-definition "PangoFontScale"))))
 
-;;;     PangoAttrClass
-
 ;;;     PangoAttribute
 
 (test pango-attribute-boxed
@@ -431,7 +429,6 @@
     (is (eq :style (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 style normal"
                  (pango:attr-list-to-string attrlist)))))
@@ -445,7 +442,6 @@
     (is (eq :variant (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 variant normal"
                  (pango:attr-list-to-string attrlist)))))
@@ -459,7 +455,6 @@
     (is (eq :stretch (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 stretch normal"
                  (pango:attr-list-to-string attrlist)))))
@@ -473,7 +468,6 @@
     (is (eq :weight (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 weight bold"
                  (pango:attr-list-to-string attrlist)))))
@@ -487,7 +481,6 @@
     (is (eq :size (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 size 16"
                  (pango:attr-list-to-string attrlist)))))
@@ -501,7 +494,6 @@
     (is (eq :absolute-size (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 absolute-size 16"
                  (pango:attr-list-to-string attrlist)))))
@@ -515,7 +507,6 @@
     (is (eq :font-desc (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 font-desc \"Normal\""
                  (pango:attr-list-to-string attrlist)))))
@@ -529,7 +520,6 @@
     (is (eq :foreground (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 foreground #000a0014001e"
                  (pango:attr-list-to-string attrlist)))))
@@ -543,7 +533,6 @@
     (is (eq :background (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 background #000a0014001e"
                  (pango:attr-list-to-string attrlist)))))
@@ -557,7 +546,6 @@
     (is (eq :strikethrough (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 strikethrough true"
                  (pango:attr-list-to-string attrlist)))))
@@ -571,7 +559,6 @@
     (is (eq :strikethrough-color (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 strikethrough-color #000a0014001e"
                  (pango:attr-list-to-string attrlist)))))
@@ -585,7 +572,6 @@
     (is (eq :underline (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 underline double"
                  (pango:attr-list-to-string attrlist)))))
@@ -599,7 +585,6 @@
     (is (eq :underline-color (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 underline-color #000a0014001e"
                  (pango:attr-list-to-string attrlist)))))
@@ -613,7 +598,6 @@
     (is (eq :overline (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 overline single"
                  (pango:attr-list-to-string attrlist)))))
@@ -627,32 +611,20 @@
     (is (eq :overline-color (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 overline-color #000a0014001e"
                  (pango:attr-list-to-string attrlist)))))
 
 ;;;     pango_attr_shape_new
 
-;; TODO: Consider to implement pango:rectangle more lispy!?
-
 (test pango-attr-shape-new
-  (cffi:with-foreign-objects ((rect1 '(:struct pango:rectangle))
-                              (rect2 '(:struct pango:rectangle)))
-    (cffi:with-foreign-slots ((pango::x pango::y pango::width pango::height)
-                              rect1 (:struct pango:rectangle))
-      (setf pango::x 10 pango::y 20 pango::width 30 pango::height 40))
-    (cffi:with-foreign-slots ((pango::x pango::y pango::width pango::height)
-                              rect2 (:struct pango:rectangle))
-      (setf pango::x 50 pango::y 60 pango::width 70 pango::height 80))
-
+  (pango:with-rectangles ((rect1 10 20 30 40) (rect2 50 60 70 80))
     (let ((attr (pango:attr-shape-new rect1 rect2))
           (attrlist (pango:attr-list-new)))
       (is (typep attr 'pango:attribute))
       (is (eq :shape (pango::attribute-type attr)))
       (is (= 0 (pango:attribute-start-index attr)))
       (is (= 4294967295 (pango:attribute-end-index attr)))
-
       (is-false (pango:attr-list-insert attrlist attr))
       (is (string= "0 4294967295 shapeshape"
                    (pango:attr-list-to-string attrlist))))))
@@ -669,7 +641,6 @@
     (is (eq :scale (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 scale 2.000000"
                  (pango:attr-list-to-string attrlist)))))
@@ -683,7 +654,6 @@
     (is (eq :rise (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 rise 2"
                  (pango:attr-list-to-string attrlist)))))
@@ -697,7 +667,6 @@
     (is (eq :letter-spacing (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 letter-spacing 2"
                  (pango:attr-list-to-string attrlist)))))
@@ -711,7 +680,6 @@
     (is (eq :fallback (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 fallback true"
                  (pango:attr-list-to-string attrlist)))))
@@ -725,7 +693,6 @@
     (is (eq :gravity (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 gravity north"
                  (pango:attr-list-to-string attrlist)))))
@@ -739,7 +706,6 @@
     (is (eq :gravity-hint (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 gravity-hint natural"
                  (pango:attr-list-to-string attrlist)))))
@@ -753,7 +719,6 @@
     (is (eq :font-features (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 font-features \"smcp\""
                  (pango:attr-list-to-string attrlist)))))
@@ -767,7 +732,6 @@
     (is (eq :foreground-alpha (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 foreground-alpha 32"
                  (pango:attr-list-to-string attrlist)))))
@@ -781,7 +745,6 @@
     (is (eq :background-alpha (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 background-alpha 32"
                  (pango:attr-list-to-string attrlist)))))
@@ -795,7 +758,6 @@
     (is (eq :allow-breaks (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 allow-breaks true"
                  (pango:attr-list-to-string attrlist)))))
@@ -809,7 +771,6 @@
     (is (eq :insert-hyphens (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 insert-hyphens true"
                  (pango:attr-list-to-string attrlist)))))
@@ -823,21 +784,15 @@
     (is (eq :show (pango::attribute-type attr)))
     (is (= 0 (pango:attribute-start-index attr)))
     (is (= 4294967295 (pango:attribute-end-index attr)))
-
     (is-false (pango:attr-list-insert attrlist attr))
     (is (string= "0 4294967295 show 1"
                  (pango:attr-list-to-string attrlist)))))
-
-;;;     PangoAttrFilterFunc
 
 ;;;     pango_attr_list_new
 
 (test pango-attr-list-new
   (let ((attrs (pango:attr-list-new)))
     (is (typep attrs 'pango:attr-list))))
-
-;;;     pango_attr_list_ref
-;;;     pango_attr_list_unref
 
 ;;;     pango_attr_list_copy
 ;;;     pango_attr_list_equal
@@ -893,7 +848,10 @@
                  (pango:attr-list-to-string attrlist)))))
 
 ;;;     pango_attr_list_splice
+
+;;;     PangoAttrFilterFunc
 ;;;     pango_attr_list_filter
+
 ;;;     pango_attr_list_update
 
 ;;;     pango_attr_list_get_attributes
@@ -1068,4 +1026,4 @@
 
 ;;;     pango_attr_iterator_destroy
 
-;;; 2024-9-18
+;;; 2025-1-1

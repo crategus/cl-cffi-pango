@@ -1,12 +1,12 @@
 ;;; ----------------------------------------------------------------------------
 ;;; pango.context.lisp
 ;;;
-;;; The documentation of this file is taken from the Pango Reference Manual
-;;; Version 1.51 and modified to document the Lisp binding to the Pango
-;;; library. See <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
+;;; The documentation in this file is taken from the Pango Reference Manual
+;;; Version 1.54 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2024 Dieter Kaiser
+;;; Copyright (C) 2011 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -93,7 +93,7 @@
   @see-constructor{pango:context-new}")
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_new ()
+;;; pango_context_new
 ;;; ----------------------------------------------------------------------------
 
 (declaim (inline context-new))
@@ -123,7 +123,7 @@
 (export 'context-new)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_changed ()
+;;; pango_context_changed
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_context_changed" context-changed) :void
@@ -144,14 +144,14 @@
 (export 'context-changed)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_serial ()
+;;; pango_context_get_serial
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_context_get_serial" context-serial) :uint
  #+liber-documentation
  "@version{2024-2-23}
   @argument[context]{a @class{pango:context} object}
-  @return{An unsigned integer with the current serial number of @arg{context}.}
+  @return{The unsigned integer with the current serial number of @arg{context}.}
   @begin{short}
     Returns the current serial number of the Pango context.
   @end{short}
@@ -172,8 +172,8 @@
 (export 'context-serial)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_font_map ()
-;;; pango_context_set_font_map ()
+;;; pango_context_get_font_map
+;;; pango_context_set_font_map
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf context-font-map) (font-map context)
@@ -206,8 +206,8 @@
 (export 'context-font-map)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_font_description ()
-;;; pango_context_set_font_description ()
+;;; pango_context_get_font_description
+;;; pango_context_set_font_description
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf context-font-description) (desc context)
@@ -238,8 +238,8 @@
 (export 'context-font-description)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_language ()
-;;; pango_context_set_language ()
+;;; pango_context_get_language
+;;; pango_context_set_language
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf context-language) (language context)
@@ -270,8 +270,8 @@
 (export 'context-language)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_base_dir ()
-;;; pango_context_set_base_dir ()
+;;; pango_context_get_base_dir
+;;; pango_context_set_base_dir
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf context-base-dir) (direction context)
@@ -306,8 +306,8 @@
 (export 'context-base-dir)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_base_gravity ()
-;;; pango_context_set_base_gravity ()
+;;; pango_context_get_base_gravity
+;;; pango_context_set_base_gravity
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf context-base-gravity) (gravity context)
@@ -338,7 +338,7 @@
 (export 'context-base-gravity)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_gravity ()
+;;; pango_context_get_gravity
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_context_get_gravity" context-gravity) gravity
@@ -365,8 +365,8 @@
 (export 'context-gravity)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_gravity_hint ()
-;;; pango_context_set_gravity_hint ()
+;;; pango_context_get_gravity_hint
+;;; pango_context_set_gravity_hint
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf context-gravity-hint) (hint context)
@@ -400,8 +400,8 @@
 (export 'context-gravity-hint)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_matrix ()
-;;; pango_context_set_matrix ()
+;;; pango_context_get_matrix
+;;; pango_context_set_matrix
 ;;; ----------------------------------------------------------------------------
 
 (defun (setf context-matrix) (matrix context)
@@ -436,8 +436,8 @@
 (export 'context-matrix)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_round_glyph_positions ()
-;;; pango_context_set_round_glyph_positions ()
+;;; pango_context_get_round_glyph_positions
+;;; pango_context_set_round_glyph_positions
 ;;; ----------------------------------------------------------------------------
 
 #+pango-1-44
@@ -477,7 +477,7 @@
 (export 'context-round-glyph-positions)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_load_font ()
+;;; pango_context_load_font
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_context_load_font" context-load-font) (g:object font)
@@ -514,7 +514,7 @@
 (export 'context-load-font)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_load_fontset ()
+;;; pango_context_load_fontset
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_context_load_fontset" context-load-fontset)
@@ -557,7 +557,7 @@
 (export 'context-load-fontset)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_get_metrics ()
+;;; pango_context_get_metrics
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_context_get_metrics" context-metrics)
@@ -598,7 +598,7 @@
 (export 'context-metrics)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_context_list_families ()
+;;; pango_context_list_families
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_context_list_families" %context-list-families) :void
@@ -611,7 +611,7 @@
  "@version{2024-2-23}
   @argument[context]{a @class{pango:context} object}
   @begin{return}
-    A list of @class{pango:font-family} objects.
+    The list of @class{pango:font-family} objects.
   @end{return}
   @begin{short}
     List all families for a Pango context.

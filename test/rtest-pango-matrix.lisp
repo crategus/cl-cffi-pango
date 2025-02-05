@@ -10,27 +10,40 @@
     (is (= 0 (pango:rectangle-x rect)))
     (is (= 0 (pango:rectangle-y rect)))
     (is (= 0 (pango:rectangle-width rect)))
-    (is (= 0 (pango:rectangle-height rect)))))
+    (is (= 0 (pango:rectangle-height rect)))
+    (is (equal '(0 0 0 0)
+               (multiple-value-list (pango:rectangle-to-integer rect))))))
 
-(test pango-with-rectangle.1
+(test pango-with-rectangle.2
   (pango:with-rectangle (rect 1 2 3 4)
     (is (= 1 (pango:rectangle-x rect)))
     (is (= 2 (pango:rectangle-y rect)))
     (is (= 3 (pango:rectangle-width rect)))
-    (is (= 4 (pango:rectangle-height rect)))))
+    (is (= 4 (pango:rectangle-height rect)))
+    (is (equal '(1 2 3 4)
+               (multiple-value-list (pango:rectangle-to-integer rect))))))
 
-(test pango-with-rectangles
+(test pango-with-rectangles.1
   (pango:with-rectangles (rect1 (rect2 1 2 3 4))
-
     (is (= 0 (pango:rectangle-x rect1)))
     (is (= 0 (pango:rectangle-y rect1)))
     (is (= 0 (pango:rectangle-width rect1)))
     (is (= 0 (pango:rectangle-height rect1)))
-
+    (is (equal '(0 0 0 0)
+               (multiple-value-list (pango:rectangle-to-integer rect1))))
     (is (= 1 (pango:rectangle-x rect2)))
     (is (= 2 (pango:rectangle-y rect2)))
     (is (= 3 (pango:rectangle-width rect2)))
-    (is (= 4 (pango:rectangle-height rect2)))))
+    (is (= 4 (pango:rectangle-height rect2)))
+    (is (equal '(1 2 3 4)
+               (multiple-value-list (pango:rectangle-to-integer rect2))))))
+
+(test pango-with-rectangles.2
+  (pango:with-rectangles ((rect1 1 2 3 4) (rect2 rect1))
+    (is (equal '(1 2 3 4)
+               (multiple-value-list (pango:rectangle-to-integer rect1))))
+    (is (equal '(1 2 3 4)
+               (multiple-value-list (pango:rectangle-to-integer rect2))))))
 
 ;;;     PangoMatrix
 
@@ -184,4 +197,4 @@
   (let ((matrix (pango:matrix-new :xx 1 :xy 0 :yx 2 :yy 1 :x0 0 :y0 0)))
     (is (= 2.0d0 (pango:matrix-slant-ratio matrix)))))
 
-;;; 2024-5-25
+;;; 2025-1-3
