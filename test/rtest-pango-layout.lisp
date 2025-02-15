@@ -219,9 +219,13 @@
   (let ((layout (make-instance 'pango:layout)))
     (is-false (pango:layout-set-markup layout "<b>Text</b>"))
     (is (string= "Text" (pango:layout-text layout)))
+    ;; Set the marker
     (is (eq #\T (pango:layout-set-markup-with-accel layout
                                                     "<b>_Text neu</b>" #\_)))
-    (is (string= "Text neu" (pango:layout-text layout)))))
+    (is (string= "Text neu" (pango:layout-text layout)))
+    ;; Use an integer with the char code for the marker
+    (is (eq #\T (pango:layout-set-markup-with-accel layout
+                                                    "<b>_Text neu</b>" 95)))))
 
 ;;;     pango_layout_set_attributes
 ;;;     pango_layout_get_attributes
@@ -1174,4 +1178,4 @@
 
 ;;;     pango_layout_line_is-paragraph-start
 
-;;; 2025-1-3
+;;; 2025-2-14
