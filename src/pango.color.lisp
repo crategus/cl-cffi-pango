@@ -62,24 +62,26 @@
 (setf (liber:alias-for-class 'color)
       "GBoxed"
       (documentation 'color 'type)
- "@version{2023-2-5}
-  @begin{short}
-    The @class{pango:color} structure is used to represent a color in an
-    uncalibrated RGB color space.
-  @end{short}
-  @begin{pre}
+ "@version{2025-2-15}
+  @begin{declaration}
 (glib:define-gboxed-cstruct color \"PangoColor\"
   (:export t
    :type-initializer \"pango_color_get_type\")
   (red :uint16 :initform 0)
   (green :uint16 :initform 0)
   (blue :uint16 :initform 0))
-  @end{pre}
-  @begin[code]{table}
-    @entry[red]{The unsigned integer with the red component of the color.}
-    @entry[green]{The unsigned integer with the green component of the color.}
-    @entry[blue]{The unsigned integer with the blue component of the color.}
-  @end{table}
+  @end{declaration}
+  @begin{values}
+    @begin[code]{table}
+      @entry[red]{The unsigned integer with the red component of the color.}
+      @entry[green]{The unsigned integer with the green component of the color.}
+      @entry[blue]{The unsigned integer with the blue component of the color.}
+    @end{table}
+  @end{values}
+  @begin{short}
+    The @class{pango:color} structure is used to represent a color in an
+    uncalibrated RGB color space.
+  @end{short}
   @see-constructor{pango:color-new}
   @see-constructor{pango:color-copy}
   @see-constructor{pango:color-parse}
@@ -94,7 +96,7 @@
 (setf (liber:alias-for-function 'color-red)
       "Accessor"
       (documentation 'color-red 'function)
- "@version{2023-2-5}
+ "@version{2025-2-15}
   @syntax{(pango:color-red instance) => red}
   @syntax{(setf (pango:color-red instance) red)}
   @begin{short}
@@ -110,7 +112,7 @@
 (setf (liber:alias-for-function 'color-green)
       "Accessor"
       (documentation 'color-green 'function)
- "@version{2023-2-5}
+ "@version{2025-2-15}
   @syntax{(pango:color-green instance) => green}
   @syntax{(setf (pango:color-green instance) green)}
   @begin{short}
@@ -126,7 +128,7 @@
 (setf (liber:alias-for-function 'color-blue)
       "Accessor"
       (documentation 'color-blue 'function)
- "@version{2023-2-5}
+ "@version{2025-2-15}
   @syntax{(pango:color-blue instance) => blue}
   @syntax{(setf (pango:color-blue instance) blue)}
   @begin{short}
@@ -144,7 +146,7 @@
 
 (defun color-new (&key (red 0) (green 0) (blue 0))
  #+liber-documentation
- "@version{2023-2-5}
+ "@version{2025-2-15}
   @argument[red]{an unsigned integer for the red component of the color}
   @argument[green]{an unsigned integer for the green component of the color}
   @argument[blue]{an unsigned integer for the blue component of the color}
@@ -166,7 +168,7 @@
 
 (defun color-copy (color)
  #+liber-documentation
- "@version{2023-2-5}
+ "@version{2025-2-15}
   @argument[color]{a @symbol{pango:color} instance}
   @return{The newly created @class{pango:color} instance.}
   @begin{short}
@@ -194,7 +196,7 @@
 
 (defun color-parse (spec)
  #+liber-documentation
- "@version{2023-2-5}
+ "@version{2025-2-15}
   @argument[spec]{a string specifying a color}
   @return{The newly created @class{pango:color} instance with the result, or
     @code{nil}.}
@@ -238,7 +240,7 @@
 
 (defun color-parse-with-alpha (spec)
  #+liber-documentation
- "@version{2023-2-5}
+ "@version{2025-2-15}
   @syntax{(pango:color-parse-with-alpha spec) => color, alpha}
   @argument[spec]{a string specifying a color}
   @argument[color]{a newly created @class{pango:color} instance with the result,
@@ -273,7 +275,7 @@
 
 (cffi:defcfun ("pango_color_to_string" color-to-string) :string
  #+liber-documentation
- "@version{2023-2-5}
+ "@version{2025-2-15}
   @argument[color]{a @class{pango:color} instance}
   @return{The string with the hexadecimal form of @arg{color}.}
   @begin{short}

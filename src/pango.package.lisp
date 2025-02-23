@@ -457,8 +457,6 @@
       @about-function{markup-parser-finish}
     @end{subsection}
     @begin[Layout Objects]{subsection}
-      High-level layout driver objects.
-
       While complete access to the layout capabilities of Pango is provided
       using the detailed interfaces for itemization and shaping, using that
       functionality directly involves writing a fairly large amount of code.
@@ -466,6 +464,8 @@
       for formatting entire paragraphs of text at once. This includes
       paragraph-level functionality such as line-breaking, justification,
       alignment and ellipsization.
+    @end{subsection}
+    @begin[Types and functions for PangoLayout]{subsection}
       @about-symbol{wrap-mode}
       @about-symbol{ellipsize-mode}
       @about-symbol{alignment}
@@ -515,6 +515,8 @@
       @about-function{layout-line-readonly}
       @about-function{layout-lines}
       @about-function{layout-lines-readonly}
+    @end{subsection}
+    @begin[Type and functions for PangoLayoutIter]{subsection}
       @about-class{layout-iter}
       @about-function{layout-iter}
       @about-function{layout-iter-copy}
@@ -537,6 +539,8 @@
       @about-function{layout-iter-line-yrange}
       @about-function{layout-iter-line-extents}
       @about-function{layout-iter-layout-extents}
+    @end{subsection}
+    @begin[Types and functions for PangoLayoutLine]{subsection}
       @about-class{layout-line}
       @about-function{layout-line-ref}
       @about-function{layout-line-unref}
@@ -552,7 +556,6 @@
       @about-function{layout-line-x-to-index}
     @end{subsection}
     @begin[Scripts and Languages]{subsection}
-      Identifying writing systems and languages.
       @about-symbol{script}
       @about-class{language}
       @about-function{language-from-string}

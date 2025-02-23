@@ -206,7 +206,7 @@
       "GEnum"
       (liber:symbol-documentation 'script)
  #+liber-documentation
- "@version{2024-2-25}
+ "@version{2025-2-15}
   @begin{declaration}
 (gobject:define-genum \"PangoScript\" script
   (:export t
@@ -354,7 +354,13 @@
 (setf (liber:alias-for-class 'language)
       "GBoxed"
       (documentation 'language 'type)
- "@version{2024-2-25}
+ "@version{2025-2-15}
+  @begin{declaration}
+(glib:define-gboxed-opaque language \"PangoLanguage\"
+  :export t
+  :type-initializer \"pango_language_get_type\"
+  :alloc (error \"PangoLanguage cannot be created from the Lisp side.\"))
+  @end{declaration}
   @begin{short}
     The @symbol{pango:language} structure is used to represent a language.
   @end{short}
@@ -369,7 +375,7 @@
 (cffi:defcfun ("pango_language_from_string" language-from-string)
     (g:boxed language :return)
  #+liber-documentation
- "@version{2023-2-6}
+ "@version{2025-2-15}
   @argument[language]{a string representing a language tag}
   @return{The newly created @class{pango:language} instance.}
   @begin{short}
@@ -401,7 +407,7 @@
 
 (cffi:defcfun ("pango_language_to_string" language-to-string) :string
  #+liber-documentation
- "@version{2024-2-25}
+ "@version{2025-2-15}
   @argument[language]{a @class{pango:language} instance}
   @return{The string representing the Pango language tag.}
   @begin{short}
@@ -419,7 +425,7 @@
 
 (cffi:defcfun ("pango_language_matches" language-matches) :boolean
  #+liber-documentation
- "@version{2024-2-25}
+ "@version{2025-2-15}
   @argument[language]{a @class{pango:language} instance}
   @argument[range]{a list of language ranges, separated by @kbd{; : ,} or
   space characters, each element must either be @kbd{*} or a RFC 3066 language
@@ -456,7 +462,7 @@
 
 (defun language-includes-script (language script)
  #+liber-documentation
- "@version{2024-2-25}
+ "@version{2025-2-15}
   @argument[language]{a @class{pango:language} instance}
   @argument[script]{a @symbol{pango:script} value}
   @return{@em{True} if @arg{script} is one of the scripts used to write
@@ -493,7 +499,7 @@
 
 (defun language-scripts (language)
  #+liber-documentation
- "@version{2024-2-25}
+ "@version{2025-2-15}
   @argument[language]{a @class{pango:language} instance}
   @return{The list with @symbol{pango:script} values, or @code{nil} if Pango
     does not have any information about this particular language tag, also the
@@ -528,7 +534,7 @@
 
 (cffi:defcfun ("pango_language_get_default" language-default) (g:boxed language)
  #+liber-documentation
- "@version{2023-2-6}
+ "@version{2025-2-15}
   @return{The default language as a @class{pango:language} instance.}
   @begin{short}
     Returns the @class{pango:language} instance for the current locale of the
@@ -576,8 +582,8 @@
 
 (defun language-preferred ()
  #+liber-documentation
- "@version{2023-2-6}
-  @return{A list of @class{pango:language} instances, or @code{nil}.}
+ "@version{2025-2-15}
+  @return{The list of @class{pango:language} instances, or @code{nil}.}
   @begin{short}
     Returns the list of languages that the user prefers, as specified by the
      @code{PANGO_LANGUAGE} or @code{LANGUAGE} environment variables, in order
@@ -608,7 +614,7 @@
 (cffi:defcfun ("pango_language_get_sample_string" language-sample-string)
     :string
  #+liber-documentation
- "@version{2023-2-6}
+ "@version{2025-2-15}
   @argument[language]{a @class{pango:language} instance, or @code{nil}}
   @return{The sample string.}
   @begin{short}
@@ -653,7 +659,7 @@
 (cffi:defcfun ("pango_script_get_sample_language" script-sample-language)
     (g:boxed language)
  #+liber-documentation
- "@version{2024-2-25}
+ "@version{2025-2-15}
   @argument[script]{a @symbol{pango:script} value}
   @return{The @class{pango:language} instance that is representative of the
     script, or @code{nil} if no such language exists.}

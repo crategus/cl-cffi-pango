@@ -673,15 +673,15 @@
 (cffi:defcfun ("pango_font_description_get_stretch" font-description-stretch)
     stretch
  #+liber-documentation
- "@version{2024-3-3}
+ "@version{2025-2-20}
   @syntax{(pango:font-description-stretch desc) => stretch}
   @syntax{(setf (pango:font-description-stretch desc) stretch)}
   @argument[desc]{a @class{pango:font-description} instance}
-  @argument[stretch]{a @symbol{pango:stretch} value for the stretch for the
+  @argument[stretch]{a @symbol{pango:stretch} value for the stretch of the
     font description}
   @begin{short}
-    The @fun{pango:font-description} function gets the stretch field of a font
-    description.
+    The @fun{pango:font-description-stretch} function gets the stretch field of
+    a font description.
   @end{short}
   The @setf{pango:font-description-stretch} function sets the stretch field.
   The stretch field specifies how narrow or wide the font should be.
@@ -1003,9 +1003,9 @@
 (cffi:defcfun ("pango_font_description_from_string"
                 font-description-from-string) (g:boxed font-description)
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-2-20}
   @argument[str]{a string representation of a font description}
-  @return{A new @class{pango:font-description} instance.}
+  @return{The new @class{pango:font-description} instance.}
   @begin{short}
     Creates a new font description from a string representation.
   @end{short}
@@ -1014,41 +1014,42 @@
   families optionally terminated by a comma, @code{STYLE_OPTIONS} is a
   whitespace-separated list of words where each word describes one of style,
   variant, weight, stretch, or gravity, and @code{SIZE} is a decimal number
-  (size in points) or optionally followed by the unit modifier \"px\" for
+  (in points) or optionally followed by the unit modifier @code{\"px\"} for
   absolute size. @code{VARIATIONS} is a comma-separated list of font variation
   specifications of the form \"@code{@@axis=value}\" (the = sign is optional).
 
   The following words are understood as styles:
   @begin{pre}
-\"Normal\", \"Roman\", \"Oblique\", \"Italic\".
+\"Normal\"   \"Roman\"   \"Oblique\"   \"Italic\"
   @end{pre}
   The following words are understood as variants:
   @begin{pre}
-   \"Small-Caps\".
+\"Small-Caps\"
   @end{pre}
   The following words are understood as weights:
   @begin{pre}
-\"Thin\", \"Ultra-Light\", \"Extra-Light\", \"Light\", \"Semi-Light\",
-\"Demi-Light\", \"Book\", \"Regular\", \"Medium\", \"Semi-Bold\",
-\"Demi-Bold\", \"Bold\", \"Ultra-Bold\", \"Extra-Bold\", \"Heavy\",
-\"Black\", \"Ultra-Black\", \"Extra-Black\".
+\"Thin\"          \"Ultra-Light\"   \"Extra-Light\"   \"Light\"
+\"Semi-Light\"    \"Demi-Light\"    \"Book\"          \"Regular\"
+\"Medium\"        \"Semi-Bold\"     \"Demi-Bold\"     \"Bold\"
+\"Ultra-Bold\"    \"Extra-Bold\"    \"Heavy\"         \"Black\"
+\"Ultra-Black\"   \"Extra-Black\"
   @end{pre}
   The following words are understood as stretch values:
   @begin{pre}
-\"Ultra-Condensed\", \"Extra-Condensed\", \"Condensed\", \"Semi-Condensed\",
-\"Semi-Expanded\", \"Expanded\", \"Extra-Expanded\", \"Ultra-Expanded\".
+\"Ultra-Condensed\"  \"Extra-Condensed\"  \"Condensed\"       \"Semi-Condensed\"
+\"Semi-Expanded\"    \"Expanded\"         \"Extra-Expanded\"  \"Ultra-Expanded\"
   @end{pre}
   The following words are understood as gravity values:
   @begin{pre}
-\"Not-Rotated\", \"South\", \"Upside-Down\", \"North\", \"Rotated-Left\",
-\"East\", \"Rotated-Right\", \"West\".
+\"Not-Rotated\"   \"South\"   \"Upside-Down\"    \"North\"
+\"Rotated-Left\"  \"East\"    \"Rotated-Right\"  \"West\"
   @end{pre}
   Any one of the options may be absent. If @code{FAMILY-LIST} is absent, then
-  the family_name field of the resulting font description will be initialized
-  to NULL. If @code{STYLE-OPTIONS} is missing, then all style options will be
-  set to the default values. If @code{SIZE} is missing, the size in the
-  resulting font description will be set to 0.
-  @begin[Example]{dictionary}
+  the familiy name of the resulting font description will be initialized to
+  NULL. If @code{STYLE-OPTIONS} is missing, then all style options will be set
+  to the default values. If @code{SIZE} is missing, the size in the resulting
+  font description will be set to 0.
+  @begin[Examples]{dictionary}
     A typical example is:
     @begin{pre}
 (pango:font-description-from-string \"Cantarell Italic Light 15 @@wght=200\")

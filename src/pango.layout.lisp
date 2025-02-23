@@ -171,7 +171,7 @@
 (setf (liber:alias-for-symbol 'wrap-mode)
       "GEnum"
       (liber:symbol-documentation 'wrap-mode)
- "@version{2025-2-15}
+ "@version{2025-2-18}
   @begin{declaration}
 (gobject:define-genum \"PangoWrapMode\" wrap-mode
   (:export t
@@ -192,7 +192,8 @@
     The @symbol{pango:wrap-mode} enumeration describes how to wrap the lines of
     a @class{pango:layout} object to the desired width.
   @end{short}
-  @see-class{pango:layout}")
+  @see-class{pango:layout}
+  @see-function{pango:layout-wrap}")
 
 (export 'wrap-mode)
 
@@ -212,7 +213,7 @@
 (setf (liber:alias-for-symbol 'ellipsize-mode)
       "GEnum"
       (liber:symbol-documentation 'ellipsize-mode)
- "@version{2025-2-15}
+ "@version{2025-2-18}
   @begin{declaration}
 (gobject:define-genum \"PangoEllipsizeMode\" ellipsize-mode
   (:export t
@@ -236,7 +237,8 @@
   @end{short}
   In the ellipsization process characters are removed from the text in order to
   make it fit to a given width and replaced with an ellipsis.
-  @see-class{pango:layout}")
+  @see-class{pango:layout}
+  @see-function{pango:layout-ellipsize}")
 
 (export 'ellipsize-mode)
 
@@ -255,7 +257,7 @@
 (setf (liber:alias-for-symbol 'alignment)
       "GEnum"
       (liber:symbol-documentation 'alignment)
- "@version{2025-2-15}
+ "@version{2025-2-18}
   @begin{declaration}
 (gobject:define-genum \"PangoAlignment\" alignment
   (:export t
@@ -278,7 +280,8 @@
   If the @class{pango:layout} object is set to justify using the
   @fun{pango:layout-justify} function, this only has effect for partial lines.
   @see-class{pango:layout}
-  @see-function{pango:layout-justify}")
+  @see-function{pango:layout-justify}
+  @see-function{pango:alignment}")
 
 ;;; ----------------------------------------------------------------------------
 ;;; PangoLayoutRun
@@ -386,20 +389,20 @@
 
 #+liber-documentation
 (setf (documentation 'layout 'type)
- "@version{2025-2-15}
+ "@version{2025-2-18}
   @begin{short}
     The @class{pango:layout} class represents an entire paragraph of text.
   @end{short}
   It is initialized with a @class{pango:context} object, UTF-8 string and set
   of attributes for that string. Once that is done, the set of formatted lines
-  can be extracted from the object, the layout can be rendered, and conversion
-  between logical character positions within the layout's text, and the
-  physical position of the resulting glyphs can be made.
+  can be extracted from the @class{pango:layout} object. The Pango layout can
+  be rendered, and conversion between logical character positions within the
+  text of the Pango layout, and the physical position of the resulting glyphs
+  can be made.
 
-  There are also a number of parameters to adjust the formatting of a
-  @class{pango:layout} object. It is possible, as well, to ignore the 2-D setup,
-  and simply treat the results of a @class{pango:layout} object as a list of
-  lines.
+  There are also a number of parameters to adjust the formatting of a Pango
+  layout. It is possible, as well, to ignore the 2-D setup, and simply treat
+  the results of a Pango layout as a list of lines.
 
   @image[pango-layout]{Figure: Adjustable parameters (on the left) and font
     metrics (on the right) for a Pango layout}
