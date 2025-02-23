@@ -8,6 +8,8 @@
            #:pango-draw-text-metrics
            #:pango-draw-text-soulmate
            #:pango-draw-cairo-rendering
+
+           #:draw-pango-layout
   ))
 
 (in-package :pango-example)
@@ -20,4 +22,4 @@
 (defun sys-path (path &optional (system :pango-example))
   (asdf:system-relative-pathname system path))
 
-;;; --- 2023-2-12 --------------------------------------------------------------
+;;; 2025-2-15

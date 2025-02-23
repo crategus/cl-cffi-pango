@@ -12,6 +12,8 @@
    (:file "text-soulmate")
    (:file "text-metrics")
    (:file "cairo-rendering")
+   ;; Draw figures for documentation
+   (:file "draw-pango-layout")
    ))
 
-;;; --- 2023-8-23 --------------------------------------------------------------
+;;; 2025-2-15
