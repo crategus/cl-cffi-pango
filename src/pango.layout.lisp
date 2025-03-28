@@ -2,8 +2,8 @@
 ;;; pango.layout.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -165,20 +165,24 @@
    :type-initializer "pango_wrap_mode_get_type")
   (:word 0)
   (:char 1)
-  (:word-char 2))
+  (:word-char 2)
+  #+pango-1-56
+  (:none 3))
 
 #+liber-documentation
 (setf (liber:alias-for-symbol 'wrap-mode)
       "GEnum"
       (liber:symbol-documentation 'wrap-mode)
- "@version{2025-2-18}
+ "@version{2025-3-28}
   @begin{declaration}
 (gobject:define-genum \"PangoWrapMode\" wrap-mode
   (:export t
    :type-initializer \"pango_wrap_mode_get_type\")
   (:word 0)
   (:char 1)
-  (:word-char 2))
+  (:word-char 2)
+  #+pango-1-56
+  (:none 3))
   @end{declaration}
   @begin{values}
     @begin[code]{table}
@@ -186,12 +190,17 @@
       @entry[:char]{Wrap lines at character boundaries.}
       @entry[:word-char]{Wrap lines at word boundaries, but fall back to
         character boundaries if there is not enough space for a full word.}
+      @entry[:none]{Do not wrap.}
     @end{table}
   @end{values}
   @begin{short}
     The @symbol{pango:wrap-mode} enumeration describes how to wrap the lines of
     a @class{pango:layout} object to the desired width.
   @end{short}
+  For the @code{:wrap-word} value, Pango uses break opportunities that are
+  determined by the Unicode line breaking algorithm. For the @code{:wrap-char}
+  value, Pango allows breaking at grapheme boundaries that are determined by
+  the Unicode text segmentation algorithm.
   @see-class{pango:layout}
   @see-function{pango:layout-wrap}")
 
