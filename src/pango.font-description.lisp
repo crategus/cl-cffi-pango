@@ -2,8 +2,8 @@
 ;;; pango.font-description.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -335,7 +335,9 @@
   (:stretch #.(ash 1 4))
   (:size #.(ash 1 5))
   (:gravity #.(ash 1 6))
-  (:variations #.(ash 1 7)))
+  (:variations #.(ash 1 7))
+  #+pango-1-56
+  (:features #.(ash 1 8)))
 
 #+liber-documentation
 (setf (liber:alias-for-symbol 'font-mask)
@@ -353,7 +355,9 @@
   (:stretch #.(ash 1 4))
   (:size #.(ash 1 5))
   (:gravity #.(ash 1 6))
-  (:variations #.(ash 1 7)))
+  (:variations #.(ash 1 7))
+  #+pango-1-56
+  (:features #.(ash 1 8)))
   @end{declaration}
   @begin{values}
     @begin[code]{table}
@@ -365,6 +369,7 @@
       @entry[:size]{The font size is specified.}
       @entry[:gravity]{The font gravity is specified.}
       @entry[:variations]{OpenType font variations are specified.}
+      @entry[:features]{OpenType font features are specified. Since Pango 1.56}
     @end{table}
   @end{values}
   @begin{short}
