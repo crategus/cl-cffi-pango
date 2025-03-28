@@ -160,6 +160,7 @@
 
 ;;;     PangoFontMask
 
+#-pango-1-56
 (test pango-font-mask
   ;; Check type
   (is (g:type-is-flags "PangoFontMask"))
@@ -195,6 +196,46 @@
                                      (:SIZE 32)
                                      (:GRAVITY 64)
                                      (:VARIATIONS 128))
+             (gobject:get-gtype-definition "PangoFontMask"))))
+
+#+pango-1-56
+(test pango-font-mask
+  ;; Check type
+  (is (g:type-is-flags "PangoFontMask"))
+  ;; Check registered name
+  (is (eq 'pango:font-mask
+          (glib:symbol-for-gtype "PangoFontMask")))
+  ;; Check type initializer
+  (is (eq (g:gtype "PangoFontMask")
+          (g:gtype (cffi:foreign-funcall "pango_font_mask_get_type" :size))))
+  ;; Check names
+  (is (equal '("PANGO_FONT_MASK_FAMILY" "PANGO_FONT_MASK_STYLE"
+               "PANGO_FONT_MASK_VARIANT" "PANGO_FONT_MASK_WEIGHT"
+               "PANGO_FONT_MASK_STRETCH" "PANGO_FONT_MASK_SIZE"
+               "PANGO_FONT_MASK_GRAVITY" "PANGO_FONT_MASK_VARIATIONS"
+               "PANGO_FONT_MASK_FEATURES")
+             (glib-test:list-flags-item-names "PangoFontMask")))
+  ;; Check values
+  (is (equal '(1 2 4 8 16 32 64 128 256)
+             (glib-test:list-flags-item-values "PangoFontMask")))
+  ;; Check nick names
+  (is (equal '("family" "style" "variant" "weight" "stretch" "size" "gravity"
+               "variations" "features")
+             (glib-test:list-flags-item-nicks "PangoFontMask")))
+  ;; Check flags definition
+  (is (equal '(GOBJECT:DEFINE-GFLAGS "PangoFontMask" PANGO:FONT-MASK
+                                     (:EXPORT T
+                                      :TYPE-INITIALIZER
+                                      "pango_font_mask_get_type")
+                                     (:FAMILY 1)
+                                     (:STYLE 2)
+                                     (:VARIANT 4)
+                                     (:WEIGHT 8)
+                                     (:STRETCH 16)
+                                     (:SIZE 32)
+                                     (:GRAVITY 64)
+                                     (:VARIATIONS 128)
+                                     (:features 256))
              (gobject:get-gtype-definition "PangoFontMask"))))
 
 ;;;     PangoFontDescription
@@ -387,4 +428,4 @@
     (is (string= "Sans Bold 16" (pango:font-description-to-string desc)))
     (is (string= "sans_bold_16" (pango:font-description-to-filename desc)))))
 
-;;; 2024-9-18
+;;; 2025-3-28

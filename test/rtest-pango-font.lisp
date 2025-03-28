@@ -657,18 +657,14 @@
 
 ;;;     pango_font_map_get_family
 
-#+windows
+#-windows
 (test pango-font-map-family
   (let ((fontmap (pango:cairo-font-map-default))
         family)
     (is (typep (setf family
                      (pango:font-map-family fontmap "Serif"))
                'pango:font-family))
-    ;; We get a pointer and not a GType?!
-    (is (cffi:pointerp (pango:font-family-item-type family)))
-    #-windows
-    (is (= 4 (pango:font-family-n-items family)))
-    #+windows
+    (is (eq (g:gtype "PangoFontFace") (pango:font-family-item-type family)))
     (is (= 4 (pango:font-family-n-items family)))))
 
 #+windows
@@ -678,8 +674,7 @@
     (is (typep (setf family
                      (pango:font-map-family fontmap "Serif"))
                'pango:font-family))
-    ;; We get a pointer and not a GType?!
-    (is (cffi:pointerp (pango:font-family-item-type family)))
+    (is (eq (g:gtype "PangoFontFace") (pango:font-family-item-type family)))
     (is (= 8 (pango:font-family-n-items family)))))
 
 ;;;     pango_font_map_get_serial
@@ -783,10 +778,10 @@
                                (is (typep font 'pango:font))
                                (incf count)
                                nil))
-        (is (= 180 count)))
+        (is (= 181 count)))
     ;; Check memory management
     (is (<= 2 (g:object-ref-count fontmap))) ; Increases for every run
     (is (= 1 (g:object-ref-count context)))
     (is (= 2 (g:object-ref-count fontset)))))
 
-;;; 2024-12-14
+;;; 2025-3-28

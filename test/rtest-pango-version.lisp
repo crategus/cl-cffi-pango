@@ -11,7 +11,7 @@
 
 #+windows
 (test pango-version
-  (is (= 15202 (pango:version))))
+  (is (= 15603 (pango:version))))
 
 ;;;     pango_version_string
 
@@ -21,13 +21,13 @@
 
 #+windows
 (test pango-version-string
-  (is (string= "1.52.2" (pango:version-string))))
+  (is (string= "1.56.3" (pango:version-string))))
 
 ;;;     pango_version_check
 
 (test pango-version-check
   (is-false (pango:version-check 1 48 0))
   (is (string= "Pango version too old (micro mismatch)"
-               (pango:version-check 1 56 0))))
+               (pango:version-check 1 58 0))))
 
-;;; 2024-10-13
+;;; 2025-3-28

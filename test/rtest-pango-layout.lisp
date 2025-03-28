@@ -17,15 +17,29 @@
   (is (eq 'pango:wrap-mode
           (glib:symbol-for-gtype "PangoWrapMode")))
   ;; Check names
+  #-pango-1-56
   (is (equal '("PANGO_WRAP_WORD" "PANGO_WRAP_CHAR" "PANGO_WRAP_WORD_CHAR")
              (glib-test:list-enum-item-names "PangoWrapMode")))
+  #+pango-1-56
+  (is (equal '("PANGO_WRAP_WORD" "PANGO_WRAP_CHAR" "PANGO_WRAP_WORD_CHAR"
+               "PANGO_WRAP_NONE")
+             (glib-test:list-enum-item-names "PangoWrapMode")))
   ;; Check values
+  #-pango-1-56
   (is (equal '(0 1 2)
              (glib-test:list-enum-item-values "PangoWrapMode")))
+  #+pango-1-56
+  (is (equal '(0 1 2 3)
+             (glib-test:list-enum-item-values "PangoWrapMode")))
   ;; Check nick names
+  #-pango-1-56
   (is (equal '("word" "char" "word-char")
              (glib-test:list-enum-item-nicks "PangoWrapMode")))
+  #+pango-1-56
+  (is (equal '("word" "char" "word-char" "none")
+             (glib-test:list-enum-item-nicks "PangoWrapMode")))
   ;; Check enum definition
+  #-pango-1-56
   (is (equal '(GOBJECT:DEFINE-GENUM "PangoWrapMode" PANGO:WRAP-MODE
                                     (:EXPORT T
                                      :TYPE-INITIALIZER
@@ -33,6 +47,16 @@
                                     (:WORD 0)
                                     (:CHAR 1)
                                     (:WORD-CHAR 2))
+             (gobject:get-gtype-definition "PangoWrapMode")))
+  #+pango-1-56
+  (is (equal '(GOBJECT:DEFINE-GENUM "PangoWrapMode" PANGO:WRAP-MODE
+                                    (:EXPORT T
+                                     :TYPE-INITIALIZER
+                                     "pango_wrap_mode_get_type")
+                                    (:WORD 0)
+                                    (:CHAR 1)
+                                    (:WORD-CHAR 2)
+                                    (:NONE 3))
              (gobject:get-gtype-definition "PangoWrapMode"))))
 
 ;;;     PangoEllipsizeMode
@@ -1178,4 +1202,4 @@
 
 ;;;     pango_layout_line_is-paragraph-start
 
-;;; 2025-2-14
+;;; 2025-3-28
