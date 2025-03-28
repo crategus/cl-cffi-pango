@@ -13,7 +13,7 @@ Basic Pango Interfaces
   pango.glyph.lisp - Storing information about glyphs             - Pango 1.51&.
   pango.attributes.lisp - Attributes for annotating text          - Pango 1.54 .
   pango.markup.lisp - Markup language for text with attributes    - Pango 1.51 &
-  pango.layout.lisp - High-level layout driver objects            - Pango 1.54 .
+  pango.layout.lisp - High-level layout driver objects            - Pango 1.56 .
   pango.script.lisp - Scripts and Languages                       - Pango 1.54&.
   pango.bidirectional.lisp - Handling bidirectional text          - Pango 1.51 .
   pango.gravity.lisp - Text layout in vertical directions         - Pango 1.51 .
