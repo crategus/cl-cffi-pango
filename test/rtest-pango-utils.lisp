@@ -25,34 +25,39 @@
 ;;;     PANGO_LBEARING
 ;;;     PANGO_RBEARING
 
+;; TODO: Create a better example
+
+(test pango-ascent/descent/bearing
+  (pango:with-rectangle (rect 10 20 30 40)
+    (is (= -20 (pango:ascent rect)))
+    (is (=  60 (pango:descent rect)))
+    (is (=  10 (pango:lbearing rect)))
+    (is (=  40 (pango:rbearing rect)))))
+
 ;;;     pango_extents_to_pixels
 
+;; TODO: Create better examples
+
 (test pango-extents-to-pixels.1
-  (cffi:with-foreign-object (inclusive '(:struct pango:rectangle))
-    (cffi:with-foreign-slots ((pango::x pango::y pango::width pango::height)
-                              inclusive (:struct pango:rectangle))
-      (setf pango::x (* 10 pango:+scale+))
-      (setf pango::y (* 20 pango:+scale+))
-      (setf pango::width (* 30 pango:+scale+))
-      (setf pango::height (* 40 pango:+scale+))
-      (is-false (pango:extents-to-pixels inclusive (cffi:null-pointer)))
-      (is (= 10 pango::x))
-      (is (= 20 pango::y))
-      (is (= 30 pango::width))
-      (is (= 40 pango::height)))))
+  (pango:with-rectangle (inclusive (* 10 pango:+scale+)
+                                   (* 20 pango:+scale+)
+                                   (* 30 pango:+scale+)
+                                   (* 40 pango:+scale+))
+      (is-false (pango:extents-to-pixels inclusive nil))
+      (is (= 10 (pango:rectangle-x inclusive)))
+      (is (= 20 (pango:rectangle-y inclusive)))
+      (is (= 30 (pango:rectangle-width inclusive)))
+      (is (= 40 (pango:rectangle-height inclusive)))))
 
 (test pango-extents-to-pixels.2
-  (cffi:with-foreign-object (nearest '(:struct pango:rectangle))
-    (cffi:with-foreign-slots ((pango::x pango::y pango::width pango::height)
-                              nearest (:struct pango:rectangle))
-      (setf pango::x (* 10 pango:+scale+))
-      (setf pango::y (* 20 pango:+scale+))
-      (setf pango::width (* 30 pango:+scale+))
-      (setf pango::height (* 40 pango:+scale+))
-      (is-false (pango:extents-to-pixels (cffi:null-pointer) nearest))
-      (is (= 10 pango::x))
-      (is (= 20 pango::y))
-      (is (= 30 pango::width))
-      (is (= 40 pango::height)))))
+  (pango:with-rectangle (nearest (* 10 pango:+scale+)
+                                   (* 20 pango:+scale+)
+                                   (* 30 pango:+scale+)
+                                   (* 40 pango:+scale+))
+      (is-false (pango:extents-to-pixels nil nearest))
+      (is (= 10 (pango:rectangle-x nearest)))
+      (is (= 20 (pango:rectangle-y nearest)))
+      (is (= 30 (pango:rectangle-width nearest)))
+      (is (= 40 (pango:rectangle-height nearest)))))
 
-;;; 2024-3-3
+;;; 2025-4-14

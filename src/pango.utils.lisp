@@ -2,8 +2,8 @@
 ;;; pango.utils.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -60,7 +60,7 @@
 
 (defconstant +scale+ 1024
  #+liber-documentation
- "@version{2024-3-3}
+ "@version{2025-4-15}
   @variable-value{1024}
   @begin{short}
     The @var{pango:+scale+} constant represents the scale between dimensions
@@ -83,9 +83,9 @@
 
 (defun pixels (d)
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2025-4-14}
   @argument[d]{a dimension in Pango units}
-  @return{Rounded dimension in device units.}
+  @return{The integer with the rounded dimension in device units.}
   @begin{short}
     Converts a dimension to device units by rounding.
   @end{short}
@@ -175,8 +175,9 @@
 
 (defun ascent (rect)
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2025-4-14}
   @argument[rect]{a @symbol{pango:rectangle} instance}
+  @return{The integer with the ascent.}
   @begin{short}
     Extracts the ascent from a @symbol{pango:rectangle} instance representing
     glyph extents.
@@ -196,8 +197,9 @@
 
 (defun descent (rect)
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2025-4-14}
   @argument[rect]{a @symbol{pango:rectangle} instance}
+  @return{The integer with the descent.}
   @begin{short}
     Extracts the descent from a @symbol{pango:rectangle} instance representing
     glyph extents.
@@ -217,8 +219,9 @@
 
 (defun lbearing (rect)
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2025-4-14}
   @argument[rect]{a @symbol{pango:rectangle} instance}
+  @return{The integer with the left bearing.}
   @begin{short}
     Extracts the left bearing from a @symbol{pango:rectangle} instance
     representing glyph extents.
@@ -239,8 +242,9 @@
 
 (defun rbearing (rect)
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2025-4-14}
   @argument[rect]{a @symbol{pango:rectangle} instance}
+  @return{The integer with the right bearing.}
   @begin{short}
     Extracts the right bearing from a @symbol{pango:rectangle} instance
     representing glyph extents.
@@ -257,13 +261,17 @@
 ;;; pango_extents_to_pixels
 ;;; ----------------------------------------------------------------------------
 
-(cffi:defcfun ("pango_extents_to_pixels" extents-to-pixels) :void
+(cffi:defcfun ("pango_extents_to_pixels" %extents-to-pixels) :void
+  (inclusive (:pointer (:struct rectangle)))
+  (nearest (:pointer (:struct rectangle))))
+
+(defun extents-to-pixels (inclusive nearest)
  #+liber-documentation
- "@version{2023-12-25}
+ "@version{2025-4-14}
   @argument[inclusive]{a @symbol{pango:rectangle} instance to round to
-    pixels inclusively, or @code{NULL}}
+    pixels inclusively, or @code{nil}}
   @argument[nearest]{a @symbol{pango:rectangle} instance to round to
-    nearest pixels, or @code{NULL}}
+    nearest pixels, or @code{nil}}
   @begin{short}
     Converts extents from Pango units to device units, dividing by the
     @var{pango:+scale+} factor and performing rounding.
@@ -283,8 +291,9 @@
   nearest.
   @see-symbol{pango:rectangle}
   @see-variable{pango:+scale+}"
-  (inclusive (:pointer (:struct rectangle)))
-  (nearest (:pointer (:struct rectangle))))
+  (let ((inclusive (or inclusive (cffi:null-pointer)))
+        (nearest (or nearest (cffi:null-pointer))))
+  (%extents-to-pixels inclusive nearest)))
 
 (export 'extents-to-pixels)
 

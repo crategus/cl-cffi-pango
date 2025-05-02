@@ -2,8 +2,8 @@
 ;;; pango.item.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2020 - 2025 Dieter Kaiser
@@ -45,6 +45,7 @@
 ;;;     pango_item_free                                     not needed
 ;;;     pango_item_split
 ;;;     pango_item_apply_attrs
+;;;     pango_item_get_char_offset                          Since 1.54
 ;;;
 ;;;     pango_itemize
 ;;;     pango_itemize_with_base_dir
@@ -680,6 +681,30 @@
 
 #+pango-1-44
 (export 'item-apply-attrs)
+
+;;; ----------------------------------------------------------------------------
+;;; pango_item_get_char_offset
+;;; ----------------------------------------------------------------------------
+
+#+pango-1-54
+(cffi:defcfun ("pango_item_get_char_offset" item-char-offset) :int
+ #+liber-documentation
+ "@version{2025-4-14}
+  @argument[item]{a @class{pango:item} instance}
+  @return{The integer with the character offset, or -1.}
+  @begin{short}
+    Returns the character offset of the item from the beginning of the itemized
+    text.
+  @end{short}
+  If the item has not been obtained from Pango’s itemization machinery, then
+  the character offset is not available. In that case, this function returns -1.
+
+  Since 1.54
+  @see-class{pango:item}"
+  (item (g:boxed item)))
+
+#+pango-1-54
+(export 'item-char-offset)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_itemize

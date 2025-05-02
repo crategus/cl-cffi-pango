@@ -2,8 +2,8 @@
 ;;; pango.font-metrics.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -33,8 +33,8 @@
 ;;;
 ;;; Functions
 ;;;
-;;;     pango_font_metrics_ref                             not needed
-;;;     pango_font_metrics_unref                           not needed
+;;;     pango_font_metrics_ref                              not needed
+;;;     pango_font_metrics_unref                            not needed
 ;;;     pango_font_metrics_get_ascent
 ;;;     pango_font_metrics_get_descent
 ;;;     pango_font_metrics_get_height
@@ -66,10 +66,16 @@
 (setf (liber:alias-for-class 'font-metrics)
       "GBoxed"
       (documentation 'font-metrics 'type)
- "@version{2023-8-27}
+ "@version{2025-4-14}
+  @begin{declaration}
+(glib:define-gboxed-opaque font-metrics \"PangoFontMetrics\"
+  :export t
+  :type-initializer \"pango_font_metrics_get_type\"
+  :alloc (error \"PangoFontMetrics cannot be created from the Lisp side.\"))
+  @end{declaration}
   @begin{short}
-    A @class{pango:font-metrics} structure holds the overall metric information
-    for a font, possibly restricted to a script.
+    The @class{pango:font-metrics} structure holds the overall metric
+    information for a font, possibly restricted to a script.
   @end{short}
   The fields of this structure are private to implementations of a font backend.
   See the documentation of the corresponding getters for documentation of their
@@ -99,7 +105,7 @@
 
 (cffi:defcfun ("pango_font_metrics_get_ascent" font-metrics-ascent) :int
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-4-14}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @return{The integer with the ascent, in Pango units.}
   @begin{short}
@@ -119,7 +125,7 @@
 
 (cffi:defcfun ("pango_font_metrics_get_descent" font-metrics-descent) :int
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-4-14}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @return{The integer with the descent, in Pango units.}
   @begin{short}
@@ -141,7 +147,7 @@
 #+pango-1-44
 (cffi:defcfun ("pango_font_metrics_get_height" font-metrics-height) :int
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-4-14}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @return{The integer with the height, in Pango units.}
   @begin{short}
@@ -164,7 +170,7 @@
 (cffi:defcfun ("pango_font_metrics_get_approximate_char_width"
                 font-metrics-approximate-char-width) :int
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-4-14}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @return{The integer with the character width, in Pango units.}
   @begin{short}
@@ -185,7 +191,7 @@
 (cffi:defcfun ("pango_font_metrics_get_approximate_digit_width"
                 font-metrics-approximate-digit-width) :int
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-4-14}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @return{The integer with the digit width, in Pango units.}
   @begin{short}
@@ -209,7 +215,7 @@
 (cffi:defcfun ("pango_font_metrics_get_underline_thickness"
                 font-metrics-underline-thickness) :int
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-4-14}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @return{The integer with the suggested underline thickness, in Pango units.}
   @begin{short}
@@ -227,7 +233,7 @@
 (cffi:defcfun ("pango_font_metrics_get_underline_position"
                 font-metrics-underline-position) :int
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-4-14}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @return{The integer with the suggested underline position, in Pango units.}
   @begin{short}
@@ -248,7 +254,7 @@
 (cffi:defcfun ("pango_font_metrics_get_strikethrough_thickness"
                 font-metrics-strikethrough-thickness) :int
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-4-14}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @begin{return}
     The integer with the suggested strikethrough thickness, in Pango units.
@@ -268,7 +274,7 @@
 (cffi:defcfun ("pango_font_metrics_get_strikethrough_position"
                 font-metrics-strikethrough-position) :int
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-4-14}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @begin{return}
     The integer with the suggested strikethrough position, in Pango units.

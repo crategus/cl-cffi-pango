@@ -108,6 +108,7 @@
                'pango:item))))
 
 ;;;     pango_item_apply_attrs
+;;;     pango_item_get_char_offset
 
 (test pango-item-apply-attrs
   (let* ((text "This is some text.")
@@ -125,6 +126,8 @@
                                           nil)))))
     ;; Get the item
     (is (typep (setf item (first items)) 'pango:item))
+    ;; Char offset is 0
+    (is (= 0 (pango:item-char-offset item)))
     ;; No attributes
     (is (equal '()
                (mapcar #'pango:attribute-type
@@ -304,4 +307,4 @@
 ;;;     pango_shape_full
 ;;;     pango_shape_with_flags
 
-;;; 2024-9-18
+;;; 2025-4-14

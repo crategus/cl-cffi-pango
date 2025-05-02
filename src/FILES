@@ -1,4 +1,4 @@
-Content from the Pango 1.54 Reference Manual
+Content from the Pango 1.56 Reference Manual
 
     *   - needs update
     %   - not fully implemented
@@ -6,14 +6,14 @@ Content from the Pango 1.54 Reference Manual
 
 Basic Pango Interfaces
 
-  pango.item.lisp - Functions to run the rendering pipeline       - Pango 1.51 .
-  pango.font-description.lisp - PangoFontDescription              - Pango 1.51 .
-  pango.font-metrics.lisp - PangoFontMetrics                      - Pango 1.51 .
+  pango.item.lisp - Functions to run the rendering pipeline       - Pango 1.56
+  pango.font-description.lisp - PangoFontDescription              - Pango 1.56
+  pango.font-metrics.lisp - PangoFontMetrics                      - Pango 1.56
   pango.font.lisp - Structures representing abstract fonts        - Pango 1.51 .
   pango.glyph.lisp - Storing information about glyphs             - Pango 1.51&.
   pango.attributes.lisp - Attributes for annotating text          - Pango 1.54 .
   pango.markup.lisp - Markup language for text with attributes    - Pango 1.51 &
-  pango.layout.lisp - High-level layout driver objects            - Pango 1.56 .
+  pango.layout.lisp - High-level layout driver objects            - Pango 1.56
   pango.script.lisp - Scripts and Languages                       - Pango 1.54&.
   pango.bidirectional.lisp - Handling bidirectional text          - Pango 1.51 .
   pango.gravity.lisp - Text layout in vertical directions         - Pango 1.51 .
@@ -42,7 +42,7 @@ Low Level Functionality
 Utilities
 
   pango.matrix.lisp  - PangoRectangle, PangoMatrix                - Pango 1.51 .
-  pango.utils.lisp   - Utility constants and functions            - Pango 1.51 .
+  pango.utils.lisp   - Utility constants and functions            - Pango 1.56
   pango.color.lisp   - PangoColor                                 - Pango 1.54 .
   pango.version.lisp - Version Checking                           - Pango 1.51 .
 
@@ -54,4 +54,4 @@ Deprecated APIs
   not implemented - PangoEngineShape
   not implemented - Modules
 
-2025-1-1
+2025-05-02

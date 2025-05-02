@@ -77,6 +77,7 @@
       @about-function{item-copy}
       @about-function{item-split}
       @about-function{item-apply-attrs}
+      @about-function{item-char-offset}
       @about-function{itemize}
       @about-function{itemize-with-base-dir}
       @about-function{reorder-items}
@@ -518,7 +519,7 @@
       @about-function{layout-lines}
       @about-function{layout-lines-readonly}
     @end{subsection}
-    @begin[Type and functions for PangoLayoutIter]{subsection}
+    @begin[Types and functions for PangoLayoutIter]{subsection}
       @about-class{layout-iter}
       @about-function{layout-iter}
       @about-function{layout-iter-copy}

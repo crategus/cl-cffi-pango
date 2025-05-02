@@ -1134,11 +1134,12 @@ baseline2 = baseline1 + factor * height2
 #+pango-1-46
 (cffi:defcfun ("pango_layout_get_direction" layout-direction) direction
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-05-02}
   @argument[layout]{a @class{pango:layout} object}
   @argument[index]{an integer for the byte index of the char}
-  @return{The @symbol{pango:direction} value with the text direction at
-    @arg{index}.}
+  @begin{return}
+    The @symbol{pango:direction} value with the text direction at @arg{index}.
+  @end{return}
   @begin{short}
     Gets the text direction at the given character position in the Pango layout.
   @end{short}
@@ -1385,7 +1386,7 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-index-to-line-x (layout index trailing)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-05-02}
   @syntax{(pango:layout-index-to-line-x layout index trailing) => line, xpos}
   @argument[layout]{a @class{pango:layout} object}
   @argument[index]{an integer for the byte index of a grapheme within the
@@ -1393,9 +1394,9 @@ baseline2 = baseline1 + factor * height2
   @argument[trailing]{an integer indicating the edge of the grapheme to
     retrieve the position of, if 0, the trailing edge of the grapheme, if > 0,
     the leading of the grapheme}
-  @argument[line]{an integer with the resulting line index, which will between
+  @argument[line]{an integer for the resulting line index, which will between
     0 and @code{(pango:layout-line-count layout) - 1}, or @code{nil}}
-  @argument[xpos]{an integer with the resulting position within line in Pango
+  @argument[xpos]{an integer for the resulting position within line in Pango
     units per device unit, or @code{nil}}
   @begin{short}
     Converts from byte index within the Pango layout to @arg{line} and
@@ -1423,14 +1424,14 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-xy-to-index (layout x y)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-05-02}
   @syntax{(pango:layout-xy-to-index layout x y) => index, trailing}
   @argument[layout]{a @class{pango:layout} object}
   @argument[x]{an integer for the x offset in Pango units from the left edge of
     the Pango layout}
   @argument[y]{an integer for the y offset in Pango units from the top edge of
     the Pango layout}
-  @argument[index]{an integer with the calculated byte index}
+  @argument[index]{an integer for the calculated byte index}
   @argument[trailing]{an integer indicating where in the grapheme the user
     clicked, it will either be zero, or the number of characters in the
     grapheme, 0 represents the trailing edge of the grapheme}
@@ -1465,13 +1466,13 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-cursor-pos (layout index)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-05-02}
   @syntax{(pango:layout-cursor-pos layout index) => strong, weak}
   @argument[layout]{a @class{pango:layout} object}
   @argument[index]{an integer for the byte index of the cursor}
-  @argument[strong]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
+  @argument[strong]{a list for the @arg{x}, @arg{y}, @arg{width}, @arg{height}
     values of the rectangle for the strong cursor position}
-  @argument[weak]{a list with the @arg{x}, @arg{y}, @arg{width}, @arg{height}
+  @argument[weak]{a list for the @arg{x}, @arg{y}, @arg{width}, @arg{height}
     values of the rectangle for the weak cursor position}
   @begin{short}
     Given an index within a Pango layout, determines the positions that of the
@@ -1704,10 +1705,11 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_get_baseline" layout-baseline) :int
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-05-02}
   @argument[layout]{a @class{pango:layout} object}
-  @return{The integer with the baseline of the first line, from top of
-    @arg{layout}.}
+  @begin{return}
+    The integer with the baseline of the first line, from top of @arg{layout}.
+  @end{return}
   @begin{short}
     Gets the y position of the baseline for the first line in the Pango layout.
   @end{short}
@@ -1739,9 +1741,9 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_get_line" layout-line) (g:boxed layout-line)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-05-02}
   @argument[layout]{a @class{pango:layout} object}
-  @argument[linenum]{an integer for the index of a line, which must be between
+  @argument[line]{an integer for the index of a line, which must be between
     0 and @code{(pango:layout-line-count layout)} - 1, inclusive}
   @begin{return}
     The requested @class{pango:layout-line} instance, or @code{nil} if the
@@ -2062,10 +2064,12 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_get_run_readonly" layout-iter-run-readonly)
     (g:boxed glyph-item)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-05-02}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{The @class{pango:layout-iter} instance with the current run, that
-    should not be modified.}
+  @begin{return}
+    The @class{pango:layout-iter} instance with the current run, that should
+    not be modified.
+  @end{return}
   @begin{short}
     Gets the current run.
   @end{short}
@@ -2112,10 +2116,12 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_get_line_readonly" layout-iter-line-readonly)
     (g:boxed layout-line)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-05-02}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{The @class{pango:layout-line} instance with the current line, that
-    should not be modified.}
+  @begin{return}
+    The @class{pango:layout-line} instance with the current line, that should
+    not be modified.
+  @end{return}
   @begin{short}
     Gets the current line for read-only access.
   @end{short}
@@ -2136,10 +2142,12 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_get_layout" layout-iter-layout)
     (g:object layout)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-05-02}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{The @class{pango:layout} object with the Pango layout associated with
-    @arg{iter}.}
+  @begin{return}
+    The @class{pango:layout} object with the Pango layout associated with
+    @arg{iter}.
+  @end{return}
   @begin{short}
     Gets the Pango layout associated with a Pango layout iterator.
   @end{short}
@@ -2471,10 +2479,11 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_line_get_resolved_direction"
                 layout-line-resolved-direction) direction
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-05-02}
   @argument[line]{a @class{pango:layout-line} instance}
-  @return{The @symbol{pango:direction} value with the resolved direction of the
-    line.}
+  @begin{return}
+    The @symbol{pango:direction} value with the resolved direction of the line.
+  @end{return}
   @begin{short}
     Returns the resolved direction of the line.
   @end{short}
@@ -2621,7 +2630,7 @@ baseline2 = baseline1 + factor * height2
   @argument[line]{a @class{pango:layout-line} instance}
   @argument[xpos]{an integer for the x offset (in Pango units) from the left
     edge of the line}
-  @argument[index]{an integer with the calculated byte index for the grapheme
+  @argument[index]{an integer for the calculated byte index for the grapheme
     in which the user clicked}
   @argument[trailing]{an integer indicating where in the grapheme the user
     clicked. It will either be zero, or the number of characters in the
