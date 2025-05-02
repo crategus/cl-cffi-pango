@@ -144,10 +144,9 @@
 ;;; pango_font_metrics_get_height
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (cffi:defcfun ("pango_font_metrics_get_height" font-metrics-height) :int
  #+liber-documentation
- "@version{2025-4-14}
+ "@version{2025-05-02}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @return{The integer with the height, in Pango units.}
   @begin{short}
@@ -155,12 +154,9 @@
   @end{short}
   The line height is the distance between successive baselines in wrapped text.
   If the line height is not available, 0 is returned.
-
-  Since 1.44
   @see-class{pango:font-metrics}"
   (metrics (g:boxed font-metrics)))
 
-#+pango-1-44
 (export 'font-metrics-height)
 
 ;;; ----------------------------------------------------------------------------

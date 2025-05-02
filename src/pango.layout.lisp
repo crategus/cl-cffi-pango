@@ -974,7 +974,7 @@
 
 (cffi:defcfun ("pango_layout_get_spacing" layout-spacing) :int
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-05-02}
   @syntax{(pango:layout-spacing layout) => spacing}
   @syntax{(setf (pango:layout-spacing layout) spacing)}
   @argument[layout]{a @class{pango:layout} object}
@@ -989,9 +989,9 @@
 line2.top = line1.bottom + spacing
   @end{pre}
   @begin[Notes]{dictionary}
-    Since 1.44, Pango defaults to using the line height (as determined by the
-    font) for placing lines. The spacing set with this function is only taken
-    into account when the line-height factor is set to zero with the
+    Pango defaults to using the line height (as determined by the font) for
+    placing lines. The spacing set with this function is only taken into
+    account when the line-height factor is set to zero with the
     @fun{pango:layout-line-spacing} function.
   @end{dictionary}
   @see-class{pango:layout-spacing}
@@ -1005,7 +1005,6 @@ line2.top = line1.bottom + spacing
 ;;; pango_layout_set_line_spacing
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (defun (setf layout-line-spacing) (factor layout)
   (let ((factor (coerce factor 'single-float)))
     (cffi:foreign-funcall "pango_layout_set_line_spacing"
@@ -1014,10 +1013,9 @@ line2.top = line1.bottom + spacing
                           :void)
     factor))
 
-#+pango-1-44
 (cffi:defcfun ("pango_layout_get_line_spacing" layout-line-spacing) :float
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-05-02}
   @syntax{(pango:layout-line-spacing layout) => factor}
   @syntax{(setf (pango:layout-line-spacing layout) factor)}
   @argument[layout]{a @class{pango:layout} object}
@@ -1039,13 +1037,10 @@ baseline2 = baseline1 + factor * height2
   function is ignored.
 
   If the @arg{factor} argument is zero, spacing is applied as before.
-
-  Since 1.44
   @see-class{pango:layout}
   @see-function{pango:layout-spacing}"
   (layout (g:object layout)))
 
-#+pango-1-44
 (export 'layout-line-spacing)
 
 ;;; ----------------------------------------------------------------------------
@@ -1131,7 +1126,6 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_get_direction
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-46
 (cffi:defcfun ("pango_layout_get_direction" layout-direction) direction
  #+liber-documentation
  "@version{#2025-05-02}
@@ -1143,14 +1137,11 @@ baseline2 = baseline1 + factor * height2
   @begin{short}
     Gets the text direction at the given character position in the Pango layout.
   @end{short}
-
-  Since 1.46
   @see-class{pango:layout}
   @see-symbol{pango:direction}"
   (layout (g:object layout))
   (index :int))
 
-#+pango-1-46
 (export 'layout-direction)
 
 ;;; ----------------------------------------------------------------------------
@@ -2254,12 +2245,11 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-iter-line-yrange (iter)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-05-02}
+  @syntax{(pango:layout-iter-line-yrange iter) => y0, y1}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @begin{return}
-    @arg{y0} -- an integer with the start of the line @br{}
-    @arg{y1} -- an integer with the end of the line
-  @end{return}
+  @argument[y0]{an integer for the start of the line}
+  @argument[y1]{an integer for the end of the line}
   @begin{short}
     Divides the vertical space in the Pango layout being iterated over between
     the lines in the Pango layout, and returns the space belonging to the
@@ -2269,9 +2259,9 @@ baseline2 = baseline1 + factor * height2
   above and below the line, if the @fun{pango:layout-spacing} function has been
   called to set layout spacing. The @arg{y0} and @arg{y1} positions are in
   Pango layout coordinates (origin at top left of the entire layout).
-  @begin[Note]{dictionary}
-    Since 1.44, Pango uses line heights for placing lines, and there may be
-    gaps between the ranges returned by this function.
+  @begin[Notes]{dictionary}
+    Pango uses line heights for placing lines, and there may be gaps between
+    the ranges returned by this function.
   @end{dictionary}
   @see-class{pango:layout-iter}
   @see-function{pango:layout-spacing}"
@@ -2388,30 +2378,25 @@ baseline2 = baseline1 + factor * height2
 ;;; pango_layout_line_get_height
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (cffi:defcfun ("pango_layout_line_get_height" %layout-line-height) :void
   (line (g:boxed layout-line))
   (height (:pointer :int)))
 
-#+pango-1-44
 (defun layout-line-height (line)
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-05-02}
   @argument[line]{a @class{pango:layout-line} instance}
   @return{The integer with the line height.}
   @begin{short}
     Computes the height of the line, that is, the distance between this and the
     previous lines baseline.
   @end{short}
-
-  Since 1.44
   @see-class{pango:layout-line}"
   (cffi:with-foreign-object (height :int)
     (%layout-line-height line height)
     (unless (cffi:null-pointer-p height)
       (values (cffi:mem-ref height :int)))))
 
-#+pango-1-44
 (export 'layout-line-height)
 
 ;;; ----------------------------------------------------------------------------

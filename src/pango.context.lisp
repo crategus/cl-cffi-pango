@@ -2,8 +2,8 @@
 ;;; pango.context.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -440,7 +440,6 @@
 ;;; pango_context_set_round_glyph_positions
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (defun (setf context-round-glyph-positions) (setting context)
   (cffi:foreign-funcall "pango_context_set_round_glyph_positions"
                         (g:object context) context
@@ -448,11 +447,10 @@
                         :void)
   setting)
 
-#+pango-1-44
 (cffi:defcfun ("pango_context_get_round_glyph_positions"
                 context-round-glyph-positions) :boolean
  #+liber-documentation
- "@version{#2024-2-23}
+ "@version{#2025-05-02}
   @syntax{(pango:context-round-glyph-positions context) => setting}
   @syntax{(setf (pango:context-round-glyph-positions context) setting)}
   @argument[context]{a @class{pango:context} object}
@@ -468,12 +466,9 @@
   This is useful when the renderer cannot handle subpixel positioning of glyphs.
   The default value is to round glyph positions, to remain compatible with
   previous Pango behavior.
-
-  Since 1.44
   @see-class{pango:context}"
   (context (g:object context)))
 
-#+pango-1-44
 (export 'context-round-glyph-positions)
 
 ;;; ----------------------------------------------------------------------------

@@ -2,8 +2,8 @@
 ;;; pango.attributes.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -43,8 +43,8 @@
 ;;;
 ;;;     PangoAttrType
 ;;;     PangoUnderline
-;;;     PangoOverline                                       Since 1.46
-;;;     PangoShowFlags                                      Since 1.44
+;;;     PangoOverline
+;;;     PangoShowFlags
 ;;;     PangoTextTransform                                  Since 1.50
 ;;;     PangoBaseLineShift                                  Since 1.50
 ;;;     PangoFontScale                                      Since 1.50
@@ -310,15 +310,10 @@
   (:font-features 23)
   (:foreground-alpha 24)
   (:background-alpha 25)
-  #+pango-1-44
   (:allow-breaks 26)
-  #+pango-1-44
   (:show 27)
-  #+pango-1-44
   (:insert-hyphens 28)
-  #+pango-1-46
   (:overline 29)
-  #+pango-1-46
   (:overline-color 30)
   #+pango-1-50
   (:line-height 31)
@@ -339,7 +334,7 @@
 (setf (liber:alias-for-symbol 'attr-type)
       "GEnum"
       (liber:symbol-documentation 'attr-type)
- "@version{2025-1-1}
+ "@version{2025-05-02}
   @begin{declaration}
 (gobject:define-genum \"PangoAttrType\" attr-type
   (:export t
@@ -414,12 +409,12 @@
       @entry[:font-features]{OpenType font features.}
       @entry[:foreground-alpha]{Foreground alpha.}
       @entry[:background-alpha]{Background alpha.}
-      @entry[:allow-breaks]{Whether breaks are allowed. Since 1.44}
-      @entry[:show]{How to render invisible characters. Since 1.44}
+      @entry[:allow-breaks]{Whether breaks are allowed.}
+      @entry[:show]{How to render invisible characters.}
       @entry[:insert-hyphens]{Whether to insert hyphens at intra-word line
-        breaks. Since 1.44}
-      @entry[:overline]{Whether the text has an overline. Since 1.46}
-      @entry[:overline-color]{Overline color. Since 1.46}
+        breaks.}
+      @entry[:overline]{Whether the text has an overline.}
+      @entry[:overline-color]{Overline color.}
       @entry[:line-height]{Line height factor. Since 1.50}
       @entry[:absolute-line-height]{Line height. Since 1.50}
       @entry[:text-transform]{How Pango treats characters during shaping.
@@ -455,18 +450,15 @@
   (:double 2)
   (:low 3)
   (:error 4)
-  #+pango-1-46
   (:single-line 5)
-  #+pango-1-46
   (:double-line 6)
-  #+pango-1-46
   (:error-line 7))
 
 #+liber-documentation
 (setf (liber:alias-for-symbol 'underline)
       "GEnum"
       (liber:symbol-documentation 'underline)
- "@version{2025-1-1}
+ "@version{2025-05-02}
   @begin{declaration}
 (gobject:define-genum \"PangoUnderline\" underline
   (:export t
@@ -493,11 +485,11 @@
         typically used to indicate an error such as a possible mispelling. In
         some cases a contrasting color may automatically be used.}
       @entry[:single-line]{Like the @code{:single} value, but drawn continuously
-        across multiple runs. Since 1.46}
+        across multiple runs.}
       @entry[:double-line]{Like the @code{:double} value, but drawn continuously
-        across multiple runs. Since 1.46}
+        across multiple runs.}
       @entry[:error-line]{Like the @code{:error} value, but drawn continuously
-        across multiple runs. Since 1.46}
+        across multiple runs.}
     @end{table}
   @end{values}
   @begin{short}
@@ -512,18 +504,17 @@
 ;;; PangoOverline
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-46
 (gobject:define-genum "PangoOverline" overline
   (:export t
    :type-initializer "pango_overline_get_type")
   (:none 0)
   (:single 1))
 
-#+(and pango-1-46 liber-documentation)
+#+liber-documentation
 (setf (liber:alias-for-symbol 'overline)
       "GEnum"
       (liber:symbol-documentation 'overline)
- "@version{2025-1-1}
+ "@version{2025-05-02}
   @begin{declaration}
 (gobject:define-genum \"PangoOverline\" overline
   (:export t
@@ -542,7 +533,6 @@
     The @symbol{pango:overline} enumeration is used to specify whether text
     should be overlined, and if so, the type of line.
   @end{short}
-  Since 1.46
   @see-symbol{pango:attribute}
   @see-symbol{pango:underline}
   @see-function{pango:attr-overline-new}")
@@ -1222,34 +1212,29 @@
 ;;; pango_attr_overline_new
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-46
 (cffi:defcfun ("pango_attr_overline_new" attr-overline-new)
     (g:boxed attribute :return)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-05-02}
   @argument[overline]{a @symbol{pango:overline} value for the overline style}
   @return{The newly allocated @class{pango:attribute} instance.}
   @begin{short}
     Create a new overline style attribute.
   @end{short}
-
-  Since 1.46
   @see-class{pango:attribute}
   @see-symbol{pango:overline}"
   (overline overline))
 
-#+pango-1-46
 (export 'attr-overline-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_overline_color_new
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-46
 (cffi:defcfun ("pango_attr_overline_color_new" attr-overline-color-new)
     (g:boxed attribute :return)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-05-02}
   @argument[red]{an integer for the red value, ranging from 0 to 65535}
   @argument[green]{an integer for the green value}
   @argument[blue]{an integer for the blue value}
@@ -1259,14 +1244,11 @@
   @end{short}
   This attribute modifies the color of overlines. If not set, overlines will
   use the foreground color.
-
-  Since 1.46
   @see-class{pango:attribute}"
   (red :uint16)
   (green :uint16)
   (blue :uint16))
 
-#+pango-1-46
 (export 'attr-overline-color-new)
 
 ;;; ----------------------------------------------------------------------------
@@ -1487,11 +1469,10 @@
 ;;; pango_attr_allow_breaks_new
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (cffi:defcfun ("pango_attr_allow_breaks_new" attr-allow-breaks-new)
     (g:boxed attribute :return)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-05-02}
   @argument[allow]{@em{true} if line breaks are allowed}
   @return{The newly allocated @class{pango:attribute} instance.}
   @begin{short}
@@ -1499,23 +1480,19 @@
   @end{short}
   If breaks are disabled, the range will be kept in a single run, as far as
   possible.
-
-  Since 1.44
   @see-class{pango:attribute}"
   (allow :boolean))
 
-#+pango-1-44
 (export 'attr-allow-breaks-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_insert_hyphens_new
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (cffi:defcfun ("pango_attr_insert_hyphens_new" attr-insert-hyphens-new)
     (g:boxed attribute :return)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-05-02}
   @argument[hyphens]{@em{true} if hyphens should be inserted}
   @return{The newly allocated @class{pango:attribute} instance.}
   @begin{short}
@@ -1523,35 +1500,28 @@
   @end{short}
   Pango will insert hyphens when breaking lines in the middle of a word. This
   attribute can be used to suppress the hyphen.
-
-  Since 1.44
   @see-class{pango:attribute}"
   (insert :boolean))
 
-#+pango-1-44
 (export 'attr-insert-hyphens-new)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_show_new
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (cffi:defcfun ("pango_attr_show_new" attr-show-new) (g:boxed attribute :return)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-05-02}
   @argument[flags]{a @symbol{pango:show-flags} value to apply.}
   @return{The newly allocated @class{pango:attribute} instance.}
   @begin{short}
     Create a new attribute that influences how invisible characters are
     rendered.
   @end{short}
-
-  Since 1.44
   @see-class{pango:attribute}
   @see-symbol{pango:show-flags}"
   (flags show-flags))
 
-#+pango-1-44
 (export 'attr-show-new)
 
 ;;; ----------------------------------------------------------------------------
@@ -1681,10 +1651,9 @@
 ;;; pango_attr_list_equal
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-46
 (cffi:defcfun ("pango_attr_list_equal" attr-list-equal) :boolean
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-05-02}
   @argument[attrlist1]{a @class{pango:attr-list} instance}
   @argument[attrlist2]{a @class{pango:attr-list} instance}
   @begin{short}
@@ -1692,13 +1661,10 @@
     attributes and whether those attributes apply to the same ranges.
   @end{short}
   Beware that this will return wrong values if any list contains duplicates.
-
-  Since 1.46
   @see-class{pango:attr-list}"
   (attrlist1 (g:boxed attr-list))
   (attrlist2 (g:boxed attr-list)))
 
-#+pango-1-46
 (export 'attr-list-equal)
 
 ;;; ----------------------------------------------------------------------------
@@ -1871,10 +1837,9 @@
 ;;; pango_attr_list_update
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (cffi:defcfun ("pango_attr_list_update" attr-list-update) :void
  #+liber-documentation
- "@version{#2025-1-1}
+ "@version{#2025-05-02}
   @argument[attrlist]{a @class{pango:attr-list} instance}
   @argument[pos]{an integer for the position of the change}
   @argument[remove]{an integer for the number of removed bytes}
@@ -1890,26 +1855,22 @@
   removed. Attributes that start or end inside the @code{(pos, pos + remove)}
   range are shortened to reflect the removal. Attributes @code{start} and
   @code{end} positions are updated if they are behind @code{pos + remove}.
-
-  Since 1.44
   @see-class{pango:attr-list}"
   (attrlist (g:boxed attr-list))
   (pos :int)
   (remove :int)
   (add :int))
 
-#+pango-1-44
 (export 'attr-list-update)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_attr_list_get_attributes
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (cffi:defcfun ("pango_attr_list_get_attributes" attr-list-attributes)
     (g:slist-t (g:boxed attribute :return))
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-05-02}
   @argument[attrlist]{a @class{pango:attr-list} instance}
   @begin{return}
     The list of all @class{pango:attribute} instances in @arg{attrlist}.
@@ -1917,13 +1878,10 @@
   @begin{short}
     Gets a list of all attributes in @arg{attrlist}.
   @end{short}
-
-  Since 1.44
   @see-class{pango:attr-list}
   @see-class{pango:attribute}"
   (attrlist (g:boxed attr-list)))
 
-#+pango-1-44
 (export 'attr-list-attributes)
 
 ;;; ----------------------------------------------------------------------------

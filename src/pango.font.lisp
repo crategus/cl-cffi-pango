@@ -2,8 +2,8 @@
 ;;; pango.font.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -97,8 +97,8 @@
 ;;;
 ;;; Implemented Interfaces
 ;;;
-;;;     PangoFontFamily implements GListModel.
-;;;     PangoFontMap implements GListModel.
+;;;     PangoFontFamily implements GListModel
+;;;     PangoFontMap implements GListModel
 ;;; ----------------------------------------------------------------------------
 
 (in-package :pango)
@@ -505,22 +505,18 @@
 ;;; pango_font_get_face
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-46
 (cffi:defcfun ("pango_font_get_face" font-face) (g:object font-face)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2025-05-02}
   @argument[font]{a @class{pango:font} object}
   @return{The @class{pango:font-face} object.}
   @begin{short}
     Gets the Pango font face to which the given font belongs.
   @end{short}
-
-  Since 1.46
   @see-class{pango:font}
   @see-class{pango:font-face}"
   (font (g:object font)))
 
-#+pango-1-46
 (export 'font-face)
 
 ;;; ----------------------------------------------------------------------------
@@ -548,23 +544,19 @@
 ;;; pango_font_has_char
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (cffi:defcfun ("pango_font_has_char" font-has-char) :boolean
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2025-05-02}
   @argument[font]{a @class{pango:font} object}
-  @argument[char]{a character or a char code with a Unicode character}
+  @argument[char]{a character or a char code for a Unicode character}
   @return{Returns whether the font provides a glyph for the given character.}
   @begin{short}
     Returns @em{true} if @arg{font} can render the given character.
   @end{short}
-
-  Since 1.44
   @see-class{pango:font}"
   (font (g:object font))
   (char g:unichar))
 
-#+pango-1-44
 (export 'font-has-char)
 
 ;;; ----------------------------------------------------------------------------
@@ -688,9 +680,7 @@
 ;;;     the length of features
 ;;;
 ;;; num_features :
-;;;     the number of used items in features .
-;;;
-;;; Since 1.44
+;;;     the number of used items in features
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -710,8 +700,6 @@
 ;;; Returns :
 ;;;     The hb_font_t object backing the font, or NULL if the font does not
 ;;;     have one.
-;;;
-;;; Since 1.44
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
@@ -878,22 +866,23 @@
 ;;; pango_font_family_is_variable
 ;;; ----------------------------------------------------------------------------
 
-#+(and pango-1-44 (not pango-1-52))
+;; Since 1.52 this function is implemented as accessor for the
+;; IS-VARIABLE property.
+
+#-pango-1-52
 (cffi:defcfun ("pango_font_family_is_variable" font-family-is-variable) :boolean
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2025-05-02}
   @argument[family]{a @class{pango:font-family} object}
   @return{@em{True} if @arg{family} is variable.}
   @begin{short}
     A variable font is a font which has axes that can be modified to produce
     different faces.
   @end{short}
-
-  Since 1.44
   @see-class{pango:font-family}"
   (family (g:object font-family)))
 
-#+(and pango-1-44 (not pango-1-52))
+#-pango-1-52
 (export 'font-family-is-variable)
 
 ;;; ----------------------------------------------------------------------------
@@ -936,7 +925,6 @@
 ;;; pango_font_family_get_face
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-46
 (cffi:defcfun ("pango_font_family_get_face" %font-family-face)
     (g:object font-face)
   (family (g:object font-family))
@@ -944,9 +932,9 @@
 
 (defun font-family-face (family name)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2025-05-02}
   @argument[family]{a @class{pango:font-family} object}
-  @argument[name]{a string with the name of a fpmt face, if @arg{name} is
+  @argument[name]{a string for the name of a fpmt face, if @arg{name} is
     @code{nil}, the default font face of the font family is returned}
   @begin{return}
     The @class{pango:font-face} object, or @code{nil} if no face with the given
@@ -955,13 +943,10 @@
   @begin{short}
     Gets the Pango font face of the given font family with the given @arg{name}.
   @end{short}
-
-  Since 1.46
   @see-class{pango:font-family}
   @see-class{pango:font-face}"
   (%font-family-face family (or name (cffi:null-pointer))))
 
-#+pango-1-46
 (export 'font-family-face)
 
 ;;; ----------------------------------------------------------------------------
@@ -1064,23 +1049,19 @@
 ;;; pango_font_face_get_family
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-46
 (cffi:defcfun ("pango_font_face_get_family" font-face-family)
     (g:object font-family)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2025-05-02}
   @argument[face]{a @class{pango:font-face} object}
   @return{The @class{pango:font-family} object.}
   @begin{short}
     Gets the Pango font family that the font face belongs to.
   @end{short}
-
-  Since 1.46
   @see-class{pango:font-face}
   @see-class{pango:font-family}"
   (face (g:object font-face)))
 
-#+pango-1-46
 (export 'font-face-family)
 
 ;;; ----------------------------------------------------------------------------
@@ -1212,25 +1193,21 @@
 ;;; pango_font_map_get_family
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-46
 (cffi:defcfun ("pango_font_map_get_family" font-map-family)
     (g:object font-family)
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2025-05-02}
   @argument[fontmap]{a @class{pango:font-map} object}
-  @argument[name]{a string with a family name}
+  @argument[name]{a string for a family name}
   @return{The @class{pango:font-family} object.}
   @begin{short}
     Gets a font family by name.
   @end{short}
-
-  Since 1.46
   @see-class{pango:font-map}
   @see-class{panto-font-family}"
   (fontmap (g:object font-map))
   (name :string))
 
-#+pango-1-46
 (export 'font-map-family)
 
 ;;; ----------------------------------------------------------------------------

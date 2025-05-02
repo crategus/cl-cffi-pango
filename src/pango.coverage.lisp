@@ -2,8 +2,8 @@
 ;;; pango.coverage.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -75,7 +75,7 @@
 (setf (liber:alias-for-symbol 'coverage-level)
       "GEnum"
       (liber:symbol-documentation 'coverage-level)
- "@version{2024-2-24}
+ "@version{2025-05-02}
   @begin{declaration}
 (gobject:define-genum \"PangoCoverageLevel\" coverage-level
   (:export t
@@ -103,7 +103,7 @@
     Used to indicate how well a font can represent a particular Unicode
     character point for a particular script.
   @end{short}
-  Since 1.44, only the @code{:none} and @code{:exact} values will be returned.
+  Only the @code{:none} and @code{:exact} values will be returned.
   @see-symbol{pango:coverage}")
 
 ;;; ----------------------------------------------------------------------------

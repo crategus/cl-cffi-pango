@@ -653,10 +653,9 @@
 ;;; pango_item_apply_attrs
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (cffi:defcfun ("pango_item_apply_attrs" item-apply-attrs) :void
  #+liber-documentation
- "@version{2025-3-2}
+ "@version{2025-05-02}
   @argument[item]{a @class{pango:item} instance}
   @argument[iter]{a @class{pango:attr-iterator} instance}
   @begin{short}
@@ -671,15 +670,12 @@
   and will be advanced past it. This function is meant to be called in a loop
   over the items resulting from itemization, while passing the iter to each
   call.
-
-  Since 1.44
   @see-class{pango:item}
   @see-class{pango:attr-iterator}
   @see-function{pango:attr-list-filter}"
   (item (g:boxed item))
   (iter (g:boxed attr-iterator)))
 
-#+pango-1-44
 (export 'item-apply-attrs)
 
 ;;; ----------------------------------------------------------------------------
@@ -862,10 +858,9 @@
 
 ;; TODO: Consider to remove the implementation
 
-#+pango-1-44
 (cffi:defcfun ("pango_tailor_break" tailor-break) :void
  #+liber-documentation
- "@version{#2025-3-2}
+ "@version{#2025-05-02}
   @argument[text]{a string for the text to process, must be valid UTF-8}
   @argument[length]{an integer for the length in bytes of @arg{text}}
   @argument[analysis]{a @symbol{pango:analysis} instance from the function
@@ -883,8 +878,6 @@
 
   If @arg{offset} is not -1, it is used to apply attributes from @arg{analysis}
   that are relevant to line breaking.
-
-  Since 1.44
   @see-symbol{pango:analysis}
   @see-symbol{pango:log-attr}
   @see-function{pango:itemize}
@@ -1009,7 +1002,6 @@
 ;;; pango_shape_with_flags
 ;;; ----------------------------------------------------------------------------
 
-#+pango-1-44
 (cffi:defcfun ("pango_shape_with_flags" %shape-with-flags) :void
   (item-text :string)
   (item-length :int)
@@ -1019,10 +1011,9 @@
   (glyphs (g:boxed glyph-string))
   (flags shape-flags))
 
-#+pango-1-44
 (defun shape-with-flags (text paragraph analysis flags)
  #+liber-documentation
- "@version{2025-3-2}
+ "@version{2025-05-02}
   @argument[text]{a string for the valid UTF-8 text to shape}
   @argument[paragraph]{a string for the text of the paragraph, may be
     @code{nil}}
@@ -1047,8 +1038,6 @@
   paragraph, so you do not pass the full paragraph text as @arg{paragraph}, you
   need to subtract the item offset from their indices before calling the
   @fun{pango:shape-with-flags} function.
-
-  Since 1.44
   @see-symbol{pango:analysis}
   @see-class{pango:glyph-string}
   @see-symbol{pango:shape-flags}
@@ -1059,7 +1048,6 @@
     (%shape-with-flags text -1 paragraph -1 analysis glyphs flags)
     glyphs))
 
-#+pango-1-44
 (export 'shape-with-flags)
 
 ;;; --- End of file pango.item.lisp --------------------------------------------
