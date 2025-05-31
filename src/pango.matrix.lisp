@@ -234,7 +234,7 @@
 
 (defmacro with-rectangle ((var &rest args) &body body)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-05-09}
   @syntax{(pango:with-rectangle (rect) body) => result}
   @syntax{(pango:with-rectangle (rect rect1) body) => result}
   @syntax{(pango:with-rectangle (rect x y width height) body) => result}
@@ -252,7 +252,7 @@
   After execution of the body the allocated memory for the rectangle is
   released.
 
-  When no argument is given the components of the rectangle are initialized to
+  If no argument is given, the components of the rectangle are initialized to
   zero. One argument is another rectangle for initialization. The initialization
   with four integers initializes the @arg{x}, @arg{y}, @arg{width}, and
   @arg{height} slots with the given values.
