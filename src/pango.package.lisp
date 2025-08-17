@@ -2,8 +2,8 @@
 ;;; pango.package.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -245,6 +245,8 @@
       @about-variable{+scale-large+}
       @about-variable{+scale-x-large+}
       @about-variable{+scale-xx-large+}
+      @about-variable{+attr-index-from-text-beginning+}
+      @about-variable{+attr-index-to-text-end+}
       @about-symbol{attr-type}
       @about-symbol{underline}
       @about-symbol{overline}
@@ -272,38 +274,46 @@
       @about-symbol{attr-shape}
       @about-symbol{attr-size}
       @about-symbol{attr-font-features}
+      @about-function{attribute-new}
       @about-function{attr-language-new}
       @about-function{attr-family-new}
       @about-function{attr-style-new}
+      @about-function{attr-weight-new}
       @about-function{attr-variant-new}
       @about-function{attr-stretch-new}
-      @about-function{attr-weight-new}
       @about-function{attr-size-new}
-      @about-function{attr-size-new-absolute}
       @about-function{attr-font-desc-new}
       @about-function{attr-foreground-new}
       @about-function{attr-background-new}
-      @about-function{attr-strikethrough-new}
-      @about-function{attr-strikethrough-color-new}
       @about-function{attr-underline-new}
-      @about-function{attr-underline-color-new}
-      @about-function{attr-overline-new}
-      @about-function{attr-overline-color-new}
-      @about-function{attr-shape-new}
-      @about-function{attr-shape-new-with-data}
-      @about-function{PangoAttrDataCopyFunc}
-      @about-function{attr-scale-new}
+      @about-function{attr-strikethrough-new}
       @about-function{attr-rise-new}
-      @about-function{attr-letter-spacing-new}
+      @about-function{attr-shape-new}
+      @about-function{attr-scale-new}
       @about-function{attr-fallback-new}
+      @about-function{attr-letter-spacing-new}
+      @about-function{attr-underline-color-new}
+      @about-function{attr-strikethrough-color-new}
+      @about-function{attr-size-new-absolute}
       @about-function{attr-gravity-new}
       @about-function{attr-gravity-hint-new}
       @about-function{attr-font-features-new}
       @about-function{attr-foreground-alpha-new}
       @about-function{attr-background-alpha-new}
       @about-function{attr-allow-breaks-new}
-      @about-function{attr-insert-hyphens-new}
       @about-function{attr-show-new}
+      @about-function{attr-insert-hyphens-new}
+      @about-function{attr-overline-new}
+      @about-function{attr-overline-color-new}
+      @about-function{attr-line-height-new}
+      @about-function{attr-line-heigt-new-absolute}
+      @about-function{attr-text-transform-new}
+      @about-function{attr-word-new}
+      @about-function{attr-sentence-new}
+      @about-function{attr-baseline-shift-new}
+      @about-function{attr-font-scale-new}
+      @about-function{PangoAttrDataCopyFunc}
+      @about-function{attr-shape-new-with-data}
       @about-class{attr-list}
       @about-function{attr-list-new}
       @about-function{attr-list-ref}

@@ -11,7 +11,7 @@ Basic Pango Interfaces
   pango.font-metrics.lisp - PangoFontMetrics                      - Pango 1.56
   pango.font.lisp - Structures representing abstract fonts        - Pango 1.51 .
   pango.glyph.lisp - Storing information about glyphs             - Pango 1.51&.
-  pango.attributes.lisp - Attributes for annotating text          - Pango 1.54 .
+  pango.attributes.lisp - Attributes for annotating text          - Pango 1.56 .
   pango.markup.lisp - Markup language for text with attributes    - Pango 1.51 &
   pango.layout.lisp - High-level layout driver objects            - Pango 1.56
   pango.script.lisp - Scripts and Languages                       - Pango 1.54&.
@@ -54,4 +54,4 @@ Deprecated APIs
   not implemented - PangoEngineShape
   not implemented - Modules
 
-2025-05-02
+2025-08-17
