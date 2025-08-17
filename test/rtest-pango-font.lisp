@@ -778,10 +778,10 @@
                                (is (typep font 'pango:font))
                                (incf count)
                                nil))
-        (is (= 181 count)))
+        (is (= 182 count)))
     ;; Check memory management
     (is (<= 2 (g:object-ref-count fontmap))) ; Increases for every run
     (is (= 1 (g:object-ref-count context)))
     (is (= 2 (g:object-ref-count fontset)))))
 
-;;; 2025-3-28
+;;; 2025-08-16
