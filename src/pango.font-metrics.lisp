@@ -66,7 +66,7 @@
 (setf (liber:alias-for-class 'font-metrics)
       "GBoxed"
       (documentation 'font-metrics 'type)
- "@version{2025-4-14}
+ "@version{2025-04-14}
   @begin{declaration}
 (glib:define-gboxed-opaque font-metrics \"PangoFontMetrics\"
   :export t
@@ -105,9 +105,9 @@
 
 (cffi:defcfun ("pango_font_metrics_get_ascent" font-metrics-ascent) :int
  #+liber-documentation
- "@version{2025-4-14}
+ "@version{2025-08-24}
   @argument[metrics]{a @class{pango:font-metrics} instance}
-  @return{The integer with the ascent, in Pango units.}
+  @return{The integer for the ascent, in Pango units.}
   @begin{short}
     Gets the ascent from a font metrics structure.
   @end{short}
@@ -125,9 +125,9 @@
 
 (cffi:defcfun ("pango_font_metrics_get_descent" font-metrics-descent) :int
  #+liber-documentation
- "@version{2025-4-14}
+ "@version{2025-08-24}
   @argument[metrics]{a @class{pango:font-metrics} instance}
-  @return{The integer with the descent, in Pango units.}
+  @return{The integer for the descent, in Pango units.}
   @begin{short}
     Gets the descent from a font metrics instance.
   @end{short}
@@ -146,9 +146,9 @@
 
 (cffi:defcfun ("pango_font_metrics_get_height" font-metrics-height) :int
  #+liber-documentation
- "@version{2025-05-02}
+ "@version{2025-08-24}
   @argument[metrics]{a @class{pango:font-metrics} instance}
-  @return{The integer with the height, in Pango units.}
+  @return{The integer for the height, in Pango units.}
   @begin{short}
     Gets the line height from a font metrics instance.
   @end{short}
@@ -166,9 +166,9 @@
 (cffi:defcfun ("pango_font_metrics_get_approximate_char_width"
                 font-metrics-approximate-char-width) :int
  #+liber-documentation
- "@version{2025-4-14}
+ "@version{2025-08-24}
   @argument[metrics]{a @class{pango:font-metrics} instance}
-  @return{The integer with the character width, in Pango units.}
+  @return{The integer for the character width, in Pango units.}
   @begin{short}
     Gets the approximate character width for a font metrics instance.
   @end{short}
@@ -187,9 +187,9 @@
 (cffi:defcfun ("pango_font_metrics_get_approximate_digit_width"
                 font-metrics-approximate-digit-width) :int
  #+liber-documentation
- "@version{2025-4-14}
+ "@version{2025-08-24}
   @argument[metrics]{a @class{pango:font-metrics} instance}
-  @return{The integer with the digit width, in Pango units.}
+  @return{The integer for the digit width, in Pango units.}
   @begin{short}
     Gets the approximate digit width for a font metrics instance.
   @end{short}
@@ -211,9 +211,9 @@
 (cffi:defcfun ("pango_font_metrics_get_underline_thickness"
                 font-metrics-underline-thickness) :int
  #+liber-documentation
- "@version{2025-4-14}
+ "@version{2025-08-24}
   @argument[metrics]{a @class{pango:font-metrics} instance}
-  @return{The integer with the suggested underline thickness, in Pango units.}
+  @return{The integer for the suggested underline thickness, in Pango units.}
   @begin{short}
     Gets the suggested thickness to draw for the underline.
   @end{short}
@@ -229,9 +229,9 @@
 (cffi:defcfun ("pango_font_metrics_get_underline_position"
                 font-metrics-underline-position) :int
  #+liber-documentation
- "@version{2025-4-14}
+ "@version{2025-08-24}
   @argument[metrics]{a @class{pango:font-metrics} instance}
-  @return{The integer with the suggested underline position, in Pango units.}
+  @return{The integer for the suggested underline position, in Pango units.}
   @begin{short}
     Gets the suggested position to draw the underline.
   @end{short}
@@ -250,10 +250,10 @@
 (cffi:defcfun ("pango_font_metrics_get_strikethrough_thickness"
                 font-metrics-strikethrough-thickness) :int
  #+liber-documentation
- "@version{2025-4-14}
+ "@version{2025-08-24}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @begin{return}
-    The integer with the suggested strikethrough thickness, in Pango units.
+    The integer for the suggested strikethrough thickness, in Pango units.
   @end{return}
   @begin{short}
     Gets the suggested thickness to draw for the strikethrough.
@@ -270,7 +270,7 @@
 (cffi:defcfun ("pango_font_metrics_get_strikethrough_position"
                 font-metrics-strikethrough-position) :int
  #+liber-documentation
- "@version{2025-4-14}
+ "@version{2025-04-14}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @begin{return}
     The integer with the suggested strikethrough position, in Pango units.

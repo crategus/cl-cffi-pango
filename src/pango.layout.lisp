@@ -173,7 +173,7 @@
 (setf (liber:alias-for-symbol 'wrap-mode)
       "GEnum"
       (liber:symbol-documentation 'wrap-mode)
- "@version{2025-3-28}
+ "@version{2025-08-24}
   @begin{declaration}
 (gobject:define-genum \"PangoWrapMode\" wrap-mode
   (:export t
@@ -185,22 +185,22 @@
   (:none 3))
   @end{declaration}
   @begin{values}
-    @begin[code]{table}
+    @begin[code]{simple-table}
       @entry[:word]{Wrap lines at word boundaries.}
       @entry[:char]{Wrap lines at character boundaries.}
       @entry[:word-char]{Wrap lines at word boundaries, but fall back to
         character boundaries if there is not enough space for a full word.}
       @entry[:none]{Do not wrap.}
-    @end{table}
+    @end{simple-table}
   @end{values}
   @begin{short}
-    The @symbol{pango:wrap-mode} enumeration describes how to wrap the lines of
-    a @class{pango:layout} object to the desired width.
+    The @sym{pango:wrap-mode} enumeration describes how to wrap the lines of a
+    @class{pango:layout} object to the desired width.
   @end{short}
-  For the @code{:wrap-word} value, Pango uses break opportunities that are
-  determined by the Unicode line breaking algorithm. For the @code{:wrap-char}
-  value, Pango allows breaking at grapheme boundaries that are determined by
-  the Unicode text segmentation algorithm.
+  For the @val[pango:wrap-mode]{:wrap-word} value, Pango uses break
+  opportunities that are determined by the Unicode line breaking algorithm. For
+  the @val[pango:wrap-mode]{:wrap-char} value, Pango allows breaking at grapheme
+  boundaries that are determined by the Unicode text segmentation algorithm.
   @see-class{pango:layout}
   @see-function{pango:layout-wrap}")
 
@@ -222,7 +222,7 @@
 (setf (liber:alias-for-symbol 'ellipsize-mode)
       "GEnum"
       (liber:symbol-documentation 'ellipsize-mode)
- "@version{2025-2-18}
+ "@version{2025-08-24}
   @begin{declaration}
 (gobject:define-genum \"PangoEllipsizeMode\" ellipsize-mode
   (:export t
@@ -233,16 +233,16 @@
   (:end 3))
   @end{declaration}
   @begin{values}
-    @begin[code]{table}
+    @begin[code]{simple-table}
       @entry[:none]{No ellipsization.}
       @entry[:start]{Omit characters at the start of the text.}
       @entry[:middle]{Omit characters in the middle of the text.}
       @entry[:end]{Omit characters at the end of the text.}
-    @end{table}
+    @end{simple-table}
   @end{values}
   @begin{short}
-    The @symbol{pango:ellipsize-mode} enumeration describes what sort of (if
-    any) ellipsization should be applied to a line of text.
+    The @sym{pango:ellipsize-mode} enumeration describes what sort of (if any)
+    ellipsization should be applied to a line of text.
   @end{short}
   In the ellipsization process characters are removed from the text in order to
   make it fit to a given width and replaced with an ellipsis.
@@ -266,7 +266,7 @@
 (setf (liber:alias-for-symbol 'alignment)
       "GEnum"
       (liber:symbol-documentation 'alignment)
- "@version{2025-2-18}
+ "@version{2025-08-24}
   @begin{declaration}
 (gobject:define-genum \"PangoAlignment\" alignment
   (:export t
@@ -276,15 +276,15 @@
   (:right 2))
   @end{declaration}
   @begin{values}
-    @begin[code]{table}
+    @begin[code]{simple-table}
       @entry[:left]{Put all available space on the right.}
       @entry[:center]{Center the line within the available space.}
       @entry[:right]{Put all available space on the left.}
-    @end{table}
+    @end{simple-table}
   @end{values}
   @begin{short}
-    The @symbol{pango:alignment} enumeration describes how to align the lines
-    of a @class{pango:layout} object within the available space.
+    The @sym{pango:alignment} enumeration describes how to align the lines of a
+    @class{pango:layout} object within the available space.
   @end{short}
   If the @class{pango:layout} object is set to justify using the
   @fun{pango:layout-justify} function, this only has effect for partial lines.
@@ -316,7 +316,7 @@
 (setf (liber:alias-for-class 'layout-line)
       "GBoxed"
       (documentation 'layout-line 'type)
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @begin{declaration}
 (gobject:define-gboxed-cstruct layout-line \"PangoLayoutLine\"
   (:export t
@@ -329,17 +329,17 @@
   (resolved-dir :uint))
   @end{declaration}
   @begin{values}
-    @begin[code]{table}
+    @begin[code]{simple-table}
       @entry[layout]{The @class{pango:layout} object this line belongs to, might
         be @code{nil}.}
-      @entry[start-index]{The integer with the start of line as byte index into
+      @entry[start-index]{The integer for the start of line as byte index into
         the layout text.}
-      @entry[length]{The integer with the length of line in bytes.}
+      @entry[length]{The integer for the length of line in bytes.}
       @entry[runs]{List of runs in the line, from left to right.}
       @entry[is-paragraph-start]{@em{True} if this is the first line of the
         paragraph.}
-      @entry[resolved-dir]{Resolved @symbol{pango:direction} value of line.}
-    @end{table}
+      @entry[resolved-dir]{Resolved @sym{pango:direction} value of line.}
+    @end{simple-table}
   @end{values}
   @begin{short}
     The @class{pango:layout-line} structure represents one of the lines
@@ -366,7 +366,7 @@
 (setf (liber:alias-for-class 'layout-iter)
       "GBoxed"
       (documentation 'layout-iter 'type)
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @begin{declaration}
 (glib:define-gboxed-opaque layout-iter \"PangoLayoutIter\"
   :export t
@@ -398,7 +398,7 @@
 
 #+liber-documentation
 (setf (documentation 'layout 'type)
- "@version{2025-2-18}
+ "@version{2025-02-18}
   @begin{short}
     The @class{pango:layout} class represents an entire paragraph of text.
   @end{short}
@@ -426,7 +426,7 @@
 
 (cffi:defcfun ("pango_layout_new" layout-new) (g:object layout :return)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[context]{a @class{pango:context} object}
   @return{The newly allocated @class{pango:layout} object.}
   @begin{short}
@@ -445,10 +445,10 @@
 
 (cffi:defcfun ("pango_layout_copy" layout-copy) (g:object layout)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[src]{a @class{pango:layout} object}
   @begin{return}
-    The newly allocated @class{pango:layout} object with the copy of @arg{src}.
+    The newly allocated @class{pango:layout} object for the copy of @arg{src}.
   @end{return}
   @begin{short}
     Does a deep copy-by-value of the Pango layout.
@@ -466,7 +466,7 @@
 
 (cffi:defcfun ("pango_layout_get_context" layout-context) (g:object context)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[layout]{a @class{pango:layout} object}
   @begin{return}
     The @class{pango:context} object for @arg{layout}.
@@ -486,7 +486,7 @@
 
 (cffi:defcfun ("pango_layout_context_changed" layout-context-changed) :void
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[layout]{a @class{pango:layout} object}
   @begin{short}
     Forces recomputation of any state in the Pango layout that might depend
@@ -505,10 +505,10 @@
 
 (cffi:defcfun ("pango_layout_get_serial" layout-serial) :uint
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
   @begin{return}
-    The unsigned integer with the current serial number of @arg{layout}.
+    The unsigned integer for the current serial number of @arg{layout}.
   @end{return}
   @begin{short}
     Returns the current serial number of the Pango layout.
@@ -545,7 +545,7 @@
 
 (cffi:defcfun ("pango_layout_get_text" layout-text) :string
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @syntax{(pango:layout-text layout) => text}
   @syntax{(setf (pango:layout-text layout) text)}
   @argument[layout]{a @class{pango:layout} object}
@@ -574,10 +574,10 @@
 
 (cffi:defcfun ("pango_layout_get_character_count" layout-character-count) :int
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
   @begin{return}
-    The integer with the number of Unicode characters in the text of
+    The integer for the number of Unicode characters in the text of
     @arg{layout}.
   @end{return}
   @begin{short}
@@ -599,7 +599,7 @@
 
 (defun layout-set-markup (layout markup)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[layout]{a @class{pango:layout} object}
   @argument[markup]{a string for the marked-up text}
   @begin{short}
@@ -626,12 +626,12 @@
 
 (defun layout-set-markup-with-accel (layout markup marker)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
   @argument[markup]{a string for the marked-up text}
-  @argument[marker]{a character or an integer with the char code for the marker
+  @argument[marker]{a character or an integer for the char code for the marker
     for accelerators in the text}
-  @return{The character with the first located accelerator.}
+  @return{The character for the first located accelerator.}
   @begin{short}
     Sets the layout text and attribute list from marked-up text (see markup
     format).
@@ -641,9 +641,10 @@
   If @arg{marker} is nonzero, the given character will mark the character
   following it as an accelerator. For example, @arg{marker} might be an
   ampersand or underscore. All characters marked as an accelerator will receive
-  a @code{:low} attribute of the @symbol{pango:underline} enumeration, and the
-  first character so marked will be returned. Two @arg{marker} characters
-  following each other produce a single literal @arg{marker} character.
+  a @val[pango:underline]{:low} attribute of the @sym{pango:underline}
+  enumeration, and the first character so marked will be returned. Two
+  @arg{marker} characters following each other produce a single literal
+  @arg{marker} character.
   @see-class{pango:layout}
   @see-symbol{pango:underline}"
   (cffi:with-foreign-object (char :uint32)
@@ -667,7 +668,7 @@
 (cffi:defcfun ("pango_layout_get_attributes" layout-attributes)
     (g:boxed attr-list)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @syntax{(pango:layout-attributes layout) => attrs}
   @syntax{(setf (pango:layout-attributes layout) attrs)}
   @argument[layout]{a @class{pango:layout} object}
@@ -697,7 +698,7 @@
 (cffi:defcfun ("pango_layout_get_font_description" layout-font-description)
     (g:boxed font-description)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @syntax{(pango:layout-font-description layout) => desc}
   @syntax{(setf (pango:layout-font-description layout) desc)}
   @argument[layout]{a @class{pango:layout} object}
@@ -732,7 +733,7 @@
 
 (cffi:defcfun ("pango_layout_get_width" layout-width) :int
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @syntax{(pango:layout-width layout) => width}
   @syntax{(setf (pango:layout-width layout) width)}
   @argument[layout]{a @class{pango:layout} object}
@@ -763,7 +764,7 @@
 
 (cffi:defcfun ("pango_layout_get_height" layout-height) :int
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @syntax{(pango:layout-height layout) => height}
   @syntax{(setf (pango:layout-height layout) height)}
   @argument[layout]{a @class{pango:layout} object}
@@ -792,9 +793,10 @@
   code relies on this behavior.
 
   Height setting only has effect if a positive width is set on the Pango layout
-  and the ellipsization mode of the Pango layout is not @code{:none}. The
-  behavior is undefined if a height other than -1 is set and the ellipsization
-  mode is set to @code{:none}, and may change in the future.
+  and the ellipsization mode of the Pango layout is not
+  @val[pango:ellipsize-mode]{:none}. The behavior is undefined if a height other
+  than -1 is set and the ellipsization mode is set to
+  @val[pango:ellipsize-mode]{:none}, and may change in the future.
   @see-class{pango:layout}"
   (layout (g:object layout)))
 
@@ -814,17 +816,15 @@
 
 (cffi:defcfun ("pango_layout_get_wrap" layout-wrap) wrap-mode
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @syntax{(pango:layout-wrap layout) => wrap}
   @syntax{(setf (pango:layout-wrap layout) wrap)}
   @argument[layout]{a @class{pango:layout} object}
-  @argument[wrap]{a value of the @symbol{pango:wrap-mode} enumeration}
+  @argument[wrap]{a value of the @sym{pango:wrap-mode} enumeration}
   @begin{short}
-    The @fun{pango:layout-wrap} function gets the wrap mode for the Pango
-    layout.
+    Gets or sets the wrap mode for the Pango layout.
   @end{short}
-  The @setf{pango:layout-wrap} function sets the wrap mode. The wrap mode only
-  has effect if a width is set on the Pango layout with the
+  The wrap mode only has effect if a width is set on the Pango layout with the
   @fun{pango:layout-width} function. To turn off wrapping, set the width to -1.
 
   Use the @fun{pango:layout-is-wrapped} function to query whether any
@@ -842,7 +842,7 @@
 
 (cffi:defcfun ("pango_layout_is_wrapped" layout-is-wrapped) :boolean
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
   @begin{return}
     @em{True} if any paragraphs had to be wrapped, @em{false} otherwise.
@@ -851,8 +851,9 @@
     Queries whether the Pango layout had to wrap any paragraphs.
   @end{short}
   This returns @em{true} if a positive width is set on the Pango layout, the
-  ellipsization mode of the Pango layout is set to @code{:none}, and there are
-  paragraphs exceeding the Pango layout width that have to be wrapped.
+  ellipsization mode of the Pango layout is set to
+  @val[pango:ellipsize-mode]{:none}, and there are paragraphs exceeding the
+  Pango layout width that have to be wrapped.
   @see-class{pango:layout}"
   (layout (g:object layout)))
 
@@ -872,16 +873,14 @@
 
 (cffi:defcfun ("pango_layout_get_ellipsize" layout-ellipsize) ellipsize-mode
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @syntax{(pango:layout-ellipsize layout) => ellipsize}
   @syntax{(setf (pango:layout-ellipsize layout) ellipsize)}
   @argument[layout]{a @class{pango:layout} object}
-  @argument[ellipsize]{a value of the @symbol{pango:ellipsize-mode} enumeration}
+  @argument[ellipsize]{a value of the @sym{pango:ellipsize-mode} enumeration}
   @begin{short}
-    The @fun{pango:layout-ellipsize} function gets the type of ellipsization
-    being performed for the Pango layout.
+    Gets or sets the type of ellipsization being performed for the Pango layout.
   @end{short}
-  The @setf{pango:layout-ellipsize} function sets the type of ellipsization.
   Depending on the ellipsization mode ellipsize text is removed from the start,
   middle, or end of the text so they fit within the width and height of Pango
   layout set with the @fun{pango:layout-width} and @fun{pango:layout-height}
@@ -909,7 +908,7 @@
 
 (cffi:defcfun ("pango_layout_is_ellipsized" layout-is-ellipsized) :boolean
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
   @begin{return}
     @em{True} if any paragraphs had to be ellipsized, @em{false} otherwise.
@@ -918,8 +917,9 @@
     Queries whether the Pango layout had to ellipsize any paragraphs.
   @end{short}
   This returns @em{true} if the ellipsization mode for the Pango layout is not
-  @code{:none}, a positive width is set on the Pango layout, and there are
-  paragraphs exceeding that width that have to be ellipsized.
+  @val[pango:ellipsize-mode]{:none}, a positive width is set on the Pango
+  layout, and there are paragraphs exceeding that width that have to be
+  ellipsized.
   @see-class{pango:layout}"
   (layout (g:object layout)))
 
@@ -939,22 +939,21 @@
 
 (cffi:defcfun ("pango_layout_get_ident" layout-indent) :int
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @syntax{(pango:layout-indent layout) => indent}
   @syntax{(setf (pango:layout-indent layout) indent)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[indent]{an integer for the amount by which to indent}
   @begin{short}
-    The @fun{pango:layout-indent} function gets the paragraph indent width in
-    Pango units.
+    Gets or sets the paragraph indent width in Pango units to indent each
+    paragraph.
   @end{short}
-  The @setf{pango:layout-indent} function sets the width in Pango units to
-  indent each paragraph. A negative value of @arg{indent} will produce a hanging
-  indentation. That is, the first line will have the full width, and subsequent
-  lines will be indented by the absolute value of indent.
+  A negative value of @arg{indent} will produce a hanging indentation. That is,
+  the first line will have the full width, and subsequent lines will be indented
+  by the absolute value of indent.
 
   The indent setting is ignored if the Pango layout alignment is set to the
-  @code{:center} value.
+  @val[pango:alignment]{:center} value.
   @see-class{pango:layout}"
   (layout (g:object layout)))
 
@@ -1090,32 +1089,29 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_get_auto_dir" layout-auto-dir) :boolean
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @syntax{(pango:layout-auto-dir layout) => auto}
   @syntax{(setf (pango:layout-auto-dir layout) auto)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[auto]{if @em{true}, compute the bidirectional base direction from
   the contents of the Pango layout}
   @begin{short}
-    The @fun{pango:layout-auto-dir} function gets whether to calculate the
-    bidirectional base direction for the Pango layout according to the contents
-    of the Pango layout.
+    Gets or sets whether to calculate the bidirectional base direction for the
+    Pango layout according to the contents of the Pango layout.
   @end{short}
-  The @setf{pango:layout-auto-dir} function sets whether to calculate the
-  bidirectional base direction for the Pango layout according to the contents of
-  the Pango layout. When this flag is on (the default), then paragraphs in the
-  Pango layout that begin with strong right-to-left characters (Arabic and
-  Hebrew principally), will have right-to-left layout, paragraphs with letters
-  from other scripts will have left-to-right layout. Paragraphs with only
-  neutral characters get their direction from the surrounding paragraphs.
+  When this flag is on (the default), then paragraphs in the Pango layout that
+  begin with strong right-to-left characters (Arabic and Hebrew principally),
+  will have right-to-left layout, paragraphs with letters from other scripts
+  will have left-to-right layout. Paragraphs with only neutral characters get
+  their direction from the surrounding paragraphs.
 
   When @em{false}, the choice between left-to-right and right-to-left layout is
   done according to the base direction of the Pango context of the Pango layout,
   see the @fun{pango:context-base-dir} function.
 
   When the auto-computed direction of a paragraph differs from the base
-  direction of the Pango context, the interpretation of @code{:left} and
-  @code{:right} are swapped.
+  direction of the Pango context, the interpretation of
+  @val[pango:alignment]{:left} and @val[pango:alignment]{:right} are swapped.
   @see-class{pango:layout}
   @see-function{pango:context-base-dir}"
   (layout (g:object layout)))
@@ -1128,11 +1124,11 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_get_direction" layout-direction) direction
  #+liber-documentation
- "@version{#2025-05-02}
+ "@version{#2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
   @argument[index]{an integer for the byte index of the char}
   @begin{return}
-    The @symbol{pango:direction} value with the text direction at @arg{index}.
+    The @sym{pango:direction} value for the text direction at @arg{index}.
   @end{return}
   @begin{short}
     Gets the text direction at the given character position in the Pango layout.
@@ -1158,17 +1154,16 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_get_alignment" layout-alignment) alignment
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @syntax{(pango:layout-alignment layout) => alignment}
   @syntax{(setf (pango:layout-alignment layout) alignment)}
   @argument[layout]{a @class{pango:layout} object}
-  @argument[alignment]{a @symbol{pango:alignment} value}
+  @argument[alignment]{a @sym{pango:alignment} value}
   @begin{short}
-    The @fun{pango:layout-alignment} function gets the alignment for the Pango
-    layout.
+    Gets or sets the alignment for the Pango layout.
   @end{short}
   That is, how partial lines are positioned within the horizontal space
-  available. The @setf{pango:layout-alignment} function sets the alignment.
+  available.
   @see-class{pango:layout}
   @see-symbol{pango:alignment}"
   (layout (g:object layout)))
@@ -1189,16 +1184,15 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_get_tabs" layout-tabs) (g:boxed tab-array :return)
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @syntax{(pango:layout-tabs layout) => tabs}
   @syntax{(setf (pango:layout-tabs layout) tabs)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[tabs]{a @class{pango:tab-array} instance, or @code{nil}}
   @begin{short}
-    The @fun{pango:layout-tabs} function gets the current
-    @symbol{pango:tab-array} instance used by this Pango layout.
+    Gets or sets the current @sym{pango:tab-array} instance used by this Pango
+    layout.
   @end{short}
-  The @setf{pango:layout-tabs} function sets the tabs to use.
 
   If no @class{pango:tab-array} instance has been set, then the default tabs
   are in use and @code{nil} is returned. Default tabs are every 8 spaces.
@@ -1248,9 +1242,9 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_get_unknown_glyphs_count"
                 layout-unknown-glyphs-count) :int
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
-  @return{The integer with the number of unknown glyphs in @arg{layout}.}
+  @return{The integer for the number of unknown glyphs in @arg{layout}.}
   @begin{short}
     Counts the number of unknown glyphs in the Pango layout.
   @end{short}
@@ -1259,8 +1253,9 @@ baseline2 = baseline1 + factor * height2
 
   This function can be used to determine if there are any fonts available to
   render all characters in a certain string, or when used in combination with
-  the @code{:fallback} value of the @symbol{pango:attr-type} enumeration, to
-  check if a certain font supports all the characters in the string.
+  the @vak[pango:attr-type]{:fallback} value of the @sym{pango:attr-type}
+  enumeration, to check if a certain font supports all the characters in the
+  string.
   @see-class{pango:layout}
   @see-symbol{pango:attr-type}"
   (layout (g:object layout)))
@@ -1280,10 +1275,10 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-log-attrs (layout)
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
   @begin{return}
-    The list of logical attributes of type @symbol{pango:log-attr}.
+    The list of logical attributes of type @sym{pango:log-attr}.
   @end{return}
   @begin{short}
     Retrieves a list of logical attributes for each character in the Pango
@@ -1311,9 +1306,9 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-log-attrs-readonly (layout)
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
-  @return{The list of logical attributes of type @symbol{pango:log-attr}.}
+  @return{The list of logical attributes of type @sym{pango:log-attr}.}
   @begin{short}
     Retrieves a list of logical attributes for each character in the Pango
     layout.
@@ -1340,7 +1335,7 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-index-to-pos (layout index)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @syntax{(pango:layout-index-to-pos layout index) => x, y, width, height}
   @argument[layout]{a @class{pango:layout} object}
   @argument[index]{an integer for the byte index within @arg{layout}}
@@ -1500,7 +1495,7 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-move-cursor-visually (layout strong index trailing direction)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @syntax{(pango:layout-move-cursor-visually layout strong index trailing
     direction) => new-index, new-trailing}
   @argument[layout]{a @class{pango:layout} object}
@@ -1566,12 +1561,12 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-extents (layout ink logical)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
-  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the extents
-    of the Pango layout as drawn, or @code{nil}}
-  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the
-    logical extents of the Pango layout, or @code{nil}}
+  @argument[ink]{a @sym{pango:rectangle} instance to fill with the extents of
+    the Pango layout as drawn, or @code{nil}}
+  @argument[logical]{a @sym{pango:rectangle} instance to fill with the logical
+    extents of the Pango layout, or @code{nil}}
   @begin{short}
     Computes the logical and ink extents of the Pango layout.
   @end{short}
@@ -1603,12 +1598,12 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-pixel-extents (layout ink logical)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
-  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the extents
-    of the Pango layout as drawn, or @code{nil}}
-  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the
-    logical extents of the Pango layout, or @code{nil}}
+  @argument[ink]{a @sym{pango:rectangle} instance to fill with the extents of
+    the Pango layout as drawn, or @code{nil}}
+  @argument[logical]{a @sym{pango:rectangle} instance to fill with the logical
+    extents of the Pango layout, or @code{nil}}
   @begin{short}
     Computes the logical and ink extents of the Pango layout in device units.
   @end{short}
@@ -1637,7 +1632,7 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-size (layout)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @syntax{(pango:layout-size layout) => width, height}
   @argument[layout]{a @class{pango:layout} object}
   @argument[width]{an integer for the logical width}
@@ -1669,7 +1664,7 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-pixel-size (layout)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @syntax{(pango:layout-pixel-size layout) => width, height}
   @argument[layout]{a @class{pango:layout} object}
   @argument[width]{an integer for the logical width}
@@ -1696,10 +1691,10 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_get_baseline" layout-baseline) :int
  #+liber-documentation
- "@version{2025-05-02}
+ "@version{2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
   @begin{return}
-    The integer with the baseline of the first line, from top of @arg{layout}.
+    The integer for the baseline of the first line, from top of @arg{layout}.
   @end{return}
   @begin{short}
     Gets the y position of the baseline for the first line in the Pango layout.
@@ -1715,9 +1710,9 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_get_line_count" layout-line-count) :int
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
-  @return{The integer with the line count.}
+  @return{The integer for the line count.}
   @begin{short}
     Retrieves the count of lines for the Pango layout.
   @end{short}
@@ -1763,7 +1758,7 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_get_line_readonly" layout-line-readonly)
     (g:boxed layout-line)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[layout]{a @class{pango:layout} object}
   @argument[line]{an integer for the index of a line, which must be between 0
     and (@code{pango:layout-line-count layout)} - 1, inclusive}
@@ -1796,7 +1791,7 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-lines (layout)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[layout]{a @class{pango:layout} object}
   @begin{return}
     The list containing the @class{pango:layout-line} instances in the Pango
@@ -1825,7 +1820,7 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-lines-readonly (layout)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[layout]{a @class{pango:layout} object}
   @begin{return}
     The list containing the @class{pango:layout-line} instances in the Pango
@@ -1854,11 +1849,9 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_get_iter" layout-iter)
     (g:boxed layout-iter :return)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[layout]{a @class{pango:layout} object}
-  @begin{return}
-    The new @symbol{pango:layout-iter} instance.
-  @end{return}
+  @return{The new @sym{pango:layout-iter} instance.}
   @begin{short}
     Returns an iterator to iterate over the visual extents of the Pango layout.
   @end{short}
@@ -1874,7 +1867,7 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_copy" layout-iter-copy)
     (g:boxed layout-iter :return)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[iter]{a @class{pango:layout-iter} instance}
   @return{The newly allocated @class{pango:layout-iter} instance.}
   @begin{short}
@@ -1895,7 +1888,7 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_iter_next_run" layout-iter-next-run) :boolean
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[iter]{a @class{pango:layout-iter} instance}
   @return{The boolean whether motion was possible.}
   @begin{short}
@@ -1913,7 +1906,7 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_iter_next_char" layout-iter-next-char) :boolean
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[iter]{a @class{pango:layout-iter} instance}
   @return{The boolean whether motion was possible.}
   @begin{short}
@@ -1932,7 +1925,7 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_next_cluster" layout-iter-next-cluster)
     :boolean
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[iter]{a @class{pango:layout-iter} instance}
   @return{The boolean whether motion was possible.}
   @begin{short}
@@ -1950,7 +1943,7 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_iter_next_line" layout-iter-next-line) :boolean
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[iter]{a @class{pango:layout-iter} instance}
   @return{The boolean whether motion was possible.}
   @begin{short}
@@ -1970,7 +1963,7 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_at_last_line" layout-iter-at-last-line)
     :boolean
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[iter]{a @class{pango:layout-iter} instance}
   @return{@em{True} if @arg{iter} is on the last line.}
   @begin{short}
@@ -1987,9 +1980,9 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_iter_get_index" layout-iter-index) :int
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{The integer with the current byte index.}
+  @return{The integer for the current byte index.}
   @begin{short}
     Gets the current byte index.
   @end{short}
@@ -2009,9 +2002,9 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_iter_get_baseline" layout-iter-baseline) :int
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{The integer with the baseline of the current line.}
+  @return{The integer for the baseline of the current line.}
   @begin{short}
     Gets the y position of the baseline of the current line, in Pango layout
     coordinates (origin at top left of the entire Pango layout).
@@ -2028,9 +2021,9 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_get_run" layout-iter-run)
     (g:boxed glyph-item :return)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{The @class{pango:glyph-item} instance with the current run.}
+  @return{The @class{pango:glyph-item} instance for the current run.}
   @begin{short}
     Gets the current run.
   @end{short}
@@ -2055,10 +2048,10 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_get_run_readonly" layout-iter-run-readonly)
     (g:boxed glyph-item)
  #+liber-documentation
- "@version{2025-05-02}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
   @begin{return}
-    The @class{pango:layout-iter} instance with the current run, that should
+    The @class{pango:layout-iter} instance for the current run, that should
     not be modified.
   @end{return}
   @begin{short}
@@ -2085,9 +2078,9 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_get_line" layout-iter-line)
     (g:boxed layout-line)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @return{The @class{pango:layout-line} instance with the current line.}
+  @return{The @class{pango:layout-line} instance for the current line.}
   @begin{short}
     Gets the current line.
   @end{short}
@@ -2107,10 +2100,10 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_get_line_readonly" layout-iter-line-readonly)
     (g:boxed layout-line)
  #+liber-documentation
- "@version{2025-05-02}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
   @begin{return}
-    The @class{pango:layout-line} instance with the current line, that should
+    The @class{pango:layout-line} instance for the current line, that should
     not be modified.
   @end{return}
   @begin{short}
@@ -2133,10 +2126,10 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_get_layout" layout-iter-layout)
     (g:object layout)
  #+liber-documentation
- "@version{2025-05-02}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
   @begin{return}
-    The @class{pango:layout} object with the Pango layout associated with
+    The @class{pango:layout} object for the Pango layout associated with
     @arg{iter}.
   @end{return}
   @begin{short}
@@ -2155,10 +2148,10 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_iter_get_char_extents" layout-iter-char-extents)
     :void
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[extents]{a @symbol{pango:rectangle} instance to fill with the
-    logical extents}
+  @argument[extents]{a @sym{pango:rectangle} instance to fill with the logical
+    extents}
   @begin{short}
     Gets the logical extents of the current character, in Pango layout
     coordinates.
@@ -2185,12 +2178,12 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-iter-cluster-extents (iter ink logical)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
+  @argument[ink]{a @sym{pango:rectangle} instance to fill with the values of
+    the ink extents, or @code{nil}}
+  @argument[logical]{a @sym{pango:rectangle} instance to fill with the values
     of the ink extents, or @code{nil}}
-  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the
-    values of the ink extents, or @code{nil}}
   @begin{short}
     Gets the extents of the current cluster, in Pango layout coordinates,
     origin is the top left of the entire Pango layout.
@@ -2215,12 +2208,12 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-iter-run-extents (iter ink logical)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
-    of the ink extents, or @code{nil}}
-  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the
-    values of the logical extents, or @code{nil}}
+  @argument[ink]{a @sym{pango:rectangle} instance to fill with the values of
+    the ink extents, or @code{nil}}
+  @argument[logical]{a @sym{pango:rectangle} instance to fill with the values
+    of the logical extents, or @code{nil}}
   @begin{short}
     Gets the extents of the current run in Pango layout coordinates (origin is
     the top left of the entire Pango layout).
@@ -2284,12 +2277,12 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-iter-line-extents (iter ink logical)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
-    of the ink extents, or @code{nil}}
-  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
-    of the logical extents, or @code{nil}}
+  @argument[ink]{a @sym{pango:rectangle} instance to fill with the values of
+    the ink extents, or @code{nil}}
+  @argument[ink]{a @sym{pango:rectangle} instance to fill with the values of
+    the logical extents, or @code{nil}}
   @begin{short}
     Obtains the extents of the current line.
   @end{short}
@@ -2318,12 +2311,12 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-iter-layout-extents (iter ink logical)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[iter]{a @class{pango:layout-iter} instance}
-  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
-    of the ink extents, or @code{nil}}
-  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
-    of the logical extents, or @code{nil}}
+  @argument[ink]{a @sym{pango:rectangle} instance to fill with the values of
+    the ink extents, or @code{nil}}
+  @argument[ink]{a @sym{pango:rectangle} instance to fill with the values of
+    the logical extents, or @code{nil}}
   @begin{short}
     Obtains the extents of the Pango layout being iterated over.
   @end{short}
@@ -2354,11 +2347,11 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-line-extents (line ink logical)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[line]{a @class{pango:layout-line} instance}
-  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
-    of the ink extents of the glyph string as drawn,  or @code{nil}}
-  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the values
+  @argument[ink]{a @sym{pango:rectangle} instance to fill with the values of
+    the ink extents of the glyph string as drawn,  or @code{nil}}
+  @argument[logical]{a @sym{pango:rectangle} instance to fill with the values
     of the logical extents of the glyph string as drawn, or @code{nil}}
   @begin{short}
     Computes the logical and ink extents of a Pango layout line.
@@ -2384,9 +2377,9 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-line-height (line)
  #+liber-documentation
- "@version{#2025-05-02}
+ "@version{#2025-08-24}
   @argument[line]{a @class{pango:layout-line} instance}
-  @return{The integer with the line height.}
+  @return{The integer for the line height.}
   @begin{short}
     Computes the height of the line, that is, the distance between this and the
     previous lines baseline.
@@ -2406,9 +2399,9 @@ baseline2 = baseline1 + factor * height2
 #+pango-1-50
 (cffi:defcfun ("pango_layout_line_get_length" layout-line-length) :int
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @argument[line]{a @class{pango:layout-line} instance}
-  @return{The integer with the length of the line.}
+  @return{The integer for the length of the line.}
   @begin{short}
     Returns the length of the line, in bytes.
   @end{short}
@@ -2432,11 +2425,11 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-line-pixel-extents (line ink logical)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[line]{a @class{pango:layout-line} instance}
-  @argument[ink]{a @symbol{pango:rectangle} instance to fill with the values
-    of the ink extents of the glyph string as drawn, or @code{nil}}
-  @argument[logical]{a @symbol{pango:rectangle} instance to fill with the values
+  @argument[ink]{a @sym{pango:rectangle} instance to fill with the values of
+    the ink extents of the glyph string as drawn, or @code{nil}}
+  @argument[logical]{a @sym{pango:rectangle} instance to fill with the values
     of the logical extents of the glyph string as drawn, or @code{nil}}
   @begin{short}
     Computes the logical and ink extents of @arg{line} in device units.
@@ -2464,10 +2457,10 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_line_get_resolved_direction"
                 layout-line-resolved-direction) direction
  #+liber-documentation
- "@version{#2025-05-02}
+ "@version{#2025-08-24}
   @argument[line]{a @class{pango:layout-line} instance}
   @begin{return}
-    The @symbol{pango:direction} value with the resolved direction of the line.
+    The @sym{pango:direction} value for the resolved direction of the line.
   @end{return}
   @begin{short}
     Returns the resolved direction of the line.
@@ -2488,9 +2481,9 @@ baseline2 = baseline1 + factor * height2
 #+pango-1-50
 (cffi:defcfun ("pango_layout_line_start_index" layout-line-start-index) :int
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @argument[line]{a @class{pango:layout-line} instance}
-  @return{The integer with the start index of the line.}
+  @return{The integer for the start index of the line.}
   @begin{short}
     Returns the start index of the line, as byte index into the text of the
     layout.
@@ -2556,14 +2549,14 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-line-index-to-x (line index trailing)
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-08-24}
   @argument[line]{a @class{pango:layout-line} instance}
   @argument[index]{an integer for the byte offset of a grapheme within the
     Pango layout}
   @argument[trailing]{a boolean indicating the edge of the grapheme to retrieve
     the position of, if @em{true}, the trailing edge of the grapheme, if
     @em{false}, the leading of the grapheme}
-  @return{The integer with the x offset (in Pango units).}
+  @return{The integer for the x offset (in Pango units).}
   @begin{short}
     Converts an index within a line to a x position.
   @end{short}

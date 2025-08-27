@@ -2,8 +2,8 @@
 ;;; pango.bidirectional.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -71,7 +71,7 @@
 (setf (liber:alias-for-symbol 'direction)
       "GEnum"
       (liber:symbol-documentation 'direction)
- "@version{2024-2-25}
+ "@version{2025-08-24}
   @begin{declaration}
 (gobject:define-genum \"PangoDirection\" direction
   (:export t
@@ -85,31 +85,34 @@
   (:neutral 6))
   @end{declaration}
   @begin{values}
-    @begin[code]{table}
+    @begin[code]{simple-table}
       @entry[:ltr]{A strong left-to-right direction.}
       @entry[:rtl]{A strong right-to-left direction.}
-      @entry[:ttb-ltr]{Deprecated value; treated the same as @code{:rtl}.}
-      @entry[:ttb-rtl]{Deprecated value; treated the same as @code{:ltr}.}
+      @entry[:ttb-ltr]{Deprecated value; treated the same as
+        @val[pango:direction]{:rtl}.}
+      @entry[:ttb-rtl]{Deprecated value; treated the same as
+        @val[pango:direction]{:ltr}.}
       @entry[:weak-ltr]{A weak left-to-right direction.}
-      @entry[:wek-rtl]{A weak right-to-left direction.}
+      @entry[:weak-rtl]{A weak right-to-left direction.}
       @entry[:neutral]{No direction specified.}
-    @end{table}
+    @end{simple-table}
   @end{values}
   @begin{short}
-    The @symbol{pango:direction} enumeration represents a direction in the
-    Unicode bidirectional algorithm.
+    The @sym{pango:direction} enumeration represents a direction in the Unicode
+    bidirectional algorithm.
   @end{short}
   Not every value in this enumeration makes sense for every usage. For example,
   the return value of the @fun{pango:unichar-direction} and
-  @fun{pango:find-base-dir} functions cannot be @code{:weak-ltr} or
-  @code{:weak-rtl}, since every character is either neutral or has a strong
-  direction. On the other hand the @code{:neutral} value does not make sense to
-  pass to the @fun{pango:itemize-with-base-dir} function.
+  @fun{pango:find-base-dir} functions cannot be @val[pango:direction]{:weak-ltr}
+  or @val[pango:direction]{:weak-rtl}, since every character is either neutral
+  or has a strong direction. On the other hand the
+  @val[pango:direction]{:neutral} value does not make sense to pass to the
+  @fun{pango:itemize-with-base-dir} function.
 
-  The @code{:ttb-ltr}, @code{:ttb-rtl} values come from an earlier
-  interpretation of this enumeration as the writing direction of a block of
-  text and are no longer used. See the @symbol{pango:gravity} enumeration for
-  how vertical text is handled in Pango.
+  The @val[pango:direction]{:ttb-ltr}, @val[pango:direction]{:ttb-rtl} values
+  come from an earlier interpretation of this enumeration as the writing
+  direction of a block of text and are no longer used. See the
+  @sym{pango:gravity} enumeration for how vertical text is handled in Pango.
   @see-symbol{pango:gravity}
   @see-function{pango:unichar-direction}
   @see-function{pango:find-base-dir}
@@ -212,28 +215,30 @@
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_unichar_direction ()
+;;; pango_unichar_direction
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_unichar_direction" unichar-direction) direction
  #+liber-documentation
- "@version{2024-2-25}
+ "@version{2025-08-24}
   @argument[ch]{a Lisp character}
-  @return{The @symbol{pango:direction} value with the direction of the
-    characer.}
+  @begin{return}
+    The @sym{pango:direction} value for the direction of the characer.
+  @end{return}
   @begin{short}
     Determines the inherent direction of a character.
   @end{short}
-  Either @code{:ltr}, @code{:rtl}, or @code{:neutral}. This function is useful
-  to categorize characters into left-to-right letters, right-to-left letters,
-  and everything else.
+  Either @val[pango:direction]{:ltr}, @val[pango:direction]{:rtl}, or
+  @val[pango:direction]{:neutral}. This function is useful to categorize
+  characters into left-to-right letters, right-to-left letters, and everything
+  else.
   @see-symbol{pango:direction}"
   (ch g:unichar))
 
 (export 'unichar-direction)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_find_base_dir ()
+;;; pango_find_base_dir
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_find_base_dir" %find-base-dir) direction
@@ -242,11 +247,13 @@
 
 (defun find-base-dir (text)
  #+liber-documentation
- "@version{2024-2-25}
-  @argument[text]{a string with text to process}
-  @return{The @symbol{pango:direction} value with the direction corresponding
-    to the first strong character. If no such character is found, then the
-    @code{:neutral} value is returned.}
+ "@version{2025-08-24}
+  @argument[text]{a string for text to process}
+  @begin{return}
+    The @sym{pango:direction} value for the direction corresponding to the first
+    strong character. If no such character is found, then the
+    @val[pango:direction]{:neutral} value is returned.
+  @end{return}
   @begin{short}
     Searches a string for the first character that has a strong direction,
     according to the Unicode bidirectional algorithm.

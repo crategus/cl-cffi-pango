@@ -2,8 +2,8 @@
 ;;; pango.renderer.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -89,7 +89,7 @@
 (setf (liber:alias-for-symbol 'render-part)
       "GEnum"
       (liber:symbol-documentation 'render-part)
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @begin{declaration}
 (gobject:define-genum \"PangoRenderPart\" pango:render-part
   (:export t
@@ -101,13 +101,13 @@
   (:overline 4))
   @end{declaration}
   @begin{values}
-    @begin[code]{table}
+    @begin[code]{simple-table}
       @entry[:foreground]{The text itself.}
       @entry[:background]{The area behind the text.}
       @entry[:underline]{Underlines.}
       @entry[:strikethrough]{Strikethrough lines.}
       @entry[:overline]{Overlines.}
-    @end{table}
+    @end{simple-table}
   @end{values}
   @begin{short}
     The @sym{pango:render-part} enumeration defines different items to render
@@ -139,7 +139,7 @@
 
 #+liber-documentation
 (setf (documentation 'renderer 'type)
- "@version{2024-2-24}
+ "@version{2024-02-24}
   @begin{short}
     The @class{pango:renderer} class is a base class that contains the necessary
     logic for rendering @class{pango:layout} or a @class{pango:layout-line}

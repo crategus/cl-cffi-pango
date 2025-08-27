@@ -83,12 +83,11 @@
 
 #+liber-documentation
 (setf (documentation 'context 'type)
- "@version{2024-2-23}
+ "@version{2025-08-24}
   @begin{short}
-    The @symbol{pango:context} object stores global information influencing
-    the operation of Pango, such as the font map used to look up fonts, and
-    default values such as the default language, default gravity, or default
-    font.
+    The @sym{pango:context} object stores global information influencing the
+    operation of Pango, such as the font map used to look up fonts, and default
+    values such as the default language, default gravity, or default font.
   @end{short}
   @see-constructor{pango:context-new}")
 
@@ -100,7 +99,7 @@
 
 (defun context-new ()
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2024-02-23}
   @return{The newly allocated @class{pango:context} object.}
   @begin{short}
     Creates a new Pango Context initialized to default values.
@@ -128,7 +127,7 @@
 
 (cffi:defcfun ("pango_context_changed" context-changed) :void
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2024-02-23}
   @argument[context]{a @class{pango:context} object}
   @begin{short}
     Forces a change in the Pango context, which will cause any
@@ -149,9 +148,9 @@
 
 (cffi:defcfun ("pango_context_get_serial" context-serial) :uint
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2025-08-24}
   @argument[context]{a @class{pango:context} object}
-  @return{The unsigned integer with the current serial number of @arg{context}.}
+  @return{The unsigned integer for the current serial number of @arg{context}.}
   @begin{short}
     Returns the current serial number of the Pango context.
   @end{short}
@@ -186,7 +185,7 @@
 (cffi:defcfun ("pango_context_get_font_map" context-font-map)
     (g:object font-map)
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2024-02-23}
   @syntax{(pango:context-font-map context) => fontmap}
   @syntax{(setf (pango:context-font-map context) fontmap)}
   @argument[context]{a @class{pango:context} object}
@@ -220,17 +219,14 @@
 (cffi:defcfun ("pango_context_get_font_description" context-font-description)
     (g:boxed font-description)
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2025-08-24}
   @syntax{(pango:context-font-description context) => desc}
   @syntax{(setf (pango:context-font-description context) desc)}
   @argument[context]{a @class{pango:context} object}
   @argument[desc]{a @class{pango:font-description} instance}
   @begin{short}
-    The @symbol{pango:context-font-description} function retrieves the default
-    font description for the Pango context.
+    Gets or sets the default font description for the Pango context.
   @end{short}
-  The @setf{pango:context-font-description} function sets the default font
-  description for the Pango context.
   @see-class{pango:context}
   @see-class{pango:font-description}"
   (context (g:object context)))
@@ -250,18 +246,16 @@
 
 (cffi:defcfun ("pango_context_get_language" context-language) (g:boxed language)
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2025-08-24}
   @syntax{(pango:context-language context) => language}
   @syntax{(setf (pango:context-language context) language)}
   @argument[context]{a @class{pango:context} object}
   @argument[language]{a @class{pango:language} instance, or @code{nil}}
   @begin{short}
-    The @symbol{pango:context-language} function retrieves the global language
-    tag for the Pango context.
+    Gets or sets the global language tag for the Pango context.
   @end{short}
-  The @setf{pango:context-language} function sets the global language. The
-  default language for the locale of the running process can be found using the
-  @fun{pango:language-default} function.
+  The default language for the locale of the running process can be found using
+  the @fun{pango:language-default} function.
   @see-class{pango:context}
   @see-class{pango:language}
   @see-function{pango:language-default}"
@@ -283,22 +277,21 @@
 
 (cffi:defcfun ("pango_context_get_base_dir" context-base-dir) direction
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2025-08-24}
   @syntax{(pango:context-base-dir context) => direction}
   @syntax{(setf (pango:context-base-dir context) direction)}
   @argument[context]{a @class{pango:context}}
-  @argument[direction]{a @symbol{pango:direction} value with the base direction}
+  @argument[direction]{a @sym{pango:direction} value for the base direction}
   @begin{short}
-    The @symbol{pango:context-base-dir} function retrieves the base direction
-    for the Pango context.
+    Gets or sets the base direction for the Pango context.
   @end{short}
-  The @setf{pango:context-base-dir} function sets the base direction.
-
   The base direction is used in applying the Unicode bidirectional algorithm.
-  If the direction is @code{:ltr} or @code{:rtl}, then the value will be used
-  as the paragraph direction in the Unicode bidirectional algorithm. A
-  @code{:weak-ltr} value or @code{:weak-rtl} value is used only for paragraphs
-  that do not contain any strong characters themselves.
+  If the direction is @val[pango:direction]{:ltr} or
+  @val[pango:direction]{:rtl}, then the value will be used as the paragraph
+  direction in the Unicode bidirectional algorithm. A
+  @val[pango:direction]{:weak-ltr} value or @val[pango:direction]{:weak-rtl}
+  value is used only for paragraphs that do not contain any strong characters
+  themselves.
   @see-class{pango:context}
   @see-symbol{pango:direction}"
   (context (g:object context)))
@@ -319,17 +312,14 @@
 
 (cffi:defcfun ("pango_context_get_base_gravity" context-base-gravity) gravity
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2025-08-24}
   @syntax{(pango:context-base-gravity context) => gravity}
   @syntax{(setf (pango:context-base-gravity context) gravity)}
   @argument[context]{a @class{pango:context} object}
-  @argument[gravity]{a @symbol{pango:gravity} value with the base gravity}
+  @argument[gravity]{a @sym{pango:gravity} value for the base gravity}
   @begin{short}
-    The @symbol{pango:context-base-gravity} function retrieves the base gravity
-    for the Pango context.
+    Gets or sets the base gravity for the Pango context.
   @end{short}
-  The @setf{pango:context-base-gravity} function sets the base gravity.
-
   The base gravity is used in laying vertical text out.
   @see-class{pango:context}
   @see-symbol{pango:gravity}"
@@ -343,17 +333,17 @@
 
 (cffi:defcfun ("pango_context_get_gravity" context-gravity) gravity
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2025-08-24}
   @argument[context]{a @class{pango:context} object}
   @begin{return}
-    The @symbol{pango:gravity} value with the resolved gravity for the Pango
+    The @sym{pango:gravity} value for the resolved gravity for the Pango
     context.
   @end{return}
   @begin{short}
     Retrieves the gravity for the Pango context.
   @end{short}
   This is similar to the @fun{pango:context-base-gravity} function, except for
-  when the base gravity is @code{:auto} for which the
+  when the base gravity is @val[pango:gravity]{:auto} for which the
   @fun{pango:gravity-for-matrix} function is used to return the gravity from the
   current Pango context matrix.
   @see-class{pango:context}
@@ -379,20 +369,18 @@
 (cffi:defcfun ("pango_context_get_gravity_hint" context-gravity-hint)
     gravity-hint
  #+liber-documentation
- "@version{#2024-2-23}
+ "@version{#2025-08-24}
   @syntax{(pango:context-gravity-hint context) => hint}
   @syntax{(setf (pango:context-gravity-hint context) hint)}
   @argument[context]{a @class{pango:context} object}
-  @argument[hint]{a @symbol{pango:gravity-hint} value with the gravity hint}
+  @argument[hint]{a @sym{pango:gravity-hint} value for the gravity hint}
   @begin{short}
-    The @fun{pango:context-gravity-hint} function retrieves the gravity hint for
-    the Pango context.
+    Gets or sets the gravity hint for the Pango context.
   @end{short}
-  The @setf{pango:context-gravity-hint} function sets the gravity hint.
-
   The gravity hint is used in laying vertical text out, and is only relevant
   if gravity of the Pango context as returned by the @fun{pango:context-gravity}
-  function is set to the @code{:east} or the @code{:west} value.
+  function is set to the @val[pango:gravity]{:east} or the
+  @val[pango:gravity]{:west} value.
   @see-class{pango:context}
   @see-symbol{pango:gravity-hint}"
   (context (g:object context)))
@@ -413,22 +401,21 @@
 
 (cffi:defcfun ("pango_context_get_matrix" context-matrix) (g:boxed matrix)
  #+liber-documentation
- "@version{#2024-2-23}
+ "@version{#2025-08-24}
   @syntax{(pango:context-matrix context) => matrix}
   @syntax{(setf (pango:context-matrix context) matrix)}
   @argument[context]{a @class{pango:context} object}
   @argument[matrix]{a @class{pango:matrix} instance, or @code{nil} to unset any
     existing matrix, no matrix set is the same as setting the identity matrix}
   @begin{short}
-    The @symbol{pango:contex-matrix} function gets the transformation matrix
-    that will be applied when rendering with this Pango context.
+    Gets or sets the transformation matrix that will be applied when rendering
+    with this Pango context.
   @end{short}
-  The @setf{pango:context-matrix} function sets the transformation matrix that
-  will be applied when rendering with this Pango context. Note that reported
-  metrics are in the user space coordinates before the application of the
-  matrix, not device-space coordinates after the application of the matrix. So,
-  they do not scale with the matrix, though they may change slightly for
-  different matrices, depending on how the text is fit to the pixel grid.
+  Note that reported metrics are in the user space coordinates before the
+  application of the matrix, not device-space coordinates after the application
+  of the matrix. So, they do not scale with the matrix, though they may change
+  slightly for different matrices, depending on how the text is fit to the pixel
+  grid.
   @see-class{pango:context}
   @see-class{pango:matrix}"
   (context (g:object context)))
@@ -477,7 +464,7 @@
 
 (cffi:defcfun ("pango_context_load_font" context-load-font) (g:object font)
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2024-02-23}
   @argument[context]{a @class{pango:context} object}
   @argument[desc]{a @class{pango:font-description} instance describing the font
     to load}
@@ -515,11 +502,11 @@
 (cffi:defcfun ("pango_context_load_fontset" context-load-fontset)
     (g:object fontset)
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2025-08-24}
   @argument[context]{a @class{pango:context} object}
   @argument[desc]{a @class{pango:font-description} instance describing the
     fonts to load}
-  @argument[language]{a @class{pango:language} instance with the fonts will be
+  @argument[language]{a @class{pango:language} instance for the fonts will be
     used for}
   @begin{return}
     The newly allocated @class{pango:fontset} object loaded, or @code{nil} if
@@ -558,11 +545,11 @@
 (cffi:defcfun ("pango_context_get_metrics" context-metrics)
     (g:boxed font-metrics)
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2025-08-24}
   @argument[context]{a @class{pango:context} object}
   @argument[desc]{a @class{pango:font-description} instance, @code{nil} means
     that the font description from the context will be used}
-  @argument[language]{a @class{pango:language} instance with the language tag of
+  @argument[language]{a @class{pango:language} instance for the language tag of
     used to determine which script to get the metrics for, @code{nil} means that
     the language tag from the context will be used, if no language tag is set on
     the Pango context, metrics for the default language, as determined by the
@@ -603,7 +590,7 @@
 
 (defun context-list-families (context)
  #+liber-documentation
- "@version{2024-2-23}
+ "@version{2024-02-23}
   @argument[context]{a @class{pango:context} object}
   @begin{return}
     The list of @class{pango:font-family} objects.

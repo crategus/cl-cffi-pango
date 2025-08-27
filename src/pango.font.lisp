@@ -116,7 +116,7 @@
 
 #+liber-documentation
 (setf (documentation 'font 'type)
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @begin{short}
     The @class{pango:font} class is used to represent a font in a
     rendering-system-independent matter.
@@ -153,7 +153,7 @@
 
 #+liber-documentation
 (setf (documentation 'font-family 'type)
- "@version{2024-5-25}
+ "@version{2024-05-25}
   @begin{short}
     The @class{pango:font-family} class is used to represent a family of
     related font faces.
@@ -184,7 +184,7 @@
 (setf (liber:alias-for-function 'font-family-is-monospace)
       "Accessor"
       (documentation 'font-family-is-monospace 'function)
- "@version{2024-5-25}
+ "@version{2024-05-25}
   @syntax{(pango:font-family-is-monospace object) => setting}
   @argument[object]{a @class{pango:font-family} object}
   @argument[setting]{@em{true} if @arg{object} is monospace}
@@ -220,7 +220,7 @@
 (setf (liber:alias-for-function 'font-family-is-variable)
       "Accessor"
       (documentation 'font-family-is-variable 'function)
- "@version{2024-5-25}
+ "@version{2024-05-25}
   @syntax{(pango:font-family-is-variable object) => setting}
   @argument[object]{a @class{pango:font-family} object}
   @argument[setting]{@em{true} if @arg{object} is variable}
@@ -243,22 +243,15 @@
 (setf (liber:alias-for-function 'font-family-item-type)
       "Accessor"
       (documentation 'font-family-item-type 'function)
- "@version{2024-3-5}
+ "@version{2025-08-24}
   @syntax{(pango:font-family-item-type object) => type}
   @argument[object]{a @class{pango:font-family} object}
   @argument[type]{a @class{g:type-t} type ID}
   @begin{short}
-    Accessor of the @slot[pango:font-family]{item-type} slot of the
-    @class{pango:font-family} class.
+    The accessor for the @slot[pango:font-family]{item-type} slot of the
+    @class{pango:font-family} class returns the type of items contained in the
+    list.
   @end{short}
-  The @fun{pango:font-family-item-type} function returns the type of items
-  contained in the list.
-  @begin[Warning]{dictionary}
-    This function does not return a @code{GType} but a pointer with an address
-    value that is the @code{GType}. This is possibly a bug in the Pango library.
-    You get the correct @code{GType} with the @fun{g:list-model-item-type}
-    function of the @class{g:list-model} interface.
-  @end{dictionary}
   @see-class{pango:font-family}
   @see-class{g:type-t}")
 
@@ -274,16 +267,15 @@
 (setf (liber:alias-for-function 'font-family-n-items)
       "Accessor"
       (documentation 'font-family-n-items 'function)
- "@version{2024-3-5}
+ "@version{2025-08-24}
   @syntax{(pango:font-family-n-items object) => n-items}
   @argument[object]{a @class{pango:font-family} object}
   @argument[n-items]{an unsigned integer}
   @begin{short}
-    Accessor of the @slot[pango:font-family]{n-items} slot of the
-    @class{pango:font-family} class.
+    The accessor for the @slot[pango:font-family]{n-items} slot of the
+    @class{pango:font-family} class returns the number of items contained in
+    the list.
   @end{short}
-  The @fun{pango:font-family-n-items} function returns the number of items
-  contained in the list.
   @see-class{pango:font-family}")
 
 ;;; --- pango:font-family-name -------------------------------------------------
@@ -298,10 +290,10 @@
 (setf (liber:alias-for-function 'font-family-name)
       "Accessor"
       (documentation 'font-family-name 'function)
- "@version{2024-5-25}
+ "@version{2025-08-24}
   @syntax{(pango:font-family-name object) => name}
   @argument[object]{a @class{pango:font-family} object}
-  @argument[name]{a string with the name of @arg{object}}
+  @argument[name]{a string for the name of @arg{object}}
   @begin{short}
     Gets the name of the font family.
   @end{short}
@@ -326,7 +318,7 @@
 
 #+liber-documentation
 (setf (documentation 'font-face 'type)
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @begin{short}
     The @class{pango:font-face} class is used to represent a group of fonts
     with the same family, slant, weight, width, but varying sizes.
@@ -352,7 +344,7 @@
 
 #+liber-documentation
 (setf (documentation 'font-map 'type)
- "@version{2024-3-6}
+ "@version{2024-03-06}
   @begin{short}
     The @class{pango:font-map} class represents the set of fonts available for
     a particular rendering system.
@@ -377,22 +369,15 @@
 (setf (liber:alias-for-function 'font-map-item-type)
       "Accessor"
       (documentation 'font-map-item-type 'function)
- "@version{2024-3-5}
+ "@version{2025-08-24}
   @syntax{(pango:font-map-item-type object) => type}
   @argument[object]{a @class{pango:font-map} object}
   @argument[type]{a @class{g:type-t} type ID}
   @begin{short}
-    Accessor of the @slot[pango:font-map]{item-type} slot of the
-    @class{pango:font-map} class.
+    The accessor for the @slot[pango:font-map]{item-type} slot of the
+    @class{pango:font-map} class returns the type of items contained in the
+    list.
   @end{short}
-  The @fun{pango:font-map-item-type} function returns the type of items
-  contained in the list.
-  @begin[Warning]{dictionary}
-    This function does not return a @code{GType} but a pointer with an address
-    value that is the @code{GType}. This is possibly a bug in the Pango library.
-    You get the correct @code{GType} with the @fun{g:list-model-item-type}
-    function of the @class{g:list-model} interface.
-  @end{dictionary}
   @see-class{pango:font-map}
   @see-class{g:type-t}")
 
@@ -408,16 +393,15 @@
 (setf (liber:alias-for-function 'font-map-n-items)
       "Accessor"
       (documentation 'font-map-n-items 'function)
- "@version{2024-3-5}
+ "@version{2025-08-24}
   @syntax{(pango:font-map-n-items object) => n-items}
   @argument[object]{a @class{pango:font-map} object}
   @argument[n-items]{an unsigned integer}
   @begin{short}
-    Accessor of the @slot[pango:font-map]{n-items} slot of the
-    @class{pango:font-map} class.
+    The accessor for the @slot[pango:font-map]{n-items} slot of the
+    @class{pango:font-map} class returns the number of items contained in the
+    list.
   @end{short}
-  The @fun{pango:font-map-n-items} function returns the number of items
-  contained in the list.
   @see-class{pango:font-map}")
 
 ;;; ----------------------------------------------------------------------------
@@ -433,7 +417,7 @@
 
 #+liber-documentation
 (setf (documentation 'fontset 'type)
- "@version{2024-3-4}
+ "@version{2024-03-04}
   @begin{short}
     The @class{pango:fontset} object represents a set of @class{pango:font}
     objects to use when rendering text.
@@ -464,7 +448,7 @@
 
 (cffi:defcfun ("pango_font_describe" font-describe) (g:boxed font-description)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[font]{a @class{pango:font} object}
   @return{A newly allocated @class{pango:font-description} instance.}
   @begin{short}
@@ -486,7 +470,7 @@
 (cffi:defcfun ("pango_font_describe_with_absolute_size"
                 font-describe-with-absolute-size) (g:boxed font-description)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[font]{a @class{pango:font} object}
   @return{A newly allocated @class{pango:font-description} instance.}
   @begin{short}
@@ -525,7 +509,7 @@
 
 (cffi:defcfun ("pango_font_get_coverage" font-coverage) (g:object coverage)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[font]{a @class{pango:font} object}
   @argument[language]{a @class{pango:language} instance}
   @return{A newly allocated @class{pango:coverage} object.}
@@ -571,15 +555,14 @@
 
 (defun font-glyph-extents (font glyph ink logical)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2025-08-24}
   @argument[font]{a @class{pango:font} object}
   @argument[glyph]{an unsigned integer for the glyph index}
-  @argument[ink]{a @symbol{pango:rectangle} instance used to store the extents
-    of the glyph as drawn or @code{nil} to indicate that the result is not
+  @argument[ink]{a @sym{pango:rectangle} instance used to store the extents of
+    the glyph as drawn or @code{nil} to indicate that the result is not needed}
+  @argument[logical]{a @sym{pango:rectangle} instance used to store the logical
+    extents of the glyph or @code{nil} to indicate that the result is not
     needed}
-  @argument[logical]{a @symbol{pango:rectangle} instance used to store the
-    logical extents of the glyph or @code{nil} to indicate that the result is
-    not needed}
   @begin{short}
     Gets the logical and ink extents of a glyph within a font.
   @end{short}
@@ -608,9 +591,9 @@
 (cffi:defcfun ("pango_font_get_metrics" font-metrics)
     (g:boxed font-metrics :return)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2025-08-24}
   @argument[font]{a @class{pango:font} object}
-  @argument[language]{a @class{pango:language} instance with the language tag
+  @argument[language]{a @class{pango:language} instance for the language tag
     used to determine which script to get the metrics for, or @code{nil} to
     indicate to get the metrics for the entire font}
   @begin{return}
@@ -639,7 +622,7 @@
 
 (cffi:defcfun ("pango_font_get_font_map" font-font-map) (g:object font-map)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[font]{a @class{pango:font} object, or @code{nil}}
   @begin{return}
     The @class{pango:font-map} object for the font, or @code{nil} if
@@ -713,7 +696,7 @@
 #+pango-1-50
 (defun font-languages (font)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[font]{a @class{pango:font} object}
   @return{The list with the @class{pango:language} instances for @arg{font}.}
   @begin{short}
@@ -744,7 +727,7 @@
 #+pango-1-50
 (cffi:defcfun ("pango_font_serialize" font-serialize) (g:boxed g:bytes :return)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[font]{a @class{pango:font} object}
   @begin{return}
     The @class{g:bytes} instance containing the serialized form of @arg{font}.
@@ -813,9 +796,9 @@
 #-pango-1-52
 (cffi:defcfun ("pango_font_family_get_name" font-family-name) :string
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2025-08-24}
   @argument[family]{a @class{pango:font-family} object}
-  @return{The string with the name of @arg{family}.}
+  @return{The string for the name of @arg{family}.}
   @begin{short}
     Gets the name of the font family.
   @end{short}
@@ -837,7 +820,7 @@
 (cffi:defcfun ("pango_font_family_is_monospace" font-family-is-monospace)
     :boolean
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[family]{a @class{pango:font-family} object}
   @return{@em{True} if @arg{family} is monospace.}
   @begin{short}
@@ -896,7 +879,7 @@
 
 (defun font-family-list-faces (family)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[family]{a @class{pango:font-family} object}
   @begin{return}
     The list of @class{pango:font-face} objects, or @code{nil}.
@@ -955,7 +938,7 @@
 
 (cffi:defcfun ("pango_font_face_get_face_name" font-face-face-name) :string
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[face]{a @class{pango:font-face} object}
   @begin{return}
     The face name for @arg{face}.
@@ -983,9 +966,9 @@
 
 (defun font-face-list-sizes (face)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2025-08-24}
   @argument[face]{a @class{pango:font-face} object}
-  @return{The list of integer with the available sizes for a font.}
+  @return{The list of integer for the available sizes for a font.}
   @begin{short}
     List the available sizes for a font.
   @end{short}
@@ -1009,7 +992,7 @@
 (cffi:defcfun ("pango_font_face_describe" font-face-describe)
     (g:boxed font-description :return)
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[face]{a @class{pango:font-face} object}
   @begin{return}
     The newly created @class{pango:font-description} instance holding the
@@ -1032,7 +1015,7 @@
 (cffi:defcfun ("pango_font_face_is_synthesized" font-face-is-synthesized)
     :boolean
  #+liber-documentation
- "@version{2024-3-5}
+ "@version{2024-03-05}
   @argument[face]{a @class{pango:font-face} object}
   @return{The boolean whether @arg{face} is synthesized.}
   @begin{short}
@@ -1071,7 +1054,7 @@
 (cffi:defcfun ("pango_font_map_create_context" font-map-create-context)
     (g:object context :return)
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2024-03-06}
   @argument[fontmap]{a @class{pango:font-map} object}
   @begin{return}
     The newly allocated @class{pango:context} object.
@@ -1100,7 +1083,7 @@
 
 (cffi:defcfun ("pango_font_map_load_font" font-map-load-font) (g:object font)
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2024-03-06}
   @argument[fontmap]{a @class{pango:font-map} object}
   @argument[context]{a @class{pango:context} object the font will be used
     with}
@@ -1129,7 +1112,7 @@
 (cffi:defcfun ("pango_font_map_load_fontset" font-map-load-fontset)
     (g:object fontset :return)
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2024-03-06}
   @argument[fontmap]{a @class{pango:font-map} object}
   @argument[context]{a @class{pango:context} object the font will be used
     with}
@@ -1168,7 +1151,7 @@
 
 (defun font-map-list-families (fontmap)
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2024-03-06}
   @argument[fontmap]{a @class{pango:font-map} object}
   @begin{return}
     The list of @class{pango:font-family} objects, or @code{nil}.
@@ -1216,9 +1199,9 @@
 
 (cffi:defcfun ("pango_font_map_get_serial" font-map-serial) :uint
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2025-08-24}
   @argument[fontmap]{a @class{pango:font-map} object}
-  @return{The unsigned integer with the current serial number of @arg{fontmap}.}
+  @return{The unsigned integer for the current serial number of @arg{fontmap}.}
   @begin{short}
     Returns the current serial number of @arg{fontmap}.
   @end{short}
@@ -1244,7 +1227,7 @@
 
 (cffi:defcfun ("pango_font_map_changed" font-map-changed) :void
  #+liber-documentation
- "@version{2024-3-6}
+ "@version{2024-03-06}
   @argument[fontmap]{a @class{pango:font-map} object}
   @begin{short}
     Forces a change in the context, which will cause any @class{pango:context}
@@ -1265,7 +1248,7 @@
 
 (cffi:defcfun ("pango_fontset_get_font" fontset-font) (g:object font)
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2024-03-04}
   @argument[fontset]{a @class{pango:fontset} object}
   @argument[char]{a character or a char code with a Unicode character}
   @return{The @class{pango:font} object.}
@@ -1287,7 +1270,7 @@
 (cffi:defcfun ("pango_fontset_get_metrics" fontset-metrics)
     (g:boxed font-metrics :return)
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2024-03-04}
   @argument[fontset]{a @class{pango:fontset} object}
   @begin{return}
     The @class{pango:font-metrics} instance.
@@ -1317,7 +1300,7 @@
 (setf (liber:alias-for-symbol 'fontset-foreach-func)
       "Callback"
       (liber:symbol-documentation 'fontset-foreach-func)
- "@version{2024-5-25}
+ "@version{2024-05-25}
   @syntax{lambda (fontset font) => result}
   @argument[fontset]{a @class{pango:fontset} object}
   @argument[font]{a @class{pango:font} object from @arg{fontset}}
@@ -1342,9 +1325,9 @@
 
 (defun fontset-foreach (fontset func)
  #+liber-documentation
- "@version{2024-5-25}
+ "@version{2025-08-24}
   @argument[fontset]{a @class{pango:fontset} object}
-  @argument[func]{a @symbol{pango:fontset-foreach-func} callback function}
+  @argument[func]{a @sym{pango:fontset-foreach-func} callback function}
   @begin{short}
     Iterates through all the fonts in a fontset, calling @arg{func} for each
     one.

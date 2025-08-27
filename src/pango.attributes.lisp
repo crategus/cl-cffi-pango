@@ -925,9 +925,9 @@
 
 (cffi:defcfun ("pango_attr_type_register" attr-type-register) attr-type
  #+liber-documentation
- "@version{2025-01-01}
+ "@version{2025-08-24}
   @argument[name]{a string for an identifier for the attribute type}
-  @return{The integer with the new type ID.}
+  @return{The integer for the new type ID.}
   @begin{short}
     Allocates a new attribute type ID.
   @end{short}
@@ -1444,7 +1444,7 @@
 (cffi:defcfun ("pango_attr_size_new_absolute" attr-size-new-absolute)
     (g:boxed attribute :return)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-01-01}
   @argument[size]{an integer for the font size, in @var{pango:+scale+} units
     of device units}
   @return{The newly allocated @class{pango:attribute} instance.}
@@ -2212,9 +2212,9 @@
 #+pango-1-50
 (cffi:defcfun ("pango_attr_list_to_string" attr-list-to-string) :string
  #+liber-documentation
- "@version{2025-01-01}
+ "@version{2025-08-24}
   @argument[attrlist]{a @class{pango:attr-list} instance}
-  @return{The string with the serialized attributes.}
+  @return{The string for the serialized attributes.}
   @begin{short}
     Serializes a @class{pango-attr-list} instance to a string.
   @end{short}
@@ -2386,12 +2386,12 @@ START END TYPE VALUE
 
 (defun attr-iterator-font (iterator)
  #+liber-documentation
- "@version{2025-01-01}
+ "@version{2025-08-24}
   @syntax{(pango:attr-iterator-font iterator) => desc, language, attrs}
   @argument[iterator]{a @class{pango:attr-iterator} instance}
   @argument[desc]{a @class{pango:font-description} instance for the current
     values}
-  @argument[language]{a @class{pango:language} instance with the language tag
+  @argument[language]{a @class{pango:language} instance for the language tag
     at the current position, or @code{nil} if none is found}
   @argument[attrs]{a list of @class{pango:attribute} instances with non-font
     attributes at the the current position, only the highest priority value of

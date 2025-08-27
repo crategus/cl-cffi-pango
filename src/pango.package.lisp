@@ -373,7 +373,7 @@
 
       @subheading{Span attributes}
       @code{<span>} has the following attributes:
-      @begin[code]{table}
+      @begin[code]{simple-table}
         @entry[font_desc]{A font description string, such as
           @code{\"Sans Italic 12\"}. See the
           @fun{pango:font-description-from-string} function for a description of
@@ -449,10 +449,10 @@
         @entry[gravity]{One of @code{south}, @code{east}, @code{north},
           @code{west}, @code{auto}.}
         @entry[gravity_hint]{One of @code{natural}, @code{strong}, @code{line}.}
-      @end{table}
+      @end{simple-table}
       @subheading{Convenience tags}
       The following convenience tags are provided:
-      @begin[code]{table}
+      @begin[code]{simple-table}
         @entry[<b>]{Bold.}
         @entry[<big>]{Makes font relatively larger, equivalent to
           @code{<span size=\"larger\">}.}
@@ -464,7 +464,7 @@
           @code{<span size=\"smaller\">}.}
         @entry[<tt>]{Monospace.}
         @entry[<u>]{Underline.}
-      @end{table}
+      @end{simple-table}
       @about-function{parse-markup}
       @about-function{markup-parser-new}
       @about-function{markup-parser-finish}
@@ -594,7 +594,7 @@
       Some applications however, need some help to correctly handle
       bidirectional text.
 
-      The @symbol{pango:direction} enumeration can be used with the
+      The @sym{pango:direction} enumeration can be used with the
       @fun{pango:context-base-dir} function to instruct Pango about direction of
       text, though in most cases Pango detects that correctly and automatically.
       The rest of the facilities in this section are used internally by Pango
@@ -630,13 +630,12 @@
 
       Using Pango with Cairo is straightforward. A @class{pango:context} object
       created with the @fun{pango:font-map-create-context} function can be used
-      on any @symbol{cairo:context-t} instance, but needs to be updated to
-      match the current transformation matrix and target surface of the Cairo
-      context using the @fun{pango:cairo-update-context} function. The
-      convenience @fun{pango:cairo-create-layout} and
-      @fun{pango:cairo-update-layout} functions handle the common case where
-      the program does not need to manipulate the properties of the
-      @class{pango:context} object.
+      on any @sym{cairo:context-t} instance, but needs to be updated to match
+      the current transformation matrix and target surface of the Cairo context
+      using the @fun{pango:cairo-update-context} function. The convenience
+      @fun{pango:cairo-create-layout} and @fun{pango:cairo-update-layout}
+      functions handle the common case where the program does not need to
+      manipulate the properties of the @class{pango:context} object.
 
       When you get the metrics of a layout or of a piece of a layout using
       functions such as the @fun{pango:layout-extents} function, the reported

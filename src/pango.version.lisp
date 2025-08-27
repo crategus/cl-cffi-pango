@@ -2,9 +2,9 @@
 ;;; pango.version.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
-;;; binding is available from <http://www.crategus.com/books/cl-cffi-gtk4/>.
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
+;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
 ;;;
@@ -134,10 +134,10 @@
 
 (cffi:defcfun ("pango_version" version) :int
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @begin{return}
-    The integer with the encoded version of the Pango library available at
-    run time.
+    The integer for the encoded version of the Pango library available at run
+    time.
   @end{return}
   @begin{short}
     Returns the encoded version of Pango available at run-time.
@@ -157,7 +157,7 @@
 
 (cffi:defcfun ("pango_version_string" version-string) :string
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2024-02-24}
   @begin{return}
     The string containing the version of the Pango library available at run
     time.
@@ -180,7 +180,7 @@
 
 (cffi:defcfun ("pango_version_check" version-check) :string
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2024-02-24}
   @argument[major]{an integer for the required major version}
   @argument[minor]{an integer for the required minor version}
   @argument[micro]{an integer for the required major version}

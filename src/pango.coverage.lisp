@@ -75,7 +75,7 @@
 (setf (liber:alias-for-symbol 'coverage-level)
       "GEnum"
       (liber:symbol-documentation 'coverage-level)
- "@version{2025-05-02}
+ "@version{2025-08-24}
   @begin{declaration}
 (gobject:define-genum \"PangoCoverageLevel\" coverage-level
   (:export t
@@ -86,7 +86,7 @@
   (:exact 3))
   @end{declaration}
   @begin{values}
-    @begin[code]{table}
+    @begin[code]{simple-table}
       @entry[:none]{The character is not representable with the font.}
       @entry[:fallback]{The character is represented in a way that may be
         comprehensible but is not the correct graphical form. For instance, a
@@ -97,13 +97,14 @@
         current script.}
       @entry[:exact]{The character is represented as the correct graphical
         form.}
-    @end{table}
+    @end{simple-table}
   @end{values}
   @begin{short}
     Used to indicate how well a font can represent a particular Unicode
     character point for a particular script.
   @end{short}
-  Only the @code{:none} and @code{:exact} values will be returned.
+  Only the @val[pango:coverage-level]{:none} and
+  @val[pango:coverage-level]{:exact} values will be returned.
   @see-symbol{pango:coverage}")
 
 ;;; ----------------------------------------------------------------------------
@@ -119,10 +120,10 @@
 
 #+liber-documentation
 (setf (documentation 'coverage 'type)
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @begin{short}
-    The @symbol{pango:coverage} class represents a map from Unicode characters
-    to @symbol{pango:coverage-level} values.
+    The @sym{pango:coverage} class represents a map from Unicode characters to
+    @sym{pango:coverage-level} values.
   @end{short}
   It is often necessary in Pango to determine if a particular font can represent
   a particular character, and also how well it can represent that character. The
@@ -139,11 +140,12 @@
 
 (defun coverage-new ()
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @return{The newly allocated @class{pango:coverage} object.}
   @begin{short}
-    Creates a new @class{pango:coverage} object initialized to the @code{:none}
-    value of the @symbol{pango:coverage-level} enumeration.
+    Creates a new @class{pango:coverage} object initialized to the
+    @val[pango:coverage-level]{:none} value of the @sym{pango:coverage-level}
+    enumeration.
   @end{short}
   @see-class{pango:coverage}
   @see-symbol{pango:coverage-level}"
@@ -178,11 +180,13 @@
 
 (cffi:defcfun ("pango_coverage_get" coverage-get) coverage-level
  #+liber-documentation
- "@version{2024-3-4}
+ "@version{2025-08-24}
   @argument[coverage]{a @class{pango:coverage} object}
-  @argument[index]{an integer with the index to check}
-  @return{The @symbol{pango:coverage-level} value with the coverage level for
-    the character with @arg{index}.}
+  @argument[index]{an integer for the index to check}
+  @begin{return}
+    The @sym{pango:coverage-level} value for the coverage level for the
+    character with @arg{index}.
+  @end{return}
   @begin{short}
     Determine whether a particular index is covered by @arg{coverage}.
   @end{short}
@@ -209,10 +213,10 @@
 
 (cffi:defcfun ("pango_coverage_set" coverage-set) :void
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @argument[coverage]{a @class{pango:coverage} object}
-  @argument[index]{an integet with the index to modify}
-  @argument[level]{a new @symbol{pango:coverage-level} value for @arg{index}}
+  @argument[index]{an integer for the index to modify}
+  @argument[level]{a new @sym{pango:coverage-level} value for @arg{index}}
   @begin{short}
     Modify a particular index within @arg{coverage}.
   @end{short}

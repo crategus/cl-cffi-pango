@@ -2,8 +2,8 @@
 ;;; pango.tab-array.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2013 - 2025 Dieter Kaiser
@@ -88,7 +88,7 @@
 (setf (liber:alias-for-symbol 'tab-align)
       "GEnum"
       (liber:symbol-documentation 'tab-align)
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @begin{declaration}
 (gobject:define-genum \"PangoTabAlign\" tab-align
   (:export t
@@ -99,7 +99,7 @@
   (:decimal 3))
   @end{declaration}
   @begin{values}
-    @begin[code]{table}
+    @begin[code]{simple-table}
       @entry[:left]{The text appears to the right of the tab stop position.}
       @entry[:right]{The text appears to the left of the tab stop position
         until the available space is filled. Since 1.50}
@@ -108,10 +108,10 @@
       @entry[:decimal]{Text before the first occurrence of the decimal point
         character appears to the left of the tab stop position, until the
         available space is filled, the rest to the right. Since 1.50}
-    @end{table}
+    @end{simple-table}
   @end{values}
   @begin{short}
-    The @symbol{pango:tab-align} enumeration specifies where the text appears
+    The @sym{pango:tab-align} enumeration specifies where the text appears
     relative to the tab stop position.
   @end{short}
   @see-class{pango:tab-array}")
@@ -133,7 +133,7 @@
 (setf (liber:alias-for-class 'tab-array)
       "GBoxed"
       (documentation 'tab-array 'type)
- "@version{2024-2-24}
+ "@version{2024-02-24}
   @begin{declaration}
 (glib:define-gboxed-opaque tab-array \"PangoTabArray\"
   :export t
@@ -161,7 +161,7 @@
 
 (cffi:defcfun ("pango_tab_array_new" tab-array-new) (g:boxed tab-array :return)
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2024-02-24}
   @argument[size]{an integer for the initial number of tab stops to allocate,
     can be 0}
   @argument[positions-in-pixels]{a boolean whether positions are in pixel units}
@@ -183,11 +183,11 @@
 
 (defun tab-array-new-with-positions (size positions-in-pixel &rest args)
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @argument[size]{an integer for the initial number of tab stops to allocate,
     can be 0}
   @argument[positions-in-pixels]{a boolean whether positions are in pixel units}
-  @argument[args]{a list of pairs with the @symbol{pango:tab-align} value and
+  @argument[args]{a list of pairs with the @sym{pango:tab-align} value and
     position of the tab stops}
   @return{The newly allocated @class{pango:tab-array} instance.}
   @begin{short}
@@ -213,7 +213,7 @@
 (cffi:defcfun ("pango_tab_array_copy" tab-array-copy)
     (g:boxed tab-array :return)
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2024-02-24}
   @argument[tabs]{a @class{pango:tab-array} instance to copy}
   @return{The newly allocated @class{pango:tab-array} instance.}
   @short{Copies a tab array.}
@@ -234,9 +234,9 @@
 
 (cffi:defcfun ("pango_tab_array_get_size" tab-array-size) :int
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @argument[tabs]{a @class{pango:tab-array} instance}
-  @return{The integer with the number of tabs in @arg{tabs}.}
+  @return{The integer for the number of tabs in @arg{tabs}.}
   @short{Gets the number of tab stops in the tab array.}
   @see-class{pango:tab-array}"
   (tabs (g:boxed tab-array)))
@@ -249,7 +249,7 @@
 
 (cffi:defcfun ("pango_tab_array_resize" tab-array-resize) :void
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2024-02-24}
   @argument[tabs]{a @class{pango:tab-array} instance}
   @argument[size]{an integer for the new size of @arg{tabs}}
   @begin{short}
@@ -286,19 +286,16 @@
 
 (defun tab-array-tab (tabs index)
  #+liber-documentation
- "@version{2024-4-24}
+ "@version{2025-08-24}
   @syntax{(pango:tab-array-tab tabs index} => align, pos
   @syntax{(setf (pango:tab-array-tab tabs index) (list align pos))}
   @argument[tabs]{a @class{pango:tab-array} instance}
   @argument[index]{an integer for the index of the tab stop}
-  @argument[align]{a @symbol{pango:tab-align} value}
+  @argument[align]{a @sym{pango:tab-align} value}
   @argument[pos]{an integer for the tab position}
   @begin{short}
-    The @fun{pango:tab-array-tab} function gets the alignment and position of
-    a tab stop.
+    Gets or sets the alignment and position of a tab stop.
   @end{short}
-  The @setf{pango:tab-array-tab} function sets the alignment and postion of a
-  tab stop.
   @see-class{pango:tab-array}
   @see-symbol{pango:tab-align}"
   (cffi:with-foreign-objects ((align 'tab-align) (pos :int))
@@ -319,10 +316,12 @@
 
 (defun tab-array-tabs (tabs)
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @argument[tabs]{a @class{pango:tab-array} instance}
-  @return{The list of @symbol{pango:tab-align} values and positions for the tab
-    stops in the tab array.}
+  @begin{return}
+    The list of @sym{pango:tab-align} values and positions for the tab stops
+    in the tab array.
+  @end{return}
   @begin{short}
     Returns a list of alignment and positiongs of the tab stops in the tab
     array.
@@ -368,7 +367,7 @@
 (cffi:defcfun ("pango_tab_array_get_positions_in_pixels"
                tab-array-positions-in-pixels) :boolean
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2024-02-24}
   @syntax{(pango:tab-array-positions-in-pixels tabs) => setting}
   @syntax{(setf (pango:tab-array-positions-in-pixels tabs) setting)}
   @argument[tabs]{a @class{pango:tab-array} instance}
@@ -406,23 +405,19 @@
 (cffi:defcfun ("pango_tab_array_get_decimal_point" tab-array-decimal-point)
     g:unichar
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @syntax{(pango:tab-array-decimal-point tabs index) => char}
   @syntax{(setf (pango:tab-array-decimal-point tabs index) char)}
   @argument[tabs]{a @class{pango:tab-array} instance}
   @argument[index]{an integer for the index of a tab stop}
   @argument[char]{a character for the decimal point to use}
   @begin{short}
-   The @fun{pango:tab-array-decimal-point} function gets the Unicode character
-   to use as decimal point.
+   Gets or sets the Unicode character to use as decimal point.
   @end{short}
-  The @setf{pango:tab-array-decimal-point} function sets the Unicode character
-  to use as decimal point.
-
-  This is only relevant for tabs with @code{:decimal} alignment, which align
-  content at the first occurrence of the decimal point character. The default
-  value of 0 means that Pango will use the decimal point according to the
-  current locale.
+  This is only relevant for tabs with @val[pango:tab-align]{:decimal} alignment,
+  which align content at the first occurrence of the decimal point character.
+  The default value of 0 means that Pango will use the decimal point according
+  to the current locale.
 
   Since 1.50
   @see-class{pango:tab-array}"
@@ -439,7 +434,7 @@
 #+pango-1-50
 (cffi:defcfun ("pango_tab_array_sort" tab-array-sort) :void
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2024-02-24}
   @argument[tabs]{a @class{pango:tab-array} instance}
   @begin{short}
     Utility function to ensure that the tab stops are in increasing order.
@@ -460,8 +455,8 @@
 (cffi:defcfun ("pango_tab_array_from_string" tab-array-from-string)
     (g:boxed tab-array :return)
  #+liber-documentation
- "@version{2024-2-24}
-  @argument[text]{a string with the tab stops for the tab array}
+ "@version{2025-08-24}
+  @argument[text]{a string for the tab stops for the tab array}
   @return{The newly allocated @class{pango:tab-array} instance.}
   @begin{short}
     Deserializes a @class{pango:tab-array} instance from a string.
@@ -484,9 +479,9 @@
 #+pango-1-50
 (cffi:defcfun ("pango_tab_array_to_string" tab-array-to-string) :string
  #+liber-documentation
- "@version{2024-2-24}
+ "@version{2025-08-24}
   @argument[tabs]{a @class{pango:tab-array} instance}
-  @return{The string with the tab stops of the tab array.}
+  @return{The string for the tab stops of the tab array.}
   @begin{short}
     Serializes a @class{pango:tab-array} instance to a string.
   @end{short}

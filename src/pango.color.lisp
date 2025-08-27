@@ -2,8 +2,8 @@
 ;;; pango.color.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; Version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -62,7 +62,7 @@
 (setf (liber:alias-for-class 'color)
       "GBoxed"
       (documentation 'color 'type)
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @begin{declaration}
 (glib:define-gboxed-cstruct color \"PangoColor\"
   (:export t
@@ -72,11 +72,11 @@
   (blue :uint16 :initform 0))
   @end{declaration}
   @begin{values}
-    @begin[code]{table}
-      @entry[red]{The unsigned integer with the red component of the color.}
-      @entry[green]{The unsigned integer with the green component of the color.}
-      @entry[blue]{The unsigned integer with the blue component of the color.}
-    @end{table}
+    @begin[code]{simple-table}
+      @entry[red]{The unsigned integer for the red component of the color.}
+      @entry[green]{The unsigned integer for the green component of the color.}
+      @entry[blue]{The unsigned integer for the blue component of the color.}
+    @end{simple-table}
   @end{values}
   @begin{short}
     The @class{pango:color} structure is used to represent a color in an
@@ -96,14 +96,14 @@
 (setf (liber:alias-for-function 'color-red)
       "Accessor"
       (documentation 'color-red 'function)
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @syntax{(pango:color-red instance) => red}
   @syntax{(setf (pango:color-red instance) red)}
   @begin{short}
-    Accessor of the @code{red} slot of the @class{pango:color} color.
+    The accessor for the @code{red} slot of the @class{pango:color} color
+    gets or sets the red component of the color.
   @end{short}
-  The red component of the color. This is a value between 0 and 65535, with
-  65535 indicating full intensity.
+  This is a value between 0 and 65535, with 65535 indicating full intensity.
   @see-class{pango:color}")
 
 ;;; --- pango:color-green ------------------------------------------------------
@@ -112,14 +112,14 @@
 (setf (liber:alias-for-function 'color-green)
       "Accessor"
       (documentation 'color-green 'function)
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @syntax{(pango:color-green instance) => green}
   @syntax{(setf (pango:color-green instance) green)}
   @begin{short}
-    Accessor of the @code{green} slot of the @class{pango:color} color.
+    The accessor for the @code{green} slot of the @class{pango:color} color
+    gets or sets the green component of the color.
   @end{short}
-  The green component of the color. This is a value between 0 and 65535, with
-  65535 indicating full intensity.
+  This is a value between 0 and 65535, with 65535 indicating full intensity.
   @see-class{pango:color}")
 
 ;;; --- pango:color-blue -------------------------------------------------------
@@ -128,14 +128,14 @@
 (setf (liber:alias-for-function 'color-blue)
       "Accessor"
       (documentation 'color-blue 'function)
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @syntax{(pango:color-blue instance) => blue}
   @syntax{(setf (pango:color-blue instance) blue)}
   @begin{short}
-    Accessor of the @code{blue} slot of the @class{pango:color} color.
+    The accessor for the @code{blue} slot of the @class{pango:color} color
+    gets or sets the blue component of the color.
   @end{short}
-  The blue component of the color. This is a value between 0 and 65535, with
-  65535 indicating full intensity.
+  This is a value between 0 and 65535, with 65535 indicating full intensity.
   @see-class{pango:color}")
 
 ;;; ----------------------------------------------------------------------------
@@ -146,7 +146,7 @@
 
 (defun color-new (&key (red 0) (green 0) (blue 0))
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[red]{an unsigned integer for the red component of the color}
   @argument[green]{an unsigned integer for the green component of the color}
   @argument[blue]{an unsigned integer for the blue component of the color}
@@ -168,12 +168,10 @@
 
 (defun color-copy (color)
  #+liber-documentation
- "@version{2025-2-15}
-  @argument[color]{a @symbol{pango:color} instance}
+ "@version{2025-08-24}
+  @argument[color]{a @sym{pango:color} instance}
   @return{The newly created @class{pango:color} instance.}
-  @begin{short}
-    Creates a copy of @arg{color}.
-  @end{short}
+  @short{Creates a copy of @arg{color}.}
   @see-class{pango:color}
   @see-function{pango:color-new}"
   (copy-color color))
@@ -196,10 +194,12 @@
 
 (defun color-parse (spec)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[spec]{a string specifying a color}
-  @return{The newly created @class{pango:color} instance with the result, or
-    @code{nil}.}
+  @begin{return}
+    The newly created @class{pango:color} instance for the result, or
+    @code{nil}.
+  @end{return}
   @begin{short}
     Fill in the fields of a color from a string specification.
   @end{short}
@@ -240,10 +240,10 @@
 
 (defun color-parse-with-alpha (spec)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @syntax{(pango:color-parse-with-alpha spec) => color, alpha}
   @argument[spec]{a string specifying a color}
-  @argument[color]{a newly created @class{pango:color} instance with the result,
+  @argument[color]{a newly created @class{pango:color} instance for the result,
     or @code{nil}}
   @argument[alpha]{an unsigned integer for the alpha value}
   @begin{short}
@@ -275,9 +275,9 @@
 
 (cffi:defcfun ("pango_color_to_string" color-to-string) :string
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[color]{a @class{pango:color} instance}
-  @return{The string with the hexadecimal form of @arg{color}.}
+  @return{The string for the hexadecimal form of @arg{color}.}
   @begin{short}
     Returns a textual specification of @arg{color} in the hexadecimal form
     @code{#rrrrggggbbbb}, where @code{r}, @code{g} and @code{b} are hex digits

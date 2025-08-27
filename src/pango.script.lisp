@@ -2,8 +2,8 @@
 ;;; pango.script.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2012 - 2025 Dieter Kaiser
@@ -206,7 +206,7 @@
       "GEnum"
       (liber:symbol-documentation 'script)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @begin{declaration}
 (gobject:define-genum \"PangoScript\" script
   (:export t
@@ -331,7 +331,7 @@
   (:SIGNWRITING 116))
   @end{declaration}
   @begin{short}
-    The @symbol{pango:script} enumeration identifies different writing systems.
+    The @sym{pango:script} enumeration identifies different writing systems.
   @end{short}
   The values correspond to the names as defined in the Unicode standard. See
   @url[http://www.unicode.org/reports/tr24/]{Unicode Standard Annex 24}.
@@ -339,7 +339,7 @@
   Note that this enumeration is deprecated and will not be updated to include
   values in newer versions of the Unicode standard. Applications should use
   the @code{GUnicodeScript} enumeration instead, whose values are
-  interchangeable with the @symbol{pango:script} enumeration.")
+  interchangeable with the @sym{pango:script} enumeration.")
 
 ;;; ----------------------------------------------------------------------------
 ;;; PangoLanguage
@@ -354,7 +354,7 @@
 (setf (liber:alias-for-class 'language)
       "GBoxed"
       (documentation 'language 'type)
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @begin{declaration}
 (glib:define-gboxed-opaque language \"PangoLanguage\"
   :export t
@@ -362,7 +362,7 @@
   :alloc (error \"PangoLanguage cannot be created from the Lisp side.\"))
   @end{declaration}
   @begin{short}
-    The @symbol{pango:language} structure is used to represent a language.
+    The @sym{pango:language} structure is used to represent a language.
   @end{short}
   It is opaque, and has no user visible fields.
   @see-constructor{pango:language-from-string}
@@ -375,7 +375,7 @@
 (cffi:defcfun ("pango_language_from_string" language-from-string)
     (g:boxed language :return)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[language]{a string representing a language tag}
   @return{The newly created @class{pango:language} instance.}
   @begin{short}
@@ -407,7 +407,7 @@
 
 (cffi:defcfun ("pango_language_to_string" language-to-string) :string
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[language]{a @class{pango:language} instance}
   @return{The string representing the Pango language tag.}
   @begin{short}
@@ -425,7 +425,7 @@
 
 (cffi:defcfun ("pango_language_matches" language-matches) :boolean
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[language]{a @class{pango:language} instance}
   @argument[range]{a list of language ranges, separated by @kbd{; : ,} or
   space characters, each element must either be @kbd{*} or a RFC 3066 language
@@ -462,12 +462,14 @@
 
 (defun language-includes-script (language script)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[language]{a @class{pango:language} instance}
-  @argument[script]{a @symbol{pango:script} value}
-  @return{@em{True} if @arg{script} is one of the scripts used to write
-    @arg{language} or @code{nil}, if nothing is known about @arg{language},
-    including the case that @arg{language} is @code{nil}.}
+  @argument[script]{a @sym{pango:script} value}
+  @begin{return}
+    @em{True} if @arg{script} is one of the scripts used to write @arg{language}
+    or @code{nil}, if nothing is known about @arg{language}, including the case
+    that @arg{language} is @code{nil}.
+  @end{return}
   @begin{short}
     Determines if @arg{script} is one of the scripts used to write
     @arg{language}.
@@ -499,11 +501,13 @@
 
 (defun language-scripts (language)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-08-24}
   @argument[language]{a @class{pango:language} instance}
-  @return{The list with @symbol{pango:script} values, or @code{nil} if Pango
-    does not have any information about this particular language tag, also the
-    case if @arg{language} is @code{nil}.}
+  @begin{return}
+    The list with @sym{pango:script} values, or @code{nil} if Pango does not
+    have any information about this particular language tag, also the case if
+    @arg{language} is @code{nil}.
+  @end{return}
   @begin{short}
     Determines the scripts used to to write @arg{language}.
   @end{short}
@@ -534,7 +538,7 @@
 
 (cffi:defcfun ("pango_language_get_default" language-default) (g:boxed language)
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @return{The default language as a @class{pango:language} instance.}
   @begin{short}
     Returns the @class{pango:language} instance for the current locale of the
@@ -582,7 +586,7 @@
 
 (defun language-preferred ()
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @return{The list of @class{pango:language} instances, or @code{nil}.}
   @begin{short}
     Returns the list of languages that the user prefers, as specified by the
@@ -614,7 +618,7 @@
 (cffi:defcfun ("pango_language_get_sample_string" language-sample-string)
     :string
  #+liber-documentation
- "@version{2025-2-15}
+ "@version{2025-02-15}
   @argument[language]{a @class{pango:language} instance, or @code{nil}}
   @return{The sample string.}
   @begin{short}
@@ -659,24 +663,27 @@
 (cffi:defcfun ("pango_script_get_sample_language" script-sample-language)
     (g:boxed language)
  #+liber-documentation
- "@version{2025-2-15}
-  @argument[script]{a @symbol{pango:script} value}
-  @return{The @class{pango:language} instance that is representative of the
-    script, or @code{nil} if no such language exists.}
+ "@version{2025-08-24}
+  @argument[script]{a @sym{pango:script} value}
+  @begin{return}
+    The @class{pango:language} instance that is representative of the script,
+    or @code{nil} if no such language exists.
+  @end{return}
   @begin{short}
     Given a script, finds a language tag that is reasonably representative of
     that script.
   @end{short}
   This will usually be the most widely spoken or used language written in that
-  script: for instance, the sample language for the @code{:cyrillic} value is
-  ru (Russian), the sample language for the @code{:arabic} value is ar.
+  script: for instance, the sample language for the
+  @val[pango:script]{:cyrillic} value is ru (Russian), the sample language for
+  the @val[pango:script]{:arabic} value is ar.
 
   For some scripts, no sample language will be returned because there is no
   language that is sufficiently representative. The best example of this is the
-  @code{:han} value, where various different variants of written Chinese,
-  Japanese, and Korean all use significantly different sets of Han characters
-  and forms of shared characters. No sample language can be provided for many
-  historical scripts as well.
+  @val[pango:script]{:han} value, where various different variants of written
+  Chinese, Japanese, and Korean all use significantly different sets of Han
+  characters and forms of shared characters. No sample language can be provided
+  for many historical scripts as well.
 
   This function checks the environment variables @code{PANGO_LANGUAGE} and
   @code{LANGUAGE}, checked in that order, first. If one of them is set, it is

@@ -2,11 +2,11 @@
 ;;; pango.glyph.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2024 Dieter Kaiser
+;;; Copyright (C) 2011 - 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -130,10 +130,10 @@
 (setf (liber:alias-for-symbol 'glyph)
       "Type"
       (liber:symbol-documentation 'glyph)
- "@version{2024-3-5}
+ "@version{2025-08-24}
   @begin{short}
-    A @symbol{pango:glyph} type represents a single glyph in the output form
-    of a string.
+    A @sym{pango:glyph} type represents a single glyph in the output form of
+    a string.
   @end{short}
   This type is implemented as the @code{:uint32} foreign type.
   @see-class{pango:glyph-item}
@@ -217,7 +217,7 @@
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoGlyphString
+;;; PangoGlyphString
 ;;; ----------------------------------------------------------------------------
 
 (glib:define-gboxed-opaque glyph-string "PangoGlyphString"
@@ -229,7 +229,7 @@
 (setf (liber:alias-for-class 'glyph-string)
       "GBoxed"
       (documentation 'glyph-string 'type)
- "@version{2024-3-6}
+ "@version{2024-03-06}
   @begin{short}
     The @class{pango:glyph-string} structure is used to store strings of glyphs
     with geometry and visual attribute information.
@@ -239,7 +239,7 @@
   @see-class{pango:glyph-item}")
 
 ;;; ----------------------------------------------------------------------------
-;;; struct PangoGlyphItem
+;;; PangoGlyphItem
 ;;; ----------------------------------------------------------------------------
 
 (glib:define-gboxed-opaque glyph-item "PangoGlyphItem"
@@ -251,7 +251,7 @@
 (setf (liber:alias-for-class 'glyph-item)
       "GBoxed"
       (documentation 'glyph-item 'type)
- "@version{2024-3-6}
+ "@version{2024-03-06}
   @begin{short}
     A @class{pango:glyph-item} structure is a pair of a @class{pango:item}
     instance and the glyphs resulting from shaping the text corresponding to

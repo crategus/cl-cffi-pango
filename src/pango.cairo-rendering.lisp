@@ -2,8 +2,8 @@
 ;;; pango.cairo-rendering.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2011 - 2025 Dieter Kaiser
@@ -98,10 +98,10 @@
 (setf (liber:alias-for-class 'cairo-font)
       "Interface"
       (documentation 'cairo-font 'type)
- "@version{2025-1-1}
+ "@version{2025-08-24}
   @begin{short}
-    The @symbol{pango:cairo-font} interface is an interface exported by fonts
-    for use with Cairo.
+    The @sym{pango:cairo-font} interface is an interface exported by fonts for
+    use with Cairo.
   @end{short}
   The actual type of the font will depend on the particular font technology
   Cairo was compiled to use.
@@ -120,9 +120,9 @@
 (setf (liber:alias-for-class 'cairo-font-map)
       "Interface"
       (documentation 'cairo-font-map 'type)
- "@version{2025-1-1}
+ "@version{2025-08-24}
   @begin{short}
-    The @symbol{pango:cairo-font-map} interface is an interface exported by font
+    The @sym{pango:cairo-font-map} interface is an interface exported by font
     maps for use with Cairo.
   @end{short}
   The actual type of the font map will depend on the particular font technology
@@ -145,23 +145,20 @@
 (cffi:defcfun ("pango_cairo_font_map_get_default" cairo-font-map-default)
     (g:object font-map)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-08-24}
   @syntax{(pango:cairo-font-map-default) => fontmap}
   @syntax{(setf (pango:cairo-font-map-default) fontmap)}
   @argument[fontmap]{a @class{pango:font-map} object, or @code{nil}}
   @begin{short}
-    The @symbol{pango:cairo-font-map-default} function gets a default PangoCairo
-    font map to use with Cairo.
+    Gets or sets a default PangoCairo font map to use with Cairo.
   @end{short}
   Note that the type of the returned object will depend on the particular font
   backend Cairo was compiled to use. You generally should only use the
   @class{pango:font-map} and @class{pango:cairo-font-map} interfaces on the
   returned object.
 
-  The @setf{pango:cairo-font-map-default} function sets a default PangoCairo
-  font map to use with Cairo. This can be used to change the Cairo font backend
-  that the default font map uses. The old default font map is unreffed and the
-  new font map referenced.
+  This can be used to change the Cairo font backend that the default font map
+  uses. The old default font map is unreffed and the new font map referenced.
 
   Note that the default font map is per-thread. This function only changes the
   default fontmap for the current thread. Default fontmaps of exisiting threads
@@ -184,7 +181,7 @@
 (cffi:defcfun ("pango_cairo_font_map_new" cairo-font-map-new)
     (g:object font-map :return)
 #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-01-01}
   @begin{return}
     The newly allocated @class{pango:font-map} object.
   @end{return}
@@ -212,9 +209,8 @@
 (cffi:defcfun ("pango_cairo_font_map_new_for_font_type"
                 cairo-font-map-new-for-font-type) (g:object font-map :return)
  #+liber-documentation
- "@version{2025-1-1}
-  @argument[fonttype]{a @symbol{cairo:font-type-t} value with the desired font
-    type}
+ "@version{2025-08-24}
+  @argument[fonttype]{a @sym{cairo:font-type-t} value for the desired font type}
   @begin{return}
     The newly allocated @class{pango:font-map} object of suitable type, or
     @code{nil} if the requested Cairo font backend is not supported or compiled
@@ -245,10 +241,10 @@
 
 (defun cairo-font-map-font-type (fontmap)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-08-24}
   @argument[fontmap]{a @class{pango:font-map} object}
   @begin{return}
-    The @symbol{cairo:font-type-t} value with the Cairo font backend type.
+    The @sym{cairo:font-type-t} value for the Cairo font backend type.
   @end{return}
   @begin{short}
     Gets the type of the Cairo font backend that @arg{fontmap} uses.
@@ -288,7 +284,7 @@
 
 (defun cairo-font-map-resolution (fontmap)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-08-24}
   @syntax{(pango:cairo-font-map-resolution fontmap) => dpi}
   @syntax{(setf (pango:cairo-font-map-resolution fontmap) dpi)}
   @argument[fontmap]{a @class{pango:cairo-font-map} object}
@@ -296,13 +292,12 @@
     per inch, physical inches are not actually involved, the terminology is
     conventional}
   @begin{short}
-    The @symbol{pango:cairo-font-map-resolution} function gets the resolution
-    for the font map.
+    Gets or sets the resolution for the font map.
   @end{short}
-  The @setf{pango:cairo-font-map-resolution} function sets the resolution. This
-  is a scale factor between points specified in a @class{pango:font-description}
-  instance and Cairo units. The default value is 96, meaning that a 10 point
-  font will be 13 units high, that is @code{(10 * 96 / 72 = 13.3)}.
+  This is a scale factor between points specified in a
+  @class{pango:font-description} instance and Cairo units. The default value is
+  96, meaning that a 10 point font will be 13 units high, that is
+  @code{(10 * 96 / 72 = 13.3)}.
   @begin[Examples]{dictionary}
     @begin{pre}
 (pango:cairo-font-map-resolution (pango:cairo-font-map-default))
@@ -349,15 +344,15 @@
 (cffi:defcfun ("pango_cairo_font_get_scaled_font" cairo-font-scaled-font)
     (:pointer (:struct cairo:scaled-font-t))
  #+liber-documentation
- "@version{#2025-1-1}
+ "@version{#2025-08-24}
   @argument[font]{a @class{pango:font} object from a
     @class{pango:cairo-font-map} object}
   @begin{return}
-    The @symbol{cairo:scaled-font-t} instance used by @arg{font}, or
-    @code{nil} if @arg{font} is @code{nil}.
+    The @sym{cairo:scaled-font-t} instance used by @arg{font}, or @code{nil} if
+    @arg{font} is @code{nil}.
   @end{return}
   @begin{short}
-    Gets the @symbol{cairo:scaled-font-t} instance used by @arg{font}.
+    Gets the @sym{cairo:scaled-font-t} instance used by @arg{font}.
   @end{short}
   The scaled font can be referenced and kept using the
   @fun{cairo-scaled-font-reference} function.
@@ -382,7 +377,7 @@
 (cffi:defcfun ("pango_cairo_context_get_resolution" cairo-context-resolution)
     :double
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-08-24}
   @syntax{(pango:cairo-context-resolution context) => dpi}
   @syntax{(setf (pango:cairo-context-resolution context) dpi)}
   @argument[context]{a @class{pango:context} object, from a PangoCairo font map}
@@ -391,13 +386,12 @@
     conventional, a 0 or negative value means to use the resolution from the
     font map}
   @begin{short}
-    The @symbol{pango:cairo-context-resolution} function gets the resolution for
-    the Pango context.
+    Gets or sets the resolution for the Pango context.
   @end{short}
-  The @setf{pango:cairo-context-resolution} function sets the resolution. This
-  is a scale factor between points specified in a @class{pango:font-description}
-  instance and Cairo units. The default value is 96, meaning that a 10 point
-  font will be 13 units high, that is @code{(10 * 96 / 72 = 13.3)}.
+  This is a scale factor between points specified in a
+  @class{pango:font-description} instance and Cairo units. The default value is
+  96, meaning that a 10 point font will be 13 units high, that is
+  @code{(10 * 96 / 72 = 13.3)}.
   @see-class{pango:context}
   @see-class{pango:font-description}"
   (context (g:object context)))
@@ -424,21 +418,18 @@
 
 (defun cairo-context-font-options (context)
  #+liber-documentation
- "@version{2025-1-1}
+ "@version{2025-08-24}
   @syntax{(pango:cairo-context-font-options context) => options}
   @syntax{(setf (pango:cairo-context-font-options context) options)}
   @argument[context]{a @class{pango:context} object, from a PangoCairo font map}
-  @argument[options]{a @symbol{cairo:font-options-t} instance, or @code{nil} to
+  @argument[options]{a @sym{cairo:font-options-t} instance, or @code{nil} to
     unset any previously set font options}
   @begin{short}
-    The @symbol{pango:cairo-context-font-options} function retrieves any font
-    rendering options.
+    Gets or sets the font options used when rendering text with the Pango
+    context.
   @end{short}
   This function does not report options that are derived from the target surface
-  by the @fun{pango:cairo-update-context} function.
-
-  The @setf{pango:cairo-context-font-options} function sets the font options
-  used when rendering text with the Pango context. These font options override
+  by the @fun{pango:cairo-update-context} function. These font options override
   any font options that the @fun{pango:cairo-update-context} function derives
   from the target surface.
   @see-class{pango:context}
@@ -470,24 +461,24 @@
 (setf (liber:alias-for-symbol 'cairo-shape-renderer-func)
       "Callback"
       (liber:symbol-documentation 'cairo-shape-renderer-func)
- "@version{#2025-1-1}
+ "@version{#2025-08-24}
   @begin{short}
-    The callback function for rendering attributes of @symbol{pango:attr-shape}
+    The callback function for rendering attributes of @sym{pango:attr-shape}
     type with the Cairo renderer of Pango.
   @end{short}
   @begin{pre}
 lambda (cr attr dopath)
   @end{pre}
-  @begin[code]{table}
-    @entry[cr]{The @symbol{cairo:context-t} instance with current point set to
+  @begin[code]{simple-table}
+    @entry[cr]{The @sym{cairo:context-t} instance for current point set to
       where the shape should be rendered.}
-    @entry[attr]{The @symbol{pango:attr-shape} instance with the attributes to
+    @entry[attr]{The @sym{pango:attr-shape} instance for the attributes to
       render.}
     @entry[dopath]{Whether only the shape path should be appended to current
       path of @arg{cr} and no filling/stroking done. This will be set to
       @em{true} when called from the @fun{pango:cairo-layout-path} and the
       @fun{pango:cairo-layout-line-path} rendering functions.}
-  @end{table}
+  @end{simple-table}
   @see-symbol{cairo:context-t}
   @see-symbol{pango:attr-shape}
   @see-function{pango:cairo-layout-path}
@@ -516,20 +507,17 @@ lambda (cr attr dopath)
 
 (defun cairo-context-shape-renderer (context)
  #+liber-documentation
- "@version{#2025-1-1}
+ "@version{#2025-08-24}
   @syntax{(pango:cairo-context-shape-renderer context) func}
   @syntax{(setf (pango:cairo-context-shape-renderer context) func)}
   @argument[context]{a @class{pango:context} object, from a PangoCairo font map}
-  @argument[func]{a @symbol{pango:cairo-shape-renderer-func} callback function
-    for rendering attributes of @symbol{pango:attr-shape} type, or @code{nil}
-    to disable shape rendering}
+  @argument[func]{a @sym{pango:cairo-shape-renderer-func} callback function for
+    rendering attributes of @sym{pango:attr-shape} type, or @code{nil} to
+    disable shape rendering}
   @begin{short}
-    Accessor of the shape rendering callback function set on the Pango context.
+    Gets or sets the callback function for rendering attributes of the
+    @sym{pango:attr-shape} type.
   @end{short}
-  The @sym{pango:cairo-context-shape-renderer} function retrieves the callback
-  function for rendering attributes of the @symbol{pango:attr-shape} type. The
-  @sym{(pango:cairo-context-shape-renderer)} function sets the callback
-  function.
   @see-class{pango:context}
   @see-symbol{pango:attr-shape}
   @see-symbol{pango:cairo-shape-renderer-func}"
@@ -542,8 +530,8 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_create_context" cairo-create-context)
     (g:object context :return)
  #+liber-documentation
- "@version{2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @return{The newly created @class{pango:context} object.}
   @begin{short}
     Creates a Pango context set up to match the current transformation and
@@ -571,8 +559,8 @@ lambda (cr attr dopath)
 
 (cffi:defcfun ("pango_cairo_update_context" cairo-update-context) :void
  #+liber-documentation
- "@version{2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @argument[context]{a @class{pango:context} object, from a PangoCairo font map}
   @begin{short}
     Updates a Pango context previously created for use with Cairo to match the
@@ -595,8 +583,8 @@ lambda (cr attr dopath)
 (cffi:defcfun ("pango_cairo_create_layout" cairo-create-layout)
     (g:object layout :return)
  #+liber-documentation
- "@version{2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @return{The newly created @class{pango:layout} object.}
   @begin{short}
     Creates a Pango layout set up to match the current transformation and
@@ -628,8 +616,8 @@ lambda (cr attr dopath)
 
 (cffi:defcfun ("pango_cairo_update_layout" cairo-update-layout) :void
  #+liber-documentation
- "@version{2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @argument[layout]{a @class{pango:layout} object}
   @begin{short}
     Updates the @class{pango:context} object of a @class{pango:layout} object
@@ -651,8 +639,8 @@ lambda (cr attr dopath)
 
 (cffi:defcfun ("pango_cairo_show_glyph_string" cairo-show-glyph-string) :void
  #+liber-documentation
- "@version{2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @argument[font]{a @class{pango:font} object from a PangoCairo font map}
   @argument[glyphs]{a @class{pango:glyph-string} instance}
   @begin{short}
@@ -675,9 +663,9 @@ lambda (cr attr dopath)
 
 (cffi:defcfun ("pango_cairo_show_glyph_item" cairo-show-glyph-item) :void
  #+liber-documentation
- "@version{2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
-  @argument[text]{a string with the UTF-8 text that @arg{item} refers to}
+ "@version{2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
+  @argument[text]{a string for the UTF-8 text that @arg{item} refers to}
   @argument[item]{a @class{pango:glyph-item} instance}
   @begin{short}
     Draws the glyphs in @arg{item} in the specified Cairo context, embedding
@@ -703,8 +691,8 @@ lambda (cr attr dopath)
 
 (cffi:defcfun ("pango_cairo_show_layout_line" cairo-show-layout-line) :void
  #+liber-documentation
- "@version{#2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{#2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @argument[line]{a @class{pango:layout-line} instance}
   @begin{short}
     Draws a Pango layout line in the specified Cairo context.
@@ -724,8 +712,8 @@ lambda (cr attr dopath)
 
 (cffi:defcfun ("pango_cairo_show_layout" cairo-show-layout) :void
  #+liber-documentation
- "@version{2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @argument[layout]{a @class{pango:layout} object}
   @begin{short}
     Draws a Pango layout in the specified Cairo context.
@@ -753,8 +741,8 @@ lambda (cr attr dopath)
 
 (defun cairo-show-error-underline (cr x y width height)
  #+liber-documentation
- "@version{#2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{#2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @argument[x]{a number for the x coordinate of one corner of the rectangle}
   @argument[y]{a number for the y coordinate of one corner of the rectangle}
   @argument[width]{a number for the width of the rectangle}
@@ -784,8 +772,8 @@ lambda (cr attr dopath)
 
 (cffi:defcfun ("pango_cairo_glyph_string_path" cairo-glyph-string-path) :void
  #+liber-documentation
- "@version{#2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{#2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @argument[font]{a @class{pango:font} object from a PangoCairo font map}
   @argument[glyphs]{a @class{pango:glyph-string} instance}
   @begin{short}
@@ -809,8 +797,8 @@ lambda (cr attr dopath)
 
 (cffi:defcfun ("pango_cairo_layout_line_path" cairo-layout-line-path) :void
  #+liber-documentation
- "@version{#2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{#2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @argument[line]{a @class{pango:layout-line} instance}
   @begin{short}
     Adds the text in the @class{pango:layout-line} instance to the current path
@@ -831,8 +819,8 @@ lambda (cr attr dopath)
 
 (cffi:defcfun ("pango_cairo_layout_path" cairo-layout-path) :void
  #+liber-documentation
- "@version{#2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{#2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @argument[layout]{a @class{pango:layout} object}
   @begin{short}
     Adds the text in a Pango layout to the current path in the specified Cairo
@@ -861,8 +849,8 @@ lambda (cr attr dopath)
 
 (defun cairo-error-underline-path (cr x y width height)
  #+liber-documentation
- "@version{#2025-1-1}
-  @argument[cr]{a @symbol{cairo:context-t} instance}
+ "@version{#2025-08-24}
+  @argument[cr]{a @sym{cairo:context-t} instance}
   @argument[x]{a number for the x coordinate of one corner of the rectangle}
   @argument[y]{a number for the y coordinate of one corner of the rectangle}
   @argument[width]{a number for the width of the rectangle}

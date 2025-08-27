@@ -2,8 +2,8 @@
 ;;; pango.markup.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; Version 1.54 and modified to document the Lisp binding to the Pango
-;;; library, see <http://www.gtk.org>. The API documentation of the Lisp
+;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
 ;;; Copyright (C) 2020 - 2025 Dieter Kaiser
@@ -55,13 +55,13 @@
 
 (defun parse-markup (markup marker)
  #+liber-documentation
- "@version{2024-11-21}
-  @argument[markup]{a string with the parkup to parse}
+ "@version{2025-08-24}
+  @argument[markup]{a string for the parkup to parse}
   @argument[marker]{a character that precedes an accelerator, or 0 for none}
   @begin{return}
-    @arg{text} -- a string with the text with tags stripped @br{}
-    @arg{attrlist} -- a @symbol{pango:attr-list} instance @br{}
-    @arg{char} -- a character with the accelerator char
+    @arg{text} -- a string for the text with tags stripped @br{}
+    @arg{attrlist} -- a @sym{pango:attr-list} instance @br{}
+    @arg{char} -- a character for the accelerator char
   @end{return}
   @begin{short}
     Parses marked-up text to create a plain-text string and an attribute list.
@@ -69,9 +69,9 @@
   If @arg{marker} is nonzero, the given character will mark the character
   following it as an accelerator. For example, @arg{marker} might be an
   ampersand or underscore. All characters marked as an accelerator will receive
-  a @code{:underline-low} attribute, and the first character so marked will be
-  returned in @arg{char}. Two @arg{marker} characters following each other
-  produce a single literal @arg{marker} character.
+  a @val[pango:underline]{:low} attribute, and the first character so marked
+  will be returned in @arg{char}. Two @arg{marker} characters following each
+  other produce a single literal @arg{marker} character.
 
   If any error happens, @code{nil} is returned.
   @begin[Examples]{dictionary}

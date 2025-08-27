@@ -60,7 +60,7 @@
 
 (defconstant +scale+ 1024
  #+liber-documentation
- "@version{2025-4-15}
+ "@version{2025-04-15}
   @variable-value{1024}
   @begin{short}
     The @var{pango:+scale+} constant represents the scale between dimensions
@@ -83,9 +83,9 @@
 
 (defun pixels (d)
  #+liber-documentation
- "@version{2025-4-14}
+ "@version{2025-08-24}
   @argument[d]{a dimension in Pango units}
-  @return{The integer with the rounded dimension in device units.}
+  @return{The integer for the rounded dimension in device units.}
   @begin{short}
     Converts a dimension to device units by rounding.
   @end{short}
@@ -175,11 +175,11 @@
 
 (defun ascent (rect)
  #+liber-documentation
- "@version{2025-4-14}
-  @argument[rect]{a @symbol{pango:rectangle} instance}
-  @return{The integer with the ascent.}
+ "@version{2025-08-24}
+  @argument[rect]{a @sym{pango:rectangle} instance}
+  @return{The integer for the ascent.}
   @begin{short}
-    Extracts the ascent from a @symbol{pango:rectangle} instance representing
+    Extracts the ascent from a @sym{pango:rectangle} instance representing
     glyph extents.
   @end{short}
   The ascent is the distance from the baseline to the highest point of the
@@ -197,11 +197,11 @@
 
 (defun descent (rect)
  #+liber-documentation
- "@version{2025-4-14}
-  @argument[rect]{a @symbol{pango:rectangle} instance}
-  @return{The integer with the descent.}
+ "@version{2025-08-24}
+  @argument[rect]{a @sym{pango:rectangle} instance}
+  @return{The integer for the descent.}
   @begin{short}
-    Extracts the descent from a @symbol{pango:rectangle} instance representing
+    Extracts the descent from a @sym{pango:rectangle} instance representing
     glyph extents.
   @end{short}
   The descent is the distance from the baseline to the lowest point of the
@@ -219,12 +219,12 @@
 
 (defun lbearing (rect)
  #+liber-documentation
- "@version{2025-4-14}
-  @argument[rect]{a @symbol{pango:rectangle} instance}
-  @return{The integer with the left bearing.}
+ "@version{2025-08-24}
+  @argument[rect]{a @sym{pango:rectangle} instance}
+  @return{The integer for the left bearing.}
   @begin{short}
-    Extracts the left bearing from a @symbol{pango:rectangle} instance
-    representing glyph extents.
+    Extracts the left bearing from a @sym{pango:rectangle} instance representing
+    glyph extents.
   @end{short}
   The left bearing is the distance from the horizontal origin to the farthest
   left point of the character. This is positive for characters drawn completely
@@ -242,11 +242,11 @@
 
 (defun rbearing (rect)
  #+liber-documentation
- "@version{2025-4-14}
-  @argument[rect]{a @symbol{pango:rectangle} instance}
-  @return{The integer with the right bearing.}
+ "@version{2025-08-24}
+  @argument[rect]{a @sym{pango:rectangle} instance}
+  @return{The integer for the right bearing.}
   @begin{short}
-    Extracts the right bearing from a @symbol{pango:rectangle} instance
+    Extracts the right bearing from a @sym{pango:rectangle} instance
     representing glyph extents.
   @end{short}
   The right bearing is the distance from the horizontal origin to the farthest
@@ -267,11 +267,11 @@
 
 (defun extents-to-pixels (inclusive nearest)
  #+liber-documentation
- "@version{2025-4-14}
-  @argument[inclusive]{a @symbol{pango:rectangle} instance to round to
-    pixels inclusively, or @code{nil}}
-  @argument[nearest]{a @symbol{pango:rectangle} instance to round to
-    nearest pixels, or @code{nil}}
+ "@version{2025-08-24}
+  @argument[inclusive]{a @sym{pango:rectangle} instance to round to pixels
+    inclusively, or @code{nil}}
+  @argument[nearest]{a @sym{pango:rectangle} instance to round to nearest
+    pixels, or @code{nil}}
   @begin{short}
     Converts extents from Pango units to device units, dividing by the
     @var{pango:+scale+} factor and performing rounding.
