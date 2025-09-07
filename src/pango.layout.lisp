@@ -668,16 +668,14 @@
 (cffi:defcfun ("pango_layout_get_attributes" layout-attributes)
     (g:boxed attr-list)
  #+liber-documentation
- "@version{2025-02-15}
+ "@version{2025-08-28}
   @syntax{(pango:layout-attributes layout) => attrs}
   @syntax{(setf (pango:layout-attributes layout) attrs)}
   @argument[layout]{a @class{pango:layout} object}
   @argument[attrs]{a @class{pango:attr-list} instance, can be @code{nil}}
   @begin{short}
-    The @fun{pango:layout-attributes} function gets the attribute list for the
-    Pango layout, if any.
+    Gets or sets the text attributes for the Pango layout.
   @end{short}
-  The @setf{pango:layout-attributes} function sets the text attributes.
   @see-class{pango:layout}"
   (layout (g:object layout)))
 
