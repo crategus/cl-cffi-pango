@@ -1965,7 +1965,14 @@
 ;;; pango_attr_list_insert
 ;;; ----------------------------------------------------------------------------
 
-(cffi:defcfun ("pango_attr_list_insert" attr-list-insert) :void
+;; The function takes ownership of ATTRIBUTE to insert, therefore we pass in
+;; a copy of ATTRIBUTE.
+
+(cffi:defcfun ("pango_attr_list_insert" %attr-list-insert) :void
+  (attrlist (g:boxed attr-list))
+  (attribute (g:boxed attribute)))
+
+(defun attr-list-insert (attrlist attribute)
  #+liber-documentation
  "@version{2025-01-01}
   @argument[attrlist]{a @class{pango:attr-list} instance}
@@ -1976,8 +1983,7 @@
   It will be inserted after all other attributes with a matching start index.
   @see-class{pango:attr-list}
   @see-class{pango:attribute}"
-  (attrlist (g:boxed attr-list))
-  (attribute (g:boxed attribute)))
+  (%attr-list-insert attrlist (attribute-copy attribute)))
 
 (export 'attr-list-insert)
 
