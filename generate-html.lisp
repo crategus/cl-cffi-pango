@@ -1,7 +1,7 @@
 ;;; ----------------------------------------------------------------------------
-;;; liber.lisp
+;;; generate-html.lisp
 ;;;
-;;; Copyright (C) 2022 - 2025 Dieter Kaiser
+;;; Copyright (C) 2025 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -25,51 +25,53 @@
 #-liber-documentation
 (push :liber-documentation *features*)
 
-(asdf:load-system :liber)
+(asdf:load-system :liber/generate)
 (asdf:load-system :cl-cffi-pango :force t)
 
-(defpackage :liber-pango
+(defpackage :pango-documentation
   (:use :common-lisp)
   (:export :generate-html
            :generate-html-single-page))
 
-(in-package :liber-pango)
-
-;;; ---------------------------------------------------------------------------
+(in-package :pango-documentation)
 
 (defun generate-html ()
   (let* ((base (asdf:component-pathname (asdf:find-system :cl-cffi-pango)))
-         (output-directory (merge-pathnames "../books/cl-cffi-pango/" base))
-         (figures (merge-pathnames "../books/cl-cffi-pango/figures/" base)))
-    (format t "Generate HTML to ~a~%" output-directory)
+         (output (merge-pathnames "doc/" base)))
     (liber:generate-html-documentation
       '(:pango)
-      output-directory
+      base
+      output
       :author "Crategus"
       :author-url "http://www.crategus.com"
       :index-title "cl-cffi-pango API documentation"
       :heading "cl-cffi-pango"
       :css "crategus.css"
+      :icon "lambda.icon"
       :single-page-p nil
       :paginate-section-p nil
       :include-slot-definitions-p t
-      :include-internal-symbols-p nil)))
+      :include-internal-symbols-p nil
+      :delete-tmp-files-p t
+      :verbose t)))
 
 (defun generate-html-single-page ()
   (let* ((base (asdf:component-pathname (asdf:find-system :cl-cffi-pango)))
-         (output-directory
-             (merge-pathnames "../books/cl-cffi-pango/single-page/" base)))
-    (format t "Generate Single PAGE HTML to ~a~%" output-directory)
+         (output (merge-pathnames "doc/single-page/" base)))
     (liber:generate-html-documentation
       '(:pango)
-      output-directory
+      base
+      output
       :author "Crategus"
       :author-url "http://www.crategus.com"
       :index-title "cl-cffi-pango API documentation (single page)"
       :heading "cl-cffi-pango"
       :css "crategus.css"
+      :icon "lambda.icon"
       :single-page-p t
       :include-slot-definitions-p t
-      :include-internal-symbols-p nil)))
+      :include-internal-symbols-p nil
+      :delete-tmp-files-p t
+      :verbose t)))
 
-;;; --- End of file liber.lisp -------------------------------------------------
+;;; --- End of file generate-html.lisp -----------------------------------------

@@ -1,5 +1,8 @@
-*.tmp
-*.gresource
-*.png
-*.svg
 TODO
+example/out/*
+test/out/*
+doc/pages/*
+doc/single-page/*
+doc/index.*
+doc/lambda.icon
+generate-book.lisp
