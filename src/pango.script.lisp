@@ -602,7 +602,7 @@
   @see-class{pango:language}
   @see-function{pango:language-default}
   @see-function{pango:language-sample-string}"
-  (cffi:with-foreign-object (ptr '(g:boxed language))
+  (let (ptr)
     (unless (cffi:null-pointer-p (setf ptr (%language-preferred)))
       (iter (for count from 0)
             (for lang = (cffi:mem-aref ptr :pointer count))
