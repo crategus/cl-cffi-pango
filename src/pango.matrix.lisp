@@ -272,7 +272,7 @@
          ;; One argument with a rectangle for initialization
          (let ((rect (first args)))
            `(cffi:with-foreign-object (,var '(:struct rectangle))
-              (cffi:with-foreign-slots ((x y width heigt)
+              (cffi:with-foreign-slots ((x y width height)
                                         ,var
                                         (:struct rectangle))
                 (setf x (rectangle-x ,rect))
