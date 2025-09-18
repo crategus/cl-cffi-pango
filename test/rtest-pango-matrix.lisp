@@ -40,8 +40,16 @@
 
 (test pango-with-rectangles.2
   (pango:with-rectangles ((rect1 1 2 3 4) (rect2 rect1))
+    (is (= 1 (pango:rectangle-x rect1)))
+    (is (= 2 (pango:rectangle-y rect1)))
+    (is (= 3 (pango:rectangle-width rect1)))
+    (is (= 4 (pango:rectangle-height rect1)))
     (is (equal '(1 2 3 4)
                (multiple-value-list (pango:rectangle-to-integer rect1))))
+    (is (= 1 (pango:rectangle-x rect2)))
+    (is (= 2 (pango:rectangle-y rect2)))
+    (is (= 3 (pango:rectangle-width rect2)))
+    (is (= 4 (pango:rectangle-height rect2)))
     (is (equal '(1 2 3 4)
                (multiple-value-list (pango:rectangle-to-integer rect2))))))
 

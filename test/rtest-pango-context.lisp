@@ -122,21 +122,16 @@
 
 (test pango-context-load-font
   (let ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
-        (desc (pango:font-description-from-string "Sans"))
-        font)
-    (is (typep (setf font
-                     (pango:context-load-font context desc)) 'pango:font))))
+        (desc (pango:font-description-from-string "Sans")))
+    (is (typep (pango:context-load-font context desc) 'pango:font))))
 
 ;;;     pango_context_load_fontset
 
 (test pango-context-load-fontset
   (let ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
         (desc (pango:font-description-from-string "Sans"))
-        (lang (pango:language-default))
-        fontset)
-    (is (typep (setf fontset
-                     (pango:context-load-fontset context desc lang))
-               'pango:fontset))))
+        (lang (pango:language-default)))
+    (is (typep (pango:context-load-fontset context desc lang) 'pango:fontset))))
 
 ;;;     pango_context_get_metrics
 
@@ -157,4 +152,4 @@
                (mapcar #'pango:font-family-name
                        (pango:context-list-families context))))))
 
-;;; 2024-9-18
+;;; 2025-09-17

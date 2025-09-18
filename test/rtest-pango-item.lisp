@@ -96,16 +96,14 @@
   (let* ((text "This is some text.")
          (fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
-         item item1)
+         item)
     (is (typep (setf item
                      (first (pango:itemize context
                                            text
                                            0 (length text)
                                            nil nil)))
                'pango:item))
-    (is (typep (setf item1
-                     (pango:item-split item 5 1))
-               'pango:item))))
+    (is (typep (pango:item-split item 5 1) 'pango:item))))
 
 ;;;     pango_item_apply_attrs
 ;;;     pango_item_get_char_offset
@@ -307,4 +305,4 @@
 ;;;     pango_shape_full
 ;;;     pango_shape_with_flags
 
-;;; 2025-4-14
+;;; 2025-09-17

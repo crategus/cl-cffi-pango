@@ -68,14 +68,11 @@
 (test pango-cairo-font-map-default
   (when *first-run-testsuite*
     (glib-test:with-check-memory (:strong 1)
-      (let (fontmap)
-        (is (typep (setf fontmap
-                         (setf (pango:cairo-font-map-default)
-                               (pango:cairo-font-map-new)))
-                   'pango:font-map))
-        (is (typep (pango:cairo-font-map-default) 'pango:font-map))
-        (is (typep (setf fontmap (pango:cairo-font-map-default)) 'pango:font-map))
-        (is (typep (pango:cairo-font-map-default) 'pango:font-map))))))
+      (is (typep (setf (pango:cairo-font-map-default)
+                       (pango:cairo-font-map-new)) 'pango:font-map))
+      (is (typep (pango:cairo-font-map-default) 'pango:font-map))
+      (is (typep (pango:cairo-font-map-default) 'pango:font-map))
+      (is (typep (pango:cairo-font-map-default) 'pango:font-map)))))
 
 ;;;     pango_cairo_font_map_new
 
@@ -432,4 +429,4 @@
 ;;;     pango_cairo_layout_path
 ;;;     pango_cairo_error_underline_path
 
-;;; 2025-1-1
+;;; 2025-09-17

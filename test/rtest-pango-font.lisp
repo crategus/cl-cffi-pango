@@ -267,16 +267,13 @@
   (let* ((fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
          (desc (pango:font-description-from-string "Sans 12"))
-         (font (pango:font-map-load-font fontmap context desc))
-         coverage)
-    (is (typep (setf coverage
-                     (pango:font-coverage font
-                                          (pango:language-default)))
+         (font (pango:font-map-load-font fontmap context desc)))
+    (is (typep (pango:font-coverage font (pango:language-default))
                'pango:coverage))))
 
 ;;;     pango_font_has_char
 
-(test pango-font-coverage
+(test pango-font-has-char
   (let* ((fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
          (desc (pango:font-description-from-string "Sans 12"))
@@ -627,10 +624,8 @@
 (test pango-font-map-load-font
   (let* ((fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
-         (desc (pango:font-description-from-string "Sans 12"))
-         font)
-    (is (typep (setf font (pango:font-map-load-font fontmap context desc))
-               'pango:font))))
+         (desc (pango:font-description-from-string "Sans 12")))
+    (is (typep (pango:font-map-load-font fontmap context desc) 'pango:font))))
 
 ;;;     pango_font_map_load_fontset
 
@@ -784,4 +779,4 @@
     (is (= 1 (g:object-ref-count context)))
     (is (= 2 (g:object-ref-count fontset)))))
 
-;;; 2025-08-16
+;;; 2025-09-17
