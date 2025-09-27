@@ -1054,7 +1054,7 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_get_justify" layout-justify) :boolean
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-02-15}
   @syntax{(pango:layout-justify layout) => justify}
   @syntax{(setf (pango:layout-justify layout) justify)}
   @argument[layout]{a @class{pango:layout} object}
@@ -1215,7 +1215,7 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_get_single_paragraph_mode"
                 layout-single-paragraph-mode) :boolean
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-02-15}
   @syntax{(pango:layout-tabs layout) => tabs}
   @syntax{(setf (pango:layout-tabs layout) tabs)}
   @argument[layout]{a @class{pango:layout} object}
@@ -2502,7 +2502,7 @@ baseline2 = baseline1 + factor * height2
 
 (cffi:defcfun ("pango_layout_line_get_x_ranges" layout-line-x-ranges) :void
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-02-15}
   @argument[line]{a @class{pango:layout-line} instance}
   @argument[start]{an integer for the start byte index of the logical range.
     If this value is less than the start index for the line, then the first
@@ -2573,7 +2573,7 @@ baseline2 = baseline1 + factor * height2
 (cffi:defcfun ("pango_layout_line_is_paragraph_start"
                 layout-line-is-paragraph-start) :boolean
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-02-15}
   @argument[line]{a @class{pango:layout-line} instance}
   @return{@em{True} if this is the first line.}
   @begin{short}
@@ -2601,7 +2601,7 @@ baseline2 = baseline1 + factor * height2
 
 (defun layout-line-x-to-index (line xpos)
  #+liber-documentation
- "@version{#2025-2-15}
+ "@version{#2025-02-15}
   @syntax{(pango:layout-line-x-to-index line xpos) => index, trailing, bool}
   @argument[line]{a @class{pango:layout-line} instance}
   @argument[xpos]{an integer for the x offset (in Pango units) from the left

@@ -321,7 +321,7 @@
 (cffi:defcfun ("pango_cairo_font_map_create_context"
                 cairo-font-map-create-context) (g:object context)
  #+liber-documentation
- "@version{#2025-1-1}
+ "@version{#2025-01-01}
   @argument[fontmap]{a @class{pango:cairo-font-map} object}
   @return{The newly created @class{pango:context} object.}
   @begin{short}
