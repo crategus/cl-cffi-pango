@@ -270,10 +270,10 @@
 (cffi:defcfun ("pango_font_metrics_get_strikethrough_position"
                 font-metrics-strikethrough-position) :int
  #+liber-documentation
- "@version{2025-04-14}
+ "@version{2025-09-29}
   @argument[metrics]{a @class{pango:font-metrics} instance}
   @begin{return}
-    The integer with the suggested strikethrough position, in Pango units.
+    The integer for the suggested strikethrough position, in Pango units.
   @end{return}
   @begin{short}
     Gets the suggested position to draw the strikethrough.
