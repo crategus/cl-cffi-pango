@@ -145,7 +145,7 @@
 (cffi:defcfun ("pango_cairo_font_map_get_default" cairo-font-map-default)
     (g:object font-map)
  #+liber-documentation
- "@version{2025-08-24}
+ "@version{2025-11-02}
   @syntax{(pango:cairo-font-map-default) => fontmap}
   @syntax{(setf (pango:cairo-font-map-default) fontmap)}
   @argument[fontmap]{a @class{pango:font-map} object, or @code{nil}}
@@ -161,9 +161,9 @@
   uses. The old default font map is unreffed and the new font map referenced.
 
   Note that the default font map is per-thread. This function only changes the
-  default fontmap for the current thread. Default fontmaps of exisiting threads
-  are not changed. Default fontmaps of any new threads will still be created
-  using the @fun{pango:cairo-font-map-new} function.
+  default font map for the current thread. Default font maps of exisiting
+  threads are not changed. Default font maps of any new threads will still be
+  created using the @fun{pango:cairo-font-map-new} function.
 
   A @code{nil} value for @arg{fontmap} will cause the current default font map
   to be released and a new default font map to be created on demand, using the

@@ -1054,7 +1054,7 @@
 (cffi:defcfun ("pango_font_map_create_context" font-map-create-context)
     (g:object context :return)
  #+liber-documentation
- "@version{2024-03-06}
+ "@version{2025-11-02}
   @argument[fontmap]{a @class{pango:font-map} object}
   @begin{return}
     The newly allocated @class{pango:context} object.
@@ -1066,7 +1066,7 @@
   the @fun{pango:context-font-map} function.
 
   If you are using Pango as part of a higher-level system, that system may have
-  it's own way of create a Pango context. For instance, the GTK toolkit has the
+  its own way of creating a Pango context. For instance, the GTK toolkit has the
   @fun{gtk:widget-pango-context} function. Use this instead.
   @see-class{pango:font-map}
   @see-class{pango:context}
@@ -1112,7 +1112,7 @@
 (cffi:defcfun ("pango_font_map_load_fontset" font-map-load-fontset)
     (g:object fontset :return)
  #+liber-documentation
- "@version{2024-03-06}
+ "@version{2025-11-02}
   @argument[fontmap]{a @class{pango:font-map} object}
   @argument[context]{a @class{pango:context} object the font will be used
     with}
@@ -1125,14 +1125,14 @@
     no font matched.
   @end{return}
   @begin{short}
-    Load a set of fonts in the fontmap that can be used to render a font
+    Loads a set of fonts in @arg{fontmap} that can be used to render a font
     matching @arg{desc}.
   @end{short}
   @see-class{pango:font-map}
   @see-class{pango:context}
   @see-class{pango:font-description}
   @see-class{pango:language}
-  @see-class{pango:font-set}"
+  @see-class{pango:fontset}"
   (fontmap (g:object font-map))
   (context (g:object context))
   (desc (g:boxed font-description))
