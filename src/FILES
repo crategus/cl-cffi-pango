@@ -1,57 +1,59 @@
 Content from the Pango 1.56 Reference Manual
 
-    *   - needs update
-    %   - not fully implemented
-    &   - objects and structures are implemented, some functions are missing
+    .   needs proofreading
+    *   needs update
+    +   needs work
+    %   not fully implemented
+    &   objects and structures are implemented, but functions are missing
 
 Basic Pango Interfaces
 
-  pango.item.lisp - Functions to run the rendering pipeline       - Pango 1.56
-  pango.font-description.lisp - PangoFontDescription              - Pango 1.56
-  pango.font-metrics.lisp - PangoFontMetrics                      - Pango 1.56
-  pango.font.lisp - Structures representing abstract fonts        - Pango 1.56 .
-  pango.glyph.lisp - Storing information about glyphs             - Pango 1.56&.
-  pango.attributes.lisp - Attributes for annotating text          - Pango 1.56 .
-  pango.markup.lisp - Markup language for text with attributes    - Pango 1.56 &
-  pango.layout.lisp - High-level layout driver objects            - Pango 1.56
-  pango.script.lisp - Scripts and Languages                       - Pango 1.56&.
-  pango.bidirectional.lisp - Handling bidirectional text          - Pango 1.56 .
-  pango.gravity.lisp - Text layout in vertical directions         - Pango 1.56 .
+  pango.item.lisp              Run the rendering pipeline          Pango 1.56
+  pango.font-description.lisp  PangoFontDescription                Pango 1.56
+  pango.font-metrics.lisp      PangoFontMetrics                    Pango 1.56
+  pango.font.lisp              Representing abstract fonts         Pango 1.56 .
+  pango.glyph.lisp             Storing information about glyphs    Pango 1.56 &.
+  pango.attributes.lisp        Attributes for annotating text      Pango 1.56 .
+  pango.markup.lisp            Markup language                     Pango 1.56 &
+  pango.layout.lisp            High-level layout driver objects    Pango 1.56
+  pango.script.lisp            Scripts and Languages               Pango 1.56 &.
+  pango.bidirectional.lisp     Handling bidirectional text         Pango 1.56 .
+  pango.gravity.lisp           Text layout in vertical directions  Pango 1.56 .
 
 Rendering with Pango
 
-  pango.cairo-rendering - Rendering with the Cairo backend        - Pango 1.56 .
+  pango.cairo-rendering        Rendering with the Cairo backend    Pango 1.56 .
 
-  not implemented - Win32 Fonts and Rendering
-  not implemented - CoreText Fonts and Rendering
-  not implemented - FreeType Fonts and Rendering
-  not implemented - Xft Fonts and Rendering
+  not implemented              Win32 Fonts and Rendering
+  not implemented              CoreText Fonts and Rendering
+  not implemented              FreeType Fonts and Rendering
+  not implemented              Xft Fonts and Rendering
 
 Low Level Functionality
 
-  pango.context.lisp   - Global context object                    - Pango 1.56 .
-  pango.tab-array.lisp - Structures for storing tab stops         - Pango 1.56 .
-  pango.coverage.lisp  - Unicode character coverage storage       - Pango 1.56 .
-  pango.renderer.lisp  - Rendering driver base class              - Pango 1.56&.
+  pango.context.lisp           Global context object               Pango 1.56 .
+  pango.tab-array.lisp         Structures for storing tab stops    Pango 1.56 .
+  pango.coverage.lisp          Unicode character coverage storage  Pango 1.56 .
+  pango.renderer.lisp          Rendering driver base class         Pango 1.56 &.
 
-  not implemented - PangoFcFontMap
-  not implemented - PangoFcFont
-  not implemented - PangoFcDecoder
-  not implemented - Miscellaneous Utilities
+  not implemented              PangoFcFontMap
+  not implemented              PangoFcFont
+  not implemented              PangoFcDecoder
+  not implemented              Miscellaneous Utilities
 
 Utilities
 
-  pango.matrix.lisp  - PangoRectangle, PangoMatrix                - Pango 1.56 .
-  pango.utils.lisp   - Utility constants and functions            - Pango 1.56
-  pango.color.lisp   - PangoColor                                 - Pango 1.56 .
-  pango.version.lisp - Version Checking                           - Pango 1.56 .
+  pango.matrix.lisp            PangoRectangle, PangoMatrix         Pango 1.56 .
+  pango.utils.lisp             Utility constants and functions     Pango 1.56
+  pango.color.lisp             PangoColor                          Pango 1.56 .
+  pango.version.lisp           Version Checking                    Pango 1.56 .
 
 Deprecated APIs
 
-  not implemented - OpenType Font Handling
-  not implemented - Engines
-  not implemented - PangoEngineLang
-  not implemented - PangoEngineShape
-  not implemented - Modules
+  not implemented              OpenType Font Handling
+  not implemented              Engines
+  not implemented              PangoEngineLang
+  not implemented              PangoEngineShape
+  not implemented              Modules
 
-2025-08-24
+2025-11⁻02
