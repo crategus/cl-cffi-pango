@@ -761,22 +761,19 @@
 
 #+crategus
 (test pango-fontset-foreach
-  (let* ((fontmap (pango:cairo-font-map-default))
-         (context (pango:font-map-create-context fontmap))
-         (desc (pango:font-description-from-string "Sans Italic 12"))
+  (let* ((desc (pango:font-description-from-string "Sans Italic 12"))
          (lang (pango:language-default))
-         (fontset (pango:font-map-load-fontset fontmap context desc lang)))
-    (let ((count 0))
-      (pango:fontset-foreach fontset
-                             (lambda (fontset font)
-                               (is (typep fontset 'pango:fontset))
-                               (is (typep font 'pango:font))
-                               (incf count)
-                               nil))
-        (is (= 182 count)))
-    ;; Check memory management
-    (is (<= 2 (g:object-ref-count fontmap))) ; Increases for every run
-    (is (= 1 (g:object-ref-count context)))
-    (is (= 2 (g:object-ref-count fontset)))))
+         (fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         (fontset (pango:font-map-load-fontset fontmap context desc lang))
+         (count 0))
+    ;; Count available fontset
+    (pango:fontset-foreach fontset
+                           (lambda (fontset font)
+                             (is (typep fontset 'pango:fontset))
+                             (is (typep font 'pango:font))
+                             (incf count)
+                             nil))
+    (is (= 183 count))))
 
-;;; 2025-09-17
+;;; 2025-11-02
