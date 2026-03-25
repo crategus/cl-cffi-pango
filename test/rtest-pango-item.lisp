@@ -92,18 +92,49 @@
 
 ;;;     pango_item_split
 
-(test pango-item-split
+(test pango-item-split.1
   (let* ((text "This is some text.")
          (fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
-         item)
-    (is (typep (setf item
-                     (first (pango:itemize context
-                                           text
-                                           0 (length text)
-                                           nil nil)))
-               'pango:item))
-    (is (typep (pango:item-split item 5 1) 'pango:item))))
+         items item)
+    ;; Itemize the text
+    (setf items (pango:itemize context text 0 (length text) nil nil))
+    (is (= 1 (length items)))
+    (is (= 18 (pango:item-length (first items))))
+    (is (= 18 (pango:item-num-chars (first items))))
+    (is (=  0 (pango:item-offset (first items))))
+    ;; Split the first item in items
+    (is (typep (setf item (pango:item-split (first items) 5 5)) 'pango:item))
+    ;; Length and offset for split item
+    (is (= 5 (pango:item-length item)))
+    (is (= 5 (pango:item-num-chars item)))
+    (is (= 0 (pango:item-offset item)))
+    ;; Length and offset for original item after split
+    (is (= 13 (pango:item-length (first items))))
+    (is (= 13 (pango:item-num-chars (first items))))
+    (is (=  5 (pango:item-offset (first items))))))
+
+(test pango-item-split.2
+  (let* ((text "Zwölf Ägypter gehen über die Straße.")
+         (fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         items item)
+    ;; Itemize the text
+    (setf items (pango:itemize context text 0 (length text) nil nil))
+    (is (= 1 (length items)))
+    (is (= 36 (pango:item-length (first items))))
+    (is (= 33 (pango:item-num-chars (first items))))
+    (is (=  0 (pango:item-offset (first items))))
+    ;; Split the first item in items
+    (is (typep (setf item (pango:item-split (first items) 5 5)) 'pango:item))
+    ;; Length and offset for split item
+    (is (= 5 (pango:item-length item)))
+    (is (= 5 (pango:item-num-chars item)))
+    (is (= 0 (pango:item-offset item)))
+    ;; Length and offset for original item after split
+    (is (= 31 (pango:item-length (first items))))
+    (is (= 28 (pango:item-num-chars (first items))))
+    (is (=  5 (pango:item-offset (first items))))))
 
 ;;;     pango_item_apply_attrs
 ;;;     pango_item_get_char_offset
@@ -119,7 +150,7 @@
     (is (= 1 (length (setf items
                            (pango:itemize context
                                           text
-                                          0 (length text)
+                                          0 (babel:string-size-in-octets text)
                                           (pango:attr-list-from-string "")
                                           nil)))))
     ;; Get the item
@@ -157,7 +188,7 @@
     (is (= 5 (length (setf items
                            (pango:itemize context
                                           text
-                                          0 (length text)
+                                          0 (babel:string-size-in-octets text)
                                           attrs
                                           iter)))))
     (is (every (lambda (x) (typep x 'pango:item)) items))))
@@ -173,7 +204,7 @@
     (is (= 5 (length (setf items
                            (pango:itemize context
                                           text
-                                          0 (length text)
+                                          0 (babel:string-size-in-octets text)
                                           attrs
                                           iter)))))
     (setf item (first items))
@@ -234,9 +265,21 @@
                (mapcar #'pango:attribute-type
                       (pango:analysis-extra-attrs analysis))))))
 
-;;;     pango_itemize_with_base_dir
+;; Simpler version with no attributes
+(test pango-itemize.3
+  (let* ((text "Zwölf Ägypter gehen über die Straße.")
+         (fontmap (pango:cairo-font-map-default))
+         (context (pango:font-map-create-context fontmap))
+         items)
+    (is (= 1 (length (setf items
+                           (pango:itemize context
+                                          text
+                                          0 (babel:string-size-in-octets text)
+                                          nil
+                                          nil)))))
+    (is (every (lambda (x) (typep x 'pango:item)) items))))
 
-(test pango-itemize-with-base-dir
+(test pango-itemize.4
   (let* ((text "This is some text.")
          (fontmap (pango:cairo-font-map-default))
          (context (pango:font-map-create-context fontmap))
@@ -247,18 +290,53 @@
     (is (typep attrs 'pango:attr-list))
     (is (typep iter 'pango:attr-iterator))
     (is (= 5 (length (setf items
-                           (pango:itemize-with-base-dir context
-                                                        :ltr
-                                                        text
-                                                        0 (length text)
-                                                        attrs
-                                                        iter)))))
+                           (pango:itemize context
+                                          text
+                                          0 (length text)
+                                          attrs
+                                          iter
+                                          :direction :ltr)))))
     (is (every (lambda (x) (typep x 'pango:item)) items))))
+
+;;;     pango_itemize_with_base_dir                         not needed
 
 ;;;     pango_reorder_items                                not implemented
 ;;;     pango_break                                        not implemented
 ;;;     pango_get_log_attrs                                not implemented
+
 ;;;     pango_find_paragraph_boundary                      not implemented
+
+(test pango-find-paragraph-boundary.1
+  (let* ((text *sample-text-1*))
+
+    (is (equal '(78 79)
+               (multiple-value-list (pango:find-paragraph-boundary text))))
+
+    ;; First line of text
+    (multiple-value-bind (index next)
+        (pango:find-paragraph-boundary text)
+      (is (string= "Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien"
+                   (subseq text 0 (1- index))))
+      (is (= 1788 (length (setf text (subseq text (1- next)))))))
+    ;; Second line of text
+    (multiple-value-bind (index next)
+        (pango:find-paragraph-boundary text)
+      (is (string= "leben die Blindtexte. Abgeschieden wohnen Sie in Buchstabenhausen an der Küste"
+                   (subseq text 0 (1- index))))
+      (is (= 1709 (length (setf text (subseq text (1- next)))))))
+))
+
+(test pango-find-paragraph-boundary.2
+  (let ((text *sample-text-1*))
+    (iter (while (not (string= "" text)))
+          (multiple-value-bind (index next)
+              (pango:find-paragraph-boundary text)
+            (format t "~a,~a : ~a~%~%" index next (subseq text 0 index))
+            (setf text
+                  (babel:octets-to-string (subseq (babel:string-to-octets text)
+                                                   next)))))
+))
+
 ;;;     pango_default_break                                not exported
 ;;;     pango_tailor_break                                 not exported
 
@@ -298,11 +376,67 @@
                                         (pango:item-offset item)
                                         (+ (pango:item-offset item)
                                            (pango:item-length item))))
-                            (pango:item-length item)
                             (pango:item-analysis item))
                 'pango:glyph-string))))
+
+;; Finish this example, handle line breaks
+(test pango-shape.2
+  (cairo:with-context-for-image-surface (cr :argb32 800 1200)
+    (let* ((text *sample-text-1*)
+           (path (glib-sys:sys-path "test/out/pango-shape-2.png"))
+           (context (pango:cairo-create-context cr))
+           items text1
+;          (attrstr "5 7 weight bold, 8 12 foreground red")
+;          (attrs (pango:attr-list-from-string attrstr))
+;          (iter (pango:attr-list-iterator attrs))
+;          (items (pango:itemize context
+;                                text
+;                                0
+;                                (babel:string-size-in-octets text)
+;                                attrs
+;                                iter))
+                                 )
+      ;; Clear the background
+      (cairo:set-source-rgb cr 1.0 1.0 1.0)
+      (cairo:paint cr)
+      ;; Set the color
+      (cairo:set-source-rgb cr 0.5 0.5 0.5)
+      ;; Move to the start position of the text
+      (cairo:move-to cr 24 36)
+
+      (iter (while (not (string= "" text)))
+        (multiple-value-bind (index next)
+            (pango:find-paragraph-boundary text)
+
+          (format t "~&~a,~a : ~a~%~%" index next (subseq text 0 index))
+
+          (setf text1 (subseq text 0 index))
+          (setf items (pango:itemize context
+                                     text1
+                                     0
+                                     (babel:string-size-in-octets text1)
+                                     nil
+                                     nil))
+          (dolist (item items)
+            (let ((font (pango:analysis-font (pango:item-analysis item)))
+                  (glyphs (pango:shape (babel:octets-to-string
+                                              (subseq (babel:string-to-octets text1)
+                                                      (pango:item-offset item)
+                                                      (+ (pango:item-offset item)
+                                                         (pango:item-length item))))
+                                            (pango:item-analysis item))))
+              ;; Print the text on the Cario context
+              (pango:cairo-show-glyph-string cr font glyphs)
+              (cairo:rel-move-to cr 0 24)))
+
+            (setf text
+                  (babel:octets-to-string (subseq (babel:string-to-octets text)
+                                                   next)))))
+
+      ;; Create and save the PNG image
+      (cairo:surface-write-to-png (cairo:target cr) path))))
 
 ;;;     pango_shape_full
 ;;;     pango_shape_with_flags
 
-;;; 2025-09-17
+;;; 2026-03-23
