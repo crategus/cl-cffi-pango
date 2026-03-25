@@ -6,7 +6,7 @@
 ;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2025 Dieter Kaiser
+;;; Copyright (C) 2011 - 2026 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -46,7 +46,7 @@
 ;;;     pango_cairo_font_map_set_resolution
 ;;;     pango_cairo_font_map_get_resolution
 ;;;     pango_cairo_font_map_create_context                not exported
-;;;     pango_cairo_font_get_scaled_font                   not exported
+;;;     pango_cairo_font_get_scaled_font
 ;;;
 ;;;     pango_cairo_context_set_resolution
 ;;;     pango_cairo_context_get_resolution
@@ -338,13 +338,16 @@
   (fontmap (g:object cairo-font-map)))
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_cairo_font_get_scaled_font                        not exported
+;;; pango_cairo_font_get_scaled_font
 ;;; ----------------------------------------------------------------------------
 
-(cffi:defcfun ("pango_cairo_font_get_scaled_font" cairo-font-scaled-font)
+(cffi:defcfun ("pango_cairo_font_get_scaled_font" %cairo-font-scaled-font)
     (:pointer (:struct cairo:scaled-font-t))
+  (font (g:object font)))
+
+(defun cairo-font-scaled-font (font)
  #+liber-documentation
- "@version{#2025-08-24}
+ "@version{2026-03-16}
   @argument[font]{a @class{pango:font} object from a
     @class{pango:cairo-font-map} object}
   @begin{return}
@@ -355,11 +358,14 @@
     Gets the @sym{cairo:scaled-font-t} instance used by @arg{font}.
   @end{short}
   The scaled font can be referenced and kept using the
-  @fun{cairo-scaled-font-reference} function.
+  @fun{cairo:scaled-font-reference} function.
   @see-class{pango:cairo-font}
   @see-symbol{cairo:scaled-font-t}
   @see-function{cairo:scaled-font-reference}"
-  (font (g:object cairo-font)))
+  (when font
+    (%cairo-font-scaled-font font)))
+
+(export 'cairo-font-scaled-font)
 
 ;;; ----------------------------------------------------------------------------
 ;;; pango_cairo_context_get_resolution
