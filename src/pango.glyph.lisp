@@ -6,7 +6,7 @@
 ;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2025 Dieter Kaiser
+;;; Copyright (C) 2011 - 2026 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -55,17 +55,17 @@
 ;;;     pango_glyph_string_new
 ;;;     pango_glyph_string_copy
 ;;;     pango_glyph_string_set_size
-;;;     pango_glyph_string_free
+;;;     pango_glyph_string_free                             not needed
 ;;;     pango_glyph_string_extents
 ;;;     pango_glyph_string_extents_range
 ;;;     pango_glyph_string_get_width
 ;;;     pango_glyph_string_index_to_x
-;;;     pango_glyph_string_index_to_x_full                 Since 1.50
+;;;     pango_glyph_string_index_to_x_full                  Since 1.50
 ;;;     pango_glyph_string_x_to_index
 ;;;     pango_glyph_string_get_logical_widths
 ;;;
 ;;;     pango_glyph_item_copy
-;;;     pango_glyph_item_free
+;;;     pango_glyph_item_free                               not needed
 ;;;     pango_glyph_item_split
 ;;;     pango_glyph_item_apply_attrs
 ;;;     pango_glyph_item_letter_space
@@ -229,14 +229,43 @@
 (setf (liber:alias-for-class 'glyph-string)
       "GBoxed"
       (documentation 'glyph-string 'type)
- "@version{2024-03-06}
+ "@version{2026-03-08}
+  @begin{declaration}
+(glib:define-gboxed-opaque glyph-string \"PangoGlyphString\"
+  :export t
+  :type-initializer \"pango_glyph_string_get_type\"
+  :alloc (%glyph-string-new))
+  @end{declaration}
   @begin{short}
     The @class{pango:glyph-string} structure is used to store strings of glyphs
     with geometry and visual attribute information.
   @end{short}
   The storage for the glyph information is owned by the structure which
   simplifies memory management.
-  @see-class{pango:glyph-item}")
+  @begin[Examples]{dictionary}
+    Create a glyph string using the @fun{pango:shape} function.
+    @begin{pre}
+(let* ((text \"Zwölf Ägypter gehen über die Straße.\")
+       (fontmap (pango:cairo-font-map-default))
+       (context (pango:font-map-create-context fontmap))
+       (items (pango:itemize context
+                             text
+                             0
+                             (babel:string-size-in-octets text)
+                             nil
+                             nil))
+       (item (first items))
+       (glyphs (pango:shape text
+                            (pango:item-length item)
+                            (pango:item-analysis item))))
+  glyphs)
+=> #<PANGO:GLYPH-STRING {10055AAA13@}>
+    @end{pre}
+  @end{dictionary}
+  @see-constructor{pango:glyph-string-new}
+  @see-constructor{pango:glyph-string-copy}
+  @see-class{pango:glyph-item}
+  @see-function{pango:shape}")
 
 ;;; ----------------------------------------------------------------------------
 ;;; PangoGlyphItem
@@ -251,7 +280,13 @@
 (setf (liber:alias-for-class 'glyph-item)
       "GBoxed"
       (documentation 'glyph-item 'type)
- "@version{2025-12-09}
+ "@version{2026-03-08}
+  @begin{declaration}
+(glib:define-gboxed-opaque glyph-item \"PangoGlyphItem\"
+  :export t
+  :type-initializer \"pango_glyph_item_get_type\"
+  :alloc (error \"PangoGlyphItem cannot be created from the Lisp side.\"))
+  @end{declaration}
   @begin{short}
     The @class{pango:glyph-item} structure is a pair of a @class{pango:item}
     instance and the glyphs resulting from shaping the text corresponding to
@@ -261,6 +296,7 @@
   results of shaping text with the @class{pango:layout} class is a list of
   @class{pango:layout-line} objects, each of which contains a list of
   @class{pango:glyph-item} instances.
+  @see-constructor{pango:glyph-item-copy}
   @see-class{pango:item}
   @see-class{pango:layout}
   @see-class{pango:layout-line}")
@@ -332,7 +368,7 @@
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_string_new ()
+;;; pango_glyph_string_new
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_glyph_string_new" %glyph-string-new) :pointer)
@@ -340,7 +376,7 @@
 (cffi:defcfun ("pango_glyph_string_new" glyph-string-new)
     (g:boxed glyph-string :return)
  #+liber-documentation
- "@version{#2025-12-09}
+ "@version{2026-03-08}
   @return{The newly allocated @class{pango:glyph-string} instance.}
   @short{Creates a new glyph string.}
   @see-class{pango:glyph-string}")
@@ -348,90 +384,77 @@
 (export 'glyph-string-new)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_string_copy ()
+;;; pango_glyph_string_copy
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_glyph_string_copy" glyph-string-copy)
     (g:boxed glyph-string :return)
  #+liber-documentation
- "@version{#2025-12-09}
-  @argument[str]{a @class{pango:glyph-string} instance, may be nil}
+ "@version{2026-03-08}
+  @argument[glyphs]{a @class{pango:glyph-string} instance, may be nil}
   @begin{return}
     The newly allocated @class{pango:glyph-string} instance, or @code{nil} if
-    @arg{str} is @code{nil}.
+    @arg{glyphs} is @code{nil}.
   @end{return}
   @short{Copies a glyph string and associated storage.}
   @see-class{pango:glyph-string}"
-  (string (g:boxed glyph-string)))
+  (glyphs (g:boxed glyph-string)))
 
 (export 'glyph-string-copy)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_string_set_size ()
-;;;
-;;; void pango_glyph_string_set_size (PangoGlyphString *string, gint new_len);
-;;;
-;;; Resize a glyph string to the given length.
-;;;
-;;; string :
-;;;     a PangoGlyphString.
-;;;
-;;; new_len :
-;;;     the new length of the string.
+;;; pango_glyph_string_set_size
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_glyph_string_set_size" glyph-string-set-size) :void
-  (string (g:boxed glyph-string))
+ #+liber-documentation
+ "@version{2026-03-08}
+  @argument[glyphs]{a @class{pango:glyph-string} instance}
+  @argument[len]{an integer for the new length of @arg{glyphs}}
+  @begin{short}
+    Resize a glyph string to the given length.
+  @end{short}
+  @see-class{pango:glyph-string}"
+  (glyphs (g:boxed glyph-string))
   (len :int))
 
 (export 'glyph-string-set-size)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_string_free ()
-;;;
-;;; void pango_glyph_string_free (PangoGlyphString *string);
-;;;
-;;; Free a glyph string and associated storage.
-;;;
-;;; string :
-;;;     a PangoGlyphString, may be NULL
+;;; pango_glyph_string_free                                 not needed
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_string_extents ()
-;;;
-;;; void pango_glyph_string_extents (PangoGlyphString *glyphs,
-;;;                                  PangoFont *font,
-;;;                                  PangoRectangle *ink_rect,
-;;;                                  PangoRectangle *logical_rect);
-;;;
-;;; Compute the logical and ink extents of a glyph string. See the documentation
-;;; for pango_font_get_glyph_extents() for details about the interpretation of
-;;; the rectangles.
-;;;
-;;; glyphs :
-;;;     a PangoGlyphString
-;;;
-;;; font :
-;;;     a PangoFont
-;;;
-;;; ink_rect :
-;;;     rectangle used to store the extents of the glyph string as drawn or NULL
-;;;     to indicate that the result is not needed
-;;;
-;;; logical_rect :
-;;;     rectangle used to store the logical extents of the glyph string or NULL
-;;;     to indicate that the result is not needed
+;;; pango_glyph_string_extents
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_glyph_string_extents" %glyph-string-extents) :void
-  (glyph (g:boxed glyph-string))
+  (glyphs (g:boxed glyph-string))
   (font (g:object font))
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
 
-(defun glyph-string-extents (glyph font ink logical)
-  (%glyph-string-extents glyph
+(defun glyph-string-extents (glyphs font ink logical)
+ #+liber-documentation
+ "@version{2026-03-08}
+  @argument[glyphs]{a @class{pango:glyph-string} instance}
+  @argument[font]{a @class{pango:font} instance}
+  @argument[ink]{a @symbol{pango:rectangle} instance used to store the extents
+    of the glyph string as drawn or nil to indicate that the result is not
+    needed}
+  @argument[logical]{a @symbol{pango:rectangle} instance used to store the
+    logical extents of the glyph string or nil to indicate that the result is
+    not needed}
+  @begin{short}
+    Compute the logical and ink extents of a glyph string.
+  @end{short}
+  See the documentation for the @fun{pango:font-glyph-extents} function for
+  details about the interpretation of the rectangles.
+  @see-class{pango:glyph-string}
+  @see-class{pango:font}
+  @see-symbol{pango:rectangle}
+  @see-function{pango:font-glyph-extents}"
+  (%glyph-string-extents glyphs
                          font
                          (or ink (cffi:null-pointer))
                          (or logical (cffi:null-pointer))))
@@ -439,53 +462,42 @@
 (export 'glyph-string-extents)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_string_extents_range ()
-;;;
-;;; void pango_glyph_string_extents_range (PangoGlyphString *glyphs,
-;;;                                        int start,
-;;;                                        int end,
-;;;                                        PangoFont *font,
-;;;                                        PangoRectangle *ink_rect,
-;;;                                        PangoRectangle *logical_rect);
-;;;
-;;; Computes the extents of a sub-portion of a glyph string. The extents are
-;;; relative to the start of the glyph string range (the origin of their
-;;; coordinate system is at the start of the range, not at the start of the
-;;; entire glyph string).
-;;;
-;;; glyphs :
-;;;     a PangoGlyphString
-;;;
-;;; start :
-;;;     start index
-;;;
-;;; end :
-;;;     end index (the range is the set of bytes with indices such that
-;;;     start <= index < end)
-;;;
-;;; font :
-;;;     a PangoFont
-;;;
-;;; ink_rect :
-;;;     rectangle used to store the extents of the glyph string range as drawn
-;;;     or NULL to indicate that the result is not needed
-;;;
-;;; logical_rect :
-;;;     rectangle used to store the logical extents of the glyph string range or
-;;;     NULL to indicate that the result is not needed
+;;; pango_glyph_string_extents_range
 ;;; ----------------------------------------------------------------------------
 
-(cffi:defcfun ("pango_glyph_string_extents-range" %glyph-string-extents-range)
+(cffi:defcfun ("pango_glyph_string_extents_range" %glyph-string-extents-range)
     :void
-  (glyph (g:boxed glyph-string))
+  (glyphs (g:boxed glyph-string))
   (start :int)
   (end :int)
   (font (g:object font))
   (ink (:pointer (:struct rectangle)))
   (logical (:pointer (:struct rectangle))))
 
-(defun glyph-string-extents-range (glyph start end font ink logical)
-  (%glyph-string-extents-range glyph
+(defun glyph-string-extents-range (glyphs start end font ink logical)
+ #+liber-documentation
+ "@version{2026-03-08}
+  @argument[glyphs]{a @class{pango:glyph-string} instance}
+  @argument[start]{an integer for the start index in bytes}
+  @argument[end]{an integer for the end index in bytes}
+  @argument[font]{a @class{pango:font} instance}
+  @argument[ink]{a @symbol{pango:rectangle} instance used to store the extents
+    of the glyph string as drawn or nil to indicate that the result is not
+    needed}
+  @argument[logical]{a @symbol{pango:rectangle} instance used to store the
+    logical extents of the glyph string or nil to indicate that the result is
+    not needed}
+  @begin{short}
+    Computes the extents of a sub-portion of a glyph string.
+  @end{short}
+  The extents are relative to the start of the glyph string range, the origin
+  of their coordinate system is at the start of the range, not at the start of
+  the entire glyph string.
+  @see-class{pango:glyph-string}
+  @see-class{pango:font}
+  @see-symbol{pango:rectangle}
+  @see-function{pango:glyph-string-extents}"
+  (%glyph-string-extents-range glyphs
                                start
                                end
                                font
@@ -495,63 +507,27 @@
 (export 'glyph-string-extents-range)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_string_get_width ()
-;;;
-;;; int pango_glyph_string_get_width (PangoGlyphString *glyphs);
-;;;
-;;; Computes the logical width of the glyph string as can also be computed using
-;;; pango_glyph_string_extents(). However, since this only computes the width,
-;;; it's much faster. This is in fact only a convenience function that computes
-;;; the sum of geometry.width for each glyph in the glyphs.
-;;;
-;;; glyphs :
-;;;     a PangoGlyphString
-;;;
-;;; Returns :
-;;;     the logical width of the glyph string.
+;;; pango_glyph_string_get_width
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_glyph_string_get_width" glyph-string-width) :int
+ #+liber-documentation
+ "@version{2026-03-08}
+  @argument[glyphs]{a @class{pango:glyph-string} instance}
+  @return{The integer for the logical width of the glyph string.}
+  @begin{short}
+    Computes the logical width of the glyph string as can also be computed using
+    the @fun{pango:glyph-string-extents} function.
+  @end{short}
+  However, since this only computes the width, it is much faster.
+  @see-class{pango:glyph-string}
+  @see-function{pango:glyph-string-extents}"
   (glyphs (g:boxed glyph-string)))
 
 (export 'glyph-string-width)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_string_index_to_x ()
-;;;
-;;; void pango_glyph_string_index_to_x (PangoGlyphString *glyphs,
-;;;                                     char *text,
-;;;                                     int length,
-;;;                                     PangoAnalysis *analysis,
-;;;                                     int index_,
-;;;                                     gboolean trailing,
-;;;                                     int *x_pos);
-;;;
-;;; Converts from character position to x position. (X position is measured from
-;;; the left edge of the run). Character positions are computed by dividing up
-;;; each cluster into equal portions.
-;;;
-;;; glyphs :
-;;;     the glyphs return from pango_shape()
-;;;
-;;; text :
-;;;     the text for the run
-;;;
-;;; length :
-;;;     the number of bytes (not characters) in text.
-;;;
-;;; analysis :
-;;;     the analysis information return from pango_itemize()
-;;;
-;;; index_ :
-;;;     the byte index within text
-;;;
-;;; trailing :
-;;;     whether we should compute the result for the beginning (FALSE) or end
-;;;     (TRUE) of the character
-;;;
-;;; x_pos :
-;;;     location to store result
+;;; pango_glyph_string_index_to_x
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_glyph_string_index_to_x" %glyph-string-index-to-x) :void
@@ -564,6 +540,29 @@
   (xpos (:pointer :int)))
 
 (defun glyph-string-index-to-x (glyphs text len analysis index trailing)
+ #+liber-documentation
+ "@version{2026-03-08}
+  @argument[glyphs]{a @class{pango:glyph-string} instance}
+  @argument[text]{a string for the text of the run}
+  @argument[len]{an integer for the number of bytes in @arg{text}}
+  @argument[analysis]{a @symbol{pango:analysis} instance for the analysis
+    information from the @fun{pango:itemize} function}
+  @argument[index]{an integer for the byte index within @arg{text}}
+  @argument[trailing]{a boolean whether we should compute the result for the
+    beginning (@em{false}) or end (@em{true}) of the character}
+  @return{The integer for the result.}
+  @begin{short}
+    Converts from character position to x position.
+  @end{short}
+
+  @image[glyphstring-positions-light]{Figure: Glyph string positions}
+
+  The x position is measured from the left edge of the run. Character positions
+  are obtained using font metrics for ligatures where available, and computed by
+  dividing up each cluster into equal portions, otherwise.
+  @see-class{pango:glyph-string}
+  @see-symbol{pango:analysis}
+  @see-function{pango:itemize}"
   (cffi:with-foreign-object (xpos :int)
     (%glyph-string-index-to-x glyphs text len analysis index trailing xpos)
     (values (cffi:mem-ref xpos :int))))
@@ -578,45 +577,10 @@
 ;;; Since 1.50
 ;;; ----------------------------------------------------------------------------
 
+;; TODO: Implementation of PangoLogAttrs is missing for this function.
+
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_string_x_to_index ()
-;;;
-;;; void pango_glyph_string_x_to_index (PangoGlyphString *glyphs,
-;;;                                     char *text,
-;;;                                     int length,
-;;;                                     PangoAnalysis *analysis,
-;;;                                     int x_pos,
-;;;                                     int *index_,
-;;;                                     int *trailing);
-;;;
-;;; Convert from x offset to character position. Character positions are
-;;; computed by dividing up each cluster into equal portions. In scripts where
-;;; positioning within a cluster is not allowed (such as Thai), the returned
-;;; value may not be a valid cursor position; the caller must combine the result
-;;; with the logical attributes for the text to compute the valid cursor
-;;; position.
-;;;
-;;; glyphs :
-;;;     the glyphs returned from pango_shape()
-;;;
-;;; text :
-;;;     the text for the run
-;;;
-;;; length :
-;;;     the number of bytes (not characters) in text.
-;;;
-;;; analysis :
-;;;     the analysis information return from pango_itemize()
-;;;
-;;; x_pos :
-;;;     the x offset (in Pango units)
-;;;
-;;; index_ :
-;;;     location to store calculated byte index within text
-;;;
-;;; trailing :
-;;;     location to store a boolean indicating whether the user clicked on the
-;;;     leading or trailing edge of the character
+;;; pango_glyph_string_x_to_index
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_glyph_string_x_to_index" %glyph-string-x-to-index) :void
@@ -626,126 +590,133 @@
   (analysis :pointer)
   (xpos :int)
   (index (:pointer :int))
-  (trailing :boolean))
+  (trailing (:pointer :boolean)))
 
-(defun glyph-string-x-to-index (glyphs text len analysis xpos trailing)
-  (cffi:with-foreign-object (index :int)
+(defun glyph-string-x-to-index (glyphs text len analysis xpos)
+ #+liber-documentation
+ "@version{2026-03-08}
+  @syntax{(pango:glyph-string-x-to-index glyphs text len analysis xpos) =>
+    index, trailing}
+  @argument[glyphs]{a @class{pango:glyph-string} instance}
+  @argument[text]{a string for the text of the run}
+  @argument[len]{an integer for the number of bytes in @arg{text}}
+  @argument[analysis]{a @symbol{pango:analysis} instance for the analysis
+    information from the @fun{pango:itemize} function}
+  @argument[xpos]{an integer for the x offset (in Pango units)}
+  @argument[index]{an integer for the byte index within @arg{text}}
+  @argument[trailing]{a boolean whether the position is on the leading or
+    trailing edge of the character}
+  @begin{short}
+    Convert from x offset to character position.
+  @end{short}
+  Character positions are computed by dividing up each cluster into equal
+  portions. In scripts where positioning within a cluster is not allowed (such
+  as Thai), the returned value may not be a valid cursor position. The caller
+  must combine the result with the logical attributes for the text to compute
+  the valid cursor position.
+  @see-class{pango:glyph-string}
+  @see-symbol{pango:analysis}
+  @see-function{pango:itemize}"
+  (cffi:with-foreign-objects ((index :int) (trailing :boolean))
     (%glyph-string-x-to-index glyphs text len analysis xpos index trailing)
-    (values (cffi:mem-ref index :int))))
+    (values (cffi:mem-ref index :int)
+            (cffi:mem-ref trailing :boolean))))
 
 (export 'glyph-string-x-to-index)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_string_get_logical_widths ()
-;;;
-;;; void pango_glyph_string_get_logical_widths (PangoGlyphString *glyphs,
-;;;                                             const char *text,
-;;;                                             int length,
-;;;                                             int embedding_level,
-;;;                                             int *logical_widths);
-;;;
-;;; Given a PangoGlyphString resulting from pango_shape() and the corresponding
-;;; text, determine the screen width corresponding to each character. When
-;;; multiple characters compose a single cluster, the width of the entire
-;;; cluster is divided equally among the characters.
-;;;
-;;; See also pango_glyph_item_get_logical_widths().
-;;;
-;;; glyphs :
-;;;     a PangoGlyphString
-;;;
-;;; text :
-;;;     the text corresponding to the glyphs
-;;;
-;;; length :
-;;;     the length of text, in bytes
-;;;
-;;; embedding_level :
-;;;     the embedding level of the string
-;;;
-;;; logical_widths :
-;;;     an array whose length is the number of characters in text (equal to
-;;;     g_utf8_strlen (text, length) unless text has NUL bytes) to be filled in
-;;;     with the resulting character widths
+;;; pango_glyph_string_get_logical_widths
 ;;; ----------------------------------------------------------------------------
 
-;; TODO: Finish the implementation
-
 (cffi:defcfun ("pango_glyph_string_get_logical_widths"
-               glyph-string-logical-widths) :void
+               %glyph-string-logical-widths) :void
   (glyphs (g:boxed glyph-string))
   (text :string)
   (len :int)
   (level :int)
-  (widths :pointer))
+  (widths (:pointer :int)))
+
+(defun glyph-string-logical-widths (glyphs text len level)
+ #+liber-documentation
+ "@version{2026-03-08}
+  @argument[glyphs]{a @class{pango:glyph-string} instance}
+  @argument[text]{a string for the text of the run}
+  @argument[len]{an integer for the number of bytes in @arg{text}}
+  @argument[level]{an integer for hte embedding level of the string}
+  @begin{return}
+    The array whose length is the number of characters in @arg{text} with the
+    resulting character widths.
+  @end{return}
+  @begin{short}
+    Given a glyph string and corresponding @arg{text}, determine the width
+    corresponding to each character.
+  @end{short}
+  When multiple characters compose a single cluster, the width of the entire
+  cluster is divided equally among the characters. See also the
+  @fun{pango:glyph-item-logical-widths} function.
+  @see-class{pango:glyph-string}
+  @see-function{pango:glyph-item-logical-widths}"
+  (cffi:with-foreign-object (ptr '(:pointer :int) len)
+    (%glyph-string-logical-widths glyphs text len level ptr)
+    (cffi:foreign-array-to-lisp ptr `(:array :int ,(length text)))))
 
 (export 'glyph-string-logical-widths)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_item_copy ()
-;;;
-;;; PangoGlyphItem * pango_glyph_item_copy (PangoGlyphItem *orig);
-;;;
-;;; Make a deep copy of an existing PangoGlyphItem structure.
-;;;
-;;; orig :
-;;;     a PangoGlyphItem, may be NULL
-;;;
-;;; Returns :
-;;;     the newly allocated PangoGlyphItem, which should be freed with
-;;;     pango_glyph_item_free(), or NULL if orig was NULL.
+;;; pango_glyph_item_copy
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_glyph_item_copy" glyph-item-copy)
     (g:boxed glyph-item :return)
+ #+liber-documentation
+ "@version{2026-03-08}
+  @argument[item]{a @class{pango:glyph-item} instance, maybe @code{nil}}
+  @begin{return}
+    The newly allocated @class{pango:glyph-item} instance, or @code{nil} if
+    @arg{item} was @code{nil}.
+  @end{return}
+  @begin{short}
+    Make a deep copy of an existing @class{pango:glyph-item} instance.
+  @end{short}
+  @see-class{pango:glyph-item}"
   (item (g:boxed glyph-item)))
 
 (export 'glyph-item-copy)
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_item_free ()
-;;;
-;;; void pango_glyph_item_free (PangoGlyphItem *glyph_item);
-;;;
-;;; Frees a PangoGlyphItem and resources to which it points.
-;;;
-;;; glyph_item :
-;;;     a PangoGlyphItem, may be NULL
+;;; pango_glyph_item_free                                   not needed
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; pango_glyph_item_split ()
-;;;
-;;; PangoGlyphItem * pango_glyph_item_split (PangoGlyphItem *orig,
-;;;                                          const char *text,
-;;;                                          int split_index);
-;;;
-;;; Modifies orig to cover only the text after split_index, and returns a new
-;;; item that covers the text before split_index that used to be in orig. You
-;;; can think of split_index as the length of the returned item. split_index may
-;;; not be 0, and it may not be greater than or equal to the length of orig
-;;; (that is, there must be at least one byte assigned to each item, you can't
-;;; create a zero-length item).
-;;;
-;;; This function is similar in function to pango_item_split() (and uses it
-;;; internally.)
-;;;
-;;; orig :
-;;;     a PangoItem
-;;;
-;;; text :
-;;;     text to which positions in orig apply
-;;;
-;;; split_index :
-;;;     byte index of position to split item, relative to the start of the item
-;;;
-;;; Returns :
-;;;     the newly allocated item representing text before split_index, which
-;;;     should be freed with pango_glyph_item_free().
+;;; pango_glyph_item_split
 ;;; ----------------------------------------------------------------------------
 
 (cffi:defcfun ("pango_glyph_item_split" glyph-item-split)
     (g:boxed glyph-item :return)
+ #+liber-documentation
+ "@version{#2026-03-23}
+  @argument[item]{a @class{pango:glyph-item} instance}
+  @argument[text]{a string for the text positions in @arg{item} apply}
+  @argument[index]{an integer for the byte index of the position to split
+    @arg{item}, relative to the start of the item}
+  @begin{return}
+    The newly allocated @class{pango:glyph-item} instance representing text
+    before @arg{index}.
+  @end{return}
+  @begin{short}
+    Modifies @arg{item} to cover only the text after @arg{index}, and returns a
+    new glyph item that covers the text before @arg{index} that used to be in
+    @arg{item}.
+  @end{short}
+  You can think of @arg{index} as the length of the returned item. The
+  @arg{index} argument may not be 0, and it may not be greater than or equal to
+  the length of @arg{item}, that is, there must be at least one byte assigned
+  to each item, you cannot create a zero-length item.
+
+  This function is similar in function to the @fun{pango:item-split} function
+  and uses it internally.
+  @see-class{pango:glyph-item}
+  @see-function{pango:item-split}"
   (item (g:boxed glyph-item))
   (text :string)
   (index :int))
