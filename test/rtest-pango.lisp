@@ -1,5 +1,5 @@
 (defpackage :pango-test
-  (:use :fiveam :common-lisp)
+  (:use :fiveam :iterate :common-lisp)
   (:export #:run!
            #:approx-equal)
   (:import-from :glib-test  #:*first-run-testsuite*
@@ -89,4 +89,4 @@ dargestellt werden.")
 (def-suite pango-suite)
 (in-suite pango-suite)
 
-;;; 2025-1-1
+;;; 2026-03-08

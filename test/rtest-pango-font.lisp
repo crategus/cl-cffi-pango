@@ -774,6 +774,6 @@
                              (is (typep font 'pango:font))
                              (incf count)
                              nil))
-    (is (= 183 count))))
+    (is (= 185 count))))
 
-;;; 2025-11-02
+;;; 2026-03-07

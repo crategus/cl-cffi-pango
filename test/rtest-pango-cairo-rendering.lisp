@@ -68,10 +68,9 @@
 (test pango-cairo-font-map-default
   (when *first-run-testsuite*
     (glib-test:with-check-memory (:strong 1)
+      (is (typep (pango:cairo-font-map-default) 'pango:font-map))
       (is (typep (setf (pango:cairo-font-map-default)
                        (pango:cairo-font-map-new)) 'pango:font-map))
-      (is (typep (pango:cairo-font-map-default) 'pango:font-map))
-      (is (typep (pango:cairo-font-map-default) 'pango:font-map))
       (is (typep (pango:cairo-font-map-default) 'pango:font-map)))))
 
 ;;;     pango_cairo_font_map_new
@@ -99,8 +98,10 @@
 (test pango-cairo-font-map-font-type
   (when *first-run-testsuite*
     (glib-test:with-check-memory (:strong 1)
-      (is (eq :ft (pango:cairo-font-map-font-type (pango:cairo-font-map-default))))
-      (is (eq :ft (pango:cairo-font-map-font-type (pango:cairo-font-map-new)))))))
+      (is (eq :ft
+              (pango:cairo-font-map-font-type (pango:cairo-font-map-default))))
+      (is (eq :ft
+              (pango:cairo-font-map-font-type (pango:cairo-font-map-new)))))))
 
 #+windows
 (test pango-cairo-font-map-font-type
@@ -125,16 +126,23 @@
 
 ;;;     pango_cairo_font_get_scaled_font
 
-#+nil
-(test pango-cairo-font-scaled-font
+(test pango-cairo-font-scaled-font.1
   (let ((context (pango:font-map-create-context (pango:cairo-font-map-default)))
         (desc (pango:font-description-from-string "Sans"))
-        font)
+        font scaled)
     (is (typep (setf font
                      (pango:context-load-font context desc)) 'pango:font))
-    ;; font is of type pango:font but not pango:cairo-font
-    (is-false (pango:cairo-font-scaled-font font))
-))
+    (is (eq :success
+            (cairo:scaled-font-status (setf scaled
+                                            (pango:cairo-font-scaled-font font)))))
+    #-windows
+    (is (eq :ft (cairo:scaled-font-type scaled)))
+    #+windows
+    (is (eq :dwrite (cairo:scaled-font-type scaled)))))
+
+;; Check NIL argument
+(test pango-cairo-font-scaled-font.2
+  (is-false (pango:cairo-font-scaled-font nil)))
 
 ;;;     pango_cairo_context_set_resolution
 ;;;     pango_cairo_context_get_resolution
@@ -159,12 +167,17 @@
         (is (typep (setf context
                          (pango:font-map-create-context (pango:cairo-font-map-default)))
                    'pango:context))
+        (is (eq :success (cairo:font-options-status options)))
         (is-false (pango:cairo-context-font-options context))
         ;; Set the font options
         (is (cffi:pointer-eq options
                              (setf (pango:cairo-context-font-options context)
                                    options)))
-        (is (cffi:pointerp (pango:cairo-context-font-options context)))
+        (is (eq :success
+                (cairo:font-options-status
+                    (pango:cairo-context-font-options context))))
+        (is (cairo:font-options-equal options
+                                      (pango:cairo-context-font-options context)))
         ;; Unset the font options
         (is-false (setf (pango:cairo-context-font-options context) nil))
         (is-false (pango:cairo-context-font-options context))
@@ -216,7 +229,7 @@
                (attrstr "0 31 size 16384, 7 15 weight bold, 16 19 style italic")
                (attrs (pango:attr-list-from-string attrstr))
                (iter (pango:attr-list-iterator attrs))
-               (path (glib-sys:sys-path "test/out/show-glyph-string.png"))
+               (path (glib-sys:sys-path "test/out/show-glyph-string1.png"))
                items glyphs font)
           ;; Clear the background
           (cairo:set-source-rgb cr 1.0 1.0 1.0)
@@ -248,7 +261,6 @@
                                           (pango:item-offset item)
                                           (+ (pango:item-offset item)
                                              (pango:item-length item))))
-                               (pango:item-length item)
                                (pango:item-analysis item)))
             (setf font (pango:analysis-font (pango:item-analysis item)))
             ;; Print the text on the Cario context
@@ -299,60 +311,7 @@
               (format t "   length : ~a~%" (pango:item-length item))
               (format t "      str : ~a~%" str))
             (setf glyphs
-                  (pango:shape-full str nil (pango:item-analysis item)))
-            (setf font (pango:analysis-font (pango:item-analysis item)))
-            ;; Print the text on the Cario context
-            (pango:cairo-show-glyph-string cr font glyphs)
-            (when *verbose-pango-cairo-rendering*
-              (format t "    width : ~a~%" (/ (pango:glyph-string-width glyphs)
-                                              pango:+scale+)))
-            (cairo:rel-move-to cr
-                               (/ (pango:glyph-string-width glyphs)
-                                  pango:+scale+)
-                               0)))
-        ;; Create and save the PNG image
-        (cairo:surface-write-to-png (cairo:target cr) path))))))
-
-(test pango-cairo-show-glyph-string.3
-  (when *first-run-testsuite*
-    (glib-test:with-check-memory (:strong 3)
-      (cairo:with-context-for-image-surface (cr :argb32 360 200)
-        (let* ((text "Zwölf Ägypter auf der Straße")
-               (context (pango:cairo-create-context cr))
-               (attrstr "0 31 size 16384, 7 15 weight bold, 16 19 style italic")
-               (attrs (pango:attr-list-from-string attrstr))
-               (iter (pango:attr-list-iterator attrs))
-               (path (glib-sys:sys-path "test/out/show-glyph-string3.png"))
-               items glyphs font)
-          ;; Clear the background
-          (cairo:set-source-rgb cr 1.0 1.0 1.0)
-          (cairo:paint cr)
-          ;; Set the color
-          (cairo:set-source-rgb cr 0.5 0.5 0.5)
-          ;; Move to the start position of the text
-          (cairo:move-to cr 24 36)
-          (setf items
-                (pango:itemize context
-                               text
-                               0 (babel:string-size-in-octets text)
-                               attrs
-                               iter))
-          (dolist (item items)
-            (let ((str (babel:octets-to-string
-                                  (subseq (babel:string-to-octets text)
-                                          (pango:item-offset item)
-                                          (+ (pango:item-offset item)
-                                             (pango:item-length item))))))
-            (when *verbose-pango-cairo-rendering*
-              (format t "~&     item : ~a~%" item)
-              (format t "   offset : ~a~%" (pango:item-offset item))
-              (format t "   length : ~a~%" (pango:item-length item))
-              (format t "      str : ~a~%" str))
-            (setf glyphs
-                  (pango:shape-with-flags str
-                                          nil
-                                          (pango:item-analysis item)
-                                          :round-positions))
+                  (pango:shape str (pango:item-analysis item) :round-positions))
             (setf font (pango:analysis-font (pango:item-analysis item)))
             ;; Print the text on the Cario context
             (pango:cairo-show-glyph-string cr font glyphs)
@@ -422,6 +381,28 @@
       (cairo:surface-write-to-png (cairo:target cr)
                                   (glib-sys:sys-path "test/out/show-layout.png")))))
 
+(test pango-cairo-show-layout.2
+  (glib-test:with-check-memory ()
+    (cairo:with-context-for-image-surface (cr :argb32 1000 800)
+      (let ((layout (pango:cairo-create-layout cr)))
+        ;; Clear the background
+        (cairo:set-source-rgb cr 1.0 1.0 1.0)
+        (cairo:paint cr)
+        ;; Set the color
+        (cairo:set-source-rgb cr 0.5 0.5 0.5)
+        ;; Set the font
+        (setf (pango:layout-font-description layout)
+              (pango:font-description-from-string "Courier Bold 14"))
+        ;; Set the text
+        (setf (pango:layout-text layout) *sample-text-1*)
+        ;; Move to the start position of the text
+        (cairo:move-to cr 24 24)
+        ;; Print the text on the Cario context
+        (pango:cairo-show-layout cr layout))
+      ;; Create and save the PNG image
+      (cairo:surface-write-to-png (cairo:target cr)
+                                  (glib-sys:sys-path "test/out/show-layout-2.png")))))
+
 ;;;     pango_cairo_show_error_underline
 
 ;;;     pango_cairo_glyph_string_path
@@ -429,4 +410,4 @@
 ;;;     pango_cairo_layout_path
 ;;;     pango_cairo_error_underline_path
 
-;;; 2025-09-17
+;;; 2026-03-16
