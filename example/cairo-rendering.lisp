@@ -1,6 +1,6 @@
 ;;;; Draw Cairo rendering
 ;;;;
-;;;; 2024-4-6
+;;;; 2026-03-16
 
 (in-package :pango-example)
 
@@ -30,15 +30,14 @@
             (color (/ (+ 1 (cos (* (/ pi 180) (- angle 60)))) 2)
                    (/ (+ 1 (cos (* (/ pi 180) (- angle 60)))) 2)))
            ((>= i n-words))
+
            (cairo:save cr)
            (cairo:set-source-rgb cr (/ #xFF 255) (/ #x99 255) color)
            (cairo:rotate cr (/ (* angle pi) 180))
            ;; Inform Pango to re-layout the text with the new
            ;; transformation matrix
            (pango:cairo-update-layout cr layout)
-           (multiple-value-bind (width height)
-               (pango:layout-size layout)
-             (declare (ignore height))
-             (cairo:move-to cr (- (/ width 2 pango:+scale+)) (- circle)))
-             (pango:cairo-show-layout cr layout)
-             (cairo:restore cr)))))
+           (cairo:move-to cr (- (/ (pango:layout-size layout) 2 pango:+scale+))
+                                (- circle))
+           (pango:cairo-show-layout cr layout)
+           (cairo:restore cr)))))
