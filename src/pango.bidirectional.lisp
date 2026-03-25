@@ -71,7 +71,7 @@
 (setf (liber:alias-for-symbol 'direction)
       "GEnum"
       (liber:symbol-documentation 'direction)
- "@version{2025-08-24}
+ "@version{2026-03-23}
   @begin{declaration}
 (gobject:define-genum \"PangoDirection\" direction
   (:export t
@@ -107,7 +107,7 @@
   or @val[pango:direction]{:weak-rtl}, since every character is either neutral
   or has a strong direction. On the other hand the
   @val[pango:direction]{:neutral} value does not make sense to pass to the
-  @fun{pango:itemize-with-base-dir} function.
+  @fun{pango:itemize} function.
 
   The @val[pango:direction]{:ttb-ltr}, @val[pango:direction]{:ttb-rtl} values
   come from an earlier interpretation of this enumeration as the writing
@@ -116,7 +116,7 @@
   @see-symbol{pango:gravity}
   @see-function{pango:unichar-direction}
   @see-function{pango:find-base-dir}
-  @see-function{pango:itemize-with-base-dir}")
+  @see-function{pango:itemize}")
 
 ;;; ----------------------------------------------------------------------------
 ;;; enum PangoBidiType
