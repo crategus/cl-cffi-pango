@@ -6,7 +6,7 @@
 ;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2025 Dieter Kaiser
+;;; Copyright (C) 2011 - 2026 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -45,12 +45,12 @@
 
 #+liber-documentation
 (setf (documentation (find-package :pango) t)
- "Pango is a text layout and shaping library. Pango facilitates the
-  layout and shaping of multi-language text. Full-function rendering of text
-  and cross-platform support is had when Pango is used with platform APIs or
-  3rd party libraries, such as Uniscribe and FreeType, as text rendering
-  backends. Pango-processed text will appear similar under different operating
-  systems. This is the API documentation of a Lisp binding to Pango.
+ "Pango is a library for laying out and rendering of text, with an emphasis on
+  internationalization. Pango can be used anywhere that text layout is needed,
+  though most of the work on Pango so far has been done in the context of the
+  GTK widget toolkit. Pango forms the core of text and font handling for GTK.
+
+  This is the API documentation of a Lisp binding to Pango.
   @begin[Basic Pango Interfaces]{section}
     @begin[Rendering]{subsection}
       The Pango rendering pipeline takes a string of Unicode characters and
@@ -69,25 +69,22 @@
       @about-function{analysis-language}
       @about-function{analysis-extra-attrs}
       @about-class{item}
+      @about-function{item-new}
+      @about-function{item-copy}
       @about-function{item-analysis}
       @about-function{item-length}
       @about-function{item-num-chars}
       @about-function{item-offset}
-      @about-function{item-new}
-      @about-function{item-copy}
       @about-function{item-split}
       @about-function{item-apply-attrs}
       @about-function{item-char-offset}
       @about-function{itemize}
-      @about-function{itemize-with-base-dir}
       @about-function{reorder-items}
       @about-function{log-attrs}
       @about-function{find-paragraph-boundary}
       @about-function{default-break}
       @about-function{tailor-break}
       @about-function{shape}
-      @about-function{shape-full}
-      @about-function{shape-with-flags}
     @end{subsection}
     @begin[PangoFontDescription]{subsection}
       @about-symbol{style}
@@ -306,7 +303,7 @@
       @about-function{attr-overline-new}
       @about-function{attr-overline-color-new}
       @about-function{attr-line-height-new}
-      @about-function{attr-line-heigt-new-absolute}
+      @about-function{attr-line-height-new-absolute}
       @about-function{attr-text-transform-new}
       @about-function{attr-word-new}
       @about-function{attr-sentence-new}
@@ -676,18 +673,17 @@
             (color (/ (+ 1 (cos (* (/ pi 180) (- angle 60)))) 2)
                    (/ (+ 1 (cos (* (/ pi 180) (- angle 60)))) 2)))
            ((>= i n-words))
+
            (cairo:save cr)
            (cairo:set-source-rgb cr (/ #xFF 255) (/ #x99 255) color)
            (cairo:rotate cr (/ (* angle pi) 180))
            ;; Inform Pango to re-layout the text with the new
            ;; transformation matrix
            (pango:cairo-update-layout cr layout)
-           (multiple-value-bind (width height)
-               (pango:layout-size layout)
-             (declare (ignore height))
-             (cairo:move-to cr (- (/ width 2 pango:+scale+)) (- circle)))
-             (pango:cairo-show-layout cr layout)
-             (cairo:restore cr)))))
+           (cairo:move-to cr (- (/ (pango:layout-size layout) 2 pango:+scale+))
+                                (- circle))
+           (pango:cairo-show-layout cr layout)
+           (cairo:restore cr)))))
         @end{pre}
       @end{dictionary}
     @end{subsection}

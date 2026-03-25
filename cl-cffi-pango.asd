@@ -1,7 +1,7 @@
 ;;; ----------------------------------------------------------------------------
 ;;; cl-cffi-pango.asd
 ;;;
-;;; Copyright (C) 2011 - 2025 Dieter Kaiser
+;;; Copyright (C) 2011 - 2026 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -57,6 +57,7 @@
   :in-order-to ((asdf:test-op (test-op "cl-cffi-pango/test")))
   :depends-on (:cl-cffi-glib
                :cl-cffi-cairo
+               :babel
                :iterate))
 
 ;; Definine a test operation for the library
@@ -69,6 +70,7 @@
   :depends-on (:cl-cffi-pango
                :cl-cffi-glib/test
                :fiveam
+               :iterate
                :babel
                :cl-setlocale)
   :perform (test-op (o c)
@@ -77,7 +79,7 @@
                                                     :pango-test)))
   :components
   ((:module test
-    :serial nil
+    :serial t
     :components
     ((:file "rtest-pango")
      (:file "rtest-pango-version")
