@@ -2,11 +2,11 @@
 ;;; pango.font-description.lisp
 ;;;
 ;;; The documentation in this file is taken from the Pango Reference Manual
-;;; version 1.56 and modified to document the Lisp binding to the Pango
+;;; version 1.57 and modified to document the Lisp binding to the Pango
 ;;; library, see <http://www.gtk.org>. The API documentation for the Lisp
 ;;; binding is available at <http://www.crategus.com/books/cl-cffi-gtk4/>.
 ;;;
-;;; Copyright (C) 2011 - 2025 Dieter Kaiser
+;;; Copyright (C) 2011 - 2026 Dieter Kaiser
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the "Software"),
@@ -340,13 +340,15 @@
   (:gravity #.(ash 1 6))
   (:variations #.(ash 1 7))
   #+pango-1-56
-  (:features #.(ash 1 8)))
+  (:features #.(ash 1 8))
+  #+pango-1-57
+  (:color #.(ash 1 9)))
 
 #+liber-documentation
 (setf (liber:alias-for-symbol 'font-mask)
       "GFlags"
       (liber:symbol-documentation 'font-mask)
- "@version{2025-08-24}
+ "@version{2026-05-14}
   @begin{declaration}
 (gobject:define-gflags \"PangoFontMask\" font-mask
   (:export t
@@ -359,8 +361,8 @@
   (:size #.(ash 1 5))
   (:gravity #.(ash 1 6))
   (:variations #.(ash 1 7))
-  #+pango-1-56
-  (:features #.(ash 1 8)))
+  (:features #.(ash 1 8))
+  (:color #.(ash 1 9)))
   @end{declaration}
   @begin{values}
     @begin[code]{simple-table}
@@ -373,6 +375,7 @@
       @entry[:gravity]{The font gravity is specified.}
       @entry[:variations]{OpenType font variations are specified.}
       @entry[:features]{OpenType font features are specified. Since Pango 1.56}
+      @entry[:color]{Font color is specified. Since Pango 1.57}
     @end{simple-table}
   @end{values}
   @begin{short}

@@ -1,4 +1,4 @@
-Content from the Pango 1.56 Reference Manual
+Content from the Pango 1.57 Reference Manual
 
     .   needs proofreading
     *   needs update
@@ -9,7 +9,7 @@ Content from the Pango 1.56 Reference Manual
 Basic Pango Interfaces
 
   pango.item.lisp              Run the rendering pipeline          Pango 1.56
-  pango.font-description.lisp  PangoFontDescription                Pango 1.56
+  pango.font-description.lisp  PangoFontDescription                Pango 1.57
   pango.font-metrics.lisp      PangoFontMetrics                    Pango 1.56
   pango.font.lisp              Representing abstract fonts         Pango 1.56 .
   pango.glyph.lisp             Storing information about glyphs    Pango 1.56 &.
@@ -56,4 +56,4 @@ Deprecated APIs
   not implemented              PangoEngineShape
   not implemented              Modules
 
-2025-11⁻02
+2026-05-14

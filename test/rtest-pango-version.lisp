@@ -7,7 +7,7 @@
 
 #+crategus
 (test pango-version
-  (is (= 15603 (pango:version))))
+  (is (= 15700 (pango:version))))
 
 #+windows
 (test pango-version
@@ -17,7 +17,7 @@
 
 #+crategus
 (test pango-version-string
-  (is (string= "1.56.3" (pango:version-string))))
+  (is (string= "1.57.0" (pango:version-string))))
 
 #+windows
 (test pango-version-string
@@ -30,4 +30,4 @@
   (is (string= "Pango version too old (micro mismatch)"
                (pango:version-check 1 58 0))))
 
-;;; 2025-08-16
+;;; 2026-05-14
